@@ -3,19 +3,202 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Assess Your Business — SME Growth Advisor</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="css/styles.css">
+
+<style>
+/* ========================================
+   ASSESSMENT PAGE ADDITIONAL STYLES
+======================================== */
+
+.assessment-step {
+  display: none;
+}
+
+.assessment-step.active {
+  display: block;
+}
+
+.stepper-step {
+  transition: 0.3s ease;
+}
+
+.stepper-step.completed .stepper-circle {
+  background: #16a34a;
+  border-color: #16a34a;
+  color: #fff;
+}
+
+.stepper-step.active .stepper-circle {
+  transform: scale(1.05);
+}
+
+.stepper-step.completed .stepper-line {
+  background: #16a34a;
+}
+
+.pill-btn {
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.pill-btn.selected {
+  background: #16a34a;
+  color: white;
+  border-color: #16a34a;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.form-actions .btn:first-child:only-child {
+  margin-left: auto;
+}
+
+.error-message {
+  display: none;
+  color: #dc2626;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.field.error .error-message {
+  display: block;
+}
+
+.field.error select {
+  border-color: #dc2626;
+}
+
+.review-section {
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 24px;
+  margin-bottom: 24px;
+}
+
+.review-section:last-child {
+  border-bottom: none;
+}
+
+.review-section h3 {
+  margin-bottom: 16px;
+  color: #111827;
+}
+
+.review-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 10px 0;
+}
+
+.review-label {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.review-value {
+  font-weight: 600;
+  color: #111827;
+  text-align: right;
+}
+
+.range-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.range-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 14px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  transition: 0.2s ease;
+}
+
+.range-option:hover {
+  border-color: #16a34a;
+}
+
+.range-option input {
+  accent-color: #16a34a;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.checkbox-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+
+  .stepper {
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+
+  .stepper-step {
+    min-width: 120px;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .form-actions .btn {
+    width: 100%;
+  }
+
+  .review-item {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .review-value {
+    text-align: left;
+  }
+}
+</style>
+
 </head>
+
 <body>
+
+<!-- ========================================
+     HEADER
+======================================== -->
 
 <header class="site-header">
   <div class="wrap">
+
     <a href="index.html" class="brand">
       <span class="brand-mark" data-icon="logo"></span>
-      <span>SME<span class="brand-sub">GROWTH ADVISOR</span></span>
+      <span>
+        SME
+        <span class="brand-sub">GROWTH ADVISOR</span>
+      </span>
     </a>
+
     <nav class="nav-links">
       <a href="index.html">Home</a>
       <a href="index.html#how-it-works">How It Works</a>
@@ -24,207 +207,1209 @@
       <a href="index.html#advisors">Advisors</a>
       <a href="index.html#about">About Us</a>
     </nav>
+
     <div class="nav-actions">
       <a href="dashboard.html" class="btn btn-outline btn-sm">Log In</a>
       <a href="assessment.html" class="btn btn-primary btn-sm">Get Started</a>
       <button class="nav-toggle" aria-label="Menu" data-icon="menu"></button>
     </div>
+
   </div>
 </header>
 
+
+<!-- ========================================
+     HERO
+======================================== -->
+
 <section class="assess-hero">
+
   <div class="wrap">
+
     <h1>Assess Your Business in Minutes</h1>
-    <p>Answer a few simple questions and get your personalised growth and digitalisation insights.</p>
+
+    <p>
+      Answer a few simple questions and get your personalised
+      growth and digitalisation insights.
+    </p>
+
+
+    <!-- STEPPER -->
 
     <div class="stepper">
-      <div class="stepper-step active">
+
+      <div class="stepper-step active" data-step="1">
         <div class="stepper-circle" data-icon="building"></div>
         <div class="stepper-line"></div>
         <div class="stepper-label">About Your Business</div>
       </div>
-      <div class="stepper-step">
+
+      <div class="stepper-step" data-step="2">
         <div class="stepper-circle" data-icon="trendingUp"></div>
         <div class="stepper-line"></div>
         <div class="stepper-label">Business Operations</div>
       </div>
-      <div class="stepper-step">
+
+      <div class="stepper-step" data-step="3">
         <div class="stepper-circle" data-icon="monitor"></div>
         <div class="stepper-line"></div>
         <div class="stepper-label">Digitalisation</div>
       </div>
-      <div class="stepper-step">
+
+      <div class="stepper-step" data-step="4">
         <div class="stepper-circle" data-icon="users"></div>
         <div class="stepper-line"></div>
-        <div class="stepper-label">Growth &amp; Strategy</div>
+        <div class="stepper-label">Growth & Strategy</div>
       </div>
-      <div class="stepper-step">
+
+      <div class="stepper-step" data-step="5">
         <div class="stepper-circle" data-icon="checkCircle"></div>
-        <div class="stepper-label">Review &amp; Submit</div>
+        <div class="stepper-label">Review & Submit</div>
       </div>
+
     </div>
+
   </div>
+
 </section>
+
+
+<!-- ========================================
+     ASSESSMENT BODY
+======================================== -->
 
 <section class="assess-body">
+
   <div class="wrap">
+
     <div class="assess-grid">
 
+
+      <!-- ========================================
+           MAIN FORM
+      ======================================== -->
+
       <form class="form-card card" id="assessForm">
-        <div class="form-card-head">
-          <div>
-            <h2>About Your Business</h2>
-            <p>Let's start with some basic information about your business.</p>
+
+
+        <!-- ========================================
+             STEP 1
+        ======================================== -->
+
+        <div class="assessment-step active" data-step="1">
+
+          <div class="form-card-head">
+
+            <div>
+              <h2>About Your Business</h2>
+              <p>Let's start with some basic information about your business.</p>
+            </div>
+
+            <span class="step-tag">Step 1 of 5</span>
+
           </div>
-          <span class="step-tag">Step 1 of 5</span>
+
+
+          <div class="field">
+
+            <label for="industry">Industry</label>
+
+            <div class="select-wrap">
+              <select id="industry" name="industry" required>
+                <option value="">Select your industry</option>
+                <option>Manufacturing</option>
+                <option>Retail & E-commerce</option>
+                <option>Food & Beverage</option>
+                <option>Professional Services</option>
+                <option>Construction</option>
+                <option>Technology</option>
+                <option>Healthcare</option>
+                <option>Tourism & Hospitality</option>
+                <option>Other</option>
+              </select>
+
+              <span data-icon="chevronDown"></span>
+            </div>
+
+            <div class="error-message">Please select your industry.</div>
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="yearEstablished">Year Established</label>
+
+            <div class="select-wrap">
+
+              <select id="yearEstablished" name="yearEstablished" required>
+
+                <option value="">Select year range</option>
+                <option>Less than 1 year</option>
+                <option>1 – 5 years</option>
+                <option>6 – 10 years</option>
+                <option>More than 10 years</option>
+
+              </select>
+
+              <span data-icon="chevronDown"></span>
+
+            </div>
+
+            <div class="error-message">Please select a business age.</div>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Number of Employees</label>
+
+            <div class="pill-group" data-name="employees">
+
+              <button type="button" class="pill-btn">1 - 5</button>
+              <button type="button" class="pill-btn">6 - 20</button>
+              <button type="button" class="pill-btn">21 - 50</button>
+              <button type="button" class="pill-btn">51 - 200</button>
+              <button type="button" class="pill-btn">200+</button>
+
+            </div>
+
+            <div class="error-message">Please select the number of employees.</div>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Annual Revenue</label>
+
+            <div class="pill-group" data-name="revenue">
+
+              <button type="button" class="pill-btn">Below RM500K</button>
+              <button type="button" class="pill-btn">RM500K - RM2M</button>
+              <button type="button" class="pill-btn">RM2M - RM10M</button>
+              <button type="button" class="pill-btn">Above RM10M</button>
+
+            </div>
+
+            <div class="error-message">Please select your annual revenue.</div>
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="location">Business Location</label>
+
+            <div class="select-wrap">
+
+              <select id="location" name="location" required>
+
+                <option value="">Select your state</option>
+                <option>Selangor</option>
+                <option>Kuala Lumpur</option>
+                <option>Penang</option>
+                <option>Johor</option>
+                <option>Melaka</option>
+                <option>Perak</option>
+                <option>Kedah</option>
+                <option>Sabah</option>
+                <option>Sarawak</option>
+                <option>Other</option>
+
+              </select>
+
+              <span data-icon="chevronDown"></span>
+
+            </div>
+
+            <div class="error-message">Please select your location.</div>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>What is your primary business model?</label>
+
+            <div class="pill-group" data-name="businessModel">
+
+              <button type="button" class="pill-btn">B2B</button>
+              <button type="button" class="pill-btn">B2C</button>
+              <button type="button" class="pill-btn">B2B2C</button>
+              <button type="button" class="pill-btn">Others</button>
+
+            </div>
+
+            <div class="error-message">Please select a business model.</div>
+
+          </div>
+
+
+          <div class="field">
+
+            <label for="goal">What is your main growth objective?</label>
+
+            <div class="select-wrap">
+
+              <select id="goal" name="goal" required>
+
+                <option value="">Select your primary goal</option>
+                <option>Increase revenue</option>
+                <option>Improve efficiency</option>
+                <option>Digitalise operations</option>
+                <option>Expand to new markets</option>
+                <option>Strengthen team & capability</option>
+
+              </select>
+
+              <span data-icon="chevronDown"></span>
+
+            </div>
+
+            <div class="error-message">Please select your main objective.</div>
+
+          </div>
+
         </div>
 
-        <div class="field">
-          <label for="industry">Industry</label>
-          <div class="select-wrap">
-            <select id="industry">
-              <option value="">Select your industry</option>
-              <option>Manufacturing</option>
-              <option>Retail &amp; E-commerce</option>
-              <option>Food &amp; Beverage</option>
-              <option>Professional Services</option>
-              <option>Construction</option>
-              <option>Technology</option>
-              <option>Other</option>
-            </select>
-            <span data-icon="chevronDown"></span>
+
+        <!-- ========================================
+             STEP 2
+        ======================================== -->
+
+        <div class="assessment-step" data-step="2">
+
+          <div class="form-card-head">
+
+            <div>
+              <h2>Business Operations</h2>
+              <p>Help us understand how your business currently operates.</p>
+            </div>
+
+            <span class="step-tag">Step 2 of 5</span>
+
           </div>
+
+
+          <div class="field">
+
+            <label>How would you rate your current operational efficiency?</label>
+
+            <div class="pill-group" data-name="operationalEfficiency">
+
+              <button type="button" class="pill-btn">Very Low</button>
+              <button type="button" class="pill-btn">Low</button>
+              <button type="button" class="pill-btn">Average</button>
+              <button type="button" class="pill-btn">Good</button>
+              <button type="button" class="pill-btn">Excellent</button>
+
+            </div>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>What are your biggest operational challenges?</label>
+
+            <div class="checkbox-group">
+
+              <label class="checkbox-option">
+                <input type="checkbox" name="challenges" value="Manual processes">
+                Too many manual processes
+              </label>
+
+              <label class="checkbox-option">
+                <input type="checkbox" name="challenges" value="High costs">
+                High operational costs
+              </label>
+
+              <label class="checkbox-option">
+                <input type="checkbox" name="challenges" value="Staff shortage">
+                Staff shortage
+              </label>
+
+              <label class="checkbox-option">
+                <input type="checkbox" name="challenges" value="Poor communication">
+                Poor internal communication
+              </label>
+
+              <label class="checkbox-option">
+                <input type="checkbox" name="challenges" value="Data management">
+                Difficulty managing business data
+              </label>
+
+            </div>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>How well does your team collaborate?</label>
+
+            <div class="pill-group" data-name="teamCollaboration">
+
+              <button type="button" class="pill-btn">Poorly</button>
+              <button type="button" class="pill-btn">Below Average</button>
+              <button type="button" class="pill-btn">Average</button>
+              <button type="button" class="pill-btn">Well</button>
+              <button type="button" class="pill-btn">Very Well</button>
+
+            </div>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Do you currently track business performance using data?</label>
+
+            <div class="pill-group" data-name="dataTracking">
+
+              <button type="button" class="pill-btn">Never</button>
+              <button type="button" class="pill-btn">Occasionally</button>
+              <button type="button" class="pill-btn">Regularly</button>
+              <button type="button" class="pill-btn">Extensively</button>
+
+            </div>
+
+          </div>
+
         </div>
 
-        <div class="field">
-          <label for="yearEstablished">Year Established</label>
-          <div class="select-wrap">
-            <select id="yearEstablished">
-              <option value="">Select year range</option>
-              <option>Less than 1 year</option>
-              <option>1 – 5 years</option>
-              <option>6 – 10 years</option>
-              <option>More than 10 years</option>
-            </select>
-            <span data-icon="chevronDown"></span>
+
+        <!-- ========================================
+             STEP 3
+        ======================================== -->
+
+        <div class="assessment-step" data-step="3">
+
+          <div class="form-card-head">
+
+            <div>
+              <h2>Digitalisation</h2>
+              <p>Tell us about your business's digital readiness.</p>
+            </div>
+
+            <span class="step-tag">Step 3 of 5</span>
+
           </div>
+
+
+          <div class="field">
+
+            <label>How digitalised are your current business operations?</label>
+
+            <div class="pill-group" data-name="digitalLevel">
+
+              <button type="button" class="pill-btn">Mostly Manual</button>
+              <button type="button" class="pill-btn">Basic Digital Tools</button>
+              <button type="button" class="pill-btn">Partially Digitalised</button>
+              <button type="button" class="pill-btn">Highly Digitalised</button>
+
+            </div>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Which digital tools does your business currently use?</label>
+
+            <div class="checkbox-group">
+
+              <label class="checkbox-option">
+                <input type="checkbox" name="digitalTools" value="Cloud software">
+                Cloud-based software
+              </label>
+
+              <label class="checkbox-option">
+                <input type="checkbox" name="digitalTools" value="E-commerce">
+                E-commerce platforms
+              </label>
+
+              <label class="checkbox-option">
+                <input type="checkbox" name="digitalTools" value="CRM">
+                Customer Relationship Management (CRM)
+              </label>
+
+              <label class="checkbox-option">
+                <input type="checkbox" name="digitalTools" value="Accounting software">
+                Digital accounting software
+              </label>
+
+              <label class="checkbox-option">
+                <input type="checkbox" name="digitalTools" value="AI">
+                Artificial Intelligence tools
+              </label>
+
+              <label class="checkbox-option">
+                <input type="checkbox" name="digitalTools" value="None">
+                None of the above
+              </label>
+
+            </div>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>What is the biggest barrier to digitalisation?</label>
+
+            <div class="pill-group" data-name="digitalBarrier">
+
+              <button type="button" class="pill-btn">Cost</button>
+              <button type="button" class="pill-btn">Lack of Knowledge</button>
+              <button type="button" class="pill-btn">Lack of Skills</button>
+              <button type="button" class="pill-btn">Resistance to Change</button>
+
+            </div>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>How interested are you in implementing AI in your business?</label>
+
+            <div class="pill-group" data-name="aiInterest">
+
+              <button type="button" class="pill-btn">Not Interested</button>
+              <button type="button" class="pill-btn">Slightly Interested</button>
+              <button type="button" class="pill-btn">Interested</button>
+              <button type="button" class="pill-btn">Very Interested</button>
+
+            </div>
+
+          </div>
+
         </div>
 
-        <div class="field">
-          <label>Number of Employees</label>
-          <div class="pill-group" data-pill-group>
-            <button type="button" class="pill-btn selected">1 - 5</button>
-            <button type="button" class="pill-btn">6 - 20</button>
-            <button type="button" class="pill-btn">21 - 50</button>
-            <button type="button" class="pill-btn">51 - 200</button>
-            <button type="button" class="pill-btn">200+</button>
+
+        <!-- ========================================
+             STEP 4
+        ======================================== -->
+
+        <div class="assessment-step" data-step="4">
+
+          <div class="form-card-head">
+
+            <div>
+              <h2>Growth & Strategy</h2>
+              <p>Let's explore your future business ambitions and strategy.</p>
+            </div>
+
+            <span class="step-tag">Step 4 of 5</span>
+
           </div>
+
+
+          <div class="field">
+
+            <label>What is your biggest growth challenge?</label>
+
+            <div class="pill-group" data-name="growthChallenge">
+
+              <button type="button" class="pill-btn">Finding Customers</button>
+              <button type="button" class="pill-btn">Increasing Revenue</button>
+              <button type="button" class="pill-btn">Scaling Operations</button>
+              <button type="button" class="pill-btn">Hiring Talent</button>
+              <button type="button" class="pill-btn">Market Competition</button>
+
+            </div>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Do you currently have a clear business growth strategy?</label>
+
+            <div class="pill-group" data-name="growthStrategy">
+
+              <button type="button" class="pill-btn">No Clear Strategy</button>
+              <button type="button" class="pill-btn">Basic Plan</button>
+              <button type="button" class="pill-btn">Clear Strategy</button>
+              <button type="button" class="pill-btn">Highly Structured Strategy</button>
+
+            </div>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Where do you see your business in the next 3 years?</label>
+
+            <div class="pill-group" data-name="futureGoal">
+
+              <button type="button" class="pill-btn">Stable Growth</button>
+              <button type="button" class="pill-btn">National Expansion</button>
+              <button type="button" class="pill-btn">International Expansion</button>
+              <button type="button" class="pill-btn">New Products & Services</button>
+
+            </div>
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Are you interested in receiving expert business advice?</label>
+
+            <div class="pill-group" data-name="advisorInterest">
+
+              <button type="button" class="pill-btn">Yes</button>
+              <button type="button" class="pill-btn">Maybe</button>
+              <button type="button" class="pill-btn">Not Currently</button>
+
+            </div>
+
+          </div>
+
         </div>
 
-        <div class="field">
-          <label>Annual Revenue</label>
-          <div class="pill-group" data-pill-group>
-            <button type="button" class="pill-btn">Below RM500K</button>
-            <button type="button" class="pill-btn">RM500K - RM2M</button>
-            <button type="button" class="pill-btn">RM2M - RM10M</button>
-            <button type="button" class="pill-btn">Above RM10M</button>
+
+        <!-- ========================================
+             STEP 5
+        ======================================== -->
+
+        <div class="assessment-step" data-step="5">
+
+          <div class="form-card-head">
+
+            <div>
+              <h2>Review Your Assessment</h2>
+              <p>Please review your answers before generating your personalised results.</p>
+            </div>
+
+            <span class="step-tag">Step 5 of 5</span>
+
           </div>
+
+
+          <div id="reviewContent">
+
+            <!-- Generated dynamically using JavaScript -->
+
+          </div>
+
+
+          <div class="field">
+
+            <label class="checkbox-option">
+
+              <input type="checkbox" id="consent">
+
+              I agree to the processing of my information to receive personalised business insights.
+
+            </label>
+
+          </div>
+
         </div>
 
-        <div class="field">
-          <label for="location">Business Location</label>
-          <div class="select-wrap">
-            <select id="location">
-              <option value="">Select your state</option>
-              <option>Selangor</option>
-              <option>Kuala Lumpur</option>
-              <option>Penang</option>
-              <option>Johor</option>
-              <option>Sabah</option>
-              <option>Sarawak</option>
-              <option>Other</option>
-            </select>
-            <span data-icon="chevronDown"></span>
-          </div>
-        </div>
 
-        <div class="field">
-          <label>What is your primary business model?</label>
-          <div class="pill-group" data-pill-group>
-            <button type="button" class="pill-btn selected">B2B</button>
-            <button type="button" class="pill-btn">B2C</button>
-            <button type="button" class="pill-btn">B2B2C</button>
-            <button type="button" class="pill-btn">Others</button>
-          </div>
-        </div>
+        <!-- ========================================
+             FORM FOOTER
+        ======================================== -->
 
-        <div class="field">
-          <label for="goal">What is your main growth objective?</label>
-          <div class="select-wrap">
-            <select id="goal">
-              <option value="">Select your primary goal</option>
-              <option>Increase revenue</option>
-              <option>Improve efficiency</option>
-              <option>Digitalise operations</option>
-              <option>Expand to new markets</option>
-              <option>Strengthen team &amp; capability</option>
-            </select>
-            <span data-icon="chevronDown"></span>
-          </div>
-        </div>
+        <p class="form-footer-note">
+          <span data-icon="shield"></span>
+          Your information is secure and will only be used to provide personalised insights.
+        </p>
 
-        <p class="form-footer-note"><span data-icon="shield"></span> Your information is secure and will only be used to provide personalised insights.</p>
+
+        <!-- ========================================
+             NAVIGATION
+        ======================================== -->
 
         <div class="form-actions">
-          <button type="submit" class="btn btn-primary">Next: Business Operations <span data-icon="arrowRight" style="width:16px;height:16px;display:inline-flex"></span></button>
+
+          <button
+            type="button"
+            class="btn btn-outline"
+            id="prevBtn"
+            style="display:none"
+          >
+            ← Back
+          </button>
+
+
+          <button
+            type="button"
+            class="btn btn-primary"
+            id="nextBtn"
+          >
+            Next: Business Operations
+            →
+          </button>
+
         </div>
+
+
       </form>
 
+
+      <!-- ========================================
+           SIDEBAR
+      ======================================== -->
+
       <aside>
-        <div class="side-card card">
-          <h3>Why Take This Assessment?</h3>
-          <div class="why-item">
-            <span class="ic" data-icon="trendingUp"></span>
-            <div><h4>Get Your Growth Score</h4><p>Understand how your business is performing across 6 key areas.</p></div>
-          </div>
-          <div class="why-item">
-            <span class="ic" data-icon="lightbulb"></span>
-            <div><h4>Discover Opportunities</h4><p>Identify gaps and opportunities to grow smarter.</p></div>
-          </div>
-          <div class="why-item">
-            <span class="ic" data-icon="monitor"></span>
-            <div><h4>Find the Right Solutions</h4><p>Get personalised digital solutions for your business.</p></div>
-          </div>
-          <div class="why-item">
-            <span class="ic" data-icon="users"></span>
-            <div><h4>Connect with Experts</h4><p>Speak with trusted advisors who can help you grow.</p></div>
-          </div>
-        </div>
+
 
         <div class="side-card card">
-          <div class="badge-shield">
-            <span class="ic" data-icon="shield"></span>
-            <h4>100% Free &amp; No Commitment</h4>
+
+          <h3>Why Take This Assessment?</h3>
+
+
+          <div class="why-item">
+
+            <span class="ic" data-icon="trendingUp"></span>
+
+            <div>
+              <h4>Get Your Growth Score</h4>
+              <p>Understand how your business is performing across key areas.</p>
+            </div>
+
           </div>
-          <p class="small">Takes only 5–7 minutes to complete. Get instant results.</p>
-          <div class="mini-illust">
-            <div></div><div></div><div></div>
+
+
+          <div class="why-item">
+
+            <span class="ic" data-icon="lightbulb"></span>
+
+            <div>
+              <h4>Discover Opportunities</h4>
+              <p>Identify gaps and opportunities to grow smarter.</p>
+            </div>
+
           </div>
+
+
+          <div class="why-item">
+
+            <span class="ic" data-icon="monitor"></span>
+
+            <div>
+              <h4>Find the Right Solutions</h4>
+              <p>Get personalised digital solutions for your business.</p>
+            </div>
+
+          </div>
+
+
+          <div class="why-item">
+
+            <span class="ic" data-icon="users"></span>
+
+            <div>
+              <h4>Connect with Experts</h4>
+              <p>Speak with trusted advisors who can help you grow.</p>
+            </div>
+
+          </div>
+
+
         </div>
+
+
+        <div class="side-card card">
+
+          <div class="badge-shield">
+
+            <span class="ic" data-icon="shield"></span>
+
+            <h4>100% Free & No Commitment</h4>
+
+          </div>
+
+          <p class="small">
+            Takes only 5–7 minutes to complete.
+            Get personalised insights instantly.
+          </p>
+
+        </div>
+
+
       </aside>
 
+
     </div>
+
   </div>
+
 </section>
+
+
+<!-- ========================================
+     JAVASCRIPT
+======================================== -->
 
 <script src="js/icons.js"></script>
 <script src="js/main.js"></script>
+
+
 <script>
-  document.getElementById('assessForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    // In this demo, every step routes straight to the preview results page.
-    window.location.href = 'results.html';
+
+/* ========================================
+   VARIABLES
+======================================== */
+
+let currentStep = 1;
+const totalSteps = 5;
+
+const assessmentData = {};
+
+const nextBtn = document.getElementById("nextBtn");
+const prevBtn = document.getElementById("prevBtn");
+
+
+const stepNames = {
+  1: "Next: Business Operations →",
+  2: "Next: Digitalisation →",
+  3: "Next: Growth & Strategy →",
+  4: "Review Your Answers →",
+  5: "Generate My Results →"
+};
+
+
+/* ========================================
+   PILL BUTTON SELECTION
+======================================== */
+
+document.querySelectorAll(".pill-group").forEach(group => {
+
+  const buttons = group.querySelectorAll(".pill-btn");
+
+  buttons.forEach(button => {
+
+    button.addEventListener("click", function() {
+
+      buttons.forEach(btn => {
+        btn.classList.remove("selected");
+      });
+
+      this.classList.add("selected");
+
+      const groupName = group.dataset.name;
+
+      if (groupName) {
+        assessmentData[groupName] = this.textContent.trim();
+      }
+
+    });
+
   });
+
+});
+
+
+/* ========================================
+   NEXT BUTTON
+======================================== */
+
+nextBtn.addEventListener("click", function() {
+
+  if (!validateStep(currentStep)) {
+    return;
+  }
+
+  saveStepData(currentStep);
+
+  if (currentStep < totalSteps) {
+
+    currentStep++;
+
+    showStep(currentStep);
+
+  } else {
+
+    submitAssessment();
+
+  }
+
+});
+
+
+/* ========================================
+   PREVIOUS BUTTON
+======================================== */
+
+prevBtn.addEventListener("click", function() {
+
+  if (currentStep > 1) {
+
+    currentStep--;
+
+    showStep(currentStep);
+
+  }
+
+});
+
+
+/* ========================================
+   SHOW STEP
+======================================== */
+
+function showStep(step) {
+
+  document.querySelectorAll(".assessment-step").forEach(item => {
+
+    item.classList.remove("active");
+
+  });
+
+
+  document
+    .querySelector(`.assessment-step[data-step="${step}"]`)
+    .classList.add("active");
+
+
+  updateStepper(step);
+
+
+  prevBtn.style.display = step === 1 ? "none" : "inline-flex";
+
+
+  nextBtn.innerHTML = stepNames[step];
+
+
+  if (step === 5) {
+
+    generateReview();
+
+  }
+
+
+  window.scrollTo({
+    top: 250,
+    behavior: "smooth"
+  });
+
+}
+
+
+/* ========================================
+   UPDATE STEPPER
+======================================== */
+
+function updateStepper(step) {
+
+  document.querySelectorAll(".stepper-step").forEach(stepItem => {
+
+    const stepNumber = Number(stepItem.dataset.step);
+
+    stepItem.classList.remove("active", "completed");
+
+
+    if (stepNumber < step) {
+
+      stepItem.classList.add("completed");
+
+    }
+
+    else if (stepNumber === step) {
+
+      stepItem.classList.add("active");
+
+    }
+
+  });
+
+}
+
+
+/* ========================================
+   SAVE FORM DATA
+======================================== */
+
+function saveStepData(step) {
+
+  const currentStepElement =
+    document.querySelector(`.assessment-step[data-step="${step}"]`);
+
+
+  currentStepElement
+    .querySelectorAll("select")
+    .forEach(select => {
+
+      assessmentData[select.name] = select.value;
+
+    });
+
+
+  currentStepElement
+    .querySelectorAll("input[type='checkbox']")
+    .forEach(input => {
+
+      if (input.name) {
+
+        if (!assessmentData[input.name]) {
+          assessmentData[input.name] = [];
+        }
+
+      }
+
+    });
+
+
+  const checkboxGroups = {};
+
+  currentStepElement
+    .querySelectorAll("input[type='checkbox'][name]")
+    .forEach(input => {
+
+      if (!checkboxGroups[input.name]) {
+        checkboxGroups[input.name] = [];
+      }
+
+      if (input.checked) {
+        checkboxGroups[input.name].push(input.value);
+      }
+
+    });
+
+
+  Object.assign(assessmentData, checkboxGroups);
+
+}
+
+
+/* ========================================
+   VALIDATION
+======================================== */
+
+function validateStep(step) {
+
+  const stepElement =
+    document.querySelector(`.assessment-step[data-step="${step}"]`);
+
+
+  let isValid = true;
+
+
+  stepElement.querySelectorAll(".field").forEach(field => {
+
+    field.classList.remove("error");
+
+  });
+
+
+  if (step === 1) {
+
+    const requiredSelects =
+      stepElement.querySelectorAll("select[required]");
+
+
+    requiredSelects.forEach(select => {
+
+      if (!select.value) {
+
+        select.closest(".field")
+          .classList.add("error");
+
+        isValid = false;
+
+      }
+
+    });
+
+
+    const requiredPills = [
+      "employees",
+      "revenue",
+      "businessModel"
+    ];
+
+
+    requiredPills.forEach(name => {
+
+      if (!assessmentData[name]) {
+
+        const group =
+          document.querySelector(
+            `.pill-group[data-name="${name}"]`
+          );
+
+        group.closest(".field")
+          .classList.add("error");
+
+        isValid = false;
+
+      }
+
+    });
+
+  }
+
+
+  if (step === 5) {
+
+    const consent =
+      document.getElementById("consent");
+
+    if (!consent.checked) {
+
+      alert(
+        "Please agree to the processing of your information before continuing."
+      );
+
+      isValid = false;
+
+    }
+
+  }
+
+
+  return isValid;
+
+}
+
+
+/* ========================================
+   GENERATE REVIEW
+======================================== */
+
+function generateReview() {
+
+  const reviewContent =
+    document.getElementById("reviewContent");
+
+
+  reviewContent.innerHTML = `
+
+    <div class="review-section">
+
+      <h3>About Your Business</h3>
+
+      ${reviewItem("Industry", assessmentData.industry)}
+      ${reviewItem("Business Age", assessmentData.yearEstablished)}
+      ${reviewItem("Employees", assessmentData.employees)}
+      ${reviewItem("Annual Revenue", assessmentData.revenue)}
+      ${reviewItem("Location", assessmentData.location)}
+      ${reviewItem("Business Model", assessmentData.businessModel)}
+      ${reviewItem("Main Goal", assessmentData.goal)}
+
+    </div>
+
+
+    <div class="review-section">
+
+      <h3>Business Operations</h3>
+
+      ${reviewItem("Operational Efficiency", assessmentData.operationalEfficiency)}
+      ${reviewItem("Team Collaboration", assessmentData.teamCollaboration)}
+      ${reviewItem("Data Tracking", assessmentData.dataTracking)}
+      ${reviewItem(
+        "Main Challenges",
+        assessmentData.challenges?.join(", ")
+      )}
+
+    </div>
+
+
+    <div class="review-section">
+
+      <h3>Digitalisation</h3>
+
+      ${reviewItem("Digitalisation Level", assessmentData.digitalLevel)}
+
+      ${reviewItem(
+        "Digital Tools",
+        assessmentData.digitalTools?.join(", ")
+      )}
+
+      ${reviewItem(
+        "Biggest Barrier",
+        assessmentData.digitalBarrier
+      )}
+
+      ${reviewItem(
+        "AI Interest",
+        assessmentData.aiInterest
+      )}
+
+    </div>
+
+
+    <div class="review-section">
+
+      <h3>Growth & Strategy</h3>
+
+      ${reviewItem(
+        "Growth Challenge",
+        assessmentData.growthChallenge
+      )}
+
+      ${reviewItem(
+        "Growth Strategy",
+        assessmentData.growthStrategy
+      )}
+
+      ${reviewItem(
+        "Future Goal",
+        assessmentData.futureGoal
+      )}
+
+      ${reviewItem(
+        "Advisor Interest",
+        assessmentData.advisorInterest
+      )}
+
+    </div>
+
+  `;
+
+}
+
+
+function reviewItem(label, value) {
+
+  return `
+
+    <div class="review-item">
+
+      <span class="review-label">
+        ${label}
+      </span>
+
+      <span class="review-value">
+        ${value || "Not provided"}
+      </span>
+
+    </div>
+
+  `;
+
+}
+
+
+/* ========================================
+   SUBMIT ASSESSMENT
+======================================== */
+
+function submitAssessment() {
+
+  saveStepData(currentStep);
+
+
+  localStorage.setItem(
+    "smeAssessment",
+    JSON.stringify(assessmentData)
+  );
+
+
+  window.location.href = "results.html";
+
+}
+
 </script>
+
 </body>
 </html>
