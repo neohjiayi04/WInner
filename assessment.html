@@ -3,1173 +3,1145 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Assess Your Business — SME Growth Advisor</title>
+<title>Business Assessment — SME Growth Advisor</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="css/styles.css">
 
 <style>
-/* ========================================
-   ASSESSMENT PAGE ADDITIONAL STYLES
-======================================== */
+:root{
+  --blue-700:#1d4ed8;
+  --blue-600:#2563eb;
+  --blue-500:#3b82f6;
+  --blue-100:#dbeafe;
+  --blue-50:#eff6ff;
+  --navy-900:#0f172a;
+  --slate-600:#475569;
+  --slate-500:#64748b;
+  --slate-200:#e2e8f0;
+  --slate-100:#f1f5f9;
+  --bg:#f5f7fb;
+  --danger:#dc2626;
+}
+*{box-sizing:border-box;}
 
-.assessment-step {
-  display: none;
+body{
+  margin:0;
+  font-family:'Inter', system-ui, -apple-system, sans-serif;
+  background:var(--bg);
+  color:var(--navy-900);
+  -webkit-font-smoothing:antialiased;
 }
 
-.assessment-step.active {
-  display: block;
+/* ---------- HEADER ---------- */
+
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:#fff;
+  border-bottom:1px solid var(--slate-200);
 }
 
-.stepper-step {
-  transition: 0.3s ease;
+.site-header .wrap{
+  max-width:1180px;
+  margin:0 auto;
+  padding:16px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
 }
 
-.stepper-step.completed .stepper-circle {
-  background: #16a34a;
-  border-color: #16a34a;
-  color: #fff;
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+  color:var(--navy-900);
+  font-weight:800;
+  font-size:15px;
+  letter-spacing:.02em;
 }
 
-.stepper-step.active .stepper-circle {
-  transform: scale(1.05);
+.brand-mark{
+  display:flex;
+  align-items:flex-end;
+  gap:2px;
+  height:22px;
 }
 
-.stepper-step.completed .stepper-line {
-  background: #16a34a;
+.brand-mark span{
+  display:block;
+  width:5px;
+  background:var(--blue-600);
+  border-radius:2px;
 }
 
-.pill-btn {
-  cursor: pointer;
-  transition: 0.2s ease;
+.brand-mark span:nth-child(1){height:10px;}
+.brand-mark span:nth-child(2){height:16px;}
+.brand-mark span:nth-child(3){height:22px;}
+
+.brand-sub{
+  display:block;
+  font-size:9px;
+  font-weight:700;
+  color:var(--slate-500);
+  letter-spacing:.08em;
 }
 
-.pill-btn.selected {
-  background: #16a34a;
-  color: white;
-  border-color: #16a34a;
+.nav-links{
+  display:flex;
+  gap:28px;
 }
 
-.form-actions {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  margin-top: 32px;
+.nav-links a{
+  color:var(--slate-600);
+  text-decoration:none;
+  font-size:14px;
+  font-weight:600;
 }
 
-.form-actions .btn:first-child:only-child {
-  margin-left: auto;
+.nav-links a.active,
+.nav-links a:hover{
+  color:var(--blue-600);
 }
 
-.error-message {
-  display: none;
-  color: #dc2626;
-  font-size: 13px;
-  margin-top: 6px;
+.nav-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
-.field.error .error-message {
-  display: block;
+@media (max-width: 900px){
+  .nav-links{ display:none; }
 }
 
-.field.error select {
-  border-color: #dc2626;
+/* ---------- BUTTONS ---------- */
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  padding:.75em 1.5em;
+  border-radius:999px;
+  font-family:inherit;
+  font-weight:700;
+  font-size:14px;
+  border:1px solid transparent;
+  cursor:pointer;
+  transition:.15s ease;
+  text-decoration:none;
 }
 
-.review-section {
-  border-bottom: 1px solid #e5e7eb;
-  padding-bottom: 24px;
-  margin-bottom: 24px;
+.btn-sm{ padding:.5em 1.1em; font-size:13px; }
+
+.btn-primary{
+  background:var(--blue-600);
+  color:#fff;
 }
 
-.review-section:last-child {
-  border-bottom: none;
+.btn-primary:hover{ background:var(--blue-700); }
+
+.btn-outline{
+  background:#fff;
+  border-color:var(--slate-200);
+  color:var(--navy-900);
 }
 
-.review-section h3 {
-  margin-bottom: 16px;
-  color: #111827;
+.btn-outline:hover{
+  border-color:var(--blue-600);
+  color:var(--blue-600);
 }
 
-.review-item {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 10px 0;
+/* ---------- APP SHELL ---------- */
+
+.app-shell{
+  max-width:1180px;
+  margin:0 auto;
+  padding:32px 24px 90px;
+  display:grid;
+  grid-template-columns:250px 1fr;
+  gap:44px;
+  align-items:start;
 }
 
-.review-label {
-  color: #6b7280;
-  font-size: 14px;
+/* ---------- SIDE NAV / STEPPER ---------- */
+
+.side-nav{
+  position:sticky;
+  top:96px;
+  display:flex;
+  flex-direction:column;
 }
 
-.review-value {
-  font-weight: 600;
-  color: #111827;
-  text-align: right;
+.nav-step{
+  position:relative;
+  display:flex;
+  gap:14px;
+  padding-bottom:34px;
 }
 
-.range-group {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.nav-step:last-child{ padding-bottom:0; }
+
+.nav-step::after{
+  content:'';
+  position:absolute;
+  left:15px;
+  top:32px;
+  bottom:-34px;
+  width:2px;
+  background:var(--slate-200);
 }
 
-.range-option {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  padding: 14px 16px;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  transition: 0.2s ease;
+.nav-step:last-child::after{ display:none; }
+
+.nav-step.completed::after{ background:var(--blue-600); }
+
+.nav-circle{
+  flex-shrink:0;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background:#fff;
+  border:2px solid var(--slate-200);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
+  font-weight:700;
+  color:var(--slate-500);
+  position:relative;
+  z-index:1;
+  transition:.2s ease;
 }
 
-.range-option:hover {
-  border-color: #16a34a;
+.nav-step.active .nav-circle{
+  border-color:var(--blue-600);
+  color:var(--blue-600);
+  box-shadow:0 0 0 4px var(--blue-100);
 }
 
-.range-option input {
-  accent-color: #16a34a;
+.nav-step.completed .nav-circle{
+  background:var(--blue-600);
+  border-color:var(--blue-600);
+  color:#fff;
 }
 
-.checkbox-group {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.nav-label{
+  padding-top:5px;
+  font-size:14px;
+  font-weight:600;
+  color:var(--slate-500);
 }
 
-.checkbox-option {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
+.nav-step.active .nav-label,
+.nav-step.completed .nav-label{
+  color:var(--navy-900);
 }
 
-@media (max-width: 768px) {
+.nav-step.clickable{ cursor:pointer; }
 
-  .stepper {
-    overflow-x: auto;
-    padding-bottom: 10px;
+.nav-step.clickable:hover .nav-circle{ transform:scale(1.08); }
+
+.nav-step:not(.clickable){ opacity:.55; }
+
+/* ---------- MAIN COLUMN ---------- */
+
+.app-main{ min-width:0; }
+
+.eyebrow{
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.06em;
+  color:var(--blue-600);
+}
+
+.step-title{
+  font-size:28px;
+  font-weight:800;
+  margin:6px 0 8px;
+}
+
+.step-subtitle{
+  color:var(--slate-600);
+  font-size:14px;
+  max-width:600px;
+  margin:0 0 24px;
+}
+
+.step-grid{
+  display:grid;
+  grid-template-columns:1fr 300px;
+  gap:24px;
+  align-items:start;
+}
+
+.question-card,
+.score-card{
+  background:#fff;
+  border:1px solid var(--slate-200);
+  border-radius:16px;
+  padding:28px;
+}
+
+.score-card{ position:sticky; top:96px; }
+
+.score-card h3{
+  font-size:14px;
+  font-weight:700;
+  margin:0 0 18px;
+}
+
+/* ---------- FIELDS ---------- */
+
+.field{ margin-bottom:26px; }
+.field:last-child{ margin-bottom:0; }
+
+.field > label{
+  display:block;
+  font-size:14px;
+  font-weight:600;
+  color:var(--navy-900);
+  margin-bottom:10px;
+}
+
+.error-message{
+  display:none;
+  color:var(--danger);
+  font-size:12px;
+  margin-top:8px;
+}
+
+.field.error .error-message{ display:block; }
+
+.field.error .pill-group{
+  outline:1.5px solid var(--danger);
+  outline-offset:4px;
+  border-radius:12px;
+}
+
+.pill-group{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.pill-btn{
+  padding:9px 16px;
+  border-radius:999px;
+  border:1px solid var(--slate-200);
+  background:#fff;
+  font-family:inherit;
+  font-size:13px;
+  font-weight:600;
+  color:var(--navy-900);
+  cursor:pointer;
+  transition:.15s ease;
+}
+
+.pill-btn:hover{ border-color:var(--blue-600); }
+
+.pill-btn.selected{
+  background:var(--blue-600);
+  border-color:var(--blue-600);
+  color:#fff;
+}
+
+.checkbox-grid{
+  display:flex;
+  flex-direction:column;
+  gap:11px;
+}
+
+.checkbox-option{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:14px;
+  color:var(--navy-900);
+  cursor:pointer;
+}
+
+.checkbox-option input{
+  accent-color:var(--blue-600);
+  width:16px;
+  height:16px;
+}
+
+/* Sliders */
+
+.slider-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:12px;
+  margin-bottom:12px;
+}
+
+.slider-head label{ margin-bottom:0; }
+
+.slider-value{
+  font-size:13px;
+  font-weight:700;
+  color:var(--blue-600);
+  white-space:nowrap;
+}
+
+.slider-field.unrated .slider-value{ color:var(--slate-500); }
+
+.slider-input{
+  width:100%;
+  accent-color:var(--blue-600);
+  height:6px;
+  cursor:pointer;
+}
+
+.slider-field.unrated .slider-input{ opacity:.45; }
+
+.slider-scale{
+  display:flex;
+  justify-content:space-between;
+  margin-top:8px;
+  font-size:11px;
+  color:var(--slate-500);
+}
+
+.slider-scale span{ max-width:70px; text-align:center; }
+.slider-scale span:first-child{ text-align:left; }
+.slider-scale span:last-child{ text-align:right; }
+
+/* ---------- SCORE PANEL ---------- */
+
+.score-empty{
+  font-size:13px;
+  color:var(--slate-500);
+  line-height:1.6;
+  margin:0;
+}
+
+.score-ring-wrap{
+  position:relative;
+  width:120px;
+  height:120px;
+  margin:0 auto 22px;
+}
+
+.score-ring{
+  width:120px;
+  height:120px;
+  transform:rotate(-90deg);
+}
+
+.ring-bg{ fill:none; stroke:var(--slate-100); stroke-width:10; }
+
+.ring-fg{
+  fill:none;
+  stroke:var(--blue-600);
+  stroke-width:10;
+  stroke-linecap:round;
+  transition:stroke-dashoffset .4s ease;
+}
+
+.score-ring-label{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+.score-num{ font-size:26px; font-weight:800; }
+.score-den{ font-size:11px; color:var(--slate-500); }
+
+.score-breakdown{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.score-row-top{
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  font-size:12px;
+  margin-bottom:5px;
+}
+
+.score-row-label{ color:var(--slate-600); }
+.score-row-val{ font-weight:700; color:var(--navy-900); }
+
+.score-row-bar{
+  display:block;
+  height:6px;
+  background:var(--slate-100);
+  border-radius:999px;
+  overflow:hidden;
+}
+
+.score-row-bar span{
+  display:block;
+  height:100%;
+  background:var(--blue-600);
+  border-radius:999px;
+}
+
+/* ---------- REVIEW STEP ---------- */
+
+.review-section{
+  border-bottom:1px solid var(--slate-200);
+  padding-bottom:20px;
+  margin-bottom:20px;
+}
+
+.review-section:last-of-type{ border-bottom:none; margin-bottom:0; }
+
+.review-section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:14px;
+}
+
+.review-section-head h3{
+  font-size:15px;
+  font-weight:700;
+  margin:0;
+}
+
+.review-edit-btn{
+  background:none;
+  border:none;
+  color:var(--blue-600);
+  font-weight:700;
+  font-size:13px;
+  cursor:pointer;
+  padding:4px 8px;
+  border-radius:6px;
+  font-family:inherit;
+}
+
+.review-edit-btn:hover{ background:var(--blue-50); }
+
+.review-item{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  padding:8px 0;
+  font-size:14px;
+}
+
+.review-label{ color:var(--slate-500); }
+.review-value{ font-weight:600; color:var(--navy-900); text-align:right; }
+
+/* ---------- NAV ACTIONS ---------- */
+
+.step-nav-actions{
+  display:flex;
+  justify-content:space-between;
+  margin-top:28px;
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 900px){
+  .app-shell{ grid-template-columns:1fr; }
+  .step-grid{ grid-template-columns:1fr; }
+  .score-card{ position:static; }
+
+  .side-nav{
+    position:static;
+    flex-direction:row;
+    flex-wrap:wrap;
+    gap:18px 26px;
   }
 
-  .stepper-step {
-    min-width: 120px;
-  }
+  .nav-step{ padding-bottom:0; }
+  .nav-step::after{ display:none; }
+}
 
-  .form-actions {
-    flex-direction: column-reverse;
-  }
-
-  .form-actions .btn {
-    width: 100%;
-  }
-
-  .review-item {
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .review-value {
-    text-align: left;
-  }
+@media (max-width: 600px){
+  .step-nav-actions{ flex-direction:column-reverse; gap:10px; }
+  .step-nav-actions .btn{ width:100%; }
 }
 </style>
-
 </head>
 
 <body>
 
-<!-- ========================================
-     HEADER
-======================================== -->
 <header class="site-header">
   <div class="wrap">
     <a href="index.html" class="brand">
-      <span class="brand-mark" data-icon="logo"></span>
+      <span class="brand-mark"><span></span><span></span><span></span></span>
       <span>SME<span class="brand-sub">GROWTH ADVISOR</span></span>
     </a>
     <nav class="nav-links">
-      <a href="index.html" >Home</a>
+      <a href="index.html">Home</a>
       <a href="#how-it-works">How It Works</a>
-      <a href="assessment.html" class="active">Assessment</a>
+      <a href="assessment-v2.html" class="active">Assessment</a>
       <a href="aboutus.html">About Us</a>
-      <a href="faq.html" >FAQ</a>
+      <a href="faq.html">FAQ</a>
     </nav>
     <div class="nav-actions">
       <a href="login.html" class="btn btn-outline btn-sm">Log In</a>
-      <button class="nav-toggle" aria-label="Menu" data-icon="menu"></button>
+      <a href="#" class="btn btn-primary btn-sm">Get Started</a>
     </div>
   </div>
 </header>
 
-
-<!-- ========================================
-     HERO
-======================================== -->
-
-<section class="assess-hero">
-
+<section class="about-hero">
   <div class="wrap">
-
     <h1>Assess Your Business in Minutes</h1>
-
-    <p>
-      Answer a few simple questions and get your personalised
-      growth and digitalisation insights.
-    </p>
-
-
-    <!-- STEPPER -->
-
-    <div class="stepper">
-
-      <div class="stepper-step active" data-step="1">
-        <div class="stepper-circle" data-icon="building"></div>
-        <div class="stepper-line"></div>
-        <div class="stepper-label">About Your Business</div>
-      </div>
-
-      <div class="stepper-step" data-step="2">
-        <div class="stepper-circle" data-icon="trendingUp"></div>
-        <div class="stepper-line"></div>
-        <div class="stepper-label">Business Operations</div>
-      </div>
-
-      <div class="stepper-step" data-step="3">
-        <div class="stepper-circle" data-icon="monitor"></div>
-        <div class="stepper-line"></div>
-        <div class="stepper-label">Digitalisation</div>
-      </div>
-
-      <div class="stepper-step" data-step="4">
-        <div class="stepper-circle" data-icon="users"></div>
-        <div class="stepper-line"></div>
-        <div class="stepper-label">Growth & Strategy</div>
-      </div>
-
-      <div class="stepper-step" data-step="5">
-        <div class="stepper-circle" data-icon="checkCircle"></div>
-        <div class="stepper-label">Review & Submit</div>
-      </div>
-
-    </div>
-
+    <p class="lead">Answer a few simple questions — including your AI readiness — and get your personalised growth score.</p>
   </div>
-
 </section>
 
+<div class="app-shell">
 
-<!-- ========================================
-     ASSESSMENT BODY
-======================================== -->
+  <aside class="side-nav" id="sideNav"></aside>
 
-<section class="assess-body">
+  <main class="app-main">
 
-  <div class="wrap">
+    <span class="eyebrow" id="stepEyebrow"></span>
+    <h1 class="step-title" id="stepTitle"></h1>
+    <p class="step-subtitle" id="stepSubtitle"></p>
 
-    <div class="assess-grid">
-
-
-      <!-- ========================================
-           MAIN FORM
-      ======================================== -->
-
-      <form class="form-card card" id="assessForm">
-
-
-        <!-- ========================================
-             STEP 1
-        ======================================== -->
-
-        <div class="assessment-step active" data-step="1">
-
-          <div class="form-card-head">
-
-            <div>
-              <h2>About Your Business</h2>
-              <p>Let's start with some basic information about your business.</p>
-            </div>
-
-            <span class="step-tag">Step 1 of 5</span>
-
-          </div>
-
-
-          <div class="field">
-
-            <label for="industry">Industry</label>
-
-            <div class="select-wrap">
-              <select id="industry" name="industry" required>
-                <option value="">Select your industry</option>
-                <option>Manufacturing</option>
-                <option>Retail & E-commerce</option>
-                <option>Food & Beverage</option>
-                <option>Professional Services</option>
-                <option>Construction</option>
-                <option>Technology</option>
-                <option>Healthcare</option>
-                <option>Tourism & Hospitality</option>
-                <option>Other</option>
-              </select>
-
-              <span data-icon="chevronDown"></span>
-            </div>
-
-            <div class="error-message">Please select your industry.</div>
-
-          </div>
-
-
-          <div class="field">
-
-            <label for="yearEstablished">Year Established</label>
-
-            <div class="select-wrap">
-
-              <select id="yearEstablished" name="yearEstablished" required>
-
-                <option value="">Select year range</option>
-                <option>Less than 1 year</option>
-                <option>1 – 5 years</option>
-                <option>6 – 10 years</option>
-                <option>More than 10 years</option>
-
-              </select>
-
-              <span data-icon="chevronDown"></span>
-
-            </div>
-
-            <div class="error-message">Please select a business age.</div>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>Number of Employees</label>
-
-            <div class="pill-group" data-name="employees">
-
-              <button type="button" class="pill-btn">1 - 5</button>
-              <button type="button" class="pill-btn">6 - 20</button>
-              <button type="button" class="pill-btn">21 - 50</button>
-              <button type="button" class="pill-btn">51 - 200</button>
-              <button type="button" class="pill-btn">200+</button>
-
-            </div>
-
-            <div class="error-message">Please select the number of employees.</div>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>Annual Revenue</label>
-
-            <div class="pill-group" data-name="revenue">
-
-              <button type="button" class="pill-btn">Below RM500K</button>
-              <button type="button" class="pill-btn">RM500K - RM2M</button>
-              <button type="button" class="pill-btn">RM2M - RM10M</button>
-              <button type="button" class="pill-btn">Above RM10M</button>
-
-            </div>
-
-            <div class="error-message">Please select your annual revenue.</div>
-
-          </div>
-
-
-          <div class="field">
-
-            <label for="location">Business Location</label>
-
-            <div class="select-wrap">
-
-              <select id="location" name="location" required>
-
-                <option value="">Select your state</option>
-                <option>Selangor</option>
-                <option>Kuala Lumpur</option>
-                <option>Penang</option>
-                <option>Johor</option>
-                <option>Melaka</option>
-                <option>Perak</option>
-                <option>Kedah</option>
-                <option>Sabah</option>
-                <option>Sarawak</option>
-                <option>Other</option>
-
-              </select>
-
-              <span data-icon="chevronDown"></span>
-
-            </div>
-
-            <div class="error-message">Please select your location.</div>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>What is your primary business model?</label>
-
-            <div class="pill-group" data-name="businessModel">
-
-              <button type="button" class="pill-btn">B2B</button>
-              <button type="button" class="pill-btn">B2C</button>
-              <button type="button" class="pill-btn">B2B2C</button>
-              <button type="button" class="pill-btn">Others</button>
-
-            </div>
-
-            <div class="error-message">Please select a business model.</div>
-
-          </div>
-
-
-          <div class="field">
-
-            <label for="goal">What is your main growth objective?</label>
-
-            <div class="select-wrap">
-
-              <select id="goal" name="goal" required>
-
-                <option value="">Select your primary goal</option>
-                <option>Increase revenue</option>
-                <option>Improve efficiency</option>
-                <option>Digitalise operations</option>
-                <option>Expand to new markets</option>
-                <option>Strengthen team & capability</option>
-
-              </select>
-
-              <span data-icon="chevronDown"></span>
-
-            </div>
-
-            <div class="error-message">Please select your main objective.</div>
-
-          </div>
-
-        </div>
-
-
-        <!-- ========================================
-             STEP 2
-        ======================================== -->
-
-        <div class="assessment-step" data-step="2">
-
-          <div class="form-card-head">
-
-            <div>
-              <h2>Business Operations</h2>
-              <p>Help us understand how your business currently operates.</p>
-            </div>
-
-            <span class="step-tag">Step 2 of 5</span>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>How would you rate your current operational efficiency?</label>
-
-            <div class="pill-group" data-name="operationalEfficiency">
-
-              <button type="button" class="pill-btn">Very Low</button>
-              <button type="button" class="pill-btn">Low</button>
-              <button type="button" class="pill-btn">Average</button>
-              <button type="button" class="pill-btn">Good</button>
-              <button type="button" class="pill-btn">Excellent</button>
-
-            </div>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>What are your biggest operational challenges?</label>
-
-            <div class="checkbox-group">
-
-              <label class="checkbox-option">
-                <input type="checkbox" name="challenges" value="Manual processes">
-                Too many manual processes
-              </label>
-
-              <label class="checkbox-option">
-                <input type="checkbox" name="challenges" value="High costs">
-                High operational costs
-              </label>
-
-              <label class="checkbox-option">
-                <input type="checkbox" name="challenges" value="Staff shortage">
-                Staff shortage
-              </label>
-
-              <label class="checkbox-option">
-                <input type="checkbox" name="challenges" value="Poor communication">
-                Poor internal communication
-              </label>
-
-              <label class="checkbox-option">
-                <input type="checkbox" name="challenges" value="Data management">
-                Difficulty managing business data
-              </label>
-
-            </div>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>How well does your team collaborate?</label>
-
-            <div class="pill-group" data-name="teamCollaboration">
-
-              <button type="button" class="pill-btn">Poorly</button>
-              <button type="button" class="pill-btn">Below Average</button>
-              <button type="button" class="pill-btn">Average</button>
-              <button type="button" class="pill-btn">Well</button>
-              <button type="button" class="pill-btn">Very Well</button>
-
-            </div>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>Do you currently track business performance using data?</label>
-
-            <div class="pill-group" data-name="dataTracking">
-
-              <button type="button" class="pill-btn">Never</button>
-              <button type="button" class="pill-btn">Occasionally</button>
-              <button type="button" class="pill-btn">Regularly</button>
-              <button type="button" class="pill-btn">Extensively</button>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- ========================================
-             STEP 3
-        ======================================== -->
-
-        <div class="assessment-step" data-step="3">
-
-          <div class="form-card-head">
-
-            <div>
-              <h2>Digitalisation</h2>
-              <p>Tell us about your business's digital readiness.</p>
-            </div>
-
-            <span class="step-tag">Step 3 of 5</span>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>How digitalised are your current business operations?</label>
-
-            <div class="pill-group" data-name="digitalLevel">
-
-              <button type="button" class="pill-btn">Mostly Manual</button>
-              <button type="button" class="pill-btn">Basic Digital Tools</button>
-              <button type="button" class="pill-btn">Partially Digitalised</button>
-              <button type="button" class="pill-btn">Highly Digitalised</button>
-
-            </div>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>Which digital tools does your business currently use?</label>
-
-            <div class="checkbox-group">
-
-              <label class="checkbox-option">
-                <input type="checkbox" name="digitalTools" value="Cloud software">
-                Cloud-based software
-              </label>
-
-              <label class="checkbox-option">
-                <input type="checkbox" name="digitalTools" value="E-commerce">
-                E-commerce platforms
-              </label>
-
-              <label class="checkbox-option">
-                <input type="checkbox" name="digitalTools" value="CRM">
-                Customer Relationship Management (CRM)
-              </label>
-
-              <label class="checkbox-option">
-                <input type="checkbox" name="digitalTools" value="Accounting software">
-                Digital accounting software
-              </label>
-
-              <label class="checkbox-option">
-                <input type="checkbox" name="digitalTools" value="AI">
-                Artificial Intelligence tools
-              </label>
-
-              <label class="checkbox-option">
-                <input type="checkbox" name="digitalTools" value="None">
-                None of the above
-              </label>
-
-            </div>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>What is the biggest barrier to digitalisation?</label>
-
-            <div class="pill-group" data-name="digitalBarrier">
-
-              <button type="button" class="pill-btn">Cost</button>
-              <button type="button" class="pill-btn">Lack of Knowledge</button>
-              <button type="button" class="pill-btn">Lack of Skills</button>
-              <button type="button" class="pill-btn">Resistance to Change</button>
-
-            </div>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>How interested are you in implementing AI in your business?</label>
-
-            <div class="pill-group" data-name="aiInterest">
-
-              <button type="button" class="pill-btn">Not Interested</button>
-              <button type="button" class="pill-btn">Slightly Interested</button>
-              <button type="button" class="pill-btn">Interested</button>
-              <button type="button" class="pill-btn">Very Interested</button>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- ========================================
-             STEP 4
-        ======================================== -->
-
-        <div class="assessment-step" data-step="4">
-
-          <div class="form-card-head">
-
-            <div>
-              <h2>Growth & Strategy</h2>
-              <p>Let's explore your future business ambitions and strategy.</p>
-            </div>
-
-            <span class="step-tag">Step 4 of 5</span>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>What is your biggest growth challenge?</label>
-
-            <div class="pill-group" data-name="growthChallenge">
-
-              <button type="button" class="pill-btn">Finding Customers</button>
-              <button type="button" class="pill-btn">Increasing Revenue</button>
-              <button type="button" class="pill-btn">Scaling Operations</button>
-              <button type="button" class="pill-btn">Hiring Talent</button>
-              <button type="button" class="pill-btn">Market Competition</button>
-
-            </div>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>Do you currently have a clear business growth strategy?</label>
-
-            <div class="pill-group" data-name="growthStrategy">
-
-              <button type="button" class="pill-btn">No Clear Strategy</button>
-              <button type="button" class="pill-btn">Basic Plan</button>
-              <button type="button" class="pill-btn">Clear Strategy</button>
-              <button type="button" class="pill-btn">Highly Structured Strategy</button>
-
-            </div>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>Where do you see your business in the next 3 years?</label>
-
-            <div class="pill-group" data-name="futureGoal">
-
-              <button type="button" class="pill-btn">Stable Growth</button>
-              <button type="button" class="pill-btn">National Expansion</button>
-              <button type="button" class="pill-btn">International Expansion</button>
-              <button type="button" class="pill-btn">New Products & Services</button>
-
-            </div>
-
-          </div>
-
-
-          <div class="field">
-
-            <label>Are you interested in receiving expert business advice?</label>
-
-            <div class="pill-group" data-name="advisorInterest">
-
-              <button type="button" class="pill-btn">Yes</button>
-              <button type="button" class="pill-btn">Maybe</button>
-              <button type="button" class="pill-btn">Not Currently</button>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- ========================================
-             STEP 5
-        ======================================== -->
-
-        <div class="assessment-step" data-step="5">
-
-          <div class="form-card-head">
-
-            <div>
-              <h2>Review Your Assessment</h2>
-              <p>Please review your answers before generating your personalised results.</p>
-            </div>
-
-            <span class="step-tag">Step 5 of 5</span>
-
-          </div>
-
-
-          <div id="reviewContent">
-
-            <!-- Generated dynamically using JavaScript -->
-
-          </div>
-
-
-          <div class="field">
-
-            <label class="checkbox-option">
-
-              <input type="checkbox" id="consent">
-
-              I agree to the processing of my information to receive personalised business insights.
-
-            </label>
-
-          </div>
-
-        </div>
-
-
-        <!-- ========================================
-             FORM FOOTER
-        ======================================== -->
-
-        <p class="form-footer-note">
-          <span data-icon="shield"></span>
-          Your information is secure and will only be used to provide personalised insights.
-        </p>
-
-
-        <!-- ========================================
-             NAVIGATION
-        ======================================== -->
-
-        <div class="form-actions">
-
-          <button
-            type="button"
-            class="btn btn-outline"
-            id="prevBtn"
-            style="display:none"
-          >
-            ← Back
-          </button>
-
-
-          <button
-            type="button"
-            class="btn btn-primary"
-            id="nextBtn"
-          >
-            Next: Business Operations
-            →
-          </button>
-
-        </div>
-
-
-      </form>
-
-
-      <!-- ========================================
-           SIDEBAR
-      ======================================== -->
-
-      <aside>
-
-
-        <div class="side-card card">
-
-          <h3>Why Take This Assessment?</h3>
-
-
-          <div class="why-item">
-
-            <span class="ic" data-icon="trendingUp"></span>
-
-            <div>
-              <h4>Get Your Growth Score</h4>
-              <p>Understand how your business is performing across key areas.</p>
-            </div>
-
-          </div>
-
-
-          <div class="why-item">
-
-            <span class="ic" data-icon="lightbulb"></span>
-
-            <div>
-              <h4>Discover Opportunities</h4>
-              <p>Identify gaps and opportunities to grow smarter.</p>
-            </div>
-
-          </div>
-
-
-          <div class="why-item">
-
-            <span class="ic" data-icon="monitor"></span>
-
-            <div>
-              <h4>Find the Right Solutions</h4>
-              <p>Get personalised digital solutions for your business.</p>
-            </div>
-
-          </div>
-
-
-          <div class="why-item">
-
-            <span class="ic" data-icon="users"></span>
-
-            <div>
-              <h4>Connect with Experts</h4>
-              <p>Speak with trusted advisors who can help you grow.</p>
-            </div>
-
-          </div>
-
-
-        </div>
-
-
-        <div class="side-card card">
-
-          <div class="badge-shield">
-
-            <span class="ic" data-icon="shield"></span>
-
-            <h4>100% Free & No Commitment</h4>
-
-          </div>
-
-          <p class="small">
-            Takes only 5–7 minutes to complete.
-            Get personalised insights instantly.
-          </p>
-
-        </div>
-
-
-      </aside>
-
-
+    <div class="step-grid">
+      <div class="question-card" id="questionCard"></div>
+      <div class="score-card" id="scoreCard"></div>
     </div>
 
-  </div>
+    <div class="step-nav-actions">
+      <button type="button" class="btn btn-outline" id="backBtn">← Back</button>
+      <button type="button" class="btn btn-primary" id="nextBtn">Next →</button>
+    </div>
 
-</section>
+  </main>
 
-
-<!-- ========================================
-     JAVASCRIPT
-======================================== -->
-
-<script src="js/icons.js"></script>
-<script src="js/main.js"></script>
-
+</div>
 
 <script>
 
 /* ========================================
-   VARIABLES
+   STEP + FIELD CONFIGURATION
+   Each field is either:
+     - pills:       single choice, tap to select
+     - checkboxes:  multi choice
+     - slider:      1..N ordinal rating, drives the live score
+======================================== */
+
+const steps = [
+  {
+    id: 1,
+    label: "About Your Business",
+    eyebrow: "01 · YOUR BUSINESS",
+    title: "Tell us about your business",
+    subtitle: "Some basic facts so we can tailor everything that follows.",
+    fields: [
+      { name: "industry", label: "Industry", type: "pills", required: true,
+        options: ["Manufacturing","Retail & E-commerce","Food & Beverage","Professional Services","Construction","Technology","Healthcare","Tourism & Hospitality","Other"] },
+      { name: "yearEstablished", label: "Year Established", type: "pills", required: true,
+        options: ["Less than 1 year","1 – 5 years","6 – 10 years","More than 10 years"] },
+      { name: "employees", label: "Number of Employees", type: "pills", required: true,
+        options: ["1 - 5","6 - 20","21 - 50","51 - 200","200+"] },
+      { name: "revenue", label: "Annual Revenue", type: "pills", required: true,
+        options: ["Below RM500K","RM500K - RM2M","RM2M - RM10M","Above RM10M"] },
+      { name: "location", label: "Business Location", type: "pills", required: true,
+        options: ["Selangor","Kuala Lumpur","Penang","Johor","Melaka","Perak","Kedah","Sabah","Sarawak","Other"] },
+      { name: "businessModel", label: "Primary Business Model", type: "pills", required: true,
+        options: ["B2B","B2C","B2B2C","Others"] },
+      { name: "goal", label: "Main Growth Objective", type: "pills", required: true,
+        options: ["Increase revenue","Improve efficiency","Digitalise operations","Expand to new markets","Strengthen team & capability"] }
+    ]
+  },
+  {
+    id: 2,
+    label: "Business Operations",
+    eyebrow: "02 · OPERATIONS",
+    title: "How does the business run today?",
+    subtitle: "Rate each factor honestly — this feeds directly into your live score.",
+    fields: [
+      { name: "operationalEfficiency", label: "Current operational efficiency", type: "slider", min: 1, max: 5,
+        scaleLabels: ["Very Low","Low","Average","Good","Excellent"] },
+      { name: "teamCollaboration", label: "How well does your team collaborate?", type: "slider", min: 1, max: 5,
+        scaleLabels: ["Poorly","Below Average","Average","Well","Very Well"] },
+      { name: "dataTracking", label: "Do you track business performance using data?", type: "slider", min: 1, max: 4,
+        scaleLabels: ["Never","Occasionally","Regularly","Extensively"] },
+      { name: "challenges", label: "Biggest operational challenges", type: "checkboxes",
+        options: ["Manual processes","High costs","Staff shortage","Poor communication","Data management"] }
+    ]
+  },
+  {
+    id: 3,
+    label: "Digitalisation",
+    eyebrow: "03 · DIGITALISATION",
+    title: "How digital is the business today?",
+    subtitle: "",
+    fields: [
+      { name: "digitalLevel", label: "Current digitalisation level", type: "slider", min: 1, max: 4,
+        scaleLabels: ["Mostly Manual","Basic Digital Tools","Partially Digitalised","Highly Digitalised"] },
+      { name: "digitalTools", label: "Digital tools currently in use", type: "checkboxes",
+        options: ["Cloud software","E-commerce","CRM","Accounting software","AI","None"] },
+      { name: "digitalBarrier", label: "Biggest barrier to digitalisation", type: "pills",
+        options: ["Cost","Lack of Knowledge","Lack of Skills","Resistance to Change"] },
+      { name: "aiInterest", label: "Interest in implementing AI", type: "slider", min: 1, max: 4,
+        scaleLabels: ["Not Interested","Slightly Interested","Interested","Very Interested"] }
+    ]
+  },
+  {
+    id: 4,
+    label: "AI Readiness",
+    eyebrow: "04 · AI READINESS SCORE",
+    title: "Is the business ready for AI?",
+    subtitle: "Digital maturity and AI readiness are different things — rate each factor honestly.",
+    fields: [
+      { name: "leadershipBuyIn", label: "Leadership buy-in for change", type: "slider", min: 1, max: 5 },
+      { name: "dataAvailability", label: "Data availability & organisation", type: "slider", min: 1, max: 5 },
+      { name: "staffDigitalSkills", label: "Staff digital skills", type: "slider", min: 1, max: 5 },
+      { name: "digitalWorkflowMaturity", label: "Digital workflow maturity", type: "slider", min: 1, max: 5 },
+      { name: "processDocumentationMaturity", label: "Process documentation maturity", type: "slider", min: 1, max: 5 }
+    ]
+  },
+  {
+    id: 5,
+    label: "Growth & Strategy",
+    eyebrow: "05 · GROWTH & STRATEGY",
+    title: "Where is the business headed?",
+    subtitle: "",
+    fields: [
+      { name: "growthChallenge", label: "Biggest growth challenge", type: "pills",
+        options: ["Finding Customers","Increasing Revenue","Scaling Operations","Hiring Talent","Market Competition"] },
+      { name: "growthStrategy", label: "Do you have a clear growth strategy?", type: "slider", min: 1, max: 4,
+        scaleLabels: ["No Clear Strategy","Basic Plan","Clear Strategy","Highly Structured Strategy"] },
+      { name: "futureGoal", label: "Where do you see the business in 3 years?", type: "pills",
+        options: ["Stable Growth","National Expansion","International Expansion","New Products & Services"] },
+      { name: "advisorInterest", label: "Interested in expert business advice?", type: "pills",
+        options: ["Yes","Maybe","Not Currently"] }
+    ]
+  },
+  {
+    id: 6,
+    label: "Review & Submit",
+    eyebrow: "06 · REVIEW",
+    title: "Review your assessment",
+    subtitle: "Check everything below, then generate your results. Tap \"Edit\" to jump back to any section.",
+    isReview: true
+  }
+];
+
+const totalSteps = steps.length;
+
+/* ========================================
+   STATE
 ======================================== */
 
 let currentStep = 1;
-const totalSteps = 5;
+let maxStepReached = 1;
 
 const assessmentData = {};
-
-const nextBtn = document.getElementById("nextBtn");
-const prevBtn = document.getElementById("prevBtn");
-
-
-const stepNames = {
-  1: "Next: Business Operations →",
-  2: "Next: Digitalisation →",
-  3: "Next: Growth & Strategy →",
-  4: "Review Your Answers →",
-  5: "Generate My Results →"
-};
-
+const touched = new Set(); // slider fields the user has actually interacted with
 
 /* ========================================
-   PILL BUTTON SELECTION
+   DOM REFS
 ======================================== */
 
-document.querySelectorAll(".pill-group").forEach(group => {
+const sideNav = document.getElementById("sideNav");
+const questionCard = document.getElementById("questionCard");
+const scoreCard = document.getElementById("scoreCard");
+const stepEyebrow = document.getElementById("stepEyebrow");
+const stepTitle = document.getElementById("stepTitle");
+const stepSubtitle = document.getElementById("stepSubtitle");
+const backBtn = document.getElementById("backBtn");
+const nextBtn = document.getElementById("nextBtn");
 
-  const buttons = group.querySelectorAll(".pill-btn");
+/* ========================================
+   SIDE NAV
+======================================== */
 
-  buttons.forEach(button => {
+sideNav.innerHTML = steps.map(s => `
+  <div class="nav-step" data-step="${s.id}">
+    <div class="nav-circle">${s.id}</div>
+    <div class="nav-label">${s.label}</div>
+  </div>
+`).join("");
 
-    button.addEventListener("click", function() {
+sideNav.addEventListener("click", e => {
 
-      buttons.forEach(btn => {
-        btn.classList.remove("selected");
+  const stepEl = e.target.closest(".nav-step");
+  if (!stepEl) return;
+
+  const target = Number(stepEl.dataset.step);
+
+  if (target === currentStep || target > maxStepReached) return;
+
+  currentStep = target;
+  renderCurrentStep();
+
+});
+
+function updateSideNav() {
+
+  sideNav.querySelectorAll(".nav-step").forEach(el => {
+
+    const n = Number(el.dataset.step);
+    const circle = el.querySelector(".nav-circle");
+
+    el.classList.remove("active", "completed", "clickable");
+    circle.textContent = n;
+
+    if (n < currentStep) {
+      el.classList.add("completed");
+      circle.textContent = "✓";
+    } else if (n === currentStep) {
+      el.classList.add("active");
+    }
+
+    if (n <= maxStepReached) {
+      el.classList.add("clickable");
+    }
+
+  });
+
+}
+
+/* ========================================
+   FIELD RENDERING
+======================================== */
+
+function renderField(field) {
+
+  if (field.type === "pills") {
+
+    return `
+      <div class="field" data-field="${field.name}">
+        <label>${field.label}</label>
+        <div class="pill-group" data-name="${field.name}">
+          ${field.options.map(o => `<button type="button" class="pill-btn">${o}</button>`).join("")}
+        </div>
+        <div class="error-message">Please select an option.</div>
+      </div>
+    `;
+
+  }
+
+  if (field.type === "checkboxes") {
+
+    return `
+      <div class="field" data-field="${field.name}">
+        <label>${field.label}</label>
+        <div class="checkbox-grid">
+          ${field.options.map(o => `
+            <label class="checkbox-option">
+              <input type="checkbox" name="${field.name}" value="${o}">
+              ${o}
+            </label>
+          `).join("")}
+        </div>
+      </div>
+    `;
+
+  }
+
+  if (field.type === "slider") {
+
+    const scale = field.scaleLabels
+      ? `<div class="slider-scale">${field.scaleLabels.map(l => `<span>${l}</span>`).join("")}</div>`
+      : `<div class="slider-scale"><span>${field.min}</span><span>${field.max}</span></div>`;
+
+    return `
+      <div class="field slider-field unrated" data-field="${field.name}">
+        <div class="slider-head">
+          <label>${field.label}</label>
+          <span class="slider-value" data-value-for="${field.name}">Not yet rated</span>
+        </div>
+        <input type="range" class="slider-input" data-name="${field.name}" min="${field.min}" max="${field.max}" step="1" value="${field.min}">
+        ${scale}
+      </div>
+    `;
+
+  }
+
+  return "";
+
+}
+
+function sliderDisplayValue(field, value) {
+  return field.scaleLabels ? field.scaleLabels[value - field.min] : `${value} / ${field.max}`;
+}
+
+/* ========================================
+   RENDER A STEP
+======================================== */
+
+function renderCurrentStep() {
+
+  const step = steps.find(s => s.id === currentStep);
+
+  stepEyebrow.textContent = step.eyebrow;
+  stepTitle.textContent = step.title;
+  stepSubtitle.textContent = step.subtitle || "";
+  stepSubtitle.style.display = step.subtitle ? "block" : "none";
+
+  if (step.isReview) {
+    questionCard.innerHTML = renderReview();
+    attachReviewListeners();
+  } else {
+    questionCard.innerHTML = step.fields.map(renderField).join("");
+    attachFieldListeners(step);
+    restoreFieldValues(step);
+  }
+
+  updateSideNav();
+  updateScoreCard();
+
+  backBtn.style.display = currentStep === 1 ? "none" : "inline-flex";
+
+  nextBtn.textContent = currentStep === totalSteps
+    ? "Generate My Results →"
+    : `Next: ${steps[currentStep].label} →`;
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
+}
+
+function attachFieldListeners(step) {
+
+  questionCard.querySelectorAll(".pill-group").forEach(group => {
+
+    const name = group.dataset.name;
+
+    group.querySelectorAll(".pill-btn").forEach(btn => {
+
+      btn.addEventListener("click", function() {
+
+        group.querySelectorAll(".pill-btn").forEach(b => b.classList.remove("selected"));
+        this.classList.add("selected");
+
+        assessmentData[name] = this.textContent.trim();
+        group.closest(".field").classList.remove("error");
+
+        updateScoreCard();
+
       });
 
-      this.classList.add("selected");
+    });
 
-      const groupName = group.dataset.name;
+  });
 
-      if (groupName) {
-        assessmentData[groupName] = this.textContent.trim();
+  questionCard.querySelectorAll("input[type='checkbox'][name]").forEach(input => {
+
+    input.addEventListener("change", function() {
+
+      const name = this.name;
+
+      if (!assessmentData[name]) assessmentData[name] = [];
+
+      if (this.checked) {
+        if (!assessmentData[name].includes(this.value)) assessmentData[name].push(this.value);
+      } else {
+        assessmentData[name] = assessmentData[name].filter(v => v !== this.value);
       }
+
+      updateScoreCard();
 
     });
 
   });
 
-});
+  questionCard.querySelectorAll(".slider-input").forEach(input => {
 
+    const name = input.dataset.name;
+    const field = step.fields.find(f => f.name === name);
+
+    input.addEventListener("input", function() {
+
+      touched.add(name);
+      assessmentData[name] = Number(this.value);
+
+      this.closest(".slider-field").classList.remove("unrated");
+
+      questionCard.querySelector(`[data-value-for="${name}"]`).textContent =
+        sliderDisplayValue(field, Number(this.value));
+
+      updateScoreCard();
+
+    });
+
+  });
+
+}
+
+function restoreFieldValues(step) {
+
+  step.fields.forEach(f => {
+
+    if (f.type === "pills") {
+
+      const val = assessmentData[f.name];
+      if (!val) return;
+
+      questionCard.querySelectorAll(`.pill-group[data-name="${f.name}"] .pill-btn`).forEach(btn => {
+        if (btn.textContent.trim() === val) btn.classList.add("selected");
+      });
+
+    } else if (f.type === "checkboxes") {
+
+      const vals = assessmentData[f.name] || [];
+
+      questionCard.querySelectorAll(`input[name="${f.name}"]`).forEach(input => {
+        input.checked = vals.includes(input.value);
+      });
+
+    } else if (f.type === "slider" && touched.has(f.name)) {
+
+      const input = questionCard.querySelector(`.slider-input[data-name="${f.name}"]`);
+      input.value = assessmentData[f.name];
+      input.closest(".slider-field").classList.remove("unrated");
+
+      questionCard.querySelector(`[data-value-for="${f.name}"]`).textContent =
+        sliderDisplayValue(f, assessmentData[f.name]);
+
+    }
+
+  });
+
+}
 
 /* ========================================
-   NEXT BUTTON
+   LIVE SCORE PANEL
+   Aggregates every slider answered so far,
+   anywhere in the form.
 ======================================== */
 
-nextBtn.addEventListener("click", function() {
+function getAllSliderFields() {
+  return steps.flatMap(s => s.fields ? s.fields.filter(f => f.type === "slider") : []);
+}
 
-  if (!validateStep(currentStep)) {
+function computeScore() {
+
+  const answered = getAllSliderFields().filter(f => touched.has(f.name));
+  if (answered.length === 0) return null;
+
+  const total = answered.reduce((sum, f) => sum + (assessmentData[f.name] - f.min) / (f.max - f.min), 0);
+
+  return Math.round((total / answered.length) * 100);
+
+}
+
+function updateScoreCard() {
+
+  const score = computeScore();
+  const answered = getAllSliderFields().filter(f => touched.has(f.name));
+
+  if (score === null) {
+
+    scoreCard.innerHTML = `
+      <h3>Your Live Score</h3>
+      <p class="score-empty">Your growth &amp; AI readiness score will build up here as you rate your business, starting in Business Operations.</p>
+    `;
+
     return;
+
   }
 
-  saveStepData(currentStep);
+  const circumference = 2 * Math.PI * 52;
 
-  if (currentStep < totalSteps) {
+  scoreCard.innerHTML = `
+    <h3>Your Live Score</h3>
+    <div class="score-ring-wrap">
+      <svg viewBox="0 0 120 120" class="score-ring">
+        <circle cx="60" cy="60" r="52" class="ring-bg"></circle>
+        <circle cx="60" cy="60" r="52" class="ring-fg"
+          style="stroke-dasharray:${circumference};stroke-dashoffset:${circumference * (1 - score / 100)};">
+        </circle>
+      </svg>
+      <div class="score-ring-label">
+        <span class="score-num">${score}</span>
+        <span class="score-den">/ 100</span>
+      </div>
+    </div>
+    <div class="score-breakdown">
+      ${answered.map(f => {
+        const pct = ((assessmentData[f.name] - f.min) / (f.max - f.min)) * 100;
+        return `
+          <div class="score-row">
+            <div class="score-row-top">
+              <span class="score-row-label">${f.label}</span>
+              <span class="score-row-val">${assessmentData[f.name]}/${f.max}</span>
+            </div>
+            <span class="score-row-bar"><span style="width:${pct}%"></span></span>
+          </div>
+        `;
+      }).join("")}
+    </div>
+  `;
 
-    currentStep++;
+}
 
-    showStep(currentStep);
+/* ========================================
+   REVIEW STEP
+======================================== */
 
+function renderReview() {
+
+  const sections = steps.filter(s => !s.isReview).map(s => `
+    <div class="review-section">
+      <div class="review-section-head">
+        <h3>${s.label}</h3>
+        <button type="button" class="review-edit-btn" data-jump="${s.id}">Edit</button>
+      </div>
+      ${s.fields.map(reviewRow).join("")}
+    </div>
+  `).join("");
+
+  return `
+    ${sections}
+    <div class="field">
+      <label class="checkbox-option">
+        <input type="checkbox" id="consent">
+        I agree to the processing of my information to receive personalised business insights.
+      </label>
+    </div>
+  `;
+
+}
+
+function reviewRow(f) {
+
+  let value;
+
+  if (f.type === "checkboxes") {
+    value = (assessmentData[f.name] || []).join(", ");
+  } else if (f.type === "slider") {
+    value = touched.has(f.name) ? sliderDisplayValue(f, assessmentData[f.name]) : "";
   } else {
-
-    submitAssessment();
-
+    value = assessmentData[f.name];
   }
 
-});
-
-
-/* ========================================
-   PREVIOUS BUTTON
-======================================== */
-
-prevBtn.addEventListener("click", function() {
-
-  if (currentStep > 1) {
-
-    currentStep--;
-
-    showStep(currentStep);
-
-  }
-
-});
-
-
-/* ========================================
-   SHOW STEP
-======================================== */
-
-function showStep(step) {
-
-  document.querySelectorAll(".assessment-step").forEach(item => {
-
-    item.classList.remove("active");
-
-  });
-
-
-  document
-    .querySelector(`.assessment-step[data-step="${step}"]`)
-    .classList.add("active");
-
-
-  updateStepper(step);
-
-
-  prevBtn.style.display = step === 1 ? "none" : "inline-flex";
-
-
-  nextBtn.innerHTML = stepNames[step];
-
-
-  if (step === 5) {
-
-    generateReview();
-
-  }
-
-
-  window.scrollTo({
-    top: 250,
-    behavior: "smooth"
-  });
+  return `
+    <div class="review-item">
+      <span class="review-label">${f.label}</span>
+      <span class="review-value">${value || "Not provided"}</span>
+    </div>
+  `;
 
 }
 
+function attachReviewListeners() {
 
-/* ========================================
-   UPDATE STEPPER
-======================================== */
+  questionCard.querySelectorAll(".review-edit-btn").forEach(btn => {
 
-function updateStepper(step) {
-
-  document.querySelectorAll(".stepper-step").forEach(stepItem => {
-
-    const stepNumber = Number(stepItem.dataset.step);
-
-    stepItem.classList.remove("active", "completed");
-
-
-    if (stepNumber < step) {
-
-      stepItem.classList.add("completed");
-
-    }
-
-    else if (stepNumber === step) {
-
-      stepItem.classList.add("active");
-
-    }
+    btn.addEventListener("click", function() {
+      currentStep = Number(this.dataset.jump);
+      renderCurrentStep();
+    });
 
   });
 
 }
-
-
-/* ========================================
-   SAVE FORM DATA
-======================================== */
-
-function saveStepData(step) {
-
-  const currentStepElement =
-    document.querySelector(`.assessment-step[data-step="${step}"]`);
-
-
-  currentStepElement
-    .querySelectorAll("select")
-    .forEach(select => {
-
-      assessmentData[select.name] = select.value;
-
-    });
-
-
-  currentStepElement
-    .querySelectorAll("input[type='checkbox']")
-    .forEach(input => {
-
-      if (input.name) {
-
-        if (!assessmentData[input.name]) {
-          assessmentData[input.name] = [];
-        }
-
-      }
-
-    });
-
-
-  const checkboxGroups = {};
-
-  currentStepElement
-    .querySelectorAll("input[type='checkbox'][name]")
-    .forEach(input => {
-
-      if (!checkboxGroups[input.name]) {
-        checkboxGroups[input.name] = [];
-      }
-
-      if (input.checked) {
-        checkboxGroups[input.name].push(input.value);
-      }
-
-    });
-
-
-  Object.assign(assessmentData, checkboxGroups);
-
-}
-
 
 /* ========================================
    VALIDATION
@@ -1177,57 +1149,18 @@ function saveStepData(step) {
 
 function validateStep(step) {
 
-  const stepElement =
-    document.querySelector(`.assessment-step[data-step="${step}"]`);
-
-
   let isValid = true;
 
+  questionCard.querySelectorAll(".field").forEach(f => f.classList.remove("error"));
 
-  stepElement.querySelectorAll(".field").forEach(field => {
+  if (step.fields) {
 
-    field.classList.remove("error");
+    step.fields.forEach(f => {
 
-  });
+      if (f.required && f.type === "pills" && !assessmentData[f.name]) {
 
-
-  if (step === 1) {
-
-    const requiredSelects =
-      stepElement.querySelectorAll("select[required]");
-
-
-    requiredSelects.forEach(select => {
-
-      if (!select.value) {
-
-        select.closest(".field")
-          .classList.add("error");
-
-        isValid = false;
-
-      }
-
-    });
-
-
-    const requiredPills = [
-      "employees",
-      "revenue",
-      "businessModel"
-    ];
-
-
-    requiredPills.forEach(name => {
-
-      if (!assessmentData[name]) {
-
-        const group =
-          document.querySelector(
-            `.pill-group[data-name="${name}"]`
-          );
-
-        group.closest(".field")
+        questionCard.querySelector(`.pill-group[data-name="${f.name}"]`)
+          .closest(".field")
           .classList.add("error");
 
         isValid = false;
@@ -1238,166 +1171,70 @@ function validateStep(step) {
 
   }
 
+  if (step.isReview) {
 
-  if (step === 5) {
-
-    const consent =
-      document.getElementById("consent");
+    const consent = document.getElementById("consent");
 
     if (!consent.checked) {
-
-      alert(
-        "Please agree to the processing of your information before continuing."
-      );
-
+      alert("Please agree to the processing of your information before continuing.");
       isValid = false;
-
     }
 
   }
 
+  if (!isValid) {
+    questionCard.querySelector(".field.error")?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
 
   return isValid;
 
 }
 
-
 /* ========================================
-   GENERATE REVIEW
+   NAVIGATION
 ======================================== */
 
-function generateReview() {
+nextBtn.addEventListener("click", () => {
 
-  const reviewContent =
-    document.getElementById("reviewContent");
+  const step = steps.find(s => s.id === currentStep);
 
+  if (!validateStep(step)) return;
 
-  reviewContent.innerHTML = `
+  if (currentStep < totalSteps) {
+    currentStep++;
+    maxStepReached = Math.max(maxStepReached, currentStep);
+    renderCurrentStep();
+  } else {
+    submitAssessment();
+  }
 
-    <div class="review-section">
+});
 
-      <h3>About Your Business</h3>
+backBtn.addEventListener("click", () => {
 
-      ${reviewItem("Industry", assessmentData.industry)}
-      ${reviewItem("Business Age", assessmentData.yearEstablished)}
-      ${reviewItem("Employees", assessmentData.employees)}
-      ${reviewItem("Annual Revenue", assessmentData.revenue)}
-      ${reviewItem("Location", assessmentData.location)}
-      ${reviewItem("Business Model", assessmentData.businessModel)}
-      ${reviewItem("Main Goal", assessmentData.goal)}
+  if (currentStep > 1) {
+    currentStep--;
+    renderCurrentStep();
+  }
 
-    </div>
-
-
-    <div class="review-section">
-
-      <h3>Business Operations</h3>
-
-      ${reviewItem("Operational Efficiency", assessmentData.operationalEfficiency)}
-      ${reviewItem("Team Collaboration", assessmentData.teamCollaboration)}
-      ${reviewItem("Data Tracking", assessmentData.dataTracking)}
-      ${reviewItem(
-        "Main Challenges",
-        assessmentData.challenges?.join(", ")
-      )}
-
-    </div>
-
-
-    <div class="review-section">
-
-      <h3>Digitalisation</h3>
-
-      ${reviewItem("Digitalisation Level", assessmentData.digitalLevel)}
-
-      ${reviewItem(
-        "Digital Tools",
-        assessmentData.digitalTools?.join(", ")
-      )}
-
-      ${reviewItem(
-        "Biggest Barrier",
-        assessmentData.digitalBarrier
-      )}
-
-      ${reviewItem(
-        "AI Interest",
-        assessmentData.aiInterest
-      )}
-
-    </div>
-
-
-    <div class="review-section">
-
-      <h3>Growth & Strategy</h3>
-
-      ${reviewItem(
-        "Growth Challenge",
-        assessmentData.growthChallenge
-      )}
-
-      ${reviewItem(
-        "Growth Strategy",
-        assessmentData.growthStrategy
-      )}
-
-      ${reviewItem(
-        "Future Goal",
-        assessmentData.futureGoal
-      )}
-
-      ${reviewItem(
-        "Advisor Interest",
-        assessmentData.advisorInterest
-      )}
-
-    </div>
-
-  `;
-
-}
-
-
-function reviewItem(label, value) {
-
-  return `
-
-    <div class="review-item">
-
-      <span class="review-label">
-        ${label}
-      </span>
-
-      <span class="review-value">
-        ${value || "Not provided"}
-      </span>
-
-    </div>
-
-  `;
-
-}
-
+});
 
 /* ========================================
-   SUBMIT ASSESSMENT
+   SUBMIT
 ======================================== */
 
 function submitAssessment() {
 
-  saveStepData(currentStep);
-
-
-  localStorage.setItem(
-    "smeAssessment",
-    JSON.stringify(assessmentData)
-  );
-
-
+  localStorage.setItem("smeAssessment", JSON.stringify(assessmentData));
   window.location.href = "results.html";
 
 }
+
+/* ========================================
+   INIT
+======================================== */
+
+renderCurrentStep();
 
 </script>
 
