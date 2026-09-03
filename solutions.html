@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Solutions — SME Growth Advisor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="app-shell">
+
+  <aside class="app-sidebar">
+    <a href="index.html" class="brand">
+      <span class="brand-mark" data-icon="logo"></span>
+      <span>SME<span class="brand-sub">GROWTH ADVISOR</span></span>
+    </a>
+    <nav class="app-nav">
+      <a href="dashboard.html"><span data-icon="grid"></span> Dashboard</a>
+      <a href="assessment.html"><span data-icon="clipboardCheck"></span> Assessments</a>
+      <a href="#"><span data-icon="sparkles"></span> AI Growth Advisor <span class="nav-badge">New</span></a>
+      <a href="solutions.html" class="active"><span data-icon="layers"></span> Solutions</a>
+      <a href="#"><span data-icon="headset"></span> Advisors</a>
+      <a href="#"><span data-icon="calendar"></span> Appointments</a>
+      <a href="#"><span data-icon="messageSquare"></span> Messages <span class="nav-count">3</span></a>
+      <a href="#"><span data-icon="barChart2"></span> My Progress</a>
+      <a href="#"><span data-icon="briefcase2"></span> My Company</a>
+      <a href="#"><span data-icon="users"></span> Team Members</a>
+      <a href="#"><span data-icon="settings"></span> Settings</a>
+    </nav>
+
+    <div class="sidebar-promo">
+      <h5><span data-icon="robot"></span> Need help choosing?</h5>
+      <p>Chat with our AI Advisor or speak with an expert to find the right solution for you.</p>
+      <a href="#" class="btn btn-outline btn-sm btn-block">Ask AI Advisor <span data-icon="arrowRight" style="width:14px;height:14px;display:inline-flex;"></span></a>
+    </div>
+    <div class="sidebar-promo" style="margin-top:10px;background:#FFF7ED;border-color:#FED7AA;">
+      <h5 style="color:#B45309;"><span data-icon="crown" style="color:#B45309;"></span> Unlock More Solutions</h5>
+      <p>Get personalised matches, exclusive offers and more.</p>
+      <a href="#" style="font-size:.79rem;font-weight:700;color:#B45309;">Upgrade Plan →</a>
+    </div>
+
+    <div class="sidebar-account">
+      <span class="avatar-chip">LA</span>
+      <div class="who">
+        <strong>Lynn Admin</strong>
+        <span>ABC Manufacturing</span>
+      </div>
+      <span data-icon="chevronDown"></span>
+    </div>
+  </aside>
+
+  <div>
+    <header class="app-topbar">
+      <div class="search-box">
+        <span data-icon="search"></span>
+        <input type="text" placeholder="Search solutions, software, or services...">
+      </div>
+      <div class="topbar-right">
+        <button class="icon-btn" aria-label="Notifications">
+          <span data-icon="bell"></span>
+          <span class="dot-badge">2</span>
+        </button>
+        <div class="topbar-user">
+          <span class="avatar-chip" style="width:36px;height:36px;">LA</span>
+          <div class="who">
+            <strong>Lynn Admin</strong>
+            <span>ABC Manufacturing</span>
+          </div>
+          <span data-icon="chevronDown"></span>
+        </div>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <div class="page-header">
+        <div>
+          <h1>Digital Solutions</h1>
+          <p>Discover the best digital tools and services to grow and streamline your business.</p>
+        </div>
+      </div>
+
+      <div class="sol-banner">
+        <p>Based on your assessment, we found <strong>18 solutions</strong> that can help your business grow.</p>
+        <a href="assessment.html" class="btn btn-outline btn-sm"><span data-icon="refreshCw" style="width:14px;height:14px;display:inline-flex;"></span> Retake Assessment</a>
+      </div>
+
+      <div class="filter-row">
+        <div class="filter-tabs">
+          <button class="filter-tab active">All Recommendations</button>
+          <button class="filter-tab">Most Relevant</button>
+          <button class="filter-tab">Highest Impact</button>
+          <button class="filter-tab">Quick Wins</button>
+          <button class="filter-tab">Low Cost</button>
+        </div>
+        <div class="sort-select">
+          Sort by:
+          <select>
+            <option>Relevance</option>
+            <option>Price: Low to High</option>
+            <option>Price: High to Low</option>
+            <option>Highest Rated</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="cat-icons-row">
+        <div class="cat-icon-item active"><span class="ic" data-icon="grid"></span>All</div>
+        <div class="cat-icon-item"><span class="ic" data-icon="users"></span>CRM</div>
+        <div class="cat-icon-item"><span class="ic" data-icon="clipboard"></span>Accounting</div>
+        <div class="cat-icon-item"><span class="ic" data-icon="briefcase2"></span>HR &amp; Payroll</div>
+        <div class="cat-icon-item"><span class="ic" data-icon="building"></span>Inventory</div>
+        <div class="cat-icon-item"><span class="ic" data-icon="trendingUp"></span>Sales &amp; Marketing</div>
+        <div class="cat-icon-item"><span class="ic" data-icon="monitor"></span>E-commerce</div>
+        <div class="cat-icon-item"><span class="ic" data-icon="target"></span>Operations</div>
+        <div class="cat-icon-item"><span class="ic" data-icon="moreHorizontal"></span>More</div>
+      </div>
+
+      <div class="results-body-inner" style="display:grid;grid-template-columns:2.6fr 1fr;gap:22px;align-items:start;">
+        <div>
+          <h3 class="section-sub-title" style="margin-top:0;">Top Recommended for You</h3>
+          <div class="sol-grid">
+
+            <div class="sol-card card">
+              <button class="bookmark-btn" aria-label="Save" data-icon="bookmark"></button>
+              <span class="sol-tag most">Most Recommended</span>
+              <div class="sol-logo">SF</div>
+              <h4>Salesforce Starter Suite</h4>
+              <div class="cat">CRM Software</div>
+              <p class="desc">Manage leads, track sales and build stronger customer relationships in one platform.</p>
+              <div class="sol-fit-lbl">Why it fits your business</div>
+              <ul class="sol-fit-list">
+                <li><span data-icon="check"></span> Improve customer data management</li>
+                <li><span data-icon="check"></span> Track sales pipeline effectively</li>
+                <li><span data-icon="check"></span> Scalable as your business grows</li>
+              </ul>
+              <div class="sol-meta">
+                <div><span>Best for</span><strong>Small to Medium Businesses</strong></div>
+                <div><span>Pricing</span><strong>From RM90/user/month</strong></div>
+              </div>
+              <div class="sol-actions">
+                <a href="#" class="details">View Details</a>
+                <a href="#" class="btn btn-primary btn-sm">View Solution</a>
+              </div>
+            </div>
+
+            <div class="sol-card card">
+              <button class="bookmark-btn" aria-label="Save" data-icon="bookmark"></button>
+              <span class="sol-tag high">High Impact</span>
+              <div class="sol-logo">AC</div>
+              <h4>Autocount Cloud</h4>
+              <div class="cat">Accounting Software</div>
+              <p class="desc">Simplify invoicing, bookkeeping and financial reporting. Comply with LHDN e-invoicing effortlessly.</p>
+              <div class="sol-fit-lbl">Why it fits your business</div>
+              <ul class="sol-fit-list">
+                <li><span data-icon="check"></span> Save time on invoicing &amp; bookkeeping</li>
+                <li><span data-icon="check"></span> Real-time financial reports</li>
+                <li><span data-icon="check"></span> LHDN e-invoicing ready</li>
+              </ul>
+              <div class="sol-meta">
+                <div><span>Best for</span><strong>All Business Sizes</strong></div>
+                <div><span>Pricing</span><strong>From RM60/month</strong></div>
+              </div>
+              <div class="sol-actions">
+                <a href="#" class="details">View Details</a>
+                <a href="#" class="btn btn-primary btn-sm">View Solution</a>
+              </div>
+            </div>
+
+            <div class="sol-card card">
+              <button class="bookmark-btn" aria-label="Save" data-icon="bookmark"></button>
+              <span class="sol-tag quick">Quick Win</span>
+              <div class="sol-logo">HE</div>
+              <h4>HubEngage</h4>
+              <div class="cat">Marketing Automation</div>
+              <p class="desc">Automate marketing campaigns, engage customers and increase conversions.</p>
+              <div class="sol-fit-lbl">Why it fits your business</div>
+              <ul class="sol-fit-list">
+                <li><span data-icon="check"></span> Easy to use, quick to implement</li>
+                <li><span data-icon="check"></span> Improve customer engagement</li>
+                <li><span data-icon="check"></span> Affordable for SMEs</li>
+              </ul>
+              <div class="sol-meta">
+                <div><span>Best for</span><strong>Small Businesses</strong></div>
+                <div><span>Pricing</span><strong>From RM89/month</strong></div>
+              </div>
+              <div class="sol-actions">
+                <a href="#" class="details">View Details</a>
+                <a href="#" class="btn btn-primary btn-sm">View Solution</a>
+              </div>
+            </div>
+
+          </div>
+
+          <h3 class="section-sub-title">More Solutions for Your Business</h3>
+          <div class="more-grid">
+            <a href="#" style="display:block;">
+              <div class="sol-card-more card">
+                <div class="sol-logo">ZC</div>
+                <div class="body">
+                  <h5>Zoho CRM</h5>
+                  <div class="cat">CRM Software</div>
+                  <p>Affordable CRM to manage sales, marketing and support in one place.</p>
+                  <div class="price">From RM45/user/month</div>
+                </div>
+                <span class="chev" data-icon="chevronRight"></span>
+              </div>
+            </a>
+            <a href="#" style="display:block;">
+              <div class="sol-card-more card">
+                <div class="sol-logo">M365</div>
+                <div class="body">
+                  <h5>Microsoft 365 Business</h5>
+                  <div class="cat">Productivity Suite</div>
+                  <p>Productivity tools with Outlook, Word, Excel, Teams and more.</p>
+                  <div class="price">From RM36/user/month</div>
+                </div>
+                <span class="chev" data-icon="chevronRight"></span>
+              </div>
+            </a>
+            <a href="#" style="display:block;">
+              <div class="sol-card-more card">
+                <div class="sol-logo">ES</div>
+                <div class="body">
+                  <h5>EasyStore</h5>
+                  <div class="cat">E-commerce Platform</div>
+                  <p>Build your online store and start selling everywhere.</p>
+                  <div class="price">From RM109/month</div>
+                </div>
+                <span class="chev" data-icon="chevronRight"></span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <aside class="sol-sidebar">
+          <div class="side-card card">
+            <h3>Solution Categories</h3>
+            <ul class="cat-list">
+              <li><a href="#" class="active">All Categories <span class="count">18</span></a></li>
+              <li><a href="#">CRM <span class="count">4</span></a></li>
+              <li><a href="#">Accounting <span class="count">3</span></a></li>
+              <li><a href="#">HR &amp; Payroll <span class="count">2</span></a></li>
+              <li><a href="#">Inventory <span class="count">2</span></a></li>
+              <li><a href="#">Sales &amp; Marketing <span class="count">3</span></a></li>
+              <li><a href="#">E-commerce <span class="count">2</span></a></li>
+              <li><a href="#">Operations <span class="count">2</span></a></li>
+              <li><a href="#">Others <span class="count">0</span></a></li>
+            </ul>
+            <a href="#" class="view-all-cats">View All Categories <span data-icon="chevronRight"></span></a>
+          </div>
+
+          <div class="grant-card card">
+            <span class="ic" data-icon="building"></span>
+            <h4>Government Grants &amp; Programs</h4>
+            <p>Explore grants and programs that can help you digitalise your business.</p>
+            <a href="#" class="btn btn-outline btn-sm btn-block">View Programs <span data-icon="externalLink" style="width:13px;height:13px;display:inline-flex;"></span></a>
+          </div>
+
+          <div class="side-card card" style="text-align:center;">
+            <span class="unlock-ic" data-icon="robot" style="margin:0 auto 14px;"></span>
+            <h4 style="font-size:.95rem;font-weight:700;margin-bottom:6px;">Not sure where to start?</h4>
+            <p style="font-size:.8rem;color:var(--slate-light);margin-bottom:16px;">Let our AI Advisor recommend the best solutions for your business needs.</p>
+            <a href="#" class="btn btn-primary btn-sm btn-block">Ask AI Advisor <span data-icon="arrowRight" style="width:14px;height:14px;display:inline-flex;"></span></a>
+          </div>
+
+          <div class="advisor-card card">
+            <div class="row">
+              <div class="avatar-photo">SL</div>
+              <div>
+                <h4>Need expert advice?</h4>
+              </div>
+            </div>
+            <p>Speak with trusted advisors who can help you choose and implement the right solutions.</p>
+            <a href="#" class="btn btn-outline btn-sm btn-block">Find an Advisor <span data-icon="users" style="width:14px;height:14px;display:inline-flex;"></span></a>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="js/icons.js"></script>
+<script src="js/main.js"></script>
+<script>
+  document.querySelectorAll('.filter-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+  document.querySelectorAll('.cat-icon-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.cat-icon-item').forEach(t => t.classList.remove('active'));
+      item.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

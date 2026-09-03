@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Log In — SME Growth Advisor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="login-shell">
+
+  <aside class="login-aside">
+    <a href="index.html" class="brand">
+      <span class="brand-mark" data-icon="logo"></span>
+      <span>SME<span class="brand-sub">GROWTH ADVISOR</span></span>
+    </a>
+
+    <div class="login-aside-mid">
+      <h2>AI + human expertise, working together for your business growth.</h2>
+      <p>Log in to pick up where you left off — your growth score, personalised solutions, and advisor conversations are all waiting for you.</p>
+      <div class="login-stats">
+        <div><strong>500+</strong><span>SMEs Empowered</span></div>
+        <div><strong>200+</strong><span>Expert Advisors</span></div>
+        <div><strong>30+</strong><span>Digital Solutions</span></div>
+      </div>
+    </div>
+
+    <div class="login-aside-quote">
+      <p>"SME Growth Advisor helped us identify the right digital tools and connect with the right advisor. Our operations are more efficient and our sales have grown steadily since."</p>
+      <cite>Johnson Tan<span class="role">Founder, JTC Marketing</span></cite>
+    </div>
+  </aside>
+
+  <main class="login-main">
+    <div class="login-box">
+      <a href="index.html" class="brand brand-mobile">
+        <span class="brand-mark" data-icon="logo"></span>
+        <span>SME<span class="brand-sub">GROWTH ADVISOR</span></span>
+      </a>
+
+      <div class="role-tabs" id="roleTabs">
+        <button type="button" class="role-tab active"
+          data-role="sme"
+          data-title="Welcome back"
+          data-sub="Log in to access your growth dashboard and personalised insights."
+          data-btn="Log In"
+          data-note="SME accounts get access to your Growth Score, AI Advisor conversations, and recommended solutions."
+          data-note-icon="sparkles"
+          data-redirect="dashboard.html"
+          data-signup="New to SME Growth Advisor? &lt;a href=&quot;assessment.html&quot;&gt;Start your free assessment&lt;/a&gt;">
+          <span data-icon="briefcase2"></span> SME User
+        </button>
+        <button type="button" class="role-tab"
+          data-role="provider"
+          data-title="Provider login"
+          data-sub="Manage your listings, leads, and performance on SME Growth Advisor."
+          data-btn="Log In to Provider Portal"
+          data-note="Provider accounts can manage solution listings, respond to SME enquiries, and track performance analytics."
+          data-note-icon="layers"
+          data-redirect="solutions.html"
+          data-signup="Want to list your solution? &lt;a href=&quot;#&quot;&gt;Apply as a Solution Provider&lt;/a&gt;">
+          <span data-icon="layers"></span> Solution Provider
+        </button>
+        <button type="button" class="role-tab"
+          data-role="admin"
+          data-title="Admin login"
+          data-sub="Secure access for SME Growth Advisor platform administrators."
+          data-btn="Log In to Admin Console"
+          data-note="Admin access is restricted to authorised SME Growth Advisor staff. Contact IT if you need access."
+          data-note-icon="shield"
+          data-redirect="dashboard.html"
+          data-signup="">
+          <span data-icon="shield"></span> Admin
+        </button>
+      </div>
+
+      <h1 id="loginTitle">Welcome back</h1>
+      <p class="sub" id="loginSub">Log in to access your growth dashboard and personalised insights.</p>
+
+      <form id="loginForm">
+        <div class="input-group">
+          <label for="email">Email address</label>
+          <div class="input-field">
+            <span data-icon="mail"></span>
+            <input type="email" id="email" placeholder="you@company.com" required>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label for="password">Password</label>
+          <div class="input-field">
+            <span data-icon="lock"></span>
+            <input type="password" id="password" placeholder="Enter your password" required>
+            <button type="button" id="togglePassword" aria-label="Show password"><span data-icon="eye" id="eyeIcon"></span></button>
+          </div>
+        </div>
+
+        <div class="login-row-between">
+          <label class="remember-check">
+            <input type="checkbox"> Remember me
+          </label>
+          <a href="#">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block" id="submitBtn">Log In</button>
+
+        <div class="role-note" id="roleNote">
+          <span data-icon="sparkles" id="roleNoteIcon"></span>
+          <span id="roleNoteText">SME accounts get access to your Growth Score, AI Advisor conversations, and recommended solutions.</span>
+        </div>
+      </form>
+
+      <p class="signup-prompt" id="signupPrompt">New to SME Growth Advisor? <a href="assessment.html">Start your free assessment</a></p>
+    </div>
+  </main>
+</div>
+
+<script src="js/icons.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabs = document.querySelectorAll('.role-tab');
+    const title = document.getElementById('loginTitle');
+    const sub = document.getElementById('loginSub');
+    const submitBtn = document.getElementById('submitBtn');
+    const roleNoteText = document.getElementById('roleNoteText');
+    const roleNoteIcon = document.getElementById('roleNoteIcon');
+    const signupPrompt = document.getElementById('signupPrompt');
+    const form = document.getElementById('loginForm');
+    let redirect = 'dashboard.html';
+
+    function applyRole(tab) {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      title.textContent = tab.dataset.title;
+      sub.textContent = tab.dataset.sub;
+      submitBtn.textContent = tab.dataset.btn;
+      roleNoteText.textContent = tab.dataset.note;
+      redirect = tab.dataset.redirect;
+
+      const iconName = tab.dataset.noteIcon;
+      if (window.ICONS && window.ICONS[iconName]) {
+        roleNoteIcon.innerHTML = window.ICONS[iconName];
+      }
+
+      const signupHtml = tab.dataset.signup;
+      if (signupHtml) {
+        signupPrompt.innerHTML = signupHtml;
+        signupPrompt.style.display = 'block';
+      } else {
+        signupPrompt.style.display = 'none';
+      }
+    }
+
+    tabs.forEach(tab => tab.addEventListener('click', () => applyRole(tab)));
+
+    // Password show/hide
+    const pwInput = document.getElementById('password');
+    const toggleBtn = document.getElementById('togglePassword');
+    const eyeIcon = document.getElementById('eyeIcon');
+    toggleBtn.addEventListener('click', () => {
+      const isText = pwInput.type === 'text';
+      pwInput.type = isText ? 'password' : 'text';
+      eyeIcon.innerHTML = window.ICONS[isText ? 'eye' : 'eyeOff'];
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      window.location.href = redirect;
+    });
+  });
+
+  // expose ICONS globally for role-switch icon updates (icons.js defines ICONS in module scope)
+</script></body>
+</html>

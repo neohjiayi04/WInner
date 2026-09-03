@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — SME Growth Advisor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="app-shell">
+
+  <aside class="app-sidebar">
+    <a href="index.html" class="brand">
+      <span class="brand-mark" data-icon="logo"></span>
+      <span>SME<span class="brand-sub">GROWTH ADVISOR</span></span>
+    </a>
+    <nav class="app-nav">
+      <a href="dashboard.html" class="active"><span data-icon="grid"></span> Dashboard</a>
+      <a href="assessment.html"><span data-icon="clipboardCheck"></span> Assessments</a>
+      <a href="#"><span data-icon="sparkles"></span> AI Growth Advisor <span class="nav-badge">New</span></a>
+      <a href="solutions.html"><span data-icon="layers"></span> Solutions</a>
+      <a href="#"><span data-icon="headset"></span> Advisors</a>
+      <a href="#"><span data-icon="calendar"></span> Appointments</a>
+      <a href="#"><span data-icon="messageSquare"></span> Messages <span class="nav-count">3</span></a>
+      <a href="#"><span data-icon="barChart2"></span> My Progress</a>
+      <a href="#"><span data-icon="briefcase2"></span> My Company</a>
+      <a href="#"><span data-icon="users"></span> Team Members</a>
+      <a href="#"><span data-icon="settings"></span> Settings</a>
+    </nav>
+
+    <div class="sidebar-account">
+      <span class="avatar-chip">LA</span>
+      <div class="who">
+        <strong>Lynn Admin</strong>
+        <span>ABC Manufacturing Sdn Bhd</span>
+      </div>
+      <span data-icon="chevronDown"></span>
+    </div>
+  </aside>
+
+  <div>
+    <header class="app-topbar">
+      <div class="search-box">
+        <span data-icon="search"></span>
+        <input type="text" placeholder="Search anything...">
+      </div>
+      <div class="topbar-right">
+        <button class="icon-btn" aria-label="Notifications">
+          <span data-icon="bell"></span>
+          <span class="dot-badge">2</span>
+        </button>
+        <div class="topbar-user">
+          <span class="avatar-chip" style="width:36px;height:36px;">LA</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <div class="page-header">
+        <div>
+          <h1>Welcome back, Lynn! 👋</h1>
+          <p>Here's what's happening with your business today.</p>
+        </div>
+        <div class="company-switch">
+          <span class="ic" data-icon="briefcase2"></span>
+          <div>
+            <strong>ABC Manufacturing Sdn Bhd</strong>
+            <span>Manufacturing &middot; Penang</span>
+          </div>
+          <span data-icon="chevronDown"></span>
+        </div>
+      </div>
+
+      <div class="dash-row-1">
+        <div class="metric-card dark card">
+          <div class="top-lbl">Overall Growth Score <span data-icon="checkCircle" style="width:14px;height:14px;display:inline-flex;"></span></div>
+          <div class="big-num">68<span>/100</span></div>
+          <div class="metric-tag good"><span data-icon="trendingUp" style="width:13px;height:13px;display:inline-flex;"></span> Good Progress &nbsp;↑ 6 pts</div>
+          <div class="metric-sub">vs last assessment (May 2024)</div>
+          <svg class="mini-spark" viewBox="0 0 220 50" preserveAspectRatio="none">
+            <polyline points="0,40 35,38 70,34 105,36 140,20 175,16 220,6" fill="none" stroke="#93C5FD" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="220" cy="6" r="4" fill="#fff"/>
+          </svg>
+        </div>
+
+        <div class="metric-card card">
+          <div class="top-lbl">Digital Readiness Score <span data-icon="checkCircle" style="width:14px;height:14px;display:inline-flex;"></span></div>
+          <div class="big-num">46<span>/100</span></div>
+          <div class="metric-tag warn"><span data-icon="trendingUp" style="width:13px;height:13px;display:inline-flex;"></span> Needs Improvement &nbsp;↑ 4 pts</div>
+          <div class="metric-sub">vs last assessment (May 2024)</div>
+          <svg class="mini-spark" viewBox="0 0 220 50" preserveAspectRatio="none">
+            <polyline points="0,30 35,32 70,26 105,30 140,22 175,26 220,14" fill="none" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="220" cy="14" r="4" fill="#F59E0B"/>
+          </svg>
+        </div>
+
+        <div class="keyareas-card card">
+          <div class="keyareas-head">
+            <h4>Scores by Key Areas</h4>
+            <a href="#">View Full Report</a>
+          </div>
+          <div class="keyarea-row"><span class="ic" data-icon="target"></span><span class="name">Strategy</span><div class="bar-track"><div class="bar-fill" style="width:72%"></div></div><span class="score-val">72/100</span></div>
+          <div class="keyarea-row"><span class="ic" data-icon="trendingUp"></span><span class="name">Sales &amp; Marketing</span><div class="bar-track"><div class="bar-fill" style="width:58%"></div></div><span class="score-val">58/100</span></div>
+          <div class="keyarea-row"><span class="ic" data-icon="settings"></span><span class="name">Operations</span><div class="bar-track"><div class="bar-fill" style="width:71%"></div></div><span class="score-val">71/100</span></div>
+          <div class="keyarea-row"><span class="ic" data-icon="briefcase2"></span><span class="name">Finance</span><div class="bar-track"><div class="bar-fill" style="width:60%"></div></div><span class="score-val">60/100</span></div>
+          <div class="keyarea-row"><span class="ic" data-icon="users"></span><span class="name">People</span><div class="bar-track"><div class="bar-fill" style="width:64%"></div></div><span class="score-val">64/100</span></div>
+          <div class="keyarea-row low"><span class="ic" data-icon="monitor"></span><span class="name">Digitalisation</span><div class="bar-track"><div class="bar-fill" style="width:46%"></div></div><span class="score-val">46/100</span></div>
+        </div>
+
+        <div class="ai-insight-card card">
+          <div class="top-lbl"><span data-icon="sparkles"></span> AI Insights for You</div>
+          <h4>Your biggest opportunity is improving <span>digitalisation</span>.</h4>
+          <p>Businesses like yours that digitalise customer management see up to a 30% increase in productivity.</p>
+          <a href="#" class="btn btn-primary btn-sm btn-block">Ask AI Growth Advisor <span data-icon="arrowRight" style="width:14px;height:14px;display:inline-flex;"></span></a>
+        </div>
+      </div>
+
+      <div class="dash-row-2">
+        <div class="panel-card card">
+          <div class="panel-head"><h4>Top Recommended Solutions</h4><a href="solutions.html">View All Solutions</a></div>
+          <a href="solutions.html" style="display:block;">
+            <div class="reco-row">
+              <span class="ic" data-icon="monitor"></span>
+              <div class="body">
+                <div class="title-line"><strong>Cloud CRM Solution</strong><span class="mini-tag reco">Most Recommended</span></div>
+                <p>Centralise customer data and improve sales efficiency.</p>
+              </div>
+              <span class="chev" data-icon="chevronRight"></span>
+            </div>
+          </a>
+          <a href="solutions.html" style="display:block;">
+            <div class="reco-row">
+              <span class="ic" data-icon="clipboard"></span>
+              <div class="body">
+                <div class="title-line"><strong>E-Invoicing Software</strong><span class="mini-tag quick">Quick Win</span></div>
+                <p>Comply with LHDN e-invoicing and save time.</p>
+              </div>
+              <span class="chev" data-icon="chevronRight"></span>
+            </div>
+          </a>
+          <a href="solutions.html" style="display:block;">
+            <div class="reco-row">
+              <span class="ic" data-icon="layers"></span>
+              <div class="body">
+                <div class="title-line"><strong>Inventory Management System</strong><span class="mini-tag impact">High Impact</span></div>
+                <p>Reduce stock errors and optimise inventory.</p>
+              </div>
+              <span class="chev" data-icon="chevronRight"></span>
+            </div>
+          </a>
+        </div>
+
+        <div class="panel-card card consult-card">
+          <div class="panel-head"><h4>Upcoming Consultation</h4><a href="#">View All</a></div>
+          <div class="date-box">
+            <span class="mon">MAY</span>
+            <span class="day">29</span>
+            <span class="dow">WED</span>
+          </div>
+          <div class="consult-title">Digital Transformation Consultation</div>
+          <div class="consult-with">with Sarah Lim</div>
+          <div class="consult-meta">
+            <span><span data-icon="clock"></span> 30 min</span>
+            <span><span data-icon="calendar"></span> 10:00 AM</span>
+          </div>
+          <a href="#" class="btn btn-outline btn-sm btn-block">View Details</a>
+        </div>
+
+        <div class="panel-card card">
+          <div class="panel-head"><h4>Recent Activity</h4><a href="#">View All</a></div>
+          <div class="activity-row">
+            <span class="ic done" data-icon="check"></span>
+            <div>
+              <strong>Assessment completed</strong>
+              <p>You completed your assessment.</p>
+            </div>
+            <span class="time">Today, 9:15 AM</span>
+          </div>
+          <div class="activity-row">
+            <span class="ic msg" data-icon="messageSquare"></span>
+            <div>
+              <strong>New message from advisor</strong>
+              <p>Sarah Lim replied to your message.</p>
+            </div>
+            <span class="time">Yesterday, 4:30 PM</span>
+          </div>
+          <div class="activity-row">
+            <span class="ic book" data-icon="calendar"></span>
+            <div>
+              <strong>Consultation booked</strong>
+              <p>30-min session with Sarah Lim.</p>
+            </div>
+            <span class="time">May 20, 2024</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dash-row-3">
+        <div class="panel-card card">
+          <div class="panel-head"><h4>Your Growth Journey</h4><a href="#">View Progress</a></div>
+          <p style="font-size:.82rem;color:var(--slate-light);margin-bottom:14px;">Keep going! Consistent improvement leads to sustainable growth.</p>
+          <svg class="journey-chart" viewBox="0 0 700 210" preserveAspectRatio="xMidYMid meet">
+            <line x1="20" y1="160" x2="680" y2="160" stroke="#E2E8F0" stroke-width="1"/>
+            <polyline points="20,136 185,128 350,116 515,110 680,104" fill="none" stroke="#2563EB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="20" cy="136" r="4.5" fill="#2563EB"/>
+            <circle cx="185" cy="128" r="4.5" fill="#2563EB"/>
+            <circle cx="350" cy="116" r="4.5" fill="#2563EB"/>
+            <circle cx="515" cy="110" r="4.5" fill="#2563EB"/>
+            <circle cx="680" cy="104" r="6" fill="#2563EB" stroke="#fff" stroke-width="2"/>
+            <text x="20" y="124" text-anchor="middle" font-size="12" fill="#334155" font-weight="700">52</text>
+            <text x="185" y="116" text-anchor="middle" font-size="12" fill="#334155" font-weight="700">56</text>
+            <text x="350" y="104" text-anchor="middle" font-size="12" fill="#334155" font-weight="700">62</text>
+            <text x="515" y="98" text-anchor="middle" font-size="12" fill="#334155" font-weight="700">65</text>
+            <rect x="628" y="86" width="36" height="20" rx="10" fill="#2563EB"/>
+            <text x="646" y="100" text-anchor="middle" font-size="11" fill="#fff" font-weight="800">68</text>
+            <text x="20" y="182" text-anchor="middle" font-size="11" fill="#94A3B8">Jan 2024</text>
+            <text x="185" y="182" text-anchor="middle" font-size="11" fill="#94A3B8">Mar 2024</text>
+            <text x="350" y="182" text-anchor="middle" font-size="11" fill="#94A3B8">May 2024</text>
+            <text x="515" y="182" text-anchor="middle" font-size="11" fill="#94A3B8">Jul 2024</text>
+            <text x="680" y="182" text-anchor="middle" font-size="11" fill="#94A3B8">Sep 2024 (Now)</text>
+          </svg>
+        </div>
+
+        <div class="panel-card card">
+          <div class="panel-head"><h4>Continue Where You Left Off</h4></div>
+          <div class="continue-item">
+            <a href="assessment.html" style="display:block;">
+              <div class="row">
+                <span class="ic" data-icon="clipboardCheck"></span>
+                <div>
+                  <strong>Digitalisation Assessment</strong>
+                  <span class="note">80% completed</span>
+                </div>
+                <span class="chev" data-icon="chevronRight" style="margin-left:auto;width:16px;height:16px;color:var(--slate-light);"></span>
+              </div>
+              <div class="bar-track"><div class="bar-fill" style="width:80%"></div></div>
+            </a>
+          </div>
+          <div class="continue-item">
+            <a href="#" style="display:block;">
+              <div class="row">
+                <span class="ic" data-icon="sparkles"></span>
+                <div>
+                  <strong>AI Advisor Conversation</strong>
+                  <span class="note">Continue asking questions</span>
+                </div>
+                <span class="chev" data-icon="chevronRight" style="margin-left:auto;width:16px;height:16px;color:var(--slate-light);"></span>
+              </div>
+              <div class="bar-track"><div class="bar-fill" style="width:45%"></div></div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="explore-band">
+        <span class="lbl">Explore More</span>
+        <a href="#" class="explore-item"><span class="ic" data-icon="building"></span><div><strong>Government</strong><span>Grants &amp; Programs</span></div></a>
+        <a href="#" class="explore-item"><span class="ic" data-icon="barChart2"></span><div><strong>Industry</strong><span>Benchmarks</span></div></a>
+        <a href="#" class="explore-item"><span class="ic" data-icon="bookOpen"></span><div><strong>Templates &amp;</strong><span>Guides</span></div></a>
+        <a href="#" class="explore-item"><span class="ic" data-icon="calendar"></span><div><strong>Events &amp;</strong><span>Workshops</span></div></a>
+        <a href="#" class="explore-item"><span class="ic" data-icon="trophy"></span><div><strong>Success</strong><span>Stories</span></div></a>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="js/icons.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
