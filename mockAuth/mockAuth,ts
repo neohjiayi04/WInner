@@ -1,0 +1,40 @@
+export type PrototypeRole = "User" | "Advisor" | "Admin";
+
+export const mockIdentities: Record<PrototypeRole, {name: string; email:string; password:string; label:string}>={
+    User:{name:"Shini", email:"shiniSME@example.com", password:"password123", label:"User"},
+    Advisor:{name:"John", email:"john@exabytes.demo", password:"advisorPass122",label:"Advisor"},
+    Admin:{name:"Admin", email:"admin@demo.com", password:"adminPass123",label:"Admin"},
+};
+
+export function isPrototypeRole(value:string | null): value is PrototypeRole {
+    return value === "User" || value ==="Advisor" || value ==="Admin";
+}
+
+export function readMockRole(search: string,storedRole:string | null): PrototypeRole | null{
+    const queryRole = new URLSearchParams(search).get("mockRole");
+    const candidate = queryRole || storedRole;
+    return isPrototypeRole(candidate) ? candidate : null;
+}
+
+export function saveMockRole (storage: Pick<Storage, "setItem">, role:PrototypeRole){
+    storage.setItem("mockRole", role);
+}
+
+export function clearMockRole(storage: Pick<Storage, "removeItem">) {
+  storage.removeItem("exabytes-mock-role");
+}
+
+export function switchMockRole(storage: Pick<Storage, "setItem">, role: PrototypeRole) {
+  saveMockRole(storage, role);
+  return role;
+}
+
+export function exitMockRole(storage: Pick<Storage, "removeItem">) {
+  clearMockRole(storage);
+  return null;
+}
+
+export function validateMockCredentials(role: PrototypeRole, email: string, password: string) {
+  const identity = mockIdentities[role];
+  return email.trim().toLowerCase() === identity.email && password === identity.password;
+}

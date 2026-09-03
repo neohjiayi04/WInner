@@ -667,9 +667,6 @@ h3.section-sub-title{font-size:1.05rem;font-weight:800;margin:26px 0 14px;}
   position:relative;z-index:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
   border-radius:.9rem;padding:20px 22px;margin-top:auto;
 }
-.login-aside-quote p{font-size:.86rem;line-height:1.55;color:#E4ECFB;margin-bottom:10px;}
-.login-aside-quote cite{font-style:normal;font-weight:700;font-size:.82rem;color:#fff;}
-.login-aside-quote span.role{display:block;font-size:.74rem;color:#AFC4EC;font-weight:500;}
 
 .login-main{display:flex;align-items:center;justify-content:center;padding:48px 24px;background:#fff;}
 .login-box{width:100%;max-width:420px;}
