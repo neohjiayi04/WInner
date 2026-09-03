@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assess Your Business — SME Growth Advisor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <span class="brand-mark" data-icon="logo"></span>
+      <span>SME<span class="brand-sub">GROWTH ADVISOR</span></span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#how-it-works">How It Works</a>
+      <a href="index.html#solutions">Solutions</a>
+      <a href="index.html#resources">Resources</a>
+      <a href="index.html#advisors">Advisors</a>
+      <a href="index.html#about">About Us</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="#" class="btn btn-outline btn-sm">Log In</a>
+      <a href="#" class="btn btn-primary btn-sm">Get Started</a>
+      <button class="nav-toggle" aria-label="Menu" data-icon="menu"></button>
+    </div>
+  </div>
+</header>
+
+<section class="assess-hero">
+  <div class="wrap">
+    <h1>Assess Your Business in Minutes</h1>
+    <p>Answer a few simple questions and get your personalised growth and digitalisation insights.</p>
+
+    <div class="stepper">
+      <div class="stepper-step active">
+        <div class="stepper-circle" data-icon="building"></div>
+        <div class="stepper-line"></div>
+        <div class="stepper-label">About Your Business</div>
+      </div>
+      <div class="stepper-step">
+        <div class="stepper-circle" data-icon="trendingUp"></div>
+        <div class="stepper-line"></div>
+        <div class="stepper-label">Business Operations</div>
+      </div>
+      <div class="stepper-step">
+        <div class="stepper-circle" data-icon="monitor"></div>
+        <div class="stepper-line"></div>
+        <div class="stepper-label">Digitalisation</div>
+      </div>
+      <div class="stepper-step">
+        <div class="stepper-circle" data-icon="users"></div>
+        <div class="stepper-line"></div>
+        <div class="stepper-label">Growth &amp; Strategy</div>
+      </div>
+      <div class="stepper-step">
+        <div class="stepper-circle" data-icon="checkCircle"></div>
+        <div class="stepper-label">Review &amp; Submit</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="assess-body">
+  <div class="wrap">
+    <div class="assess-grid">
+
+      <form class="form-card card" id="assessForm">
+        <div class="form-card-head">
+          <div>
+            <h2>About Your Business</h2>
+            <p>Let's start with some basic information about your business.</p>
+          </div>
+          <span class="step-tag">Step 1 of 5</span>
+        </div>
+
+        <div class="field">
+          <label for="industry">Industry</label>
+          <div class="select-wrap">
+            <select id="industry">
+              <option value="">Select your industry</option>
+              <option>Manufacturing</option>
+              <option>Retail &amp; E-commerce</option>
+              <option>Food &amp; Beverage</option>
+              <option>Professional Services</option>
+              <option>Construction</option>
+              <option>Technology</option>
+              <option>Other</option>
+            </select>
+            <span data-icon="chevronDown"></span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="yearEstablished">Year Established</label>
+          <div class="select-wrap">
+            <select id="yearEstablished">
+              <option value="">Select year range</option>
+              <option>Less than 1 year</option>
+              <option>1 – 5 years</option>
+              <option>6 – 10 years</option>
+              <option>More than 10 years</option>
+            </select>
+            <span data-icon="chevronDown"></span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Number of Employees</label>
+          <div class="pill-group" data-pill-group>
+            <button type="button" class="pill-btn selected">1 - 5</button>
+            <button type="button" class="pill-btn">6 - 20</button>
+            <button type="button" class="pill-btn">21 - 50</button>
+            <button type="button" class="pill-btn">51 - 200</button>
+            <button type="button" class="pill-btn">200+</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Annual Revenue</label>
+          <div class="pill-group" data-pill-group>
+            <button type="button" class="pill-btn">Below RM500K</button>
+            <button type="button" class="pill-btn">RM500K - RM2M</button>
+            <button type="button" class="pill-btn">RM2M - RM10M</button>
+            <button type="button" class="pill-btn">Above RM10M</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="location">Business Location</label>
+          <div class="select-wrap">
+            <select id="location">
+              <option value="">Select your state</option>
+              <option>Selangor</option>
+              <option>Kuala Lumpur</option>
+              <option>Penang</option>
+              <option>Johor</option>
+              <option>Sabah</option>
+              <option>Sarawak</option>
+              <option>Other</option>
+            </select>
+            <span data-icon="chevronDown"></span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>What is your primary business model?</label>
+          <div class="pill-group" data-pill-group>
+            <button type="button" class="pill-btn selected">B2B</button>
+            <button type="button" class="pill-btn">B2C</button>
+            <button type="button" class="pill-btn">B2B2C</button>
+            <button type="button" class="pill-btn">Others</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="goal">What is your main growth objective?</label>
+          <div class="select-wrap">
+            <select id="goal">
+              <option value="">Select your primary goal</option>
+              <option>Increase revenue</option>
+              <option>Improve efficiency</option>
+              <option>Digitalise operations</option>
+              <option>Expand to new markets</option>
+              <option>Strengthen team &amp; capability</option>
+            </select>
+            <span data-icon="chevronDown"></span>
+          </div>
+        </div>
+
+        <p class="form-footer-note"><span data-icon="shield"></span> Your information is secure and will only be used to provide personalised insights.</p>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Next: Business Operations <span data-icon="arrowRight" style="width:16px;height:16px;display:inline-flex"></span></button>
+        </div>
+      </form>
+
+      <aside>
+        <div class="side-card card">
+          <h3>Why Take This Assessment?</h3>
+          <div class="why-item">
+            <span class="ic" data-icon="trendingUp"></span>
+            <div><h4>Get Your Growth Score</h4><p>Understand how your business is performing across 6 key areas.</p></div>
+          </div>
+          <div class="why-item">
+            <span class="ic" data-icon="lightbulb"></span>
+            <div><h4>Discover Opportunities</h4><p>Identify gaps and opportunities to grow smarter.</p></div>
+          </div>
+          <div class="why-item">
+            <span class="ic" data-icon="monitor"></span>
+            <div><h4>Find the Right Solutions</h4><p>Get personalised digital solutions for your business.</p></div>
+          </div>
+          <div class="why-item">
+            <span class="ic" data-icon="users"></span>
+            <div><h4>Connect with Experts</h4><p>Speak with trusted advisors who can help you grow.</p></div>
+          </div>
+        </div>
+
+        <div class="side-card card">
+          <div class="badge-shield">
+            <span class="ic" data-icon="shield"></span>
+            <h4>100% Free &amp; No Commitment</h4>
+          </div>
+          <p class="small">Takes only 5–7 minutes to complete. Get instant results.</p>
+          <div class="mini-illust">
+            <div></div><div></div><div></div>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+<script src="js/icons.js"></script>
+<script src="js/main.js"></script>
+<script>
+  document.getElementById('assessForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    // In this demo, every step routes straight to the preview results page.
+    window.location.href = 'results.html';
+  });
+</script>
+</body>
+</html>
