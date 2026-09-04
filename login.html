@@ -39,7 +39,7 @@
           data-btn="Log In"
           data-note="SME accounts get access to your Growth Score, AI Advisor conversations, and recommended solutions."
           data-note-icon="sparkles"
-          data-redirect="index.html"
+          data-redirect="clientDashboard.html"
           data-signup="New to SME Growth Advisor? &lt;a href=&quot;assessment.html&quot;&gt;Start your free assessment&lt;/a&gt;">
           <span data-icon="briefcase2"></span> SME User
         </button>
@@ -119,7 +119,7 @@
     const roleNoteIcon = document.getElementById('roleNoteIcon');
     const signupPrompt = document.getElementById('signupPrompt');
     const form = document.getElementById('loginForm');
-    let redirect = 'dashboard.html';
+    let redirect = 'clientDashboard.html';
 
     function applyRole(tab) {
       tabs.forEach(t => t.classList.remove('active'));
