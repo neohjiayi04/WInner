@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Company Profile — SME Growth Advisor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="app-sidebar">
+    <a href="../index.html" class="brand">
+      <span class="brand-mark" data-icon="logo"></span>
+      <span>SME<span class="brand-sub">GROWTH ADVISOR</span></span>
+    </a>
+    <nav class="app-nav">
+      <a href="admin-dashboard.html"><span data-icon="grid"></span> Dashboard</a>
+      <a href="admin-sme-users.html" class="active"><span data-icon="users"></span> SME Users</a>
+      <a href="admin-providers.html"><span data-icon="briefcase2"></span> Solution Providers</a>
+      <a href="#"><span data-icon="clipboardCheck"></span> Assessments</a>
+      <a href="#"><span data-icon="layers"></span> Solutions Catalog</a>
+      <a href="#"><span data-icon="headset"></span> Advisors</a>
+      <a href="#"><span data-icon="barChart2"></span> Reports &amp; Analytics</a>
+      <a href="#"><span data-icon="bookOpen"></span> Content &amp; CMS</a>
+      <a href="#"><span data-icon="settings"></span> System Settings</a>
+    </nav>
+    <div class="sidebar-account">
+      <span class="avatar-chip" style="background:linear-gradient(135deg,#334155,#0F1E3D);">SA</span>
+      <div class="who"><strong>Sarah Admin</strong><span>Platform Administrator</span></div>
+      <span data-icon="chevronDown"></span>
+    </div>
+  </aside>
+
+  <div>
+    <header class="app-topbar">
+      <div class="search-box">
+        <span data-icon="search"></span>
+        <input type="text" placeholder="Search users, providers, or solutions...">
+      </div>
+      <div class="topbar-right">
+        <button class="icon-btn" aria-label="Notifications"><span data-icon="bell"></span><span class="dot-badge">6</span></button>
+        <div class="topbar-user">
+          <span class="avatar-chip" style="width:36px;height:36px;background:linear-gradient(135deg,#334155,#0F1E3D);">SA</span>
+          <div class="who"><strong>Sarah Admin</strong><span>Platform Administrator</span></div>
+          <span data-icon="chevronDown"></span>
+        </div>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <div class="page-header">
+        <div>
+          <a href="admin-sme-users.html" class="table-action-link" style="display:inline-block;margin-bottom:10px;">&larr; Back to SME Users</a>
+          <h1 id="companyName">Loading…</h1>
+          <p id="companyMeta">&nbsp;</p>
+        </div>
+      </div>
+
+      <div id="notFound" style="display:none;" class="panel-card card">
+        <p>No user found for this ID. <a href="admin-sme-users.html" class="table-action-link">Go back to SME Users</a>.</p>
+      </div>
+
+      <div id="profileContent" style="display:none;">
+        <div class="dash-row-1" style="grid-template-columns:repeat(3,1fr);">
+          <div class="metric-card card">
+            <div class="top-lbl">Growth Score</div>
+            <div class="big-num" id="growthScore">—</div>
+          </div>
+          <div class="metric-card card">
+            <div class="top-lbl">Digital Score</div>
+            <div class="big-num" id="digitalScore">—</div>
+          </div>
+          <div class="metric-card card">
+            <div class="top-lbl">Current Status</div>
+            <div class="big-num" id="statusDisplay" style="font-size:1.4rem;">—</div>
+          </div>
+        </div>
+
+        <div class="dash-row-2col">
+          <div class="panel-card card">
+            <div class="panel-head"><h4>Company Information</h4></div>
+            <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #F1F5F9;">
+              <span style="color:#64748B;">Company Name</span><strong id="infoCompany"></strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #F1F5F9;">
+              <span style="color:#64748B;">Industry</span><strong id="infoIndustry"></strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #F1F5F9;">
+              <span style="color:#64748B;">Location</span><strong id="infoLocation"></strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #F1F5F9;">
+              <span style="color:#64748B;">Company Size</span><strong id="infoSize"></strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #F1F5F9;">
+              <span style="color:#64748B;">Contact Person</span><strong id="infoContact"></strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:9px 0;">
+              <span style="color:#64748B;">Email</span><strong id="infoEmail"></strong>
+            </div>
+          </div>
+
+          <div class="panel-card card">
+            <div class="panel-head"><h4>Access Control</h4></div>
+            <p style="font-size:.85rem;color:#64748B;margin-top:0;">Set this account's role and manage platform access.</p>
+
+            <div style="margin-bottom:16px;">
+              <label style="display:block;font-size:13px;font-weight:600;margin-bottom:8px;">Role</label>
+              <select id="roleSelect" style="width:100%;padding:10px 12px;border-radius:10px;border:1px solid #E2E8F0;font-family:inherit;font-size:14px;">
+                <option value="User">User (SME)</option>
+                <option value="Advisor">Advisor</option>
+                <option value="Admin">Admin</option>
+              </select>
+            </div>
+
+            <button type="button" class="btn btn-primary" id="saveRoleBtn" style="width:100%;margin-bottom:20px;">Save Role Change</button>
+
+            <hr style="border:none;border-top:1px solid #E2E8F0;margin:20px 0;">
+
+            <label style="display:block;font-size:13px;font-weight:600;margin-bottom:8px;">Account Access</label>
+            <p style="font-size:.82rem;color:#64748B;margin-top:0;margin-bottom:14px;">
+              Blocking this account immediately prevents the user from logging in.
+            </p>
+            <button type="button" class="btn btn-outline" id="toggleBlockBtn" style="width:100%;"></button>
+
+            <p id="saveMsg" style="display:none;font-size:.82rem;color:#16A34A;margin-top:14px;text-align:center;">Changes saved.</p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="../js/icons.js"></script>
+<script src="adminMockData.js"></script>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const userId = params.get("id");
+  const user = userId ? window.AdminData.getAdminUserById(userId) : null;
+
+  if (!user) {
+    document.getElementById("notFound").style.display = "block";
+  } else {
+    renderProfile(user);
+  }
+
+  function renderProfile(u) {
+    document.getElementById("profileContent").style.display = "block";
+    document.getElementById("companyName").textContent = u.companyName;
+    document.getElementById("companyMeta").textContent = `${u.industry} · ${u.location} · Joined ${u.joinedDate}`;
+
+    document.getElementById("growthScore").textContent = u.growthScore !== null ? u.growthScore + "/100" : "—";
+    document.getElementById("digitalScore").textContent = u.digitalScore !== null ? u.digitalScore + "/100" : "—";
+    document.getElementById("statusDisplay").textContent = u.status === "blocked" ? "Blocked" : "Active";
+    document.getElementById("statusDisplay").style.color = u.status === "blocked" ? "#B91C1C" : "#16A34A";
+
+    document.getElementById("infoCompany").textContent = u.companyName;
+    document.getElementById("infoIndustry").textContent = u.industry;
+    document.getElementById("infoLocation").textContent = u.location;
+    document.getElementById("infoSize").textContent = u.companySize;
+    document.getElementById("infoContact").textContent = u.contactName;
+    document.getElementById("infoEmail").textContent = u.email;
+
+    document.getElementById("roleSelect").value = u.role;
+
+    const blockBtn = document.getElementById("toggleBlockBtn");
+    updateBlockButton(u.status);
+
+    function updateBlockButton(status) {
+      if (status === "blocked") {
+        blockBtn.textContent = "Unblock This Account";
+        blockBtn.style.color = "#16A34A";
+        blockBtn.style.borderColor = "#16A34A";
+      } else {
+        blockBtn.textContent = "Block This Account";
+        blockBtn.style.color = "#B91C1C";
+        blockBtn.style.borderColor = "#FECACA";
+      }
+    }
+
+    function showSaved() {
+      const msg = document.getElementById("saveMsg");
+      msg.style.display = "block";
+      setTimeout(() => { msg.style.display = "none"; }, 2000);
+    }
+
+    document.getElementById("saveRoleBtn").addEventListener("click", () => {
+      const newRole = document.getElementById("roleSelect").value;
+      window.AdminData.updateAdminUserRole(u.id, newRole);
+      showSaved();
+    });
+
+    blockBtn.addEventListener("click", () => {
+      const fresh = window.AdminData.getAdminUserById(u.id);
+      const newStatus = fresh.status === "blocked" ? "active" : "blocked";
+      window.AdminData.updateAdminUserStatus(u.id, newStatus);
+      updateBlockButton(newStatus);
+      document.getElementById("statusDisplay").textContent = newStatus === "blocked" ? "Blocked" : "Active";
+      document.getElementById("statusDisplay").style.color = newStatus === "blocked" ? "#B91C1C" : "#16A34A";
+      showSaved();
+    });
+  }
+</script>
+</body>
+</html>

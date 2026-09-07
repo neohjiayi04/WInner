@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solution Providers — SME Growth Advisor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="app-sidebar">
+    <a href="../index.html" class="brand">
+      <span class="brand-mark" data-icon="logo"></span>
+      <span>SME<span class="brand-sub">GROWTH ADVISOR</span></span>
+    </a>
+    <nav class="app-nav">
+      <a href="admin-dashboard.html"><span data-icon="grid"></span> Dashboard</a>
+      <a href="admin-sme-users.html"><span data-icon="users"></span> SME Users</a>
+      <a href="admin-providers.html" class="active"><span data-icon="briefcase2"></span> Solution Providers</a>
+      <a href="#"><span data-icon="clipboardCheck"></span> Assessments</a>
+      <a href="#"><span data-icon="layers"></span> Solutions Catalog</a>
+      <a href="#"><span data-icon="headset"></span> Advisors</a>
+      <a href="#"><span data-icon="barChart2"></span> Reports &amp; Analytics</a>
+      <a href="#"><span data-icon="bookOpen"></span> Content &amp; CMS</a>
+      <a href="#"><span data-icon="settings"></span> System Settings</a>
+    </nav>
+    <div class="sidebar-account">
+      <span class="avatar-chip" style="background:linear-gradient(135deg,#334155,#0F1E3D);">SA</span>
+      <div class="who"><strong>Sarah Admin</strong><span>Platform Administrator</span></div>
+      <span data-icon="chevronDown"></span>
+    </div>
+  </aside>
+
+  <div>
+    <header class="app-topbar">
+      <div class="search-box">
+        <span data-icon="search"></span>
+        <input type="text" id="providerSearch" placeholder="Search by provider name or category...">
+      </div>
+      <div class="topbar-right">
+        <button class="icon-btn" aria-label="Notifications"><span data-icon="bell"></span><span class="dot-badge">6</span></button>
+        <div class="topbar-user">
+          <span class="avatar-chip" style="width:36px;height:36px;background:linear-gradient(135deg,#334155,#0F1E3D);">SA</span>
+          <div class="who"><strong>Sarah Admin</strong><span>Platform Administrator</span></div>
+          <span data-icon="chevronDown"></span>
+        </div>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <div class="page-header">
+        <div>
+          <h1>Solution Providers</h1>
+          <p>Review applications, approve listings, and manage active providers.</p>
+        </div>
+      </div>
+
+      <div class="dash-row-1">
+        <div class="metric-card card">
+          <div class="top-lbl">Total Providers</div>
+          <div class="big-num" id="statTotal">—</div>
+          <div class="metric-sub">All-time</div>
+        </div>
+        <div class="metric-card card">
+          <div class="top-lbl">Active</div>
+          <div class="big-num" id="statActive">—</div>
+          <div class="metric-sub">Live on platform</div>
+        </div>
+        <div class="metric-card card">
+          <div class="top-lbl">Pending Approval</div>
+          <div class="big-num" id="statPending">—</div>
+          <div class="metric-sub">Awaiting review</div>
+        </div>
+        <div class="metric-card card">
+          <div class="top-lbl">Flagged</div>
+          <div class="big-num" id="statFlagged">—</div>
+          <div class="metric-sub">Needs investigation</div>
+        </div>
+      </div>
+
+      <div class="panel-card card">
+        <div class="panel-head">
+          <h4>All Providers</h4>
+          <div id="statusFilter" style="display:flex;gap:8px;">
+            <button type="button" class="btn btn-outline btn-sm active-filter" data-filter="all">All</button>
+            <button type="button" class="btn btn-outline btn-sm" data-filter="pending">Pending</button>
+            <button type="button" class="btn btn-outline btn-sm" data-filter="active">Active</button>
+            <button type="button" class="btn btn-outline btn-sm" data-filter="flagged">Flagged</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>Provider</th><th>Category</th><th>Solutions</th><th>Submitted</th><th>Status</th><th></th></tr>
+            </thead>
+            <tbody id="providerTableBody"></tbody>
+          </table>
+        </div>
+        <p id="emptyState" style="display:none;text-align:center;color:#94A3B8;padding:24px 0;">No providers match your search.</p>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="../js/icons.js"></script>
+<script src="admin-providerMockData.js"></script>
+<script>
+  const tbody = document.getElementById("providerTableBody");
+  const emptyState = document.getElementById("emptyState");
+  const searchInput = document.getElementById("providerSearch");
+  const filterBtns = document.querySelectorAll("#statusFilter button");
+  let currentFilter = "all";
+
+  function statusBadge(status) {
+    if (status === "pending") return `<span class="status-badge pending">Pending</span>`;
+    if (status === "flagged") return `<span class="status-badge" style="background:#FEE2E2;color:#B91C1C;">Flagged</span>`;
+    return `<span class="status-badge active">Active</span>`;
+  }
+
+  function render() {
+    const providers = window.ProviderData.loadProviders();
+    const query = (searchInput.value || "").toLowerCase().trim();
+
+    const filtered = providers.filter(p => {
+      if (currentFilter !== "all" && p.status !== currentFilter) return false;
+      if (!query) return true;
+      return p.companyName.toLowerCase().includes(query) || p.category.toLowerCase().includes(query);
+    });
+
+    document.getElementById("statTotal").textContent = providers.length;
+    document.getElementById("statActive").textContent = providers.filter(p => p.status === "active").length;
+    document.getElementById("statPending").textContent = providers.filter(p => p.status === "pending").length;
+    document.getElementById("statFlagged").textContent = providers.filter(p => p.status === "flagged").length;
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = "";
+      emptyState.style.display = "block";
+      return;
+    }
+    emptyState.style.display = "none";
+
+    tbody.innerHTML = filtered.map(p => `
+      <tr>
+        <td><span class="cell-primary">${p.companyName}</span><span class="cell-sub">${p.contactName}</span></td>
+        <td>${p.category}</td>
+        <td>${p.solutionsCount}</td>
+        <td>${p.submittedDate}</td>
+        <td>${statusBadge(p.status)}</td>
+        <td><a href="admin-provider-profile.html?id=${p.id}" class="table-action-link">View</a></td>
+      </tr>
+    `).join("");
+  }
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      filterBtns.forEach(b => b.classList.remove("active-filter"));
+      btn.classList.add("active-filter");
+      currentFilter = btn.dataset.filter;
+      render();
+    });
+  });
+
+  searchInput.addEventListener("input", render);
+  render();
+</script>
+</body>
+</html>
