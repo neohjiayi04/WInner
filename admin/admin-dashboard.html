@@ -6,21 +6,21 @@
 <title>Admin Console — SME Growth Advisor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
 
 <div class="app-shell">
 
   <aside class="app-sidebar">
-    <a href="index.html" class="brand">
+    <a href="../index.html" class="brand">
       <span class="brand-mark" data-icon="logo"></span>
       <span>SME<span class="brand-sub">GROWTH ADVISOR</span></span>
     </a>
     <nav class="app-nav">
       <a href="admin-dashboard.html" class="active"><span data-icon="grid"></span> Dashboard</a>
-      <a href="#"><span data-icon="users"></span> SME Users</a>
-      <a href="#"><span data-icon="briefcase2"></span> Solution Providers</a>
+      <a href="admin-sme-users.html"><span data-icon="users"></span> SME Users</a>
+      <a href="admin-providers.html"><span data-icon="briefcase2"></span> Solution Providers</a>
       <a href="#"><span data-icon="clipboardCheck"></span> Assessments</a>
       <a href="#"><span data-icon="layers"></span> Solutions Catalog</a>
       <a href="#"><span data-icon="headset"></span> Advisors</a>
@@ -123,6 +123,40 @@
         </div>
       </div>
 
+      <div class="panel-card card">
+        <div class="panel-head"><h4>Quick Actions</h4></div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
+          <a href="admin-sme-users.html" style="display:block;">
+            <div class="quick-action-row">
+              <span class="ic" data-icon="layers"></span>
+              <div><strong>Manage Solutions Catalog</strong><span>Edit, feature or remove listings</span></div>
+              <span class="chev" data-icon="chevronRight"></span>
+            </div>
+          </a>
+          <a href="#" style="display:block;">
+            <div class="quick-action-row">
+              <span class="ic" data-icon="headset"></span>
+              <div><strong>Manage Advisors</strong><span>Onboard and assign advisors</span></div>
+              <span class="chev" data-icon="chevronRight"></span>
+            </div>
+          </a>
+          <a href="admin-sme-users.html" style="display:block;">
+            <div class="quick-action-row">
+              <span class="ic" data-icon="users"></span>
+              <div><strong>Manage SME Users</strong><span>View accounts and activity</span></div>
+              <span class="chev" data-icon="chevronRight"></span>
+            </div>
+          </a>
+          <a href="#" style="display:block;">
+            <div class="quick-action-row">
+              <span class="ic" data-icon="database"></span>
+              <div><strong>System Settings</strong><span>Roles, permissions &amp; integrations</span></div>
+              <span class="chev" data-icon="chevronRight"></span>
+            </div>
+          </a>
+        </div>
+      </div>
+
       <div class="dash-row-2col">
         <div class="panel-card card">
           <div class="panel-head"><h4>Platform Growth</h4><a href="#">View Full Report</a></div>
@@ -165,98 +199,64 @@
         </div>
       </div>
 
-      <div class="dash-row-2col">
-        <div class="panel-card card">
-          <div class="panel-head"><h4>Pending Approvals</h4><a href="#">View All</a></div>
+      <div class="panel-card card">
+        <div class="panel-head"><h4>Pending Approvals</h4><a href="#">View All</a></div>
 
-          <div class="approve-row">
-            <span class="ic blue" data-icon="briefcase2"></span>
-            <div class="body">
-              <strong>Zoho Malaysia — Provider Application</strong>
-              <p>Applying to list 4 solutions under CRM &amp; Productivity.</p>
-              <div class="meta">Submitted 2 days ago</div>
-            </div>
-            <div class="approve-actions">
-              <button class="btn-icon-sm approve" aria-label="Approve" data-icon="check"></button>
-              <button class="btn-icon-sm reject" aria-label="Reject" data-icon="xCircle"></button>
-            </div>
+        <div class="approve-row">
+          <span class="ic blue" data-icon="briefcase2"></span>
+          <div class="body">
+            <strong>Zoho Malaysia — Provider Application</strong>
+            <p>Applying to list 4 solutions under CRM &amp; Productivity.</p>
+            <div class="meta">Submitted 2 days ago</div>
           </div>
-
-          <div class="approve-row">
-            <span class="ic blue" data-icon="briefcase2"></span>
-            <div class="body">
-              <strong>Billplz — Provider Application</strong>
-              <p>Applying to list payment gateway integration solutions.</p>
-              <div class="meta">Submitted 4 days ago</div>
-            </div>
-            <div class="approve-actions">
-              <button class="btn-icon-sm approve" aria-label="Approve" data-icon="check"></button>
-              <button class="btn-icon-sm reject" aria-label="Reject" data-icon="xCircle"></button>
-            </div>
-          </div>
-
-          <div class="approve-row">
-            <span class="ic amber" data-icon="fileCheck"></span>
-            <div class="body">
-              <strong>Autocount Payroll — New Listing</strong>
-              <p>New solution submission awaiting content review.</p>
-              <div class="meta">Submitted by Autocount Cloud · Today</div>
-            </div>
-            <div class="approve-actions">
-              <button class="btn-icon-sm approve" aria-label="Approve" data-icon="check"></button>
-              <button class="btn-icon-sm reject" aria-label="Reject" data-icon="xCircle"></button>
-            </div>
-          </div>
-
-          <div class="approve-row">
-            <span class="ic red" data-icon="alertTriangle"></span>
-            <div class="body">
-              <strong>Flagged review on "HubEngage"</strong>
-              <p>Reported for suspected spam content by another provider.</p>
-              <div class="meta">Flagged 6 hours ago</div>
-            </div>
-            <div class="approve-actions">
-              <button class="btn-icon-sm approve" aria-label="Dismiss flag" data-icon="check"></button>
-              <button class="btn-icon-sm reject" aria-label="Remove review" data-icon="xCircle"></button>
-            </div>
+          <div class="approve-actions">
+            <button class="btn-icon-sm approve" aria-label="Approve" data-icon="check"></button>
+            <button class="btn-icon-sm reject" aria-label="Reject" data-icon="xCircle"></button>
           </div>
         </div>
 
-        <div class="panel-card card">
-          <div class="panel-head"><h4>Quick Actions</h4></div>
-          <a href="#" style="display:block;">
-            <div class="quick-action-row">
-              <span class="ic" data-icon="layers"></span>
-              <div><strong>Manage Solutions Catalog</strong><span>Edit, feature or remove listings</span></div>
-              <span class="chev" data-icon="chevronRight"></span>
-            </div>
-          </a>
-          <a href="#" style="display:block;">
-            <div class="quick-action-row">
-              <span class="ic" data-icon="headset"></span>
-              <div><strong>Manage Advisors</strong><span>Onboard and assign advisors</span></div>
-              <span class="chev" data-icon="chevronRight"></span>
-            </div>
-          </a>
-          <a href="#" style="display:block;">
-            <div class="quick-action-row">
-              <span class="ic" data-icon="users"></span>
-              <div><strong>Manage SME Users</strong><span>View accounts and activity</span></div>
-              <span class="chev" data-icon="chevronRight"></span>
-            </div>
-          </a>
-          <a href="#" style="display:block;">
-            <div class="quick-action-row">
-              <span class="ic" data-icon="database"></span>
-              <div><strong>System Settings</strong><span>Roles, permissions &amp; integrations</span></div>
-              <span class="chev" data-icon="chevronRight"></span>
-            </div>
-          </a>
+        <div class="approve-row">
+          <span class="ic blue" data-icon="briefcase2"></span>
+          <div class="body">
+            <strong>Billplz — Provider Application</strong>
+            <p>Applying to list payment gateway integration solutions.</p>
+            <div class="meta">Submitted 4 days ago</div>
+          </div>
+          <div class="approve-actions">
+            <button class="btn-icon-sm approve" aria-label="Approve" data-icon="check"></button>
+            <button class="btn-icon-sm reject" aria-label="Reject" data-icon="xCircle"></button>
+          </div>
+        </div>
+
+        <div class="approve-row">
+          <span class="ic amber" data-icon="fileCheck"></span>
+          <div class="body">
+            <strong>Autocount Payroll — New Listing</strong>
+            <p>New solution submission awaiting content review.</p>
+            <div class="meta">Submitted by Autocount Cloud · Today</div>
+          </div>
+          <div class="approve-actions">
+            <button class="btn-icon-sm approve" aria-label="Approve" data-icon="check"></button>
+            <button class="btn-icon-sm reject" aria-label="Reject" data-icon="xCircle"></button>
+          </div>
+        </div>
+
+        <div class="approve-row">
+          <span class="ic red" data-icon="alertTriangle"></span>
+          <div class="body">
+            <strong>Flagged review on "HubEngage"</strong>
+            <p>Reported for suspected spam content by another provider.</p>
+            <div class="meta">Flagged 6 hours ago</div>
+          </div>
+          <div class="approve-actions">
+            <button class="btn-icon-sm approve" aria-label="Dismiss flag" data-icon="check"></button>
+            <button class="btn-icon-sm reject" aria-label="Remove review" data-icon="xCircle"></button>
+          </div>
         </div>
       </div>
 
       <div class="panel-card card">
-        <div class="panel-head"><h4>Recent SME Sign-ups</h4><a href="#">View All Users</a></div>
+        <div class="panel-head"><h4>Recent SME Sign-ups</h4><a href="admin-sme-users.html">View All Users</a></div>
         <div class="table-wrap">
           <table class="data-table">
             <thead>
@@ -269,7 +269,7 @@
                 <td>68/100</td>
                 <td>Today</td>
                 <td><span class="status-badge active">Active</span></td>
-                <td><a href="#" class="table-action-link">View</a></td>
+                <td><a href="admin-sme-users.html" class="table-action-link">View</a></td>
               </tr>
               <tr>
                 <td><span class="cell-primary">JTC Marketing</span><span class="cell-sub">Selangor</span></td>
@@ -277,7 +277,7 @@
                 <td>74/100</td>
                 <td>Yesterday</td>
                 <td><span class="status-badge active">Active</span></td>
-                <td><a href="#" class="table-action-link">View</a></td>
+                <td><a href="admin-sme-users.html" class="table-action-link">View</a></td>
               </tr>
               <tr>
                 <td><span class="cell-primary">Kedai Runcit Aina</span><span class="cell-sub">Johor</span></td>
@@ -285,7 +285,7 @@
                 <td>52/100</td>
                 <td>2 days ago</td>
                 <td><span class="status-badge pending">Unverified</span></td>
-                <td><a href="#" class="table-action-link">View</a></td>
+                <td><a href="admin-sme-users.html" class="table-action-link">View</a></td>
               </tr>
               <tr>
                 <td><span class="cell-primary">Nova Builders</span><span class="cell-sub">Kuala Lumpur</span></td>
@@ -293,7 +293,7 @@
                 <td>61/100</td>
                 <td>3 days ago</td>
                 <td><span class="status-badge active">Active</span></td>
-                <td><a href="#" class="table-action-link">View</a></td>
+                <td><a href="admin-sme-users.html" class="table-action-link">View</a></td>
               </tr>
             </tbody>
           </table>
@@ -303,7 +303,7 @@
   </div>
 </div>
 
-<script src="js/icons.js"></script>
-<script src="js/main.js"></script>
+<script src="../js/icons.js"></script>
+<script src="../js/main.js"></script>
 </body>
 </html>
