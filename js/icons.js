@@ -54,3 +54,24 @@ document.addEventListener('DOMContentLoaded', () => {
     if (ICONS[name]) el.innerHTML = ICONS[name];
   });
 });
+
+
+window.ICONS = {
+  logo: `<svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 3c6 3 11 3 11 3s1 12-11 26C4 18 5 6 5 6s5 0 11-3Z" fill="url(#logoGrad)"/>
+    <path d="M16 10v9M16 19l4-3M16 19l-4-3" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <defs>
+      <linearGradient id="logoGrad" x1="5" y1="3" x2="27" y2="29" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#7B5CF0"/>
+        <stop offset="1" stop-color="#3FD9C7"/>
+      </linearGradient>
+    </defs>
+  </svg>`,
+  briefcase2: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="7" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 7V5.5A1.5 1.5 0 0 1 9.5 4h5A1.5 1.5 0 0 1 16 5.5V7" stroke="currentColor" stroke-width="1.6"/><path d="M3 12h18" stroke="currentColor" stroke-width="1.6"/></svg>`,
+  shield: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>`,
+  mail: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="2.5" stroke="currentColor" stroke-width="1.6"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  lock: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4.5" y="10.5" width="15" height="9.5" rx="2.2" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 10.5V7.8a4.5 4.5 0 0 1 9 0v2.7" stroke="currentColor" stroke-width="1.6"/></svg>`,
+  eye: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/></svg>`,
+  eyeOff: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 3l18 18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M9.9 5.2A10.6 10.6 0 0 1 12 5c6 0 9.5 6.5 9.5 6.5a15.6 15.6 0 0 1-3.3 4M6.5 6.9C4 8.7 2.5 11.5 2.5 11.5S6 18 12 18a9.9 9.9 0 0 0 3-.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.9 10a2.6 2.6 0 0 0 3.6 3.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  sparkles: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 3.5 12.4 8l4.6 1.4-4.6 1.4L11 15.3l-1.4-4.5L5 9.4l4.6-1.4L11 3.5Z" fill="currentColor"/><path d="M18 14l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2Z" fill="currentColor"/></svg>`
+};

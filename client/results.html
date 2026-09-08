@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Assessment Results — SME Growth Advisor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <span class="brand-mark" data-icon="logo"></span>
+      <span>SME<span class="brand-sub">GROWTH ADVISOR</span></span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="#">Solutions</a>
+      <a href="#">Resources</a>
+      <a href="#">Advisors</a>
+      <a href="#">About Us</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="#" class="btn btn-outline btn-sm">Log In</a>
+      <a href="#" class="btn btn-primary btn-sm">Get Started</a>
+      <button class="nav-toggle" aria-label="Menu" data-icon="menu"></button>
+    </div>
+  </div>
+</header>
+
+<section class="results-body">
+  <div class="wrap">
+    <a href="assessment.html" class="back-link"><span data-icon="arrowLeft"></span> Back to Assessment</a>
+    <div class="results-title">
+      <h1>Your Assessment Results</h1>
+      <p>Here's a snapshot of your business growth and digital readiness.</p>
+    </div>
+
+    <div class="results-grid">
+      <div>
+        <div class="score-panel card">
+          <div class="score-panel-inner">
+            <div class="score-block">
+              <span class="lbl">Your SME Growth Score</span>
+              <div class="num">68<span>/100</span></div>
+              <span class="progress-tag">Good Progress</span>
+              <p>You are doing well! With the right improvements in key areas, your business can grow even stronger.</p>
+              <svg class="spark" viewBox="0 0 220 60" preserveAspectRatio="none">
+                <polyline points="0,45 35,42 70,38 105,40 140,25 175,20 220,8" fill="none" stroke="#2563EB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="220" cy="8" r="4" fill="#2563EB"/>
+              </svg>
+            </div>
+            <div class="radar-wrap">
+              <svg id="radarChart" viewBox="0 0 500 460"></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout card" style="background:var(--blue-light);">
+          <span class="ic" data-icon="lightbulb"></span>
+          <p>Great start! We've identified key opportunities that can help your business grow faster. <a href="#">Login or create your free account</a> to access your full personalised report.</p>
+        </div>
+
+        <h2 class="block-title">Top Growth Opportunities</h2>
+
+        <div class="opp-card card">
+          <span class="ic" data-icon="monitor"></span>
+          <div style="flex:1;">
+            <span class="opp-tag">Highest Impact</span>
+            <h4>1. Improve Digitalisation</h4>
+            <p>Your digital readiness score is 46/100, which is below the average for businesses in your industry.</p>
+            <div class="impact-row">
+              Potential Impact
+              <span class="impact-bars"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span><span></span></span>
+              High
+            </div>
+          </div>
+          <div class="opp-side">
+            <p><strong style="color:var(--ink);">Why it matters</strong><br>Improving digitalisation can help you save time, reduce costs, and reach more customers.</p>
+            <a href="#">Learn more →</a>
+          </div>
+        </div>
+
+        <div class="opp-card card locked">
+          <span class="ic" data-icon="lock"></span>
+          <div class="opp-lock-row">
+            <div>
+              <h4>2. Increase Sales &amp; Marketing Effectiveness</h4>
+              <p style="margin-bottom:0;">Discover how to attract more qualified leads and convert them into loyal customers.</p>
+            </div>
+            <div class="unlock-cta"><span data-icon="lock" style="width:16px;height:16px;display:inline-block;"></span><a href="#">Create an account<br>to unlock</a></div>
+          </div>
+        </div>
+
+        <div class="opp-card card locked">
+          <span class="ic" data-icon="lock"></span>
+          <div class="opp-lock-row">
+            <div>
+              <h4>3. Strengthen Financial Management</h4>
+              <p style="margin-bottom:0;">Improve cash flow, reduce costs, and increase profitability.</p>
+            </div>
+            <div class="unlock-cta"><span data-icon="lock" style="width:16px;height:16px;display:inline-block;"></span><a href="#">Create an account<br>to unlock</a></div>
+          </div>
+        </div>
+
+        <div class="opp-card card locked">
+          <span class="ic" data-icon="lock"></span>
+          <div class="opp-lock-row">
+            <div>
+              <h4>4. Optimise Operations</h4>
+              <p style="margin-bottom:0;">Streamline your processes to improve productivity and efficiency.</p>
+            </div>
+            <div class="unlock-cta"><span data-icon="lock" style="width:16px;height:16px;display:inline-block;"></span><a href="#">Create an account<br>to unlock</a></div>
+          </div>
+        </div>
+
+        <h2 class="block-title">Recommended Next Step</h2>
+        <div class="next-step-card card">
+          <span class="ic" data-icon="target"></span>
+          <div>
+            <span class="tag">Recommended</span>
+            <h4>Start with Digital Transformation</h4>
+            <p>Based on your assessment, we recommend focusing on digitalising your customer management process.</p>
+            <div style="font-size:.78rem;font-weight:700;color:var(--slate-light);margin-bottom:6px;">Potential Benefits</div>
+            <ul class="benefit-list">
+              <li><span data-icon="check"></span> Improve customer data management</li>
+              <li><span data-icon="check"></span> Increase sales conversion rate</li>
+              <li><span data-icon="check"></span> Save time on manual tasks</li>
+              <li><span data-icon="check"></span> Better customer experience</li>
+            </ul>
+            <div class="solution-tag-lbl">Suggested Solution Category</div>
+            <span class="solution-chip">CRM Software</span>
+          </div>
+        </div>
+
+        <h2 class="block-title">Your Business Snapshot</h2>
+        <div class="snapshot-grid">
+          <div class="snap-card card">
+            <span class="ic" data-icon="clipboard"></span>
+            <div><div class="lbl">Industry</div><div class="val">Manufacturing</div></div>
+          </div>
+          <div class="snap-card card">
+            <span class="ic" data-icon="users"></span>
+            <div><div class="lbl">Company Size</div><div class="val">11 – 50 employees</div></div>
+          </div>
+          <div class="snap-card card">
+            <span class="ic" data-icon="clock"></span>
+            <div><div class="lbl">Business Age</div><div class="val">6 – 10 years</div></div>
+          </div>
+          <div class="snap-card card">
+            <span class="ic" data-icon="mapPin"></span>
+            <div><div class="lbl">Location</div><div class="val">Penang</div></div>
+          </div>
+          <div class="snap-card card">
+            <span class="ic" data-icon="flag"></span>
+            <div><div class="lbl">Primary Goal</div><div class="val">Grow revenue</div></div>
+          </div>
+        </div>
+
+        <div class="bottom-banner">
+          <div class="left">
+            <span class="ic" data-icon="trophy"></span>
+            <div>
+              <h4>You're on the right track!</h4>
+              <p>Join thousands of SMEs across Malaysia who are growing their business smarter with data-driven insights and expert guidance.</p>
+            </div>
+          </div>
+          <div class="right">
+            <a href="#" class="btn btn-primary">Create Free Account</a>
+            <small>It's free and only takes a minute!</small>
+          </div>
+        </div>
+
+        <p class="privacy-note"><span data-icon="shield"></span> Your information is secure and will only be used to provide personalised insights.</p>
+      </div>
+
+      <aside>
+        <div class="unlock-card card">
+          <div class="unlock-ic" data-icon="lock"></div>
+          <h3>Unlock Your Full Growth Report</h3>
+          <p>Create a free account to discover:</p>
+          <ul class="unlock-list">
+            <li><span data-icon="lock"></span> 3 more growth opportunities</li>
+            <li><span data-icon="lock"></span> Full digitalisation roadmap</li>
+            <li><span data-icon="lock"></span> Recommended solutions</li>
+            <li><span data-icon="lock"></span> Ask AI Growth Advisor</li>
+            <li><span data-icon="lock"></span> Compare with similar businesses</li>
+            <li><span data-icon="lock"></span> Save and track your progress</li>
+          </ul>
+          <a href="#" class="btn btn-primary btn-block">Create Free Account</a>
+          <p class="login-row">Already have an account? <a href="#">Log In</a></p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<script src="js/icons.js"></script>
+<script src="js/main.js"></script>
+<script src="js/radar.js"></script>
+<script>
+  renderRadar(document.getElementById('radarChart'), [
+    { name: 'Strategy', value: 72 },
+    { name: 'Sales & Marketing', value: 58 },
+    { name: 'Operations', value: 71 },
+    { name: 'People', value: 64 },
+    { name: 'Finance', value: 60 },
+    { name: 'Digitalisation', value: 46 }
+  ]);
+</script>
+</body>
+</html>

@@ -7,21 +7,43 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/loginStyle.css">
+
 </head>
 <body>
 
 <div class="login-shell">
 
   <aside class="login-aside">
+    <div class="aside-blob" aria-hidden="true">
+      <svg viewBox="0 0 420 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M210 20c90 10 170 60 190 150s-50 190-150 210S30 360 20 250 90 40 210 20Z" fill="url(#blobA)"/>
+        <path d="M230 60c70 20 120 80 110 160s-90 140-170 130S30 290 50 210 150 40 230 60Z" fill="url(#blobB)" opacity=".85"/>
+        <defs>
+          <linearGradient id="blobA" x1="20" y1="20" x2="400" y2="400" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#8B6BF2"/><stop offset="1" stop-color="#4B2E9E"/>
+          </linearGradient>
+          <linearGradient id="blobB" x1="50" y1="60" x2="340" y2="350" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#3FD9C7"/><stop offset="1" stop-color="#3B7BE0"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
     <a href="index.html" class="brand">
       <span class="brand-mark" data-icon="logo"></span>
       <span>SME<span class="brand-sub">GROWTH ADVISOR</span></span>
     </a>
 
     <div class="login-aside-mid">
-      <h2>AI + human expertise, working together for your business growth.</h2>
+      <h2>AI and human expertise, working together for your business growth.</h2>
       <p>Log in to pick up where you left off — your growth score, personalised solutions, and advisor conversations are all waiting for you.</p>
     </div>
+
+    <nav class="aside-links">
+      <a href="#">What to expect</a>
+      <a href="#">Other solutions</a>
+    </nav>
   </aside>
 
   <main class="login-main">
@@ -34,26 +56,15 @@
       <div class="role-tabs" id="roleTabs">
         <button type="button" class="role-tab active"
           data-role="sme"
-          data-title="Welcome back"
-          data-sub="Log in to access your growth dashboard and personalised insights."
+          data-title="Log in"
+          data-sub="Access your growth dashboard and personalised insights."
           data-btn="Log In"
-          data-note="SME accounts get access to your Growth Score, AI Advisor conversations, and recommended solutions."
           data-note-icon="sparkles"
           data-redirect="clientDashboard.html"
-          data-signup="New to SME Growth Advisor? &lt;a href=&quot;assessment.html&quot;&gt;Start your free assessment&lt;/a&gt;">
+          data-signup="Don&#39;t have an account? &lt;a href=&quot;assessment.html&quot;&gt;Start your free assessment&lt;/a&gt;">
           <span data-icon="briefcase2"></span> SME User
         </button>
-        <button type="button" class="role-tab"
-          data-role="provider"
-          data-title="Provider login"
-          data-sub="Manage your listings, leads, and performance on SME Growth Advisor."
-          data-btn="Log In to Provider Portal"
-          data-note="Provider accounts can manage solution listings, respond to SME enquiries, and track performance analytics."
-          data-note-icon="layers"
-          data-redirect="provider-dashboard.html"
-          data-signup="Want to list your solution? &lt;a href=&quot;#&quot;&gt;Apply as a Solution Provider&lt;/a&gt;">
-          <span data-icon="layers"></span> Solution Provider
-        </button>
+
         <button type="button" class="role-tab"
           data-role="admin"
           data-title="Admin login"
@@ -67,12 +78,12 @@
         </button>
       </div>
 
-      <h1 id="loginTitle">Welcome back</h1>
-      <p class="sub" id="loginSub">Log in to access your growth dashboard and personalised insights.</p>
+      <h1 id="loginTitle">Log in</h1>
+      <p class="sub" id="loginSub">Access your growth dashboard and personalised insights.</p>
 
       <form id="loginForm">
         <div class="input-group">
-          <label for="email">Email address</label>
+          <label for="email">Your email</label>
           <div class="input-field">
             <span data-icon="mail"></span>
             <input type="email" id="email" placeholder="you@company.com" required>
@@ -80,7 +91,7 @@
         </div>
 
         <div class="input-group">
-          <label for="password">Password</label>
+          <label for="password">Your password</label>
           <div class="input-field">
             <span data-icon="lock"></span>
             <input type="password" id="password" placeholder="Enter your password" required>
@@ -97,13 +108,10 @@
 
         <button type="submit" class="btn btn-primary btn-block" id="submitBtn">Log In</button>
 
-        <div class="role-note" id="roleNote">
-          <span data-icon="sparkles" id="roleNoteIcon"></span>
-          <span id="roleNoteText">SME accounts get access to your Growth Score, AI Advisor conversations, and recommended solutions.</span>
-        </div>
-      </form>
+        <p class="signup-prompt" id="signupPrompt">Don't have an account? <a href="assessment.html">Start your free assessment</a></p>
 
-      <p class="signup-prompt" id="signupPrompt">New to SME Growth Advisor? <a href="assessment.html">Start your free assessment</a></p>
+        <button type="button" class="btn btn-outline btn-block" id="signupBtn">Sign Up</button>
+      </form>
     </div>
   </main>
 </div>
@@ -118,8 +126,17 @@
     const roleNoteText = document.getElementById('roleNoteText');
     const roleNoteIcon = document.getElementById('roleNoteIcon');
     const signupPrompt = document.getElementById('signupPrompt');
+    const signupBtn = document.getElementById('signupBtn');
     const form = document.getElementById('loginForm');
     let redirect = 'clientDashboard.html';
+
+    function renderIcons() {
+      document.querySelectorAll('[data-icon]').forEach(el => {
+        const name = el.getAttribute('data-icon');
+        if (window.ICONS && window.ICONS[name]) el.innerHTML = window.ICONS[name];
+      });
+    }
+    renderIcons();
 
     function applyRole(tab) {
       tabs.forEach(t => t.classList.remove('active'));
@@ -136,12 +153,14 @@
       }
 
       const signupHtml = tab.dataset.signup;
+      const isSme = tab.dataset.role === 'sme';
       if (signupHtml) {
         signupPrompt.innerHTML = signupHtml;
         signupPrompt.style.display = 'block';
       } else {
         signupPrompt.style.display = 'none';
       }
+      signupBtn.style.display = isSme ? 'block' : 'none';
     }
 
     tabs.forEach(tab => tab.addEventListener('click', () => applyRole(tab)));
@@ -156,12 +175,15 @@
       eyeIcon.innerHTML = window.ICONS[isText ? 'eye' : 'eyeOff'];
     });
 
+    signupBtn.addEventListener('click', () => {
+      window.location.href = 'assessment.html';
+    });
+
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       window.location.href = redirect;
     });
   });
-
-  // expose ICONS globally for role-switch icon updates (icons.js defines ICONS in module scope)
-</script></body>
+</script>
+</body>
 </html>
