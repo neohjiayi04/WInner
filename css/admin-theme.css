@@ -1,0 +1,129 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+:root{
+  --navy-deep: #0B1F3F;
+  --navy-mid: #132A52;
+  --navy-light: #1C3766;
+  --navy-border: #23386B;
+  --accent-blue: #2563EB;
+  --text-on-navy: #E2E8F0;
+  --text-on-navy-muted: #8CA1C7;
+}
+
+/* ---------- Sidebar: full height, flex column ---------- */
+.app-sidebar{
+  background: var(--navy-deep) !important;
+  border-right: none !important;
+  height: 100vh !important;
+  position: sticky !important;
+  top: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 24px 18px !important;
+}
+
+/* Logo / brand block */
+.app-sidebar .brand{
+  color: #fff !important;
+  border-bottom: 1px solid var(--navy-border) !important;
+  padding-bottom: 20px !important;
+  margin-bottom: 18px !important;
+}
+.app-sidebar .brand-mark{
+  background: linear-gradient(135deg, var(--accent-blue), var(--navy-light)) !important;
+}
+.app-sidebar .brand-sub{
+  color: var(--text-on-navy-muted) !important;
+}
+
+/* Nav items */
+.app-sidebar .app-nav{
+  flex: 1 1 auto;
+}
+.app-sidebar .app-nav a{
+  color: var(--text-on-navy-muted) !important;
+  border-radius: 8px;
+  margin-bottom: 2px;
+}
+.app-sidebar .app-nav a:hover{
+  background: var(--navy-light) !important;
+  color: #fff !important;
+}
+.app-sidebar .app-nav a.active{
+  background: var(--accent-blue) !important;
+  color: #fff !important;
+}
+
+/* "Needs attention" promo box */
+.app-sidebar .sidebar-promo{
+  background: var(--navy-mid) !important;
+  border-color: var(--navy-border) !important;
+}
+.app-sidebar .sidebar-promo h5,
+.app-sidebar .sidebar-promo p{
+  color: var(--text-on-navy) !important;
+}
+.app-sidebar .sidebar-promo a{
+  color: #93C5FD !important;
+}
+
+/* Account footer block — pinned to bottom */
+.app-sidebar .sidebar-account{
+  border-top: 1px solid var(--navy-border) !important;
+  margin-top: auto !important;
+  padding-top: 14px !important;
+}
+.app-sidebar .sidebar-account .who strong{
+  color: #fff !important;
+}
+.app-sidebar .sidebar-account .who span{
+  color: var(--text-on-navy-muted) !important;
+}
+.app-sidebar .sidebar-account span[data-icon="chevronDown"]{
+  color: var(--text-on-navy-muted) !important;
+}
+
+/* ---------- Main content area ---------- */
+.app-main{
+  background: #F6F8FC;
+}
+.app-topbar{
+  background: #fff;
+  border-bottom: 1px solid #E5E9F2;
+}
+
+/* ---------- Cards ---------- */
+.card{
+  border: 1px solid #E5E9F2;
+  border-radius: 14px;
+  box-shadow: 0 1px 3px rgba(11, 31, 63, 0.05);
+}
+
+.metric-card.dark{
+  background: var(--navy-deep) !important;
+  color: #fff !important;
+}
+.metric-card.dark .top-lbl,
+.metric-card.dark .metric-sub{
+  color: var(--text-on-navy-muted) !important;
+}
+
+/* ---------- Table ---------- */
+.data-table thead th{
+  color: var(--text-on-navy-muted);
+  border-bottom: 1px solid #E5E9F2;
+}
+.data-table tbody tr:hover{
+  background: #F6F8FC;
+}
+
+/* ---------- Filter buttons (All / Active / Blocked) ---------- */
+#statusFilter .btn.active-filter,
+.btn-outline.active-filter{
+  background: var(--accent-blue) !important;
+  color: #fff !important;
+  border-color: var(--accent-blue) !important;
+}
