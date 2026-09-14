@@ -1098,6 +1098,35 @@ function submitAssessment() {
    INIT
 ======================================== */
 renderCurrentStep();
+
+/* ========================================
+   DYNAMIC AI FOLLOW-UP QUESTION ENGINE
+======================================== */
+function checkAndInjectDynamicQuestions(step) {
+  if (step.id === 1 && assessmentData.goal === "Digitalise operations") {
+    const existing = step.fields.find(f => f.name === "dynamicFollowUp");
+    if (!existing) {
+      step.fields.push({
+        name: "dynamicFollowUp",
+        label: "🤖 AI Follow-Up: Which operational area needs immediate digitalisation?",
+        type: "pills",
+        cols: 2,
+        required: true,
+        options: ["Sales & Invoicing", "Inventory Management", "Customer Service Support", "HR & Payroll"]
+      });
+      renderCurrentStep();
+    }
+  }
+}
+
+// Intercept selection changes to inject dynamic follow-up questions dynamically
+const origAttachFieldListeners = attachFieldListeners;
+attachFieldListeners = function(step) {
+  origAttachFieldListeners(step);
+  questionCard.querySelectorAll(".option-card").forEach(card => {
+    card.addEventListener("click", () => checkAndInjectDynamicQuestions(step));
+  });
+};
 </script>
 
 </body>
