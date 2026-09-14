@@ -57,23 +57,28 @@ html, body {
   color: #fff !important;
 }
 
-/* "Needs attention" promo box */
+/* Hide "Needs attention" promo — not in the target design */
 .app-sidebar .sidebar-promo{
-  background: var(--navy-mid) !important;
-  border-color: var(--navy-border) !important;
-}
-.app-sidebar .sidebar-promo h5,
-.app-sidebar .sidebar-promo p{
-  color: var(--text-on-navy) !important;
-}
-.app-sidebar .sidebar-promo a{
-  color: #93C5FD !important;
+  display: none !important;
 }
 
-/* Account footer block — pinned to bottom */
+/* Sidebar tagline (bottom, above account block) */
+.app-sidebar .sidebar-tagline{
+  padding: 16px 4px 0;
+  margin-top: auto;
+  border-top: 1px solid var(--navy-border);
+}
+.app-sidebar .sidebar-tagline p{
+  font-size: .74rem;
+  line-height: 1.5;
+  color: var(--text-on-navy-muted);
+  margin: 0;
+}
+
+/* Account footer block — sits right above tagline */
 .app-sidebar .sidebar-account{
   border-top: 1px solid var(--navy-border) !important;
-  margin-top: auto !important;
+  margin-top: 0 !important;
   padding-top: 14px !important;
 }
 .app-sidebar .sidebar-account .who strong{
