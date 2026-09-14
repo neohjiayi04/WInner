@@ -3,22 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About Us — SME Growth Advisor</title>
+<title>FAQ — SME Growth Advisor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/faqStyle.css">
 <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
+<!-- Header Navigation -->
 <header class="site-header">
   <div class="wrap">
     <a href="index.html" class="brand">
       <span class="brand-mark" data-icon="logo"></span>
-      <span>SME<span class="brand-sub">GROWTH ADVISOR</span></span>
+      <div class="brand-text">
+        <span>SME</span>
+        <span class="brand-sub">GROWTH ADVISOR</span>
+      </div>
     </a>
     <nav class="nav-links">
-      <a href="index.html" >Home</a>
-      <a href="#how-it-works">How It Works</a>
+      <a href="index.html">Home</a>
+      <a href="index.html#how-it-works">How It Works</a>
       <a href="assessment.html">Assessment</a>
       <a href="aboutus.html">About Us</a>
       <a href="faq.html" class="active">FAQ</a>
@@ -30,160 +35,149 @@
   </div>
 </header>
 
-<section class="about-hero">
-  <div class="wrap">
-    <h1>Frequently Asked Questions</h1>
-    <p class="lead">Everything you need to know before getting started.</p>
-  </div>
-</section>
-
-<!--FAQ-->
-<section class="section" style="padding-top:0;">
-  <div class="wrap">
-    <div class="faq-list">
-
-      <div class="faq-item open">
-        <div class="faq-question">
-          What is SME Growth Advisor?
-          <span class="chev-ic" data-icon="chevronDown"></span>
-        </div>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">SME Growth Advisor is a platform that helps Malaysian small and medium businesses grow and digitalise. We combine a free AI-powered business assessment with a curated marketplace of digital solutions and access to vetted human advisors.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-question">
-          Is the business assessment really free?
-          <span class="chev-ic" data-icon="chevronDown"></span>
-        </div>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Yes. The assessment is 100% free with no credit card required, and takes about 5–7 minutes. You'll get an instant preview of your Growth Score, and creating a free account unlocks your full personalised report.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-question">
-          How does the AI Growth Advisor work?
-          <span class="chev-ic" data-icon="chevronDown"></span>
-        </div>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">The AI Growth Advisor analyses your assessment answers across six key areas — strategy, sales & marketing, operations, finance, people, and digitalisation — and surfaces the highest-impact opportunities and solutions for your specific business, rather than generic advice.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-question">
-          Can solution providers list their products on the platform?
-          <span class="chev-ic" data-icon="chevronDown"></span>
-        </div>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Yes. Software vendors and service providers can apply for a Provider account, submit listings for review, and get matched with SMEs whose assessment results show a genuine fit for their solution.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-question">
-          How are advisors vetted?
-          <span class="chev-ic" data-icon="chevronDown"></span>
-        </div>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Every advisor goes through a background and experience review by our Advisor Network team before being approved. We look for real, relevant SME consulting experience — not just credentials.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-question">
-          Is my business data secure?
-          <span class="chev-ic" data-icon="chevronDown"></span>
-        </div>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Your assessment answers and company information are kept private and are only used to generate your personalised insights and recommendations. We never sell your data to third parties.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-question">
-          Which industries and regions do you support?
-          <span class="chev-ic" data-icon="chevronDown"></span>
-        </div>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">We support SMEs across all major industries — manufacturing, retail, F&amp;B, professional services, construction, and more — and across all states in Malaysia, with an advisor and solution network that continues to grow.</div>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-question">
-          How do I get started?
-          <span class="chev-ic" data-icon="chevronDown"></span>
-        </div>
-        <div class="faq-answer">
-          <div class="faq-answer-inner">Just click "Assess My Business" to take the free assessment. You'll get instant results, and can create a free account afterwards to unlock your full report, solution matches, and advisor recommendations.</div>
-        </div>
-      </div>
-
+<!-- Dark Hero with Search Box -->
+<section class="faq-hero">
+  <div class="wrap hero-content">
+    <h1>How can we help your enterprise prepare?</h1>
+    <p class="hero-lead">Get detailed information on assessment guidelines, growth scores, advisor networks, and platform compliance.</p>
+    
+    <div class="faq-search-box">
+      <span data-icon="search" class="search-icon"></span>
+      <input type="text" id="faqSearchInput" placeholder="Search standard operating procedures, questions, regulations..." />
     </div>
   </div>
 </section>
 
-<section class="section" style="padding-top:0;">
+<!-- Single-Column Card FAQ Section -->
+<section class="section faq-main-section">
   <div class="wrap">
-    <div class="about-cta">
-      <h2>Ready to grow your business with us?</h2>
-      <p>Join hundreds of Malaysian SMEs already growing smarter with SME Growth Advisor.</p>
-      <div class="cta-row">
-        <a href="assessment.html" class="btn btn-primary">Assess My Business <span data-icon="arrowRight" style="width:16px;height:16px;display:inline-flex;"></span></a>
-        <a href="#" class="btn btn-outline" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.4);">Talk to an Advisor</a>
+
+    <div class="category-header">
+      <span data-icon="briefcase2" class="category-icon"></span>
+      <h2>Frequently Asked Questions</h2>
+    </div>
+
+    <div class="faq-list" id="faqList">
+
+      <div class="faq-card open">
+        <button class="faq-card-header" aria-expanded="true">
+          <div class="faq-title-group">
+            <h3>What is SME Growth Advisor?</h3>
+            <p class="faq-answer-text">SME Growth Advisor is a platform that helps Malaysian small and medium businesses grow and digitalise. We combine a free AI-powered business assessment with a curated marketplace of digital solutions and access to vetted human advisors.</p>
+          </div>
+          <span class="chev-ic" data-icon="chevronDown"></span>
+        </button>
       </div>
+
+      <div class="faq-card">
+        <button class="faq-card-header" aria-expanded="false">
+          <div class="faq-title-group">
+            <h3>Is the business assessment really free?</h3>
+            <p class="faq-answer-text">Yes. The assessment is 100% free with no credit card required, and takes about 5–7 minutes. You'll get an instant preview of your Growth Score, and creating a free account unlocks your full personalised report.</p>
+          </div>
+          <span class="chev-ic" data-icon="chevronDown"></span>
+        </button>
+      </div>
+
+      <div class="faq-card">
+        <button class="faq-card-header" aria-expanded="false">
+          <div class="faq-title-group">
+            <h3>How does the AI Growth Advisor work?</h3>
+            <p class="faq-answer-text">The AI Growth Advisor analyses your assessment answers across six key areas — strategy, sales & marketing, operations, finance, people, and digitalisation — and surfaces the highest-impact opportunities and solutions for your specific business.</p>
+          </div>
+          <span class="chev-ic" data-icon="chevronDown"></span>
+        </button>
+      </div>
+
+      <div class="faq-card">
+        <button class="faq-card-header" aria-expanded="false">
+          <div class="faq-title-group">
+            <h3>Can solution providers list their products on the platform?</h3>
+            <p class="faq-answer-text">Yes. Software vendors and service providers can apply for a Provider account, submit listings for review, and get matched with SMEs whose assessment results show a genuine fit for their solution.</p>
+          </div>
+          <span class="chev-ic" data-icon="chevronDown"></span>
+        </button>
+      </div>
+
+      <div class="faq-card">
+        <button class="faq-card-header" aria-expanded="false">
+          <div class="faq-title-group">
+            <h3>How are advisors vetted?</h3>
+            <p class="faq-answer-text">Every advisor goes through a background and experience review by our Advisor Network team before being approved. We look for real, relevant SME consulting experience — not just credentials.</p>
+          </div>
+          <span class="chev-ic" data-icon="chevronDown"></span>
+        </button>
+      </div>
+
+      <div class="faq-card">
+        <button class="faq-card-header" aria-expanded="false">
+          <div class="faq-title-group">
+            <h3>Is my business data secure?</h3>
+            <p class="faq-answer-text">Your assessment answers and company information are kept private and are only used to generate your personalised insights and recommendations. We never sell your data to third parties.</p>
+          </div>
+          <span class="chev-ic" data-icon="chevronDown"></span>
+        </button>
+      </div>
+
+      <div class="faq-card">
+        <button class="faq-card-header" aria-expanded="false">
+          <div class="faq-title-group">
+            <h3>Which industries and regions do you support?</h3>
+            <p class="faq-answer-text">We support SMEs across all major industries — manufacturing, retail, F&amp;B, professional services, construction, and more — and across all states in Malaysia.</p>
+          </div>
+          <span class="chev-ic" data-icon="chevronDown"></span>
+        </button>
+      </div>
+
+      <div class="faq-card">
+        <button class="faq-card-header" aria-expanded="false">
+          <div class="faq-title-group">
+            <h3>How do I get started?</h3>
+            <p class="faq-answer-text">Just click "Assess My Business" to take the free assessment. You'll get instant results, and can create a free account afterwards to unlock your full report and solution matches.</p>
+          </div>
+          <span class="chev-ic" data-icon="chevronDown"></span>
+        </button>
+      </div>
+
+    </div>
+
+    <div id="noResults" class="no-results" style="display:none;">
+      No matching questions found. Try searching for something else.
     </div>
   </div>
 </section>
 
+<!-- Footer -->
 <footer class="site-footer">
   <div class="wrap">
     <div class="footer-top">
-      <div>
-        <div class="footer-brand"><span class="brand-mark" data-icon="logo"></span> SME Growth Advisor</div>
-        <p>Empowering Malaysian SMEs to grow, digitalise, and succeed in today's competitive world.</p>
-        <div class="footer-social">
-          <a href="#" aria-label="Facebook" data-icon="facebook"></a>
-          <a href="#" aria-label="LinkedIn" data-icon="linkedin"></a>
-          <a href="#" aria-label="YouTube" data-icon="youtube"></a>
+      <div class="footer-col brand-col">
+        <div class="footer-brand">
+          <span class="brand-mark" data-icon="logo"></span> 
+          <span>SME Growth Advisor</span>
         </div>
+        <p>Empowering Malaysian SMEs to grow, digitalise, and succeed in today's competitive world.</p>
       </div>
-      <div>
+      <div class="footer-col">
         <h4>Quick Links</h4>
         <ul>
           <li><a href="index.html">Home</a></li>
-          <li><a href="index.html#how-it-works">How It Works</a></li>
-          <li><a href="solutions.html">Solutions</a></li>
-          <li><a href="index.html#resources">Resources</a></li>
+          <li><a href="assessment.html">Assessment</a></li>
           <li><a href="aboutus.html">About Us</a></li>
+          <li><a href="faq.html">FAQ</a></li>
         </ul>
       </div>
-      <div>
+      <div class="footer-col">
         <h4>Solutions</h4>
         <ul>
           <li><a href="#">Digitalisation</a></li>
           <li><a href="#">Marketing &amp; Sales</a></li>
-          <li><a href="#">Operations</a></li>
           <li><a href="#">Finance</a></li>
-          <li><a href="#">People &amp; HR</a></li>
         </ul>
       </div>
-      <div>
-        <h4>Resources</h4>
-        <ul>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">Guides</a></li>
-          <li><a href="#">Templates</a></li>
-          <li><a href="#">Webinars</a></li>
-          <li><a href="#">Events</a></li>
-        </ul>
-      </div>
-      <div>
+      <div class="footer-col newsletter-col">
         <h4>Stay Updated</h4>
-        <p>Subscribe to our newsletter for the latest tips and updates.</p>
+        <p>Subscribe for the latest tips and updates.</p>
         <div class="newsletter-row">
           <input type="email" placeholder="Enter your email">
           <button aria-label="Subscribe" data-icon="arrowRight"></button>
@@ -192,12 +186,70 @@
     </div>
     <div class="footer-bottom">
       <span>© 2026 SME Growth Advisor. All rights reserved.</span>
-      <span><a href="#">Privacy Policy</a> &nbsp;|&nbsp; <a href="#">Terms of Use</a></span>
+      <span class="footer-legal">
+        <a href="#">Privacy Policy</a>
+        <span class="dot">•</span>
+        <a href="#">Terms of Use</a>
+      </span>
     </div>
   </div>
 </footer>
 
 <script src="js/icons.js"></script>
-<script src="js/main.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Inject SVGs dynamically
+    document.querySelectorAll('[data-icon]').forEach(el => {
+      const iconName = el.getAttribute('data-icon');
+      if (window.ICONS && window.ICONS[iconName]) {
+        el.innerHTML = window.ICONS[iconName];
+      }
+    });
+
+    // Accordions Toggle Behavior
+    const faqCards = document.querySelectorAll('.faq-card');
+    faqCards.forEach(card => {
+      const headerBtn = card.querySelector('.faq-card-header');
+      headerBtn.addEventListener('click', () => {
+        const isOpen = card.classList.contains('open');
+        
+        // Close other cards
+        faqCards.forEach(c => {
+          c.classList.remove('open');
+          c.querySelector('.faq-card-header').setAttribute('aria-expanded', 'false');
+        });
+
+        // Open clicked card if it was closed
+        if (!isOpen) {
+          card.classList.add('open');
+          headerBtn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    // Live Search Filter functionality
+    const searchInput = document.getElementById('faqSearchInput');
+    const noResults = document.getElementById('noResults');
+
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        let visibleCount = 0;
+
+        faqCards.forEach(card => {
+          const text = card.textContent.toLowerCase();
+          if (text.includes(query)) {
+            card.style.display = 'block';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+      });
+    }
+  });
+</script>
 </body>
 </html>

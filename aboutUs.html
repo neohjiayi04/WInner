@@ -6,7 +6,620 @@
 <title>About Us — SME Growth Advisor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css">
+
+<style>
+/* ---------- BRAND DESIGN SYSTEM ---------- */
+:root {
+  --bg-light: #f0f4fa;
+  --white: #ffffff;
+  --primary-blue: #2563eb;
+  --primary-blue-hover: #1d4ed8;
+  --dark-navy: #0b192c;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border-light: #e2e8f0;
+  --card-shadow: 0 10px 30px -5px rgba(37, 99, 235, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+  --badge-bg: #e0e7ff;
+  --badge-text: #3730a3;
+  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-light);
+  color: var(--text-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- LAYOUT UTILITIES ---------- */
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.section {
+  padding: 80px 0;
+}
+
+.section-head {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 56px auto;
+}
+
+.section-head h2 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--dark-navy);
+  letter-spacing: -0.025em;
+  margin-bottom: 12px;
+}
+
+.section-head p {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+}
+
+/* ---------- BUTTONS ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 28px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: var(--primary-blue);
+  color: var(--white);
+  border: 1px solid var(--primary-blue);
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-blue-hover);
+  border-color: var(--primary-blue-hover);
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  background-color: var(--white);
+  color: var(--primary-blue);
+  border: 1px solid #bfdbfe;
+}
+
+.btn-outline:hover {
+  background-color: #eff6ff;
+  border-color: var(--primary-blue);
+}
+
+.btn-sm {
+  padding: 8px 20px;
+  border-radius: 10px;
+  font-size: 13px;
+}
+
+/* ---------- CARDS ---------- */
+.card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 36px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px -5px rgba(37, 99, 235, 0.12);
+}
+
+/* ---------- HEADER ---------- */
+.site-header {
+  background: transparent;
+  padding: 24px 0;
+}
+
+.site-header .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--dark-navy);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-sub {
+  color: var(--primary-blue);
+  margin-left: 4px;
+  font-weight: 700;
+}
+
+.nav-links {
+  display: flex;
+  gap: 36px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-main);
+  font-size: 15px;
+  font-weight: 500;
+  transition: color 0.15s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--primary-blue);
+  font-weight: 600;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* ---------- HERO ---------- */
+.about-hero {
+  padding: 60px 0 40px;
+  text-align: left;
+}
+
+.tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  background: #eff6ff;
+  color: var(--primary-blue);
+  border: 1px solid #dbeafe;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.about-hero h1 {
+  font-size: clamp(2.4rem, 4vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--dark-navy);
+  max-width: 900px;
+  margin-bottom: 20px;
+}
+
+.about-hero .lead {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  max-width: 720px;
+  line-height: 1.6;
+}
+
+/* ---------- OUR STORY & STATS ---------- */
+.story-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.story-split h2 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--dark-navy);
+  margin-bottom: 20px;
+  letter-spacing: -0.02em;
+}
+
+.story-split p {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  font-size: 1.05rem;
+}
+
+.story-graphic {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.story-stat {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 32px 24px;
+  text-align: center;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: var(--card-shadow);
+}
+
+.story-stat strong {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--primary-blue);
+  line-height: 1;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.story-stat span {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* ---------- MISSION & VISION ---------- */
+.mv-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+
+.mv-card {
+  position: relative;
+}
+
+.ic-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #eff6ff;
+  color: var(--primary-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.mv-card h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--dark-navy);
+  margin-bottom: 12px;
+}
+
+.mv-card p {
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+/* ---------- VALUES GRID ---------- */
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.value-card {
+  padding: 28px 24px;
+  text-align: center;
+}
+
+.value-card .ic-badge {
+  margin: 0 auto 20px auto;
+}
+
+.value-card h4 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--dark-navy);
+  margin-bottom: 8px;
+}
+
+.value-card p {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+
+/* ---------- TEAM GRID ---------- */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+
+.team-card {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.team-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  color: var(--white);
+  font-weight: 800;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.team-info h4 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--dark-navy);
+  margin-bottom: 4px;
+}
+
+.team-info .role {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary-blue);
+  margin-bottom: 8px;
+}
+
+.team-info .bio {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+}
+
+/* ---------- TESTIMONIALS ---------- */
+.testi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.testi-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 32px;
+}
+
+.stars {
+  color: #f59e0b;
+  margin-bottom: 16px;
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+
+.testi-card p {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  margin-bottom: 24px;
+}
+
+.who {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar-photo {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  color: var(--white);
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.who strong {
+  display: block;
+  font-size: 14px;
+  color: var(--dark-navy);
+}
+
+.who span {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ---------- CTA BOTTOM ---------- */
+.about-cta {
+  background: var(--white);
+  border-radius: 24px;
+  padding: 64px 48px;
+  text-align: center;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: var(--card-shadow);
+}
+
+.about-cta h2 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--dark-navy);
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+
+.about-cta p {
+  color: var(--text-muted);
+  max-width: 540px;
+  margin: 0 auto 32px;
+  font-size: 1.05rem;
+}
+
+.cta-row {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+/* ---------- FOOTER ---------- */
+.site-footer {
+  padding: 80px 0 40px;
+  background: var(--white);
+  border-top: 1px solid var(--border-light);
+  margin-top: 40px;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr repeat(3, 1fr) 2fr;
+  gap: 40px;
+  margin-bottom: 64px;
+}
+
+.footer-brand {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--dark-navy);
+  margin-bottom: 12px;
+}
+
+.footer-top p {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.footer-social {
+  display: flex;
+  gap: 12px;
+}
+
+.footer-social a {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.footer-social a:hover {
+  background: var(--primary-blue);
+  color: var(--white);
+}
+
+.footer-top h4 {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--dark-navy);
+  margin-bottom: 20px;
+}
+
+.footer-top ul {
+  list-style: none;
+}
+
+.footer-top ul li {
+  margin-bottom: 12px;
+}
+
+.footer-top ul a {
+  text-decoration: none;
+  font-size: 14px;
+  color: var(--text-muted);
+  transition: color 0.15s;
+}
+
+.footer-top ul a:hover {
+  color: var(--primary-blue);
+}
+
+.newsletter-row {
+  display: flex;
+  gap: 8px;
+}
+
+.newsletter-row input {
+  padding: 10px 16px;
+  font-size: 14px;
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  outline: none;
+  width: 100%;
+}
+
+.newsletter-row input:focus {
+  border-color: var(--primary-blue);
+}
+
+.newsletter-row button {
+  padding: 10px 16px;
+  background: var(--primary-blue);
+  border: none;
+  border-radius: 10px;
+  color: var(--white);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-light);
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.footer-bottom a {
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.footer-bottom a:hover {
+  color: var(--primary-blue);
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 992px) {
+  .story-split, .mv-grid, .team-grid, .footer-top {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .values-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .testi-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
 </head>
 <body>
 
@@ -17,11 +630,11 @@
       <span>SME<span class="brand-sub">GROWTH ADVISOR</span></span>
     </a>
     <nav class="nav-links">
-      <a href="index.html" >Home</a>
+      <a href="index.html">Home</a>
       <a href="#how-it-works">How It Works</a>
       <a href="assessment.html">Assessment</a>
       <a href="aboutus.html" class="active">About Us</a>
-      <a href="faq.html" >FAQ</a>
+      <a href="faq.html">FAQ</a>
     </nav>
     <div class="nav-actions">
       <a href="login.html" class="btn btn-outline btn-sm">Log In</a>
@@ -32,19 +645,20 @@
 
 <section class="about-hero">
   <div class="wrap">
+    <div class="tag-pill">✨ AI + Human Expertise. Real Growth.</div>
     <h1>Helping Malaysian SMEs grow with the right mix of AI and human expertise.</h1>
     <p class="lead">We connect small and medium businesses with the insights, tools, and advisors they need to digitalise and grow — without the guesswork.</p>
   </div>
 </section>
 
-<section class="section" style="padding-top:0;">
+<section class="section">
   <div class="wrap">
     <div class="story-split">
       <div>
         <h2>Our Story</h2>
         <p>SME Growth Advisor started in 2026 when a small group of operators and technologists kept running into the same problem: Malaysian SMEs had no shortage of digital tools to choose from, but no easy way to know which ones actually fit their business — or who to trust for advice.</p>
         <p>So we built a platform that starts with a simple, free assessment, layers on AI-powered insights, and connects business owners with vetted advisors and solution providers who can actually help. Today we work with hundreds of SMEs and advisors across Malaysia, and we're just getting started.</p>
-        <a href="assessment.html" class="btn btn-primary">Take the Free Assessment <span data-icon="arrowRight" style="width:16px;height:16px;display:inline-flex;"></span></a>
+        <a href="assessment.html" class="btn btn-primary" style="margin-top: 12px;">Take the Free Assessment <span data-icon="arrowRight" style="width:16px;height:16px;display:inline-flex;">→</span></a>
       </div>
       <div class="story-graphic">
         <div class="story-stat"><strong>500+</strong><span>SMEs Empowered</span></div>
@@ -56,7 +670,7 @@
   </div>
 </section>
 
-<section class="section" style="padding-top:0;">
+<section class="section">
   <div class="wrap">
     <div class="section-head">
       <h2>Our Mission &amp; Vision</h2>
@@ -64,12 +678,12 @@
     </div>
     <div class="mv-grid">
       <div class="mv-card card">
-        <span class="ic" data-icon="target"></span>
+        <div class="ic-badge" data-icon="target">🎯</div>
         <h3>Our Mission</h3>
         <p>To make growth and digitalisation accessible to every Malaysian SME — by pairing AI-powered insight with real human expertise, so business owners always know their next best step.</p>
       </div>
       <div class="mv-card vision card">
-        <span class="ic" data-icon="globe"></span>
+        <div class="ic-badge" data-icon="globe">🌐</div>
         <h3>Our Vision</h3>
         <p>A future where no SME is left behind in the digital economy — where every business, regardless of size or location, has the tools and guidance to compete and thrive.</p>
       </div>
@@ -77,7 +691,7 @@
   </div>
 </section>
 
-<section class="section" style="padding-top:0;">
+<section class="section">
   <div class="wrap">
     <div class="section-head">
       <h2>What We Stand For</h2>
@@ -85,22 +699,22 @@
     </div>
     <div class="values-grid">
       <div class="value-card card">
-        <span class="ic" data-icon="shield"></span>
+        <div class="ic-badge" data-icon="shield">🛡️</div>
         <h4>Integrity</h4>
         <p>Honest recommendations first, commissions second. We only suggest what's genuinely right for your business.</p>
       </div>
       <div class="value-card card">
-        <span class="ic" data-icon="lightbulb"></span>
+        <div class="ic-badge" data-icon="lightbulb">💡</div>
         <h4>Innovation</h4>
         <p>We use AI to remove guesswork, not to replace judgement — always in service of better decisions.</p>
       </div>
       <div class="value-card card">
-        <span class="ic" data-icon="trendingUp"></span>
+        <div class="ic-badge" data-icon="trendingUp">📈</div>
         <h4>Impact</h4>
         <p>We measure ourselves by real outcomes — revenue grown, hours saved, businesses digitalised.</p>
       </div>
       <div class="value-card card">
-        <span class="ic" data-icon="users"></span>
+        <div class="ic-badge" data-icon="users">👥</div>
         <h4>Inclusivity</h4>
         <p>Great advice shouldn't depend on your network or your budget. We build for every SME, everywhere in Malaysia.</p>
       </div>
@@ -109,7 +723,7 @@
 </section>
 
 <!--Member-->
-<section class="section" style="padding-top:0;">
+<section class="section">
   <div class="wrap">
     <div class="section-head">
       <h2>Meet Our Team</h2>
@@ -117,21 +731,25 @@
     </div>
     <div class="team-grid">
       <div class="team-card card">
-        <div class="team-avatar" style="background:linear-gradient(135deg,#2563EB,#0B2A5B);">DK</div>
-        <h4>Neoh Jia Yi</h4>
-        <div class="role">Founder &amp; CEO</div>
-        <p class="bio">Ex-operations lead at a regional logistics scale-up. Obsessed with making growth advice actionable.</p>
-        <div class="team-social">
-          <a href="#" aria-label="LinkedIn" data-icon="linkedin"></a>
+        <div class="team-avatar" style="background: linear-gradient(135deg, #2563eb, #0b192c);">NJ</div>
+        <div class="team-info">
+          <h4>Neoh Jia Yi</h4>
+          <div class="role">Founder &amp; CEO</div>
+          <p class="bio">Ex-operations lead at a regional logistics scale-up. Obsessed with making growth advice actionable.</p>
+          <div class="team-social">
+            <a href="#" aria-label="LinkedIn" data-icon="linkedin">in</a>
+          </div>
         </div>
       </div>
       <div class="team-card card">
-        <div class="team-avatar" style="background:linear-gradient(135deg,#16A34A,#0B2A5B);">PR</div>
-        <h4>Varshini AP Seger</h4>
-        <div class="role">Co-Founder &amp; CTO</div>
-        <p class="bio">Built the AI Growth Advisor engine. Previously led data science teams in fintech.</p>
-        <div class="team-social">
-          <a href="#" aria-label="LinkedIn" data-icon="linkedin"></a>
+        <div class="team-avatar" style="background: linear-gradient(135deg, #16a34a, #0b192c);">VS</div>
+        <div class="team-info">
+          <h4>Varshini AP Seger</h4>
+          <div class="role">Co-Founder &amp; CTO</div>
+          <p class="bio">Built the AI Growth Advisor engine. Previously led data science teams in fintech.</p>
+          <div class="team-social">
+            <a href="#" aria-label="LinkedIn" data-icon="linkedin">in</a>
+          </div>
         </div>
       </div>
     </div>
@@ -139,7 +757,7 @@
 </section>
 
 <!--Testimonials-->
-<section class="section" style="padding-top:0;">
+<section class="section">
   <div class="wrap">
     <div class="section-head">
       <h2>What SMEs Say About Us</h2>
@@ -147,32 +765,32 @@
     </div>
     <div class="testi-grid">
       <div class="testi-card card">
-        <div class="stars">
-          <span data-icon="star"></span><span data-icon="star"></span><span data-icon="star"></span><span data-icon="star"></span><span data-icon="star"></span>
+        <div>
+          <div class="stars">★★★★★</div>
+          <p>"SME Growth Advisor helped us identify the right digital tools and connect with the right advisor. Our operations are more efficient and our sales have grown steadily since."</p>
         </div>
-        <p>"SME Growth Advisor helped us identify the right digital tools and connect with the right advisor. Our operations are more efficient and our sales have grown steadily since."</p>
         <div class="who">
-          <div class="avatar-photo">JT</div>
+          <div class="avatar-photo" style="background: linear-gradient(135deg, #2563eb, #0b192c);">JT</div>
           <div><strong>Johnson Tan</strong><span>Founder, JTC Marketing</span></div>
         </div>
       </div>
       <div class="testi-card card">
-        <div class="stars">
-          <span data-icon="star"></span><span data-icon="star"></span><span data-icon="star"></span><span data-icon="star"></span><span data-icon="star"></span>
+        <div>
+          <div class="stars">★★★★★</div>
+          <p>"The free assessment alone was worth it — it showed us exactly where our digital gaps were. We ended up switching accounting software within a month and haven't looked back."</p>
         </div>
-        <p>"The free assessment alone was worth it — it showed us exactly where our digital gaps were. We ended up switching accounting software within a month and haven't looked back."</p>
         <div class="who">
-          <div class="avatar-photo" style="background:linear-gradient(135deg,#16A34A,#0B2A5B);">AI</div>
+          <div class="avatar-photo" style="background: linear-gradient(135deg, #16a34a, #0b192c);">AI</div>
           <div><strong>Aina Ismail</strong><span>Owner, Kedai Runcit Aina</span></div>
         </div>
       </div>
       <div class="testi-card card">
-        <div class="stars">
-          <span data-icon="star"></span><span data-icon="star"></span><span data-icon="star"></span><span data-icon="star"></span><span data-icon="star"></span>
+        <div>
+          <div class="stars">★★★★★</div>
+          <p>"Our advisor consultation was genuinely useful, not a sales pitch. Sarah understood our construction business and gave us a roadmap we could actually follow."</p>
         </div>
-        <p>"Our advisor consultation was genuinely useful, not a sales pitch. Sarah understood our construction business and gave us a roadmap we could actually follow."</p>
         <div class="who">
-          <div class="avatar-photo" style="background:linear-gradient(135deg,#D97706,#0B2A5B);">NB</div>
+          <div class="avatar-photo" style="background: linear-gradient(135deg, #d97706, #0b192c);">NB</div>
           <div><strong>Nova Lim</strong><span>Director, Nova Builders</span></div>
         </div>
       </div>
@@ -180,14 +798,14 @@
   </div>
 </section>
 
-<section class="section" style="padding-top:0;">
+<section class="section">
   <div class="wrap">
     <div class="about-cta">
       <h2>Ready to grow your business with us?</h2>
       <p>Join hundreds of Malaysian SMEs already growing smarter with SME Growth Advisor.</p>
       <div class="cta-row">
-        <a href="assessment.html" class="btn btn-primary">Assess My Business <span data-icon="arrowRight" style="width:16px;height:16px;display:inline-flex;"></span></a>
-        <a href="#" class="btn btn-outline" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.4);">Talk to an Advisor</a>
+        <a href="assessment.html" class="btn btn-primary">Assess My Business <span data-icon="arrowRight">→</span></a>
+        <a href="login.html" class="btn btn-outline">Talk to an Advisor</a>
       </div>
     </div>
   </div>
@@ -200,9 +818,9 @@
         <div class="footer-brand"><span class="brand-mark" data-icon="logo"></span> SME Growth Advisor</div>
         <p>Empowering Malaysian SMEs to grow, digitalise, and succeed in today's competitive world.</p>
         <div class="footer-social">
-          <a href="#" aria-label="Facebook" data-icon="facebook"></a>
-          <a href="#" aria-label="LinkedIn" data-icon="linkedin"></a>
-          <a href="#" aria-label="YouTube" data-icon="youtube"></a>
+          <a href="#" aria-label="Facebook" data-icon="facebook">FB</a>
+          <a href="#" aria-label="LinkedIn" data-icon="linkedin">LN</a>
+          <a href="#" aria-label="YouTube" data-icon="youtube">YT</a>
         </div>
       </div>
       <div>
@@ -210,7 +828,7 @@
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="index.html#how-it-works">How It Works</a></li>
-          <li><a href="solutions.html">Solutions</a></li>
+          <li><a href="index.html#how-it-works">Solutions</a></li>
           <li><a href="index.html#resources">Resources</a></li>
           <li><a href="aboutus.html">About Us</a></li>
         </ul>
@@ -240,7 +858,7 @@
         <p>Subscribe to our newsletter for the latest tips and updates.</p>
         <div class="newsletter-row">
           <input type="email" placeholder="Enter your email">
-          <button aria-label="Subscribe" data-icon="arrowRight"></button>
+          <button aria-label="Subscribe" data-icon="arrowRight">→</button>
         </div>
       </div>
     </div>
