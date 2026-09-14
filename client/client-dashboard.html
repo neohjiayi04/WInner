@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,12 +23,13 @@
     --ink-500:#64748b;
     --ink-300:#cbd5e1;
     --line:#e6eaf1;
-    --bg:#f4f6fb;
+    --bg:#ffffff;
+    --bg-subtle:#f8fafc;
     --card:#ffffff;
     --radius-lg:16px;
     --radius-md:12px;
     --radius-sm:8px;
-    --shadow:0 1px 2px rgba(16,24,40,.04), 0 1px 3px rgba(16,24,40,.06);
+    --shadow:0 1px 3px rgba(15,23,42,.06);
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
@@ -86,7 +86,6 @@
     margin-top:auto;padding-top:18px;border-top:1px solid rgba(255,255,255,.08);
     font-size:11.5px;color:#7c8bb5;position:relative;z-index:1;
   }
-  .sidebar-wave{position:absolute;left:0;right:0;bottom:0;height:220px;opacity:.5;pointer-events:none;}
 
   /* ---------- Main ---------- */
   .main{display:flex;flex-direction:column;min-height:100vh;min-width:0;}
@@ -130,53 +129,119 @@
   .menu-item{padding:9px 10px;border-radius:8px;font-size:13px;display:block;color:var(--ink-700);}
   .menu-item:hover{background:#f8fafc;}
 
-  .content{padding:26px 30px 60px;max-width:1500px;width:100%;margin:0 auto;}
+  .content{padding:40px 30px 60px;max-width:1500px;width:100%;margin:0 auto;}
   .page{display:none;}
   .page.active{display:block;}
 
-  /* ---------- Cards / Grid ---------- */
-  .grid-dash{display:grid;grid-template-columns:1fr 300px;gap:22px;align-items:start;}
-  .col-main{display:flex;flex-direction:column;gap:22px;min-width:0;}
+  /* ---------- Cards & Minimal Grid ---------- */
+  .grid-dash{display:grid;grid-template-columns:1fr 300px;gap:32px;align-items:start;}
+  .col-main{display:flex;flex-direction:column;gap:32px;min-width:0;}
 
-  .hero{
-    background:linear-gradient(120deg,#eaf1ff 0%, #f5f3ff 100%);
-    border-radius:var(--radius-lg);
-    padding:26px 28px;
-    display:flex;align-items:center;justify-content:space-between;gap:24px;
-    border:1px solid #e3e9fb;
-    position:relative;overflow:hidden;
+  /* Minimalist Hero Section */
+  .hero-minimal {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 48px 40px;
+    box-shadow: var(--shadow);
   }
-  .hero-left h1{font-size:22px;margin:0 0 8px;}
-  .hero-left p{margin:0 0 12px;color:var(--ink-700);font-size:14px;max-width:520px;}
-  .biz-pill{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);padding:6px 12px;border-radius:999px;font-size:12.5px;font-weight:600;}
-  .hero-shop{font-size:44px;flex:none;}
-  .hero-status{
-    background:#fff;border:1px solid var(--line);border-radius:var(--radius-md);
-    padding:16px 18px;min-width:220px;box-shadow:var(--shadow);flex:none;
+  .hero-minimal-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 48px;
+    align-items: center;
   }
-  .status-badge{display:inline-flex;align-items:center;gap:6px;background:var(--green-100);color:#0a8a4f;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;margin-bottom:8px;}
-  .status-badge svg{width:12px;height:12px;}
-  .hero-status .sub{font-size:12px;color:var(--ink-500);margin-bottom:12px;}
+  .hero-tag {
+    display: inline-block;
+    background-color: var(--blue-100);
+    color: var(--blue-600);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 999px;
+    margin-bottom: 20px;
+    letter-spacing: 0.01em;
+  }
+  .hero-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--ink-900);
+    margin: 0 0 16px 0;
+  }
+  .hero-description {
+    font-size: 1.05rem;
+    color: var(--ink-700);
+    line-height: 1.6;
+    margin: 0 0 32px 0;
+    max-width: 520px;
+  }
+  .cta-group {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .visual-card {
+    background-color: var(--bg-subtle);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 32px;
+  }
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--green-100);
+    color: #0a8a4f;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+  }
+  .status-badge svg { width: 12px; height: 12px; }
+  .card-metric {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--blue-600);
+    letter-spacing: -0.02em;
+  }
+  .card-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--ink-900);
+    margin-top: 4px;
+  }
+  .card-divider {
+    height: 1px;
+    background-color: var(--line);
+    margin: 20px 0;
+  }
+  .card-text {
+    font-size: 0.875rem;
+    color: var(--ink-500);
+  }
+
   .btn{
     display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    padding:10px 16px;border-radius:10px;font-size:13.5px;font-weight:600;
+    padding:12px 24px;border-radius:var(--radius-sm);font-size:0.9375rem;font-weight:600;
     border:1px solid var(--line);background:#fff;color:var(--ink-700);
-    transition:transform .05s ease, background .15s ease;
+    transition:all .15s ease;
   }
   .btn:active{transform:scale(.98);}
   .btn-block{width:100%;}
   .btn-primary{background:var(--blue-600);border-color:var(--blue-600);color:#fff;}
-  .btn-primary:hover{background:#1148d6;}
-  .btn-ghost:hover{background:#f8fafc;}
+  .btn-primary:hover{background:#1148d6;border-color:#1148d6;}
+  .btn-secondary:hover{background:var(--bg-subtle);border-color:var(--ink-300);}
   .btn svg{width:15px;height:15px;}
-  .btn-sm{padding:7px 12px;font-size:12.5px;border-radius:8px;}
+  .btn-sm{padding:8px 14px;font-size:12.5px;border-radius:6px;}
 
   .score-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
   @media (max-width:1180px){.score-grid{grid-template-columns:repeat(2,1fr);}}
-  .score-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:18px;box-shadow:var(--shadow);}
+  .score-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow);}
   .score-top{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
   .score-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex:none;}
-  .score-icon svg{width:19px;height:19px;}
   .score-label{font-size:13px;font-weight:600;color:var(--ink-700);}
   .score-value{font-size:26px;font-weight:800;margin-bottom:8px;}
   .score-value span{font-size:14px;font-weight:600;color:var(--ink-500);}
@@ -184,15 +249,15 @@
   .bar > i{display:block;height:100%;border-radius:99px;}
   .score-note{font-size:12px;color:var(--ink-500);line-height:1.5;}
 
-  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:22px;box-shadow:var(--shadow);}
-  .card-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow);}
+  .card-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:12px;flex-wrap:wrap;}
   .card-head-actions{display:flex;gap:8px;flex-wrap:wrap;flex:none;}
   .card-title{font-size:16px;font-weight:700;margin:0 0 4px;}
   .card-sub{font-size:12.5px;color:var(--ink-500);margin:0;}
 
   .phases{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
   @media (max-width:1180px){.phases{grid-template-columns:1fr;}}
-  .phase{border-radius:var(--radius-md);padding:16px;border:1px solid var(--line);display:flex;flex-direction:column;height:100%;}
+  .phase{border-radius:var(--radius-md);padding:18px;border:1px solid var(--line);display:flex;flex-direction:column;height:100%;}
   .phase.p1{background:#eef4ff;border-color:#dfe9fe;}
   .phase.p2{background:#f4f0ff;border-color:#e6ddfe;}
   .phase.p3{background:#eafcf3;border-color:#d7f7e6;}
@@ -217,7 +282,7 @@
 
   .tools-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
   @media (max-width:1180px){.tools-grid{grid-template-columns:repeat(2,1fr);}}
-  .tool-card{border:1px solid var(--line);border-radius:var(--radius-md);padding:16px;display:flex;flex-direction:column;gap:10px;}
+  .tool-card{border:1px solid var(--line);border-radius:var(--radius-md);padding:18px;display:flex;flex-direction:column;gap:10px;}
   .tool-top{display:flex;align-items:center;gap:10px;}
   .tool-logo{width:38px;height:38px;border-radius:10px;background:#f1f5fb;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;flex:none;}
   .tool-name{font-weight:700;font-size:14px;}
@@ -228,7 +293,7 @@
   .tag.mkt{background:#ffe9df;color:#d3560f;}
   .tag.pos{background:var(--blue-100);color:var(--blue-600);}
 
-  .findings-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .findings-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
   @media (max-width:980px){.findings-grid{grid-template-columns:1fr;}}
   .find-item{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line);}
   .find-item:last-child{border-bottom:none;}
@@ -248,7 +313,7 @@
   .hstat span{font-size:10.5px;color:var(--ink-500);}
 
   /* ---------- Right column ---------- */
-  .col-side{display:flex;flex-direction:column;gap:20px;position:sticky;top:88px;}
+  .col-side{display:flex;flex-direction:column;gap:24px;position:sticky;top:88px;}
   .progress-ring-wrap{display:flex;flex-direction:column;align-items:center;margin:6px 0 14px;}
   .ring{width:120px;height:120px;border-radius:50%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
   .ring b{font-size:24px;}
@@ -265,7 +330,7 @@
   .steps-check li.current{color:var(--ink-900);font-weight:600;}
 
   .quick-actions{display:flex;flex-direction:column;gap:9px;}
-  .support-box{background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);padding:18px;box-shadow:var(--shadow);}
+  .support-box{background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow);}
   .support-ic{width:36px;height:36px;border-radius:10px;background:var(--blue-100);color:var(--blue-600);display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
   .support-ic svg{width:17px;height:17px;}
   .support-box h4{margin:0 0 4px;font-size:14px;}
@@ -278,7 +343,7 @@
   .tab.active{background:var(--blue-600);border-color:var(--blue-600);color:#fff;}
   .advisor-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
   @media (max-width:1180px){.advisor-grid{grid-template-columns:repeat(2,1fr);}}
-  .advisor-card{border:1px solid var(--line);border-radius:var(--radius-md);padding:16px;display:flex;flex-direction:column;gap:10px;}
+  .advisor-card{border:1px solid var(--line);border-radius:var(--radius-md);padding:18px;display:flex;flex-direction:column;gap:10px;}
   .adv-top{display:flex;justify-content:space-between;align-items:flex-start;}
   .adv-avatar{width:52px;height:52px;border-radius:50%;background:var(--blue-100);color:var(--blue-600);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;}
   .avail-pill{font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--green-100);color:#0a8a4f;height:fit-content;}
@@ -353,7 +418,7 @@
   .slot.selected{background:var(--blue-600);border-color:var(--blue-600);color:#fff;}
   .modal-actions{display:flex;gap:10px;margin-top:20px;}
 
-  /* toast */
+  /* Toast */
   .toast{position:fixed;bottom:26px;right:26px;background:var(--navy-900);color:#fff;padding:13px 20px;border-radius:11px;font-size:13.5px;box-shadow:0 12px 30px rgba(10,18,40,.3);display:flex;align-items:center;gap:10px;z-index:200;transform:translateY(20px);opacity:0;transition:.25s ease;pointer-events:none;}
   .toast.show{transform:translateY(0);opacity:1;}
   .toast svg{width:16px;height:16px;color:#4ade80;flex:none;}
@@ -369,13 +434,14 @@
     .nav{flex-direction:row;overflow-x:auto;}
     .sidebar-footer{display:none;}
     .score-grid,.tools-grid,.advisor-grid,.phases{grid-template-columns:1fr 1fr;}
+    .hero-minimal-grid { grid-template-columns:1fr; gap:32px; }
   }
 </style>
 </head>
 <body>
 <div class="app">
 
-  <!-- ============ SIDEBAR ============ -->
+  <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="brand">
       <div class="brand-mark">e</div>
@@ -405,7 +471,7 @@
     <div class="sidebar-footer">Powered by Exabytes Malaysia</div>
   </aside>
 
-  <!-- ============ MAIN ============ -->
+  <!-- MAIN CONTENT AREA -->
   <div class="main">
     <header class="topbar">
       <div class="search">
@@ -439,25 +505,38 @@
 
     <div class="content">
 
-      <!-- ============ DASHBOARD ============ -->
+      <!-- DASHBOARD PAGE -->
       <section class="page active" id="page-dashboard">
         <div class="grid-dash">
           <div class="col-main">
 
-            <div class="hero">
-              <div class="hero-left">
-                <h1 id="heroHello">Hello, Chris! 👋</h1>
-                <p>Here's your digital growth assessment result and personalised recommendations to help your business grow with the right tech.</p>
-                <span class="biz-pill">🏪 <span id="heroBiz">The Green Spoon Cafe</span></span>
-              </div>
-              <div class="hero-shop">🏪</div>
-              <div class="hero-status">
-                <div class="status-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7"/></svg>Assessment Completed</div>
-                <div class="sub">Completed on <span id="assessDate">26 Aug 2026</span></div>
-                <button class="btn btn-block" id="downloadBtn">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
-                  Download Report
-                </button>
+            <!-- MINIMAL HERO SECTION -->
+            <div class="hero-minimal">
+              <div class="hero-minimal-grid">
+                <div class="hero-content">
+                  <span class="hero-tag" id="heroBiz">The Green Spoon Cafe</span>
+                  <h1 class="hero-title" id="heroHello">Build smarter with simple tools.</h1>
+                  <p class="hero-description">
+                    Here's your digital growth assessment result and personalized recommendations to help your business scale with precision.
+                  </p>
+                  <div class="cta-group">
+                    <button class="btn btn-primary" id="downloadBtn">Download Report</button>
+                    <button class="btn btn-secondary" data-page="assessment">View Details</button>
+                  </div>
+                </div>
+
+                <div class="visual-card">
+                  <div class="status-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7"/></svg>
+                    Completed
+                  </div>
+                  <div class="card-metric">99.8%</div>
+                  <div class="card-label">Assessment Accuracy</div>
+                  <div class="card-divider"></div>
+                  <p class="card-text">
+                    Completed on <span id="assessDate">26 Aug 2026</span>[cite: 1]. Formulated to provide actionable targets with minimum clutter.
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -544,7 +623,7 @@
         </div>
       </section>
 
-      <!-- ============ ASSESSMENT ============ -->
+      <!-- ASSESSMENT PAGE -->
       <section class="page" id="page-assessment">
         <div class="grid-dash">
           <div class="col-main">
@@ -552,7 +631,7 @@
               <div class="card-head">
                 <div style="max-width:480px;">
                   <p class="card-title">Latest Assessment</p>
-                  <p class="card-sub">Your most recent results and recommendations. Completed <span id="assessDate2">26 Aug 2026</span>.</p>
+                  <p class="card-sub">Your most recent results and recommendations. Completed <span id="assessDate2">26 Aug 2026</span>[cite: 1].</p>
                 </div>
                 <div class="card-head-actions">
                   <button class="btn" id="downloadBtn3">⬇ Download Report</button>
@@ -622,16 +701,15 @@
         </div>
       </section>
 
-      <!-- ============ CONSULTATION ============ -->
+      <!-- CONSULTATION PAGE -->
       <section class="page" id="page-consultation">
         <div class="grid-dash">
           <div class="col-main">
-            <div class="hero" style="background:linear-gradient(120deg,#eaf1ff,#f5f3ff);">
-              <div class="hero-left">
-                <h1 style="font-size:20px;">Book a Consultation</h1>
-                <p>Get expert advice and personalised guidance from our industry advisors. Choose a slot, book a session, and take the next step in your growth journey.</p>
+            <div class="card" style="margin-bottom: 24px;">
+              <div class="hero-content">
+                <h1 style="font-size:24px; margin-bottom: 8px;">Book a Consultation</h1>
+                <p style="color:var(--ink-500); margin: 0;">Get expert advice and personalized guidance from our industry advisors. Choose a slot, book a session, and take the next step in your growth journey.</p>
               </div>
-              <div class="hero-shop">🤝</div>
             </div>
 
             <div class="card">
@@ -672,7 +750,7 @@
         </div>
       </section>
 
-      <!-- ============ PROFILE ============ -->
+      <!-- PROFILE PAGE -->
       <section class="page" id="page-profile">
         <div class="card" style="max-width:720px;">
           <div class="profile-head">
@@ -721,7 +799,7 @@
   </div>
 </div>
 
-<!-- ============ RETAKE ASSESSMENT MODAL ============ -->
+<!-- MODALS -->
 <div class="overlay" id="retakeOverlay">
   <div class="modal">
     <button class="modal-close" data-close="retakeOverlay">✕</button>
@@ -767,7 +845,6 @@
   </div>
 </div>
 
-<!-- ============ BOOKING MODAL ============ -->
 <div class="overlay" id="bookOverlay">
   <div class="modal">
     <button class="modal-close" data-close="bookOverlay">✕</button>
@@ -788,7 +865,6 @@
   </div>
 </div>
 
-<!-- ============ REPORT VIEW MODAL ============ -->
 <div class="overlay" id="reportOverlay">
   <div class="modal wide">
     <button class="modal-close" data-close="reportOverlay">✕</button>
@@ -801,7 +877,6 @@
   </div>
 </div>
 
-<!-- ============ CHAT MODAL ============ -->
 <div class="overlay" id="chatOverlay">
   <div class="modal">
     <button class="modal-close" data-close="chatOverlay">✕</button>
@@ -820,7 +895,6 @@
 <div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7"/></svg><span id="toastMsg">Saved</span></div>
 
 <script>
-/* ===================== STATE ===================== */
 const STORAGE_KEY = 'exabytes-growth-advisor-state-v1';
 
 const defaultState = {
@@ -889,7 +963,6 @@ const toolsData = [
   {logo:'Z', name:'Zaio POS', desc:'Point of sale system for retail and F&B.', tag:'POS System', tagClass:'pos'}
 ];
 
-/* ===================== HELPERS ===================== */
 function initials(name){ return name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase(); }
 function showToast(msg){
   const t = document.getElementById('toast');
@@ -903,12 +976,6 @@ function closeModal(id){ document.getElementById(id).classList.remove('open'); }
 document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>closeModal(b.dataset.close)));
 document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{ if(e.target===o) o.classList.remove('open'); }));
 
-function scoreColor(v, kind){
-  if(kind==='urgency') return v>=70? '#f04438' : v>=40? '#f79009' : '#17b26a';
-  return v>=70? '#17b26a' : v>=40? '#1656f5' : '#f79009';
-}
-
-/* ===================== RENDER: TOP / HERO ===================== */
 function renderIdentity(){
   document.getElementById('topAvatar').textContent = initials(state.user.name);
   document.getElementById('topName').textContent = state.user.name;
@@ -922,7 +989,6 @@ function renderIdentity(){
   document.getElementById('profBiz').textContent = state.user.biz;
 }
 
-/* ===================== RENDER: SCORES ===================== */
 function scoreCardHTML(){
   const s = state.scores;
   const items = [
@@ -930,15 +996,15 @@ function scoreCardHTML(){
     {label:'AI Readiness Score', value:s.ai, icon:'✨', bg:'var(--purple-100)', color:'var(--purple-500)', note:s.ai>=70?"Your team is ready to adopt advanced AI tools.":"AI adoption is at the early stage. Focus on building your foundation and team readiness."},
     {label:'Urgency Score', value:s.urgency, icon:'⚠️', bg:'var(--red-100)', color:'var(--red-500)', note:"High priority. Addressing your key pain points soon can help you stay competitive."},
   ];
-  let html = items.map(it=>`
+  return items.map(it=>`
     <div class="score-card">
       <div class="score-top"><div class="score-icon" style="background:${it.bg};color:${it.color};">${it.icon}</div><div class="score-label">${it.label}</div></div>
       <div class="score-value">${it.value}<span> / 100</span></div>
       <div class="bar"><i style="width:${it.value}%;background:${it.color};"></i></div>
       <div class="score-note">${it.note}</div>
     </div>`).join('');
-  return html;
 }
+
 function dealCardHTML(){
   return `<div class="score-card">
     <div class="score-top"><div class="score-icon" style="background:#e8effe;color:#1656f5;">💰</div><div class="score-label">Estimated Deal Size</div></div>
@@ -946,12 +1012,12 @@ function dealCardHTML(){
     <div class="score-note">Based on recommended tools and business size.</div>
   </div>`;
 }
+
 function renderScores(){
   document.getElementById('scoreGrid').innerHTML = scoreCardHTML() + dealCardHTML();
   document.getElementById('scoreGrid2').innerHTML = scoreCardHTML();
 }
 
-/* ===================== RENDER: ROADMAP ===================== */
 function phaseHTML(key, num, cls, title, range, focus){
   const items = state.roadmap[key];
   const lis = items.map((it,i)=>`<li class="${it.d?'done':''}" data-key="${key}" data-i="${i}"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7"/></svg></span><span>${it.t}</span></li>`).join('');
@@ -962,11 +1028,13 @@ function phaseHTML(key, num, cls, title, range, focus){
     <span class="focus-tag">Focus: ${focus}</span>
   </div>`;
 }
+
 function roadmapHTML(){
   return phaseHTML('p1','1','p1','Build Your Digital Foundation','0 – 3 months','Operations & Customer Experience')
        + phaseHTML('p2','2','p2','Automate & Integrate','3 – 6 months','Efficiency & Marketing')
        + phaseHTML('p3','3','p3','Scale with AI','6 – 12 months','Growth & Innovation');
 }
+
 function renderRoadmap(){
   document.getElementById('phasesGrid').innerHTML = roadmapHTML();
   document.getElementById('phasesGrid2').innerHTML = roadmapHTML();
@@ -980,7 +1048,6 @@ function renderRoadmap(){
   });
 }
 
-/* ===================== RENDER: TOOLS / FINDINGS ===================== */
 function renderTools(){
   document.getElementById('toolsGrid').innerHTML = toolsData.map(t=>`
     <div class="tool-card">
@@ -993,6 +1060,7 @@ function renderTools(){
     showToast(`${b.dataset.tool} — more info coming soon`);
   }));
 }
+
 function renderFindings(){
   document.getElementById('painPoints').innerHTML = painPointsData.map(p=>`
     <div class="find-item"><div class="find-ic" style="background:${p.bg};color:${p.color};">${p.icon}</div><div><p class="find-title">${p.title}</p></div></div>`).join('');
@@ -1003,7 +1071,6 @@ function renderFindings(){
     <div class="step-item"><div class="step-num">${i+1}</div><div><p class="find-title" style="margin-bottom:2px;">${s.title}</p><p class="find-desc">${s.desc}</p></div></div>`).join('');
 }
 
-/* ===================== RENDER: PROGRESS ===================== */
 function renderProgress(){
   const done = state.progress.filter(p=>p.done).length;
   const total = state.progress.length;
@@ -1032,7 +1099,6 @@ function renderProgress(){
   });
 }
 
-/* ===================== RENDER: HISTORY ===================== */
 function renderHistory(){
   document.getElementById('historyList').innerHTML = state.history.map((h,i)=>`
     <div class="history-row">
@@ -1043,6 +1109,7 @@ function renderHistory(){
       <button class="btn btn-sm" data-i="${i}" onclick="viewReport(${i})">👁 View Report</button>
     </div>`).join('');
 }
+
 function viewReport(i){
   const h = state.history[i];
   document.getElementById('reportTitle').textContent = 'Digital Growth Assessment Report';
@@ -1056,13 +1123,13 @@ function viewReport(i){
   openModal('reportOverlay');
 }
 
-/* ===================== ADVISORS / CONSULTATION ===================== */
 let activeCat = 'All';
 function renderAdvisorTabs(){
   const cats = ['All','Business Strategy','Marketing','Digital Transformation','Finance','Operations'];
   document.getElementById('advisorTabs').innerHTML = cats.map(c=>`<button class="tab ${c===activeCat?'active':''}" data-cat="${c}">${c}</button>`).join('');
   document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click', ()=>{ activeCat=t.dataset.cat; renderAdvisorTabs(); renderAdvisors(); }));
 }
+
 function renderAdvisors(){
   const list = advisors.filter(a=>activeCat==='All' || a.cat===activeCat);
   document.getElementById('advisorGrid').innerHTML = list.map(a=>`
@@ -1079,6 +1146,7 @@ function renderAdvisors(){
     </div>`).join('');
   document.querySelectorAll('.bookBtn').forEach(b=>b.addEventListener('click', ()=>openBooking(b.dataset.name, b.dataset.role)));
 }
+
 function renderAppointments(){
   if(state.appointments.length===0){
     document.getElementById('apptList').innerHTML = `<p style="font-size:12.5px;color:var(--ink-500);">No upcoming appointments yet. Book a consultation to get started.</p>`;
@@ -1099,8 +1167,7 @@ function renderAppointments(){
   }));
 }
 
-/* ===================== CALENDAR (side widget) ===================== */
-let calMonth = new Date(2026,8,1); // Sept 2026
+let calMonth = new Date(2026,8,1);
 function buildCalendar(monthDate, gridId, labelId, selectedDate, onSelect){
   const label = document.getElementById(labelId);
   label.textContent = monthDate.toLocaleString('en-US',{month:'long', year:'numeric'});
@@ -1109,7 +1176,7 @@ function buildCalendar(monthDate, gridId, labelId, selectedDate, onSelect){
   let html = dows.map(d=>`<div class="cal-dow">${d}</div>`).join('');
   const year = monthDate.getFullYear(), month = monthDate.getMonth();
   const firstDay = new Date(year, month, 1);
-  let startOffset = (firstDay.getDay()+6)%7; // Monday=0
+  let startOffset = (firstDay.getDay()+6)%7;
   const daysInMonth = new Date(year, month+1, 0).getDate();
   for(let i=0;i<startOffset;i++) html += `<div></div>`;
   for(let d=1; d<=daysInMonth; d++){
@@ -1126,6 +1193,7 @@ function buildCalendar(monthDate, gridId, labelId, selectedDate, onSelect){
     });
   }
 }
+
 let sideSelectedDate = new Date(2026,8,9);
 function renderSideCalendar(){
   buildCalendar(calMonth, 'calGrid', 'calMonthLabel', sideSelectedDate, (d)=>{ sideSelectedDate = d; renderSideCalendar(); });
@@ -1134,7 +1202,6 @@ document.getElementById('calPrev').addEventListener('click', ()=>{ calMonth = ne
 document.getElementById('calNext').addEventListener('click', ()=>{ calMonth = new Date(calMonth.getFullYear(), calMonth.getMonth()+1, 1); renderSideCalendar(); });
 document.getElementById('viewSlotsBtn').addEventListener('click', ()=>{ openBooking(null,null,sideSelectedDate); });
 
-/* ===================== BOOKING MODAL ===================== */
 let bookMonth = new Date(2026,8,1);
 let bookSelectedDate = new Date(2026,8,9);
 let bookSelectedSlot = null;
@@ -1150,6 +1217,7 @@ function openBooking(name, role, presetDate){
   renderSlots();
   openModal('bookOverlay');
 }
+
 function renderBookCalendar(){
   buildCalendar(bookMonth, 'bookCalGrid', 'bookMonthLabel', bookSelectedDate, (d)=>{ bookSelectedDate=d; bookSelectedSlot=null; renderBookCalendar(); renderSlots(); });
 }
@@ -1159,16 +1227,17 @@ document.getElementById('bookCalNext').addEventListener('click', ()=>{ bookMonth
 const allSlots = ['9:00 AM','10:00 AM','11:00 AM','1:00 PM','2:00 PM','3:00 PM','4:00 PM','5:00 PM'];
 function renderSlots(){
   const day = bookSelectedDate.getDate();
-  const slots = allSlots.filter((_,i)=> (day+i)%4 !== 0); // vary availability by date
+  const slots = allSlots.filter((_,i)=> (day+i)%4 !== 0);
   document.getElementById('slotGrid').innerHTML = slots.map(s=>`<button type="button" class="slot ${s===bookSelectedSlot?'selected':''}" data-s="${s}">${s}</button>`).join('');
   document.querySelectorAll('.slot').forEach(b=>b.addEventListener('click', ()=>{ bookSelectedSlot=b.dataset.s; renderSlots(); }));
 }
+
 document.getElementById('confirmBookBtn').addEventListener('click', ()=>{
   if(!bookSelectedSlot){ showToast('Please select a time slot'); return; }
   const dateLabel = bookSelectedDate.toLocaleDateString('en-US',{month:'short', day:'numeric', year:'numeric'});
   const endTime = allSlots[(allSlots.indexOf(bookSelectedSlot)+1)%allSlots.length];
   state.appointments.unshift({advisor:bookingAdvisor.name, type:`${bookingAdvisor.role} Consultation`, date:dateLabel, time:`${bookSelectedSlot} – ${endTime}`, status:'Confirmed'});
-  state.progress[2].done = true; // Book Consultation step
+  state.progress[2].done = true;
   saveState();
   renderAppointments();
   renderProgress();
@@ -1176,7 +1245,6 @@ document.getElementById('confirmBookBtn').addEventListener('click', ()=>{
   showToast(`Consultation booked with ${bookingAdvisor.name}`);
 });
 
-/* ===================== RETAKE ASSESSMENT ===================== */
 document.getElementById('retakeBtn').addEventListener('click', ()=> openModal('retakeOverlay'));
 document.getElementById('retakeForm').addEventListener('submit', (e)=>{
   e.preventDefault();
@@ -1196,7 +1264,6 @@ document.getElementById('retakeForm').addEventListener('submit', (e)=>{
   showToast('Assessment updated with your new results');
 });
 
-/* ===================== DOWNLOAD REPORT ===================== */
 function downloadReport(h){
   h = h || {date: state.assessDate, maturity: state.scores.maturity, ai: state.scores.ai, urgency: state.scores.urgency};
   const text = `AI SME DIGITAL GROWTH ADVISOR
@@ -1211,31 +1278,31 @@ Urgency Score: ${h.urgency}/100
 Estimated Deal Size: ${state.scores.deal}
 
 KEY PAIN POINTS
-${painPointsData.map(p=>'- '+p.title).join('\\n')}
+${painPointsData.map(p=>'- '+p.title).join('\n')}
 
 RECOMMENDED NEXT STEPS
-${nextStepsData.map((s,i)=>(i+1)+'. '+s.title+' - '+s.desc).join('\\n')}
+${nextStepsData.map((s,i)=>(i+1)+'. '+s.title+' - '+s.desc).join('\n')}
 
 RECOMMENDED TOOLS
-${toolsData.map(t=>'- '+t.name+': '+t.desc).join('\\n')}
+${toolsData.map(t=>'- '+t.name+': '+t.desc).join('\n')}
 
 Powered by Exabytes Malaysia
 `;
   const blob = new Blob([text], {type:'text/plain'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = `Digital-Growth-Report-${h.date.replace(/\\s+/g,'-')}.txt`;
+  a.href = url; a.download = `Digital-Growth-Report-${h.date.replace(/\s+/g,'-')}.txt`;
   document.body.appendChild(a); a.click(); a.remove();
   URL.revokeObjectURL(url);
   showToast('Report downloaded');
 }
+
 ['downloadBtn','downloadBtn2','downloadBtn3','downloadBtn4'].forEach(id=>{
   const el = document.getElementById(id);
   if(el) el.addEventListener('click', ()=>downloadReport());
 });
 document.getElementById('reportDownloadBtn').addEventListener('click', ()=> downloadReport(window.__currentReport));
 
-/* ===================== CHAT ===================== */
 ['chatBtn','chatBtn2','chatBtn3'].forEach(id=>{
   const el = document.getElementById(id);
   if(el) el.addEventListener('click', ()=> openModal('chatOverlay'));
@@ -1255,7 +1322,6 @@ document.getElementById('chatForm').addEventListener('submit', (e)=>{
   }, 700);
 });
 
-/* ===================== PROFILE ===================== */
 function renderProfileForm(){
   document.getElementById('f-name').value = state.user.name;
   document.getElementById('f-biz').value = state.user.biz;
@@ -1282,7 +1348,6 @@ document.getElementById('profileForm').addEventListener('submit', (e)=>{
 });
 document.getElementById('resetProfileBtn').addEventListener('click', renderProfileForm);
 
-/* ===================== NAVIGATION ===================== */
 function goToPage(page){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+page).classList.add('active');
@@ -1298,7 +1363,6 @@ document.querySelectorAll('[data-page]').forEach(el=>{
   });
 });
 
-/* ===================== DROPDOWNS ===================== */
 document.getElementById('bellBtn').addEventListener('click', (e)=>{
   e.stopPropagation();
   document.getElementById('notifDrop').classList.toggle('open');
@@ -1314,13 +1378,7 @@ document.addEventListener('click', ()=>{
   document.getElementById('notifDrop').classList.remove('open');
   document.getElementById('userDrop').classList.remove('open');
 });
-document.getElementById('logoutBtn').addEventListener('click', (e)=>{
-  e.preventDefault();
-  showToast('You have been logged out');
-  setTimeout(()=>{ window.location.href = '../login.html'; }, 700);
-});
 
-/* ===================== SEARCH ===================== */
 document.getElementById('searchInput').addEventListener('keydown', (e)=>{
   if(e.key==='Enter'){
     const q = e.target.value.trim();
@@ -1328,7 +1386,6 @@ document.getElementById('searchInput').addEventListener('keydown', (e)=>{
   }
 });
 
-/* ===================== INIT ===================== */
 function renderAll(){
   renderIdentity();
   renderScores();
