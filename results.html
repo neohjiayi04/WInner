@@ -8,9 +8,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
 
+<!-- Dynamic Exabytes Engine & PDF Export Libraries -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <style>
+  /* Header & Branding Tags */
   .exabytes-header-tag {
     display: flex;
     justify-content: space-between;
@@ -31,6 +33,8 @@
     justify-content: flex-end;
     margin-bottom: 20px;
   }
+
+  /* Structural Grid Layout */
   .results-grid {
     display: grid;
     grid-template-columns: 1fr 340px;
@@ -40,12 +44,80 @@
   aside {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 20px;
   }
+
+  /* 1. Business Snapshot Widget */
+  .snapshot-sidebar-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .snapshot-sidebar-title {
+    margin: 0 0 14px 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 10px;
+  }
+  .snapshot-sidebar-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .snap-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+  }
+  .snap-row .lbl {
+    color: #64748b;
+    font-weight: 500;
+  }
+  .snap-row .val {
+    color: #0f172a;
+    font-weight: 700;
+    text-align: right;
+  }
+
+  /* 2. Strategy Session Widget */
+  .booking-sidebar-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .booking-sidebar-card input {
+    width: 100%;
+    padding: 9px 12px;
+    margin-top: 4px;
+    margin-bottom: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    box-sizing: border-box;
+  }
+  .booking-sidebar-card label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #334155;
+  }
+
+  /* 3. Unlock Card Widget */
   .unlock-card {
-    position: sticky;
-    top: 24px;
+    position: static; /* Removed sticky positioning to fix elements overlapping */
+    margin: 0;
   }
+
+  /* Content Cards & ROI Styling */
   .roi-banner {
     background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
     color: #fff;
@@ -77,6 +149,8 @@
     border-radius: 50%;
     background: #2563EB;
   }
+
+  /* Modal */
   .modal-backdrop {
     display: none;
     position: fixed;
@@ -92,6 +166,12 @@
     width: 100%;
     max-width: 480px;
     padding: 28px;
+  }
+
+  @media (max-width: 1024px) {
+    .results-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
 </head>
@@ -140,13 +220,11 @@
           <span style="font-size: 0.75rem; color: #64748b;">AI Horizon Advisor 2026</span>
         </div>
       </div>
-      
-      <!-- BALANCED 2-COLUMN MAIN GRID -->
+
       <div class="results-grid">
         
-        <!-- LEFT COLUMN: PRIMARY RESULTS & ROADMAP -->
-        <main class="main-content">
-          
+        <!-- LEFT COLUMN: MAIN ANALYTICS REPORT -->
+        <main>
           <!-- SCORES PANEL -->
           <div class="score-panel card" style="margin-bottom: 24px;">
             <div class="score-panel-inner">
@@ -171,7 +249,7 @@
             <p>Great start! We've identified key opportunities that can help your business grow faster. <a href="#">Login or create your free account</a> to access your full personalised report.</p>
           </div>
 
-          <!-- TOP OPPORTUNITIES -->
+          <!-- TOP GROWTH OPPORTUNITIES -->
           <h2 class="block-title">Top Growth Opportunities</h2>
 
           <div class="opp-card card" style="margin-bottom:16px;">
@@ -192,6 +270,7 @@
             </div>
           </div>
 
+          <!-- DYNAMIC SOLUTION ENGINE -->
           <div id="exabytesRecommendations"></div>
 
           <div class="opp-card card locked" style="margin-bottom:24px;">
@@ -227,31 +306,6 @@
             </div>
           </div>
 
-          <!-- BUSINESS SNAPSHOT -->
-          <h2 class="block-title">Your Business Snapshot</h2>
-          <div class="snapshot-grid" style="margin-bottom:24px;">
-            <div class="snap-card card">
-              <span class="ic" data-icon="clipboard"></span>
-              <div><div class="lbl">Industry</div><div class="val" id="snapIndustry">Manufacturing</div></div>
-            </div>
-            <div class="snap-card card">
-              <span class="ic" data-icon="users"></span>
-              <div><div class="lbl">Company Size</div><div class="val" id="snapSize">11 – 50 employees</div></div>
-            </div>
-            <div class="snap-card card">
-              <span class="ic" data-icon="clock"></span>
-              <div><div class="lbl">Business Age</div><div class="val" id="snapAge">6 – 10 years</div></div>
-            </div>
-            <div class="snap-card card">
-              <span class="ic" data-icon="mapPin"></span>
-              <div><div class="lbl">Location</div><div class="val" id="snapLocation">Penang</div></div>
-            </div>
-            <div class="snap-card card">
-              <span class="ic" data-icon="flag"></span>
-              <div><div class="lbl">Primary Goal</div><div class="val" id="snapGoal">Grow revenue</div></div>
-            </div>
-          </div>
-
           <div class="bottom-banner">
             <div class="left">
               <span class="ic" data-icon="trophy"></span>
@@ -269,9 +323,65 @@
           <p class="privacy-note"><span data-icon="shield"></span> Your information is secure and will only be used to provide personalised insights.</p>
         </main>
 
-        <!-- RIGHT SIDEBAR: UNLOCK REPORT + BOOKING CALL -->
+        <!-- RIGHT SIDEBAR: STRICT ORDERED SEQUENCE -->
         <aside>
-          <!-- UNLOCK CARD (STICKY) -->
+          
+          <!-- STEP 1: YOUR BUSINESS SNAPSHOT -->
+          <div class="snapshot-sidebar-card">
+            <h3 class="snapshot-sidebar-title">
+              <span data-icon="clipboard" style="width:18px;height:18px;"></span>
+              Your Business Snapshot
+            </h3>
+            <div class="snapshot-sidebar-list">
+              <div class="snap-row">
+                <span class="lbl">Industry</span>
+                <span class="val" id="snapIndustry">Healthcare</span>
+              </div>
+              <div class="snap-row">
+                <span class="lbl">Company Size</span>
+                <span class="val" id="snapSize">6 – 20 employees</span>
+              </div>
+              <div class="snap-row">
+                <span class="lbl">Business Age</span>
+                <span class="val" id="snapAge">6 – 10 years</span>
+              </div>
+              <div class="snap-row">
+                <span class="lbl">Location</span>
+                <span class="val" id="snapLocation">Kuala Lumpur</span>
+              </div>
+              <div class="snap-row">
+                <span class="lbl">Primary Goal</span>
+                <span class="val" id="snapGoal">Digitalise operations</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 2: BOOK STRATEGY SESSION -->
+          <div class="booking-sidebar-card">
+            <h3 style="margin-top:0; font-size:1.05rem; color:#0f172a;">Book Strategy Session</h3>
+            <p style="font-size:0.8rem; color:#64748b; margin-bottom:12px;">Book a 1-on-1 strategy call directly with a specialized SME consultant.</p>
+
+            <form id="bookingForm" onsubmit="handleConsultationSubmit(event)">
+              <div>
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" placeholder="Jane Doe" required>
+              </div>
+
+              <div>
+                <label for="workEmail">Work Email</label>
+                <input type="email" id="workEmail" placeholder="jane@company.com" required>
+              </div>
+
+              <button type="submit" class="btn btn-secondary btn-block" style="width:100%; font-weight:600;">Schedule Consultation</button>
+            </form>
+
+            <div style="margin-top:12px; display:flex; gap:12px; font-size:0.75rem; color:#475569;">
+              <div><span style="color:#10b981; font-weight:bold;">✓</span> 30-minute tailored session</div>
+              <div><span style="color:#10b981; font-weight:bold;">✓</span> Practical advice</div>
+            </div>
+          </div>
+
+          <!-- STEP 3: UNLOCK FULL GROWTH REPORT -->
           <div class="unlock-card card">
             <div class="unlock-ic" data-icon="lock"></div>
             <h3>Unlock Your Full Growth Report</h3>
@@ -288,32 +398,7 @@
             <p class="login-row">Already have an account? <a href="#">Log In</a></p>
           </div>
 
-          <!-- STRATEGY CONSULTATION BOOKING CARD -->
-          <div class="card" style="padding:24px;">
-            <h3 style="margin-top:0;">Book Strategy Session</h3>
-            <p style="font-size:0.85rem; color:#64748b;">Schedule a 1-on-1 strategy call directly with a specialized SME consultant.</p>
-
-            <form id="bookingForm" onsubmit="handleConsultationSubmit(event)">
-              <div style="margin-bottom:12px;">
-                <label for="fullName" style="display:block; font-size:0.8rem; font-weight:600;">Full Name</label>
-                <input type="text" id="fullName" placeholder="Jane Doe" required style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px;">
-              </div>
-
-              <div style="margin-bottom:16px;">
-                <label for="workEmail" style="display:block; font-size:0.8rem; font-weight:600;">Work Email</label>
-                <input type="email" id="workEmail" placeholder="jane@company.com" required style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px;">
-              </div>
-
-              <button type="submit" class="btn btn-secondary btn-block">Schedule Consultation</button>
-            </form>
-
-            <ul class="benefit-list" style="margin-top:16px; padding-left:0; list-style:none;">
-              <li style="font-size:0.8rem; color:#475569;"><span style="color:#10b981;">✓</span> 30-minute tailored session</li>
-              <li style="font-size:0.8rem; color:#475569;"><span style="color:#10b981;">✓</span> No obligation advice</li>
-            </ul>
-          </div>
         </aside>
-
       </div>
 
     </div>
@@ -353,6 +438,7 @@
 <script>
 const localData = JSON.parse(localStorage.getItem("smeAssessment") || "{}");
 
+// 1. Business Snapshot Hydration
 document.getElementById("snapIndustry").textContent = localData.industry || "Healthcare";
 document.getElementById("snapSize").textContent = localData.employees ? `${localData.employees} employees` : "6 – 20 employees";
 document.getElementById("snapAge").textContent = localData.businessAge || "6 – 10 years";
@@ -360,6 +446,7 @@ document.getElementById("snapLocation").textContent = localData.location || "Kua
 document.getElementById("snapGoal").textContent = localData.goal || "Digitalise operations";
 document.getElementById("outCompanyName").textContent = `${localData.industry || 'Healthcare'} Business`;
 
+// 2. Scores computation
 const digitalScore = Math.min(100, (localData.digitalLevel || 3) * 12 + (localData.digitalTools?.length || 2) * 8);
 const strategyScore = 72;
 const salesScore = 58;
@@ -381,6 +468,7 @@ renderRadar(document.getElementById('radarChart'), [
   { name: 'Digitalisation', value: digitalScore }
 ]);
 
+// 3. Dynamic Solution Cards
 const exabyteSolutions = [
   {
     category: "Communication & Trust",
@@ -407,6 +495,7 @@ document.getElementById("exabytesRecommendations").innerHTML = exabyteSolutions.
   </div>
 `).join("");
 
+// 4. Phased Roadmap Engine
 const roadmapData = [
   { phase: "Phase 1: Quick Wins", time: "Month 1–3", task: "Deploy Business Email Hosting & cloud storage backups." },
   { phase: "Phase 2: Productivity Boosters", time: "Month 3–6", task: "Integrate CRM with automated client follow-ups." },
@@ -421,6 +510,7 @@ document.getElementById("roadmapTimeline").innerHTML = roadmapData.map(r => `
   </div>
 `).join("");
 
+// 5. ROI Estimator
 const staffCount = parseInt(localData.employees) || 12;
 const hoursSaved = Math.min(staffCount * 1, 12);
 const annualSavings = hoursSaved * 45 * 52;
@@ -428,6 +518,7 @@ const annualSavings = hoursSaved * 45 * 52;
 document.getElementById("roiHoursText").textContent = `${hoursSaved} hrs / week`;
 document.getElementById("roiSavingsText").textContent = `RM ${annualSavings.toLocaleString()} / yr`;
 
+// 6. Exports & Modal Handlers
 function downloadPDFProposal() {
   const element = document.getElementById("reportCanvas");
   html2pdf().set({
