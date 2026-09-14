@@ -906,7 +906,8 @@ h3.section-sub-title{font-size:1.05rem;font-weight:800;margin:26px 0 14px;}
 .faq-item .chev-ic{width:18px;height:18px;color:var(--slate-light);flex:none;transition:transform .2s ease;}
 .faq-item.open .chev-ic{transform:rotate(180deg);color:var(--blue);}
 .faq-item.open .faq-question{color:var(--blue-dark);}
-.faq-answer{max-height:0;overflow:hidden;transition:max-height .25s ease;}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+.faq-item.open .faq-answer{max-height:400px;}
 .faq-answer-inner{padding:0 22px 20px;font-size:.87rem;color:var(--slate);line-height:1.65;}
 
 .about-cta{background:linear-gradient(135deg,var(--navy),var(--blue-dark));border-radius:1.2rem;padding:54px 40px;text-align:center;color:#fff;}

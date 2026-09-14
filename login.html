@@ -5,34 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Log In — SME Growth Advisor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/loginStyle.css">
-
 </head>
 <body>
 
 <div class="login-shell">
 
+  <!-- Left Hero Panel -->
   <aside class="login-aside">
-    <div class="aside-blob" aria-hidden="true">
-      <svg viewBox="0 0 420 420" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M210 20c90 10 170 60 190 150s-50 190-150 210S30 360 20 250 90 40 210 20Z" fill="url(#blobA)"/>
-        <path d="M230 60c70 20 120 80 110 160s-90 140-170 130S30 290 50 210 150 40 230 60Z" fill="url(#blobB)" opacity=".85"/>
-        <defs>
-          <linearGradient id="blobA" x1="20" y1="20" x2="400" y2="400" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#8B6BF2"/><stop offset="1" stop-color="#4B2E9E"/>
-          </linearGradient>
-          <linearGradient id="blobB" x1="50" y1="60" x2="340" y2="350" gradientUnits="userSpaceOnUse">
-            <stop stop-color="#3FD9C7"/><stop offset="1" stop-color="#3B7BE0"/>
-          </linearGradient>
-        </defs>
-      </svg>
-    </div>
-
     <a href="index.html" class="brand">
       <span class="brand-mark" data-icon="logo"></span>
-      <span>SME<span class="brand-sub">GROWTH ADVISOR</span></span>
+      <div class="brand-text">
+        <span>SME</span>
+        <span class="brand-sub">GROWTH ADVISOR</span>
+      </div>
     </a>
 
     <div class="login-aside-mid">
@@ -46,13 +33,19 @@
     </nav>
   </aside>
 
+  <!-- Right Form Panel -->
   <main class="login-main">
     <div class="login-box">
+
       <a href="index.html" class="brand brand-mobile">
         <span class="brand-mark" data-icon="logo"></span>
-        <span>SME<span class="brand-sub">GROWTH ADVISOR</span></span>
+        <div class="brand-text">
+          <span>SME</span>
+          <span class="brand-sub">GROWTH ADVISOR</span>
+        </div>
       </a>
 
+      <!-- Clean Segmented Control Tabs -->
       <div class="role-tabs" id="roleTabs">
         <button type="button" class="role-tab active"
           data-role="sme"
@@ -60,8 +53,8 @@
           data-sub="Access your growth dashboard and personalised insights."
           data-btn="Log In"
           data-note-icon="sparkles"
-          data-redirect="clientDashboard.html"
-          data-signup="Don&#39;t have an account? &lt;a href=&quot;assessment.html&quot;&gt;Start your free assessment&lt;/a&gt;">
+          data-redirect="client/client-dashboard.html"
+          data-signup="Don't have an account? &lt;a href=&quot;assessment.html&quot;&gt;Start your free assessment&lt;/a&gt;">
           <span data-icon="briefcase2"></span> SME User
         </button>
 
@@ -72,36 +65,45 @@
           data-btn="Log In to Admin Console"
           data-note="Admin access is restricted to authorised SME Growth Advisor staff. Contact IT if you need access."
           data-note-icon="shield"
-          data-redirect="admin-dashboard.html"
+          data-redirect="admin/admin-dashboard.html"
           data-signup="">
           <span data-icon="shield"></span> Admin
         </button>
       </div>
 
-      <h1 id="loginTitle">Log in</h1>
-      <p class="sub" id="loginSub">Access your growth dashboard and personalised insights.</p>
+      <div class="header-group">
+        <h1 id="loginTitle">Log in</h1>
+        <p class="sub" id="loginSub">Access your growth dashboard and personalised insights.</p>
+      </div>
+
+      <div class="role-note" id="roleNote" style="display:none;">
+        <span data-icon="" id="roleNoteIcon"></span>
+        <span id="roleNoteText"></span>
+      </div>
 
       <form id="loginForm">
         <div class="input-group">
-          <label for="email">Your email</label>
+          <label for="email">Email address</label>
           <div class="input-field">
             <span data-icon="mail"></span>
-            <input type="email" id="email" placeholder="you@company.com" required>
+            <input type="email" id="email" placeholder="name@company.com" required>
           </div>
         </div>
 
         <div class="input-group">
-          <label for="password">Your password</label>
+          <label for="password">Password</label>
           <div class="input-field">
             <span data-icon="lock"></span>
-            <input type="password" id="password" placeholder="Enter your password" required>
-            <button type="button" id="togglePassword" aria-label="Show password"><span data-icon="eye" id="eyeIcon"></span></button>
+            <input type="password" id="password" placeholder="••••••••" required>
+            <button type="button" id="togglePassword" aria-label="Show password">
+              <span data-icon="eye" id="eyeIcon"></span>
+            </button>
           </div>
         </div>
 
         <div class="login-row-between">
           <label class="remember-check">
-            <input type="checkbox"> Remember me
+            <input type="checkbox"> Remember me for 30 days
           </label>
           <a href="#">Forgot password?</a>
         </div>
@@ -123,20 +125,14 @@
     const title = document.getElementById('loginTitle');
     const sub = document.getElementById('loginSub');
     const submitBtn = document.getElementById('submitBtn');
+    const roleNote = document.getElementById('roleNote');
     const roleNoteText = document.getElementById('roleNoteText');
     const roleNoteIcon = document.getElementById('roleNoteIcon');
     const signupPrompt = document.getElementById('signupPrompt');
     const signupBtn = document.getElementById('signupBtn');
     const form = document.getElementById('loginForm');
-    let redirect = 'clientDashboard.html';
-
-    function renderIcons() {
-      document.querySelectorAll('[data-icon]').forEach(el => {
-        const name = el.getAttribute('data-icon');
-        if (window.ICONS && window.ICONS[name]) el.innerHTML = window.ICONS[name];
-      });
-    }
-    renderIcons();
+    let redirect = 'client/client-dashboard.html';
+    let currentRole = 'sme';
 
     function applyRole(tab) {
       tabs.forEach(t => t.classList.remove('active'));
@@ -144,16 +140,21 @@
       title.textContent = tab.dataset.title;
       sub.textContent = tab.dataset.sub;
       submitBtn.textContent = tab.dataset.btn;
-      roleNoteText.textContent = tab.dataset.note;
       redirect = tab.dataset.redirect;
+      currentRole = tab.dataset.role;
 
-      const iconName = tab.dataset.noteIcon;
-      if (window.ICONS && window.ICONS[iconName]) {
-        roleNoteIcon.innerHTML = window.ICONS[iconName];
+      const note = tab.dataset.note;
+      if (note) {
+        roleNoteText.textContent = note;
+        const iconName = tab.dataset.noteIcon;
+        if (window.ICONS && window.ICONS[iconName]) roleNoteIcon.innerHTML = window.ICONS[iconName];
+        roleNote.style.display = 'flex';
+      } else {
+        roleNote.style.display = 'none';
       }
 
       const signupHtml = tab.dataset.signup;
-      const isSme = tab.dataset.role === 'sme';
+      const isSme = currentRole === 'sme';
       if (signupHtml) {
         signupPrompt.innerHTML = signupHtml;
         signupPrompt.style.display = 'block';
@@ -182,6 +183,17 @@
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       window.location.href = redirect;
+    });
+
+    // Inject all static icons on page load
+    document.querySelectorAll('[data-icon]').forEach(el => {
+      const iconName = el.getAttribute('data-icon');
+      if (window.ICONS && window.ICONS[iconName]) {
+        // Only set it if it's empty to prevent overwriting dynamic ones unnecessarily
+        if (!el.innerHTML.trim()) {
+           el.innerHTML = window.ICONS[iconName];
+        }
+      }
     });
   });
 </script>
