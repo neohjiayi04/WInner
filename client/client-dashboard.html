@@ -385,18 +385,103 @@
   .cal-day.selected{background:var(--blue-600);color:#fff;}
   .cal-day.selected::after{background:#fff;}
 
+
   /* ---------- Profile ---------- */
-  .profile-head{display:flex;align-items:center;gap:18px;margin-bottom:24px;}
-  .profile-avatar{width:76px;height:76px;border-radius:50%;background:var(--blue-600);color:#fff;font-size:26px;font-weight:800;display:flex;align-items:center;justify-content:center;}
-  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-  @media (max-width:700px){.form-grid{grid-template-columns:1fr;}}
-  .field{display:flex;flex-direction:column;gap:6px;}
-  .field label{font-size:12.5px;font-weight:600;color:var(--ink-700);}
-  .field input, .field select, .field textarea{
-    padding:10px 12px;border:1px solid var(--line);border-radius:9px;font-size:13.5px;font-family:inherit;
-    background:#f8fafc;outline:none;color:var(--ink-900);
+  .profile-page{display:flex;flex-direction:column;gap:24px;}
+  .profile-hero{
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);
+    padding:28px 30px;box-shadow:var(--shadow);
+    display:flex;align-items:center;justify-content:space-between;gap:24px;
   }
-  .field input:focus, .field select:focus, .field textarea:focus{border-color:var(--blue-500);background:#fff;}
+  .profile-identity{display:flex;align-items:center;gap:18px;min-width:0;}
+  .profile-avatar{
+    width:78px;height:78px;border-radius:14px;background:var(--blue-600);color:#fff;
+    font-size:25px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;
+  }
+  .profile-name-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:5px;}
+  .profile-name{font-size:24px;font-weight:800;letter-spacing:-.02em;margin:0;color:var(--ink-900);}
+  .profile-status{
+    display:inline-flex;align-items:center;gap:6px;background:var(--green-100);color:#0a8a4f;
+    font-size:11.5px;font-weight:700;padding:5px 10px;border-radius:999px;
+  }
+  .profile-status-dot{width:6px;height:6px;border-radius:50%;background:var(--green-500);}
+  .profile-business{font-size:14px;color:var(--ink-500);margin:0 0 9px;}
+  .profile-meta{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink-500);}
+  .profile-meta span{display:inline-flex;align-items:center;gap:5px;}
+  .profile-meta svg{width:14px;height:14px;color:#7b8aa3;}
+  .profile-actions{display:flex;gap:9px;flex:none;}
+
+  .profile-grid{display:grid;grid-template-columns:1fr;gap:24px;align-items:start;}
+  .profile-info-card,.profile-side-card{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);
+    padding:26px;box-shadow:var(--shadow);
+  }
+  .profile-section-title{font-size:17px;font-weight:700;margin:0 0 4px;color:var(--ink-900);}
+  .profile-section-sub{font-size:12.5px;color:var(--ink-500);margin:0 0 18px;}
+  .profile-info-list{border-top:1px solid var(--line);}
+  .profile-info-row{
+    display:grid;grid-template-columns:42px minmax(110px,.55fr) minmax(0,1.45fr);
+    gap:14px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line);
+  }
+  .profile-info-row:last-child{border-bottom:none;}
+  .profile-info-icon{
+    width:38px;height:38px;border-radius:10px;background:var(--blue-100);color:var(--blue-600);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .profile-info-icon svg{width:17px;height:17px;}
+  .profile-info-label{font-size:12px;color:var(--ink-500);}
+  .profile-info-value{font-size:13.5px;font-weight:600;color:var(--ink-900);min-width:0;}
+  .profile-info-value input,.profile-info-value select{
+    width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;
+    font:inherit;background:#f8fafc;color:var(--ink-900);outline:none;
+  }
+  .profile-info-value input:focus,.profile-info-value select:focus{border-color:var(--blue-500);background:#fff;}
+  .profile-about{margin-top:18px;}
+  .profile-about textarea{
+    width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;
+    font:13px/1.5 inherit;background:#f8fafc;color:var(--ink-900);outline:none;resize:vertical;
+  }
+  .profile-about textarea:focus{border-color:var(--blue-500);background:#fff;}
+  .profile-form-actions{display:flex;gap:9px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line);}
+
+  .profile-side{display:flex;flex-direction:column;gap:24px;}
+  .access-role-label{display:block;font-size:12px;color:var(--ink-500);margin:0 0 6px;}
+  .access-role{
+    width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;
+    background:#fff;color:var(--ink-900);font:13.5px inherit;outline:none;
+  }
+  .access-role:disabled{background:#f8fafc;color:var(--ink-700);}
+  .account-status-box{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:13px 0;margin-top:16px;border-top:1px solid var(--line);
+  }
+  .account-status-label{font-size:12px;color:var(--ink-500);}
+  .account-status-pill{
+    display:inline-flex;align-items:center;gap:6px;background:var(--green-100);color:#0a8a4f;
+    font-size:11px;font-weight:700;padding:5px 10px;border-radius:999px;
+  }
+  .recent-list{display:flex;flex-direction:column;}
+  .recent-item{display:flex;gap:12px;padding:13px 0;border-bottom:1px solid var(--line);}
+  .recent-item:last-child{border-bottom:none;padding-bottom:0;}
+  .recent-item:first-child{padding-top:2px;}
+  .recent-icon{
+    width:36px;height:36px;border-radius:50%;background:var(--blue-100);color:var(--blue-600);
+    display:flex;align-items:center;justify-content:center;flex:none;font-size:16px;
+  }
+  .recent-icon.green{background:var(--green-100);color:#0a8a4f;}
+  .recent-title{font-size:13px;font-weight:700;margin:0 0 3px;}
+  .recent-desc{font-size:12px;color:var(--ink-500);margin:0;line-height:1.45;}
+  .recent-date{font-size:11px;color:var(--ink-500);margin-top:3px;}
+  @media (max-width:900px){
+    .profile-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width:700px){
+    .profile-hero{align-items:flex-start;flex-direction:column;}
+    .profile-actions{width:100%;}
+    .profile-actions .btn{flex:1;}
+    .profile-info-row{grid-template-columns:38px 1fr;}
+    .profile-info-value{grid-column:2;}
+  }
 
   /* ---------- Modal ---------- */
   .overlay{position:fixed;inset:0;background:rgba(10,18,40,.5);display:none;align-items:center;justify-content:center;z-index:100;padding:20px;}
@@ -752,46 +837,144 @@
 
       <!-- PROFILE PAGE -->
       <section class="page" id="page-profile">
-        <div class="card" style="max-width:720px;">
-          <div class="profile-head">
-            <div class="profile-avatar" id="profAvatar">CT</div>
-            <div>
-              <p class="card-title" style="margin-bottom:2px;" id="profName">Chris Tan</p>
-              <p class="card-sub" id="profBiz">The Green Spoon Cafe</p>
+        <div class="profile-page">
+
+          <!-- Profile header -->
+          <div class="profile-hero">
+            <div class="profile-identity">
+              <div class="profile-avatar" id="profAvatar">CT</div>
+              <div>
+                <div class="profile-name-row">
+                  <h1 class="profile-name" id="profName">Chris Tan</h1>
+                  <span class="profile-status"><span class="profile-status-dot"></span>active</span>
+                </div>
+                <p class="profile-business" id="profBiz">The Green Spoon Cafe</p>
+                <div class="profile-meta">
+                  <span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h8M8 16h5"/>
+                    </svg>
+                    SME User
+                  </span>
+                  <span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/>
+                    </svg>
+                    <span id="profileEmailMeta">chris@greenspooncafe.com</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="profile-actions">
+              <button class="btn btn-secondary" id="resetProfileTop">Reset</button>
+              <button class="btn btn-primary" id="saveProfileTop">Save Changes</button>
             </div>
           </div>
-          <form id="profileForm">
-            <div class="form-grid">
-              <div class="field"><label>Full Name</label><input id="f-name" type="text" required></div>
-              <div class="field"><label>Business Name</label><input id="f-biz" type="text" required></div>
-              <div class="field"><label>Email Address</label><input id="f-email" type="email" required></div>
-              <div class="field"><label>Phone Number</label><input id="f-phone" type="text" required></div>
-              <div class="field"><label>Industry</label>
-                <select id="f-industry">
-                  <option>Food &amp; Beverage</option>
-                  <option>Retail</option>
-                  <option>Services</option>
-                  <option>Manufacturing</option>
-                  <option>Other</option>
-                </select>
-              </div>
-              <div class="field"><label>Business Size</label>
-                <select id="f-size">
-                  <option>1-5 employees</option>
-                  <option>6-20 employees</option>
-                  <option>21-50 employees</option>
-                  <option>50+ employees</option>
-                </select>
-              </div>
+
+          <div class="profile-grid">
+
+            <!-- Information -->
+            <div class="profile-info-card">
+              <h2 class="profile-section-title">Profile Information</h2>
+              <p class="profile-section-sub">Manage your personal and business details.</p>
+
+              <form id="profileForm">
+                <div class="profile-info-list">
+
+                  <div class="profile-info-row">
+                    <div class="profile-info-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4.5 5-6 8-6s6.5 1.5 8 6"/>
+                      </svg>
+                    </div>
+                    <div class="profile-info-label">Full Name</div>
+                    <div class="profile-info-value"><input id="f-name" type="text" required></div>
+                  </div>
+
+                  <div class="profile-info-row">
+                    <div class="profile-info-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 21h18M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/>
+                      </svg>
+                    </div>
+                    <div class="profile-info-label">Business Name</div>
+                    <div class="profile-info-value"><input id="f-biz" type="text" required></div>
+                  </div>
+
+                  <div class="profile-info-row">
+                    <div class="profile-info-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>
+                      </svg>
+                    </div>
+                    <div class="profile-info-label">Email Address</div>
+                    <div class="profile-info-value"><input id="f-email" type="email" required></div>
+                  </div>
+
+                  <div class="profile-info-row">
+                    <div class="profile-info-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 16.9v3a2 2 0 0 1-2.2 2A19.8 19.8 0 0 1 3.1 5.2 2 2 0 0 1 5.1 3h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .8 2.9a2 2 0 0 1-.5 2.1L9.1 11a16 16 0 0 0 3.9 3.9l1.3-1.3a2 2 0 0 1 2.1-.5c.9.4 1.9.7 2.9.8a2 2 0 0 1 1.7 2z"/>
+                      </svg>
+                    </div>
+                    <div class="profile-info-label">Phone Number</div>
+                    <div class="profile-info-value"><input id="f-phone" type="text" required></div>
+                  </div>
+
+                  <div class="profile-info-row">
+                    <div class="profile-info-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19V5h16v14H4z"/><path d="M8 9h8M8 13h5"/>
+                      </svg>
+                    </div>
+                    <div class="profile-info-label">Industry</div>
+                    <div class="profile-info-value">
+                      <select id="f-industry">
+                        <option>Food &amp; Beverage</option>
+                        <option>Retail</option>
+                        <option>Services</option>
+                        <option>Manufacturing</option>
+                        <option>Other</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="profile-info-row">
+                    <div class="profile-info-icon">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                      </svg>
+                    </div>
+                    <div class="profile-info-label">Business Size</div>
+                    <div class="profile-info-value">
+                      <select id="f-size">
+                        <option>1-5 employees</option>
+                        <option>6-20 employees</option>
+                        <option>21-50 employees</option>
+                        <option>50+ employees</option>
+                      </select>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="profile-about">
+                  <div class="field">
+                    <label>About your business</label>
+                    <textarea id="f-about" rows="3" placeholder="Tell us a little about your business..."></textarea>
+                  </div>
+                </div>
+
+                <div class="profile-form-actions">
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                  <button type="button" class="btn" id="resetProfileBtn">Reset</button>
+                  <button type="button" class="btn" id="resetPasswordBtn">Reset Password</button>
+                </div>
+              </form>
             </div>
-            <div class="field" style="margin-top:16px;"><label>About your business</label>
-              <textarea id="f-about" rows="3" placeholder="Tell us a little about your business..."></textarea>
-            </div>
-            <div class="modal-actions" style="margin-top:22px;">
-              <button type="submit" class="btn btn-primary">Save Changes</button>
-              <button type="button" class="btn" id="resetProfileBtn">Reset</button>
-            </div>
-          </form>
+
+          </div>
         </div>
       </section>
 
@@ -892,6 +1075,29 @@
   </div>
 </div>
 
+<div class="overlay" id="passwordOverlay">
+  <div class="modal">
+    <button class="modal-close" data-close="passwordOverlay">✕</button>
+    <h2>Reset Password</h2>
+    <p class="hint">Create a new password for your account.</p>
+    <form id="passwordForm">
+      <div class="q-block">
+        <p>New Password</p>
+        <input id="newPassword" type="password" minlength="6" required placeholder="Enter new password" style="width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font-size:13px;outline:none;">
+      </div>
+      <div class="q-block">
+        <p>Confirm New Password</p>
+        <input id="confirmPassword" type="password" minlength="6" required placeholder="Re-enter new password" style="width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font-size:13px;outline:none;">
+      </div>
+      <p id="passwordError" style="display:none;color:var(--red-500);font-size:12px;margin:0 0 12px;"></p>
+      <div class="modal-actions">
+        <button type="button" class="btn" data-close="passwordOverlay">Cancel</button>
+        <button type="submit" class="btn btn-primary" style="flex:1;">Update Password</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7"/></svg><span id="toastMsg">Saved</span></div>
 
 <script>
@@ -987,6 +1193,7 @@ function renderIdentity(){
   document.getElementById('profAvatar').textContent = initials(state.user.name);
   document.getElementById('profName').textContent = state.user.name;
   document.getElementById('profBiz').textContent = state.user.biz;
+  document.getElementById('profileEmailMeta').textContent = state.user.email;
 }
 
 function scoreCardHTML(){
@@ -1347,6 +1554,41 @@ document.getElementById('profileForm').addEventListener('submit', (e)=>{
   showToast('Profile saved');
 });
 document.getElementById('resetProfileBtn').addEventListener('click', renderProfileForm);
+document.getElementById('resetProfileTop').addEventListener('click', renderProfileForm);
+document.getElementById('saveProfileTop').addEventListener('click', ()=>{
+  document.getElementById('profileForm').requestSubmit();
+});
+
+document.getElementById('resetPasswordBtn').addEventListener('click', ()=>{
+  document.getElementById('passwordForm').reset();
+  const error = document.getElementById('passwordError');
+  error.style.display = 'none';
+  error.textContent = '';
+  openModal('passwordOverlay');
+});
+
+document.getElementById('passwordForm').addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const newPassword = document.getElementById('newPassword').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+  const error = document.getElementById('passwordError');
+
+  if(newPassword.length < 6){
+    error.textContent = 'Password must be at least 6 characters.';
+    error.style.display = 'block';
+    return;
+  }
+  if(newPassword !== confirmPassword){
+    error.textContent = 'Passwords do not match.';
+    error.style.display = 'block';
+    return;
+  }
+
+  state.password = newPassword;
+  saveState();
+  closeModal('passwordOverlay');
+  showToast('Password updated successfully');
+});
 
 function goToPage(page){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));

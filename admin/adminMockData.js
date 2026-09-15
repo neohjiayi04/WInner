@@ -44,4 +44,45 @@ function updateAdminUserStatus(id, status) {
   return user;
 }
 
-window.AdminData = { loadAdminUsers, saveAdminUsers, getAdminUserById, updateAdminUserRole, updateAdminUserStatus };
+/* ---------- ADMIN'S OWN ACCOUNT (profile/settings) ---------- */
+const ADMIN_ACCOUNT_KEY = "exabytes-admin-account";
+
+const SEED_ADMIN_ACCOUNT = {
+  name: "Admin User",
+  email: "admin@exabytes.my",
+  role: "Administrator",
+  password: "admin123"
+};
+
+function loadAdminAccount() {
+  try {
+    const raw = localStorage.getItem(ADMIN_ACCOUNT_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+  localStorage.setItem(ADMIN_ACCOUNT_KEY, JSON.stringify(SEED_ADMIN_ACCOUNT));
+  return { ...SEED_ADMIN_ACCOUNT };
+}
+
+function saveAdminAccount(account) {
+  localStorage.setItem(ADMIN_ACCOUNT_KEY, JSON.stringify(account));
+}
+
+function updateAdminAccountProfile(name, email) {
+  const account = loadAdminAccount();
+  account.name = name;
+  account.email = email;
+  saveAdminAccount(account);
+  return account;
+}
+
+function updateAdminPassword(currentPassword, newPassword) {
+  const account = loadAdminAccount();
+  if (account.password !== currentPassword) {
+    return { success: false, message: "Current password is incorrect." };
+  }
+  account.password = newPassword;
+  saveAdminAccount(account);
+  return { success: true, message: "Password updated." };
+}
+
+window.AdminData = { loadAdminUsers, saveAdminUsers, getAdminUserById, updateAdminUserRole, updateAdminUserStatus, loadAdminAccount, saveAdminAccount, updateAdminAccountProfile, updateAdminPassword };

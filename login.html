@@ -3,199 +3,1588 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Log In — SME Growth Advisor</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/loginStyle.css">
+<title>AI SME Digital Growth Advisor</title>
+<style>
+  :root{
+    --navy-900:#0a1a3c;
+    --navy-800:#0f2354;
+    --blue-600:#1656f5;
+    --blue-500:#3b6bf6;
+    --blue-100:#e8effe;
+    --purple-500:#7c5cf0;
+    --purple-100:#efe9fe;
+    --green-500:#17b26a;
+    --green-100:#e3faee;
+    --red-500:#f04438;
+    --red-100:#fde8e6;
+    --amber-500:#f79009;
+    --ink-900:#0f172a;
+    --ink-700:#334155;
+    --ink-500:#64748b;
+    --ink-300:#cbd5e1;
+    --line:#e6eaf1;
+    --bg:#ffffff;
+    --bg-subtle:#f8fafc;
+    --card:#ffffff;
+    --radius-lg:16px;
+    --radius-md:12px;
+    --radius-sm:8px;
+    --shadow:0 1px 3px rgba(15,23,42,.06);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Segoe UI', Inter, -apple-system, BlinkMacSystemFont, Roboto, Arial, sans-serif;
+    background:var(--bg);
+    color:var(--ink-900);
+    -webkit-font-smoothing:antialiased;
+  }
+  a{text-decoration:none;color:inherit;}
+  button{font-family:inherit;cursor:pointer;}
+  ::selection{background:var(--blue-100);}
+
+  /* ---------- Layout ---------- */
+  .app{
+    display:grid;
+    grid-template-columns:260px 1fr;
+    min-height:100vh;
+  }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar{
+    background:linear-gradient(180deg,var(--navy-900) 0%, #0d2049 100%);
+    color:#fff;
+    padding:26px 20px;
+    display:flex;
+    flex-direction:column;
+    position:sticky;
+    top:0;
+    height:100vh;
+    overflow:hidden;
+  }
+  .brand{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+  .brand-mark{
+    width:34px;height:34px;border-radius:9px;
+    background:var(--blue-600);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:18px;flex:none;
+  }
+  .brand-name{font-weight:700;font-size:16px;letter-spacing:.2px;}
+  .brand-tag{font-size:11.5px;color:#93a4cf;margin:2px 0 26px 44px;}
+  .nav{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:3px;flex:1;}
+  .nav-item{
+    display:flex;align-items:center;gap:12px;
+    padding:11px 14px;border-radius:10px;
+    color:#c4cfe8;font-size:14.5px;font-weight:500;
+    border:none;background:transparent;width:100%;text-align:left;
+    transition:background .15s ease, color .15s ease;
+  }
+  .nav-item svg{flex:none;width:18px;height:18px;}
+  .nav-item:hover{background:rgba(255,255,255,.06);color:#fff;}
+  .nav-item.active{background:var(--blue-600);color:#fff;}
+  .sidebar-footer{
+    margin-top:auto;padding-top:18px;border-top:1px solid rgba(255,255,255,.08);
+    font-size:11.5px;color:#7c8bb5;position:relative;z-index:1;
+  }
+
+  /* ---------- Main ---------- */
+  .main{display:flex;flex-direction:column;min-height:100vh;min-width:0;}
+  .topbar{
+    display:flex;align-items:center;gap:16px;
+    padding:16px 30px;background:#fff;border-bottom:1px solid var(--line);
+    position:sticky;top:0;z-index:20;
+  }
+  .search{
+    flex:1;max-width:520px;position:relative;
+  }
+  .search input{
+    width:100%;padding:10px 14px 10px 38px;border-radius:10px;
+    border:1px solid var(--line);background:#f8fafc;font-size:13.5px;color:var(--ink-700);
+    outline:none;
+  }
+  .search input:focus{border-color:var(--blue-500);background:#fff;}
+  .search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--ink-500);}
+  .topbar-right{display:flex;align-items:center;gap:18px;margin-left:auto;position:relative;}
+  .bell{position:relative;width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;}
+  .bell svg{width:18px;height:18px;color:var(--ink-700);}
+  .bell .dot{position:absolute;top:6px;right:7px;width:8px;height:8px;border-radius:50%;background:var(--red-500);border:2px solid #fff;}
+  .user-chip{display:flex;align-items:center;gap:9px;padding:4px 8px 4px 4px;border-radius:10px;}
+  .user-chip:hover{background:#f8fafc;}
+  .avatar{width:34px;height:34px;border-radius:50%;background:var(--blue-600);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex:none;}
+  .user-meta{line-height:1.25;}
+  .user-name{font-size:13.5px;font-weight:600;}
+  .user-biz{font-size:11.5px;color:var(--ink-500);}
+  .chev{width:14px;height:14px;color:var(--ink-500);}
+
+  .dropdown{
+    position:absolute;top:52px;right:0;background:#fff;border:1px solid var(--line);
+    border-radius:12px;box-shadow:0 12px 32px rgba(15,23,42,.12);min-width:230px;
+    padding:8px;display:none;z-index:50;
+  }
+  .dropdown.open{display:block;}
+  .dropdown h4{margin:6px 8px 8px;font-size:12.5px;color:var(--ink-500);font-weight:600;}
+  .notif-item{padding:9px 10px;border-radius:8px;font-size:12.5px;color:var(--ink-700);display:flex;gap:8px;}
+  .notif-item:hover{background:#f8fafc;}
+  .notif-dot{width:6px;height:6px;border-radius:50%;background:var(--blue-500);margin-top:5px;flex:none;}
+  .menu-item{padding:9px 10px;border-radius:8px;font-size:13px;display:block;color:var(--ink-700);}
+  .menu-item:hover{background:#f8fafc;}
+
+  .content{padding:40px 30px 60px;max-width:1500px;width:100%;margin:0 auto;}
+  .page{display:none;}
+  .page.active{display:block;}
+
+  /* ---------- Cards & Minimal Grid ---------- */
+  .grid-dash{display:grid;grid-template-columns:1fr 300px;gap:32px;align-items:start;}
+  .col-main{display:flex;flex-direction:column;gap:32px;min-width:0;}
+
+  /* Minimalist Hero Section */
+  .hero-minimal {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 48px 40px;
+    box-shadow: var(--shadow);
+  }
+  .hero-minimal-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .hero-tag {
+    display: inline-block;
+    background-color: var(--blue-100);
+    color: var(--blue-600);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 999px;
+    margin-bottom: 20px;
+    letter-spacing: 0.01em;
+  }
+  .hero-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--ink-900);
+    margin: 0 0 16px 0;
+  }
+  .hero-description {
+    font-size: 1.05rem;
+    color: var(--ink-700);
+    line-height: 1.6;
+    margin: 0 0 32px 0;
+    max-width: 520px;
+  }
+  .cta-group {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .visual-card {
+    background-color: var(--bg-subtle);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 32px;
+  }
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--green-100);
+    color: #0a8a4f;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+  }
+  .status-badge svg { width: 12px; height: 12px; }
+  .card-metric {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--blue-600);
+    letter-spacing: -0.02em;
+  }
+  .card-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--ink-900);
+    margin-top: 4px;
+  }
+  .card-divider {
+    height: 1px;
+    background-color: var(--line);
+    margin: 20px 0;
+  }
+  .card-text {
+    font-size: 0.875rem;
+    color: var(--ink-500);
+  }
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:12px 24px;border-radius:var(--radius-sm);font-size:0.9375rem;font-weight:600;
+    border:1px solid var(--line);background:#fff;color:var(--ink-700);
+    transition:all .15s ease;
+  }
+  .btn:active{transform:scale(.98);}
+  .btn-block{width:100%;}
+  .btn-primary{background:var(--blue-600);border-color:var(--blue-600);color:#fff;}
+  .btn-primary:hover{background:#1148d6;border-color:#1148d6;}
+  .btn-secondary:hover{background:var(--bg-subtle);border-color:var(--ink-300);}
+  .btn svg{width:15px;height:15px;}
+  .btn-sm{padding:8px 14px;font-size:12.5px;border-radius:6px;}
+
+  .score-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+  @media (max-width:1180px){.score-grid{grid-template-columns:repeat(2,1fr);}}
+  .score-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow);}
+  .score-top{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+  .score-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex:none;}
+  .score-label{font-size:13px;font-weight:600;color:var(--ink-700);}
+  .score-value{font-size:26px;font-weight:800;margin-bottom:8px;}
+  .score-value span{font-size:14px;font-weight:600;color:var(--ink-500);}
+  .bar{height:6px;border-radius:99px;background:#eef1f6;overflow:hidden;margin-bottom:10px;}
+  .bar > i{display:block;height:100%;border-radius:99px;}
+  .score-note{font-size:12px;color:var(--ink-500);line-height:1.5;}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:24px;box-shadow:var(--shadow);}
+  .card-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:12px;flex-wrap:wrap;}
+  .card-head-actions{display:flex;gap:8px;flex-wrap:wrap;flex:none;}
+  .card-title{font-size:16px;font-weight:700;margin:0 0 4px;}
+  .card-sub{font-size:12.5px;color:var(--ink-500);margin:0;}
+
+  .phases{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  @media (max-width:1180px){.phases{grid-template-columns:1fr;}}
+  .phase{border-radius:var(--radius-md);padding:18px;border:1px solid var(--line);display:flex;flex-direction:column;height:100%;}
+  .phase.p1{background:#eef4ff;border-color:#dfe9fe;}
+  .phase.p2{background:#f4f0ff;border-color:#e6ddfe;}
+  .phase.p3{background:#eafcf3;border-color:#d7f7e6;}
+  .phase-top{display:flex;align-items:center;gap:10px;margin-bottom:2px;}
+  .phase-num{width:26px;height:26px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12.5px;flex:none;}
+  .phase.p1 .phase-num{background:var(--blue-600);}
+  .phase.p2 .phase-num{background:var(--purple-500);}
+  .phase.p3 .phase-num{background:var(--green-500);}
+  .phase-range{font-size:11.5px;color:var(--ink-500);}
+  .phase-title{font-weight:700;font-size:14.5px;margin:6px 0 10px;}
+  .phase-list{list-style:none;margin:0 0 10px;padding:0;display:flex;flex-direction:column;gap:8px;}
+  .phase-list li{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--ink-700);cursor:pointer;user-select:none;}
+  .chk{width:17px;height:17px;border-radius:5px;border:1.6px solid #b9c3d6;flex:none;display:flex;align-items:center;justify-content:center;transition:.12s;}
+  .chk svg{width:11px;height:11px;color:#fff;opacity:0;}
+  li.done .chk{background:var(--green-500);border-color:var(--green-500);}
+  li.done .chk svg{opacity:1;}
+  li.done span{color:var(--ink-500);text-decoration:line-through;text-decoration-color:var(--ink-300);}
+  .focus-tag{display:inline-block;font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.7);margin-top:auto;width:fit-content;}
+  .phase.p1 .focus-tag{color:var(--blue-600);}
+  .phase.p2 .focus-tag{color:var(--purple-500);}
+  .phase.p3 .focus-tag{color:#0a8a4f;}
+
+  .tools-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+  @media (max-width:1180px){.tools-grid{grid-template-columns:repeat(2,1fr);}}
+  .tool-card{border:1px solid var(--line);border-radius:var(--radius-md);padding:18px;display:flex;flex-direction:column;gap:10px;}
+  .tool-top{display:flex;align-items:center;gap:10px;}
+  .tool-logo{width:38px;height:38px;border-radius:10px;background:#f1f5fb;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;flex:none;}
+  .tool-name{font-weight:700;font-size:14px;}
+  .tool-desc{font-size:12px;color:var(--ink-500);line-height:1.5;flex:1;}
+  .tag{display:inline-block;font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:999px;width:fit-content;}
+  .tag.ecom{background:#e3f6ec;color:#0a8a4f;}
+  .tag.crm{background:var(--purple-100);color:var(--purple-500);}
+  .tag.mkt{background:#ffe9df;color:#d3560f;}
+  .tag.pos{background:var(--blue-100);color:var(--blue-600);}
+
+  .findings-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  @media (max-width:980px){.findings-grid{grid-template-columns:1fr;}}
+  .find-item{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line);}
+  .find-item:last-child{border-bottom:none;}
+  .find-ic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex:none;}
+  .find-title{font-weight:700;font-size:13.5px;margin:0 0 3px;}
+  .find-desc{font-size:12.5px;color:var(--ink-500);margin:0;line-height:1.5;}
+  .steps-list{display:flex;flex-direction:column;gap:12px;}
+  .step-item{display:flex;gap:12px;align-items:flex-start;}
+  .step-num{width:26px;height:26px;border-radius:50%;background:var(--blue-100);color:var(--blue-600);font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;flex:none;}
+
+  .history-row{display:grid;grid-template-columns:1.4fr .7fr .7fr .7fr auto;gap:10px;align-items:center;padding:14px 4px;border-bottom:1px solid var(--line);font-size:13px;}
+  .history-row:last-child{border-bottom:none;}
+  .history-date{color:var(--ink-500);font-size:12px;}
+  .latest-pill{display:inline-block;background:var(--blue-100);color:var(--blue-600);font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:8px;}
+  .hstat{text-align:center;}
+  .hstat b{display:block;font-size:15px;}
+  .hstat span{font-size:10.5px;color:var(--ink-500);}
+
+  /* ---------- Right column ---------- */
+  .col-side{display:flex;flex-direction:column;gap:24px;position:sticky;top:88px;}
+  .progress-ring-wrap{display:flex;flex-direction:column;align-items:center;margin:6px 0 14px;}
+  .ring{width:120px;height:120px;border-radius:50%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+  .ring b{font-size:24px;}
+  .ring span{font-size:11px;color:var(--ink-500);}
+  .steps-check{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px;}
+  .steps-check li{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink-500);}
+  .step-dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--ink-300);display:flex;align-items:center;justify-content:center;flex:none;}
+  .step-dot svg{width:11px;height:11px;color:#fff;opacity:0;}
+  .steps-check li.done .step-dot{background:var(--green-500);border-color:var(--green-500);}
+  .steps-check li.done .step-dot svg{opacity:1;}
+  .steps-check li.done{color:var(--ink-900);}
+  .steps-check li.current .step-dot{background:var(--blue-600);border-color:var(--blue-600);}
+  .steps-check li.current .step-dot svg{opacity:1;}
+  .steps-check li.current{color:var(--ink-900);font-weight:600;}
+
+  .quick-actions{display:flex;flex-direction:column;gap:9px;}
+  .support-box{background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow);}
+  .support-ic{width:36px;height:36px;border-radius:10px;background:var(--blue-100);color:var(--blue-600);display:flex;align-items:center;justify-content:center;margin-bottom:10px;}
+  .support-ic svg{width:17px;height:17px;}
+  .support-box h4{margin:0 0 4px;font-size:14px;}
+  .support-box p{margin:0 0 12px;font-size:12.5px;color:var(--ink-500);line-height:1.5;}
+  .urgent-box{background:var(--blue-100);border:none;}
+
+  /* ---------- Consultation ---------- */
+  .advisor-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;}
+  .tab{padding:8px 15px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:600;color:var(--ink-700);}
+  .tab.active{background:var(--blue-600);border-color:var(--blue-600);color:#fff;}
+  .advisor-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+  @media (max-width:1180px){.advisor-grid{grid-template-columns:repeat(2,1fr);}}
+  .advisor-card{border:1px solid var(--line);border-radius:var(--radius-md);padding:18px;display:flex;flex-direction:column;gap:10px;}
+  .adv-top{display:flex;justify-content:space-between;align-items:flex-start;}
+  .adv-avatar{width:52px;height:52px;border-radius:50%;background:var(--blue-100);color:var(--blue-600);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;}
+  .avail-pill{font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--green-100);color:#0a8a4f;height:fit-content;}
+  .avail-pill.soon{background:#fff3e0;color:#b06a00;}
+  .adv-name{font-weight:700;font-size:14.5px;margin:0;}
+  .adv-role{font-size:12px;color:var(--ink-500);margin:2px 0 0;}
+  .adv-meta{font-size:12px;color:var(--ink-500);display:flex;flex-direction:column;gap:4px;}
+  .adv-desc{font-size:12px;color:var(--ink-500);line-height:1.5;flex:1;}
+  .adv-rating{font-size:12.5px;font-weight:600;color:#b06a00;}
+
+  .book-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px;}
+  @media (max-width:900px){.book-flow{grid-template-columns:1fr 1fr;}}
+  .bf-item{text-align:center;padding:16px 10px;}
+  .bf-ic{width:42px;height:42px;border-radius:50%;background:var(--blue-100);color:var(--blue-600);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;}
+  .bf-ic svg{width:19px;height:19px;}
+  .bf-title{font-weight:700;font-size:13.5px;margin:0 0 4px;}
+  .bf-desc{font-size:11.5px;color:var(--ink-500);}
+
+  .appt-list{display:flex;flex-direction:column;gap:10px;}
+  .appt-card{border:1px solid var(--line);border-radius:var(--radius-md);padding:13px 14px;}
+  .appt-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+  .appt-title{font-weight:700;font-size:13.5px;}
+  .pill{font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:999px;}
+  .pill.confirmed{background:var(--green-100);color:#0a8a4f;}
+  .pill.pending{background:#fff3e0;color:#b06a00;}
+  .appt-meta{font-size:12px;color:var(--ink-500);display:flex;gap:14px;flex-wrap:wrap;align-items:center;}
+  .appt-meta svg{width:12px;height:12px;vertical-align:-2px;margin-right:4px;}
+  .appt-cancel{margin-top:8px;font-size:11.5px;color:var(--red-500);font-weight:600;background:none;border:none;padding:0;}
+
+  .cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+  .cal-nav{display:flex;gap:6px;}
+  .cal-nav button{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;}
+  .cal-dow{font-size:10.5px;color:var(--ink-500);font-weight:700;padding-bottom:6px;}
+  .cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:9px;font-size:12.5px;color:var(--ink-700);cursor:pointer;position:relative;}
+  .cal-day.disabled{color:var(--ink-300);cursor:default;}
+  .cal-day.has-dot::after{content:'';position:absolute;bottom:4px;width:4px;height:4px;border-radius:50%;background:var(--blue-500);}
+  .cal-day:not(.disabled):hover{background:#f1f5fb;}
+  .cal-day.selected{background:var(--blue-600);color:#fff;}
+  .cal-day.selected::after{background:#fff;}
+
+  /* ---------- Profile (company-profile style) ---------- */
+  .profile-header-card{display:flex;align-items:flex-start;gap:20px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:24px;margin-bottom:24px;flex-wrap:wrap;box-shadow:var(--shadow);}
+  .profile-icon-lg{width:64px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:#fff;flex:none;background:var(--blue-600);}
+  .profile-main{flex:1;min-width:220px;}
+  .profile-main h1{font-size:21px;margin:0 0 6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .profile-meta{font-size:13px;color:var(--ink-500);display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+  .profile-meta .sep{color:var(--ink-300);}
+  .pbadge{display:inline-block;padding:4px 11px;border-radius:999px;font-size:11.5px;font-weight:700;}
+  .pbadge-active{background:var(--green-100);color:#0a8a4f;}
+  .profile-scores{display:flex;gap:14px;flex-wrap:wrap;}
+  .pscore-card{border:1px solid var(--line);border-radius:var(--radius-md);padding:14px 18px;text-align:center;min-width:140px;}
+  .pscore-card .plbl{font-size:12px;font-weight:600;color:var(--ink-500);margin-bottom:10px;}
+  .pscore-ring{width:78px;height:78px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;}
+  .pscore-ring .pinner{width:60px;height:60px;border-radius:50%;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .pscore-ring .pinner .pnum{font-size:18px;font-weight:800;line-height:1;}
+  .pscore-ring .pinner .pmax{font-size:9px;color:var(--ink-300);}
+  .ptier-badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;}
+  .pstatus-card{border:1px solid var(--line);border-radius:var(--radius-md);padding:14px 18px;min-width:140px;}
+  .pstatus-card .plbl{font-size:12px;font-weight:600;color:var(--ink-500);margin-bottom:10px;}
+  .pstatus-card .pjoined{font-size:11.5px;color:var(--ink-500);margin-top:8px;}
+  .profile-grid{display:grid;grid-template-columns:1.7fr 1fr;gap:24px;align-items:start;}
+  @media (max-width:1100px){.profile-grid{grid-template-columns:1fr;}}
+  .pinfo-row{display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);}
+  .pinfo-row:last-child{border-bottom:none;}
+  .pinfo-icon{width:32px;height:32px;border-radius:9px;background:var(--blue-100);color:var(--blue-600);display:flex;align-items:center;justify-content:center;flex:none;}
+  .pinfo-icon svg{width:15px;height:15px;}
+  .pinfo-lbl{font-size:11.5px;color:var(--ink-500);margin-bottom:2px;}
+  .pinfo-val{font-size:13.5px;font-weight:600;color:var(--ink-900);}
+  .pinfo-val a{color:var(--blue-600);}
+  .pactivity{display:flex;flex-direction:column;gap:15px;}
+  .pact-item{display:flex;gap:11px;}
+  .pact-icon{width:30px;height:30px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;}
+  .pact-icon svg{width:14px;height:14px;}
+  .pact-title{font-size:12.5px;font-weight:600;margin-bottom:2px;}
+  .pact-desc{font-size:12px;color:var(--ink-500);margin-bottom:2px;}
+  .pact-meta{font-size:11px;color:var(--ink-300);}
+
+  /* ---------- Profile form (shared) ---------- */
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media (max-width:700px){.form-grid{grid-template-columns:1fr;}}
+  .field{display:flex;flex-direction:column;gap:6px;}
+  .field label{font-size:12.5px;font-weight:600;color:var(--ink-700);}
+  .field input, .field select, .field textarea{
+    padding:10px 12px;border:1px solid var(--line);border-radius:9px;font-size:13.5px;font-family:inherit;
+    background:#f8fafc;outline:none;color:var(--ink-900);
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{border-color:var(--blue-500);background:#fff;}
+
+  /* ---------- Modal ---------- */
+  .overlay{position:fixed;inset:0;background:rgba(10,18,40,.5);display:none;align-items:center;justify-content:center;z-index:100;padding:20px;}
+  .overlay.open{display:flex;}
+  .modal{background:#fff;border-radius:18px;max-width:480px;width:100%;max-height:88vh;overflow-y:auto;padding:26px;position:relative;box-shadow:0 24px 60px rgba(10,18,40,.25);}
+  .modal.wide{max-width:640px;}
+  .modal-close{position:absolute;top:16px;right:16px;width:30px;height:30px;border-radius:9px;border:none;background:#f1f5fb;display:flex;align-items:center;justify-content:center;}
+  .modal-close svg{width:15px;height:15px;}
+  .modal h2{margin:0 0 6px;font-size:18px;}
+  .modal p.hint{margin:0 0 18px;color:var(--ink-500);font-size:13px;}
+  .q-block{margin-bottom:16px;}
+  .q-block p{font-weight:600;font-size:13.5px;margin:0 0 8px;}
+  .opt-row{display:flex;flex-direction:column;gap:7px;}
+  .opt{display:flex;align-items:center;gap:9px;padding:9px 11px;border:1px solid var(--line);border-radius:9px;font-size:13px;cursor:pointer;}
+  .opt input{accent-color:var(--blue-600);}
+  .opt:has(input:checked){border-color:var(--blue-500);background:var(--blue-100);}
+  .slot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;}
+  .slot{padding:9px 6px;border:1px solid var(--line);border-radius:9px;font-size:12px;text-align:center;font-weight:600;color:var(--ink-700);}
+  .slot.selected{background:var(--blue-600);border-color:var(--blue-600);color:#fff;}
+  .modal-actions{display:flex;gap:10px;margin-top:20px;}
+
+  /* Toast */
+  .toast{position:fixed;bottom:26px;right:26px;background:var(--navy-900);color:#fff;padding:13px 20px;border-radius:11px;font-size:13.5px;box-shadow:0 12px 30px rgba(10,18,40,.3);display:flex;align-items:center;gap:10px;z-index:200;transform:translateY(20px);opacity:0;transition:.25s ease;pointer-events:none;}
+  .toast.show{transform:translateY(0);opacity:1;}
+  .toast svg{width:16px;height:16px;color:#4ade80;flex:none;}
+
+  @media (max-width:1100px){
+    .grid-dash{grid-template-columns:1fr;}
+    .col-side{position:static;}
+  }
+  @media (max-width:860px){
+    .app{grid-template-columns:1fr;}
+    .sidebar{position:static;height:auto;flex-direction:row;align-items:center;padding:14px 18px;overflow:visible;}
+    .brand-tag{display:none;}
+    .nav{flex-direction:row;overflow-x:auto;}
+    .sidebar-footer{display:none;}
+    .score-grid,.tools-grid,.advisor-grid,.phases{grid-template-columns:1fr 1fr;}
+    .hero-minimal-grid { grid-template-columns:1fr; gap:32px; }
+  }
+</style>
 </head>
 <body>
+<div class="app">
 
-<div class="login-shell">
-
-  <!-- Left Hero Panel -->
-  <aside class="login-aside">
-    <a href="index.html" class="brand">
-      <span class="brand-mark" data-icon="logo"></span>
-      <div class="brand-text">
-        <span>SME</span>
-        <span class="brand-sub">GROWTH ADVISOR</span>
-      </div>
-    </a>
-
-    <div class="login-aside-mid">
-      <h2>AI and human expertise, working together for your business growth.</h2>
-      <p>Log in to pick up where you left off — your growth score, personalised solutions, and advisor conversations are all waiting for you.</p>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">e</div>
+      <div class="brand-name">exabytes</div>
     </div>
+    <div class="brand-tag">AI SME Digital Growth Advisor<br>Smarter Tools. Bigger Tomorrow.</div>
 
-    <nav class="aside-links">
-      <a href="#">What to expect</a>
-      <a href="#">Other solutions</a>
-    </nav>
+    <ul class="nav" id="nav">
+      <li><button class="nav-item active" data-page="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+        Dashboard
+      </button></li>
+      <li><button class="nav-item" data-page="assessment">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 3h6v3H9z"/><path d="M9 12h6M9 16h6"/></svg>
+        My Assessment
+      </button></li>
+      <li><button class="nav-item" data-page="consultation">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        Consultation
+      </button></li>
+      <li><button class="nav-item" data-page="profile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4.5 5-6 8-6s6.5 1.5 8 6"/></svg>
+        Profile
+      </button></li>
+    </ul>
+
+    <div class="sidebar-footer">Powered by Exabytes Malaysia</div>
   </aside>
 
-  <!-- Right Form Panel -->
-  <main class="login-main">
-    <div class="login-box">
-
-      <a href="index.html" class="brand brand-mobile">
-        <span class="brand-mark" data-icon="logo"></span>
-        <div class="brand-text">
-          <span>SME</span>
-          <span class="brand-sub">GROWTH ADVISOR</span>
+  <!-- MAIN CONTENT AREA -->
+  <div class="main">
+    <header class="topbar">
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="searchInput" type="text" placeholder="Search for tools, guides, or support...">
+      </div>
+      <div class="topbar-right">
+        <button class="bell" id="bellBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
+          <span class="dot" id="notifDot"></span>
+        </button>
+        <div class="dropdown" id="notifDrop">
+          <h4>Notifications</h4>
+          <div class="notif-item"><span class="notif-dot"></span>Your consultation with Sarah Lim is confirmed for Sep 9.</div>
+          <div class="notif-item"><span class="notif-dot"></span>New recommended tool: Zaio POS matches your business.</div>
         </div>
-      </a>
-
-      <!-- Clean Segmented Control Tabs -->
-      <div class="role-tabs" id="roleTabs">
-        <button type="button" class="role-tab active"
-          data-role="sme"
-          data-title="Log in"
-          data-sub="Access your growth dashboard and personalised insights."
-          data-btn="Log In"
-          data-note-icon="sparkles"
-          data-redirect="client/client-dashboard.html"
-          data-signup="Don't have an account? &lt;a href=&quot;assessment.html&quot;&gt;Start your free assessment&lt;/a&gt;">
-          <span data-icon="briefcase2"></span> SME User
+        <button class="user-chip" id="userBtn">
+          <div class="avatar" id="topAvatar">CT</div>
+          <div class="user-meta">
+            <div class="user-name" id="topName">Chris Tan</div>
+            <div class="user-biz" id="topBiz">The Green Spoon Cafe</div>
+          </div>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
         </button>
-
-        <button type="button" class="role-tab"
-          data-role="admin"
-          data-title="Admin login"
-          data-sub="Secure access for SME Growth Advisor platform administrators."
-          data-btn="Log In to Admin Console"
-          data-note="Admin access is restricted to authorised SME Growth Advisor staff. Contact IT if you need access."
-          data-note-icon="shield"
-          data-redirect="admin/admin-dashboard.html"
-          data-signup="">
-          <span data-icon="shield"></span> Admin
-        </button>
+        <div class="dropdown" id="userDrop" style="right:0;min-width:190px;">
+          <a class="menu-item" data-page="profile" href="#">View Profile</a>
+          <a class="menu-item" id="logoutBtn" href="#">Log out</a>
+        </div>
       </div>
+    </header>
 
-      <div class="header-group">
-        <h1 id="loginTitle">Log in</h1>
-        <p class="sub" id="loginSub">Access your growth dashboard and personalised insights.</p>
-      </div>
+    <div class="content">
 
-      <div class="role-note" id="roleNote" style="display:none;">
-        <span data-icon="" id="roleNoteIcon"></span>
-        <span id="roleNoteText"></span>
-      </div>
+      <!-- DASHBOARD PAGE -->
+      <section class="page active" id="page-dashboard">
+        <div class="grid-dash">
+          <div class="col-main">
 
-      <form id="loginForm">
-        <div class="input-group">
-          <label for="email">Email address</label>
-          <div class="input-field">
-            <span data-icon="mail"></span>
-            <input type="email" id="email" placeholder="name@company.com" required>
+            <!-- MINIMAL HERO SECTION -->
+            <div class="hero-minimal">
+              <div class="hero-minimal-grid">
+                <div class="hero-content">
+                  <span class="hero-tag" id="heroBiz">The Green Spoon Cafe</span>
+                  <h1 class="hero-title" id="heroHello">Build smarter with simple tools.</h1>
+                  <p class="hero-description">
+                    Here's your digital growth assessment result and personalized recommendations to help your business scale with precision.
+                  </p>
+                  <div class="cta-group">
+                    <button class="btn btn-primary" id="downloadBtn">Download Report</button>
+                    <button class="btn btn-secondary" data-page="assessment">View Details</button>
+                  </div>
+                </div>
+
+                <div class="visual-card">
+                  <div class="status-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7"/></svg>
+                    Completed
+                  </div>
+                  <div class="card-metric">99.8%</div>
+                  <div class="card-label">Assessment Accuracy</div>
+                  <div class="card-divider"></div>
+                  <p class="card-text">
+                    Completed on <span id="assessDate">26 Aug 2026</span>. Formulated to provide actionable targets with minimum clutter.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="score-grid" id="scoreGrid"></div>
+
+            <div class="card">
+              <div class="card-head">
+                <div>
+                  <p class="card-title">Your Recommended Roadmap</p>
+                  <p class="card-sub">A 3-phase plan to help you achieve your digital and AI goals. Click a step to mark it done.</p>
+                </div>
+                <button class="btn btn-sm" data-page="assessment">View Full Roadmap</button>
+              </div>
+              <div class="phases" id="phasesGrid"></div>
+            </div>
+
+            <div class="card">
+              <div class="card-head">
+                <div>
+                  <p class="card-title">Recommended Tools</p>
+                  <p class="card-sub">Based on your assessment, these tools can help you achieve your goals faster.</p>
+                </div>
+              </div>
+              <div class="tools-grid" id="toolsGrid"></div>
+            </div>
+
+            <div class="findings-grid">
+              <div class="card">
+                <p class="card-title">Your Pain Points</p>
+                <div id="painPoints"></div>
+              </div>
+              <div class="card">
+                <p class="card-title">Why These Tools</p>
+                <div id="whyTools" style="font-size:12.5px;color:var(--ink-500);line-height:1.5;margin-bottom:10px;">These tools are selected based on your business type, size and digital maturity. They will help you:</div>
+                <ul id="whyList" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px;font-size:13px;"></ul>
+              </div>
+            </div>
+
+            <div class="card" style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+              <div>
+                <p class="card-title" style="margin-bottom:4px;">Need a Consultation?</p>
+                <p class="card-sub">Let's discuss your plan in detail. Our team is ready to help you implement the right solutions for your business.</p>
+              </div>
+              <button class="btn btn-primary" data-page="consultation">Book a Consultation →</button>
+            </div>
+
+          </div>
+
+          <div class="col-side">
+            <div class="card">
+              <p class="card-title" style="text-align:center;margin-bottom:2px;">Your Progress</p>
+              <div class="progress-ring-wrap">
+                <svg width="120" height="120" viewBox="0 0 120 120" style="position:absolute;">
+                  <circle cx="60" cy="60" r="52" fill="none" stroke="#eef1f6" stroke-width="10"/>
+                  <circle id="ringProgress" cx="60" cy="60" r="52" fill="none" stroke="#1656f5" stroke-width="10" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+                </svg>
+                <div class="ring"><b id="ringCount">1/5</b><span>Steps Completed</span></div>
+              </div>
+              <ul class="steps-check" id="progressSteps"></ul>
+            </div>
+
+            <div class="card">
+              <p class="card-title" style="margin-bottom:12px;">Quick Actions</p>
+              <div class="quick-actions">
+                <button class="btn btn-primary" data-page="consultation">📅 Book a Consultation</button>
+                <button class="btn" id="downloadBtn2">⬇ Download Report</button>
+                <button class="btn" id="chatBtn">💬 Message Support</button>
+              </div>
+            </div>
+
+            <div class="support-box">
+              <div class="support-ic">💬</div>
+              <h4>Chat with Our Team</h4>
+              <p>Have questions? Our team is here to help you.</p>
+              <button class="btn btn-block" id="chatBtn2">Start Chat</button>
+            </div>
+
+            <div class="support-box urgent-box">
+              <div class="support-ic" style="background:#fff;">📞</div>
+              <h4>Need urgent help?</h4>
+              <p>Chat with our support team or call 1300 88 1234</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ASSESSMENT PAGE -->
+      <section class="page" id="page-assessment">
+        <div class="grid-dash">
+          <div class="col-main">
+            <div class="card">
+              <div class="card-head">
+                <div style="max-width:480px;">
+                  <p class="card-title">Latest Assessment</p>
+                  <p class="card-sub">Your most recent results and recommendations. Completed <span id="assessDate2">26 Aug 2026</span>.</p>
+                </div>
+                <div class="card-head-actions">
+                  <button class="btn" id="downloadBtn3">⬇ Download Report</button>
+                  <button class="btn btn-primary" id="retakeBtn">↻ Retake Assessment</button>
+                </div>
+              </div>
+              <div class="score-grid" id="scoreGrid2" style="grid-template-columns:repeat(3,1fr);"></div>
+            </div>
+
+            <div class="card">
+              <p class="card-title" style="margin-bottom:4px;">Your Growth Roadmap</p>
+              <p class="card-sub" style="margin-bottom:16px;">A 3-phase plan to help you achieve your digital and AI goals.</p>
+              <div class="phases" id="phasesGrid2"></div>
+            </div>
+
+            <div class="findings-grid">
+              <div class="card">
+                <p class="card-title">Key Findings / Pain Points</p>
+                <p class="card-sub" style="margin-bottom:6px;">These are the main areas we identified during your assessment.</p>
+                <div id="findingsList"></div>
+              </div>
+              <div class="card">
+                <p class="card-title">Recommended Next Steps</p>
+                <p class="card-sub" style="margin-bottom:14px;">Take these actions to address your key pain points and accelerate growth.</p>
+                <div class="steps-list" id="nextSteps"></div>
+                <button class="btn btn-primary btn-block" style="margin-top:16px;" data-page="consultation">📅 Book a Consultation →</button>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-head">
+                <div>
+                  <p class="card-title">Assessment History</p>
+                  <p class="card-sub">View your previous assessments and track your progress over time.</p>
+                </div>
+              </div>
+              <div id="historyList"></div>
+            </div>
+          </div>
+
+          <div class="col-side">
+            <div class="card">
+              <p class="card-title" style="text-align:center;margin-bottom:2px;">Assessment Progress</p>
+              <div class="progress-ring-wrap">
+                <svg width="120" height="120" viewBox="0 0 120 120" style="position:absolute;">
+                  <circle cx="60" cy="60" r="52" fill="none" stroke="#eef1f6" stroke-width="10"/>
+                  <circle id="ringProgress2" cx="60" cy="60" r="52" fill="none" stroke="#1656f5" stroke-width="10" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+                </svg>
+                <div class="ring"><b id="ringCount2">1/5</b><span>Steps Completed</span></div>
+              </div>
+              <ul class="steps-check" id="progressSteps2"></ul>
+            </div>
+            <div class="card">
+              <p class="card-title" style="margin-bottom:12px;">Quick Actions</p>
+              <div class="quick-actions">
+                <button class="btn btn-primary" data-page="consultation">📅 Book Consultation</button>
+                <button class="btn" id="downloadBtn4">⬇ Download Report</button>
+              </div>
+            </div>
+            <div class="support-box">
+              <div class="support-ic">❓</div>
+              <h4>Need Help?</h4>
+              <p>Chat with our support team or call 1300 88 1234</p>
+              <button class="btn btn-block" id="chatBtn3">Contact Support</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONSULTATION PAGE -->
+      <section class="page" id="page-consultation">
+        <div class="grid-dash">
+          <div class="col-main">
+            <div class="card" style="margin-bottom: 24px;">
+              <div class="hero-content">
+                <h1 style="font-size:24px; margin-bottom: 8px;">Book a Consultation</h1>
+                <p style="color:var(--ink-500); margin: 0;">Get expert advice and personalized guidance from our industry advisors. Choose a slot, book a session, and take the next step in your growth journey.</p>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="advisor-tabs" id="advisorTabs"></div>
+              <div class="advisor-grid" id="advisorGrid"></div>
+
+              <p class="card-title" style="margin-bottom:6px;">Consultation Process</p>
+              <p class="card-sub" style="margin-bottom:0;">Just a few simple steps to get started.</p>
+              <div class="book-flow">
+                <div class="bf-item"><div class="bf-ic">👤</div><p class="bf-title">Choose an Advisor</p><p class="bf-desc">Browse our team and select the right expert.</p></div>
+                <div class="bf-item"><div class="bf-ic">🗓️</div><p class="bf-title">Pick a Time Slot</p><p class="bf-desc">Select a convenient date and time.</p></div>
+                <div class="bf-item"><div class="bf-ic">✅</div><p class="bf-title">Confirm Booking</p><p class="bf-desc">Receive confirmation via email &amp; message.</p></div>
+                <div class="bf-item"><div class="bf-ic">💬</div><p class="bf-title">Join the Session</p><p class="bf-desc">Prepare your questions and get expert advice!</p></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-side">
+            <div class="card">
+              <div class="card-head" style="margin-bottom:10px;">
+                <p class="card-title" style="margin:0;">My Upcoming Appointments</p>
+              </div>
+              <div class="appt-list" id="apptList"></div>
+            </div>
+            <div class="card">
+              <p class="card-title" style="margin-bottom:12px;">Book a New Consultation</p>
+              <div class="cal-head">
+                <b id="calMonthLabel" style="font-size:13.5px;"></b>
+                <div class="cal-nav">
+                  <button id="calPrev">‹</button>
+                  <button id="calNext">›</button>
+                </div>
+              </div>
+              <div class="cal-grid" id="calGrid"></div>
+              <button class="btn btn-primary btn-block" style="margin-top:14px;" id="viewSlotsBtn">View Available Slots →</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROFILE PAGE (company-profile style) -->
+      <section class="page" id="page-profile">
+
+        <div class="profile-header-card">
+          <div class="profile-icon-lg" id="profileIcon"></div>
+          <div class="profile-main">
+            <h1><span id="profileNameHead"></span><span class="pbadge pbadge-active">Active</span></h1>
+            <div class="profile-meta" id="profileMetaHead"></div>
+          </div>
+          <div class="profile-scores">
+            <div class="pscore-card">
+              <div class="plbl">Digital Maturity Score</div>
+              <div class="pscore-ring" id="profDigitalRing"><div class="pinner"><div class="pnum" id="profDigitalNum"></div><div class="pmax">/100</div></div></div>
+              <span class="ptier-badge" id="profDigitalTier"></span>
+            </div>
+            <div class="pscore-card">
+              <div class="plbl">AI Readiness Score</div>
+              <div class="pscore-ring" id="profGrowthRing"><div class="pinner"><div class="pnum" id="profGrowthNum"></div><div class="pmax">/100</div></div></div>
+              <span class="ptier-badge" id="profGrowthTier"></span>
+            </div>
+            <div class="pstatus-card">
+              <div class="plbl">Account Status</div>
+              <span class="pbadge pbadge-active">Active</span>
+              <div class="pjoined" id="profJoined"></div>
+            </div>
           </div>
         </div>
 
-        <div class="input-group">
-          <label for="password">Password</label>
-          <div class="input-field">
-            <span data-icon="lock"></span>
-            <input type="password" id="password" placeholder="••••••••" required>
-            <button type="button" id="togglePassword" aria-label="Show password">
-              <span data-icon="eye" id="eyeIcon"></span>
-            </button>
+        <div class="profile-grid">
+          <div>
+            <div class="card" id="bizInfoCard">
+              <div class="card-head">
+                <div>
+                  <p class="card-title">Business Information</p>
+                  <p class="card-sub">Your profile details as shown to advisors and support.</p>
+                </div>
+                <button class="btn btn-sm" id="editProfileBtn">✎ Edit</button>
+              </div>
+
+              <div id="bizInfoView"></div>
+
+              <form id="profileForm" style="display:none;">
+                <div class="form-grid">
+                  <div class="field"><label>Full Name</label><input id="f-name" type="text" required></div>
+                  <div class="field"><label>Business Name</label><input id="f-biz" type="text" required></div>
+                  <div class="field"><label>Email Address</label><input id="f-email" type="email" required></div>
+                  <div class="field"><label>Phone Number</label><input id="f-phone" type="text" required></div>
+                  <div class="field"><label>Industry</label>
+                    <select id="f-industry">
+                      <option>Food &amp; Beverage</option>
+                      <option>Retail</option>
+                      <option>Services</option>
+                      <option>Manufacturing</option>
+                      <option>Other</option>
+                    </select>
+                  </div>
+                  <div class="field"><label>Business Size</label>
+                    <select id="f-size">
+                      <option>1-5 employees</option>
+                      <option>6-20 employees</option>
+                      <option>21-50 employees</option>
+                      <option>50+ employees</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="field" style="margin-top:16px;"><label>About your business</label>
+                  <textarea id="f-about" rows="3" placeholder="Tell us a little about your business..."></textarea>
+                </div>
+                <div class="modal-actions" style="margin-top:22px;">
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                  <button type="button" class="btn" id="cancelEditBtn">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div>
+            <div class="card">
+              <p class="card-title" style="margin-bottom:14px;">Account Overview</p>
+              <div class="pinfo-row">
+                <div class="pinfo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+                <div><div class="pinfo-lbl">Member Since</div><div class="pinfo-val" id="ovJoined"></div></div>
+              </div>
+              <div class="pinfo-row">
+                <div class="pinfo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 3h6v3H9z"/></svg></div>
+                <div><div class="pinfo-lbl">Last Assessment</div><div class="pinfo-val" id="ovAssess"></div></div>
+              </div>
+              <div class="pinfo-row">
+                <div class="pinfo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 13 4 4L19 7"/></svg></div>
+                <div><div class="pinfo-lbl">Steps Completed</div><div class="pinfo-val" id="ovProgress"></div></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <p class="card-title" style="margin-bottom:14px;">Recent Activity</p>
+              <div class="pactivity" id="profActivity"></div>
+            </div>
           </div>
         </div>
 
-        <div class="login-row-between">
-          <label class="remember-check">
-            <input type="checkbox"> Remember me for 30 days
-          </label>
-          <a href="#">Forgot password?</a>
-        </div>
+      </section>
 
-        <button type="submit" class="btn btn-primary btn-block" id="submitBtn">Log In</button>
-
-        <p class="signup-prompt" id="signupPrompt">Don't have an account? <a href="assessment.html">Start your free assessment</a></p>
-
-        <button type="button" class="btn btn-outline btn-block" id="signupBtn">Sign Up</button>
-      </form>
     </div>
-  </main>
+  </div>
 </div>
 
-<script src="js/icons.js"></script>
+<!-- MODALS -->
+<div class="overlay" id="retakeOverlay">
+  <div class="modal">
+    <button class="modal-close" data-close="retakeOverlay">✕</button>
+    <h2>Retake Digital Growth Assessment</h2>
+    <p class="hint">Answer a few quick questions to refresh your scores and recommendations.</p>
+    <form id="retakeForm">
+      <div class="q-block">
+        <p>How do you currently manage sales &amp; inventory?</p>
+        <div class="opt-row">
+          <label class="opt"><input type="radio" name="q1" value="10" checked>Manually / on paper</label>
+          <label class="opt"><input type="radio" name="q1" value="20">Spreadsheets</label>
+          <label class="opt"><input type="radio" name="q1" value="30">A POS or inventory system</label>
+        </div>
+      </div>
+      <div class="q-block">
+        <p>How do you market your business online?</p>
+        <div class="opt-row">
+          <label class="opt"><input type="radio" name="q2" value="5" checked>Not at all</label>
+          <label class="opt"><input type="radio" name="q2" value="15">Occasional social posts</label>
+          <label class="opt"><input type="radio" name="q2" value="25">Regular campaigns / ads</label>
+        </div>
+      </div>
+      <div class="q-block">
+        <p>Do you track customer data or business analytics?</p>
+        <div class="opt-row">
+          <label class="opt"><input type="radio" name="q3" value="5" checked>No</label>
+          <label class="opt"><input type="radio" name="q3" value="15">A little</label>
+          <label class="opt"><input type="radio" name="q3" value="25">Yes, regularly</label>
+        </div>
+      </div>
+      <div class="q-block">
+        <p>How familiar is your team with AI tools?</p>
+        <div class="opt-row">
+          <label class="opt"><input type="radio" name="q4" value="5" checked>Not familiar</label>
+          <label class="opt"><input type="radio" name="q4" value="15">Somewhat familiar</label>
+          <label class="opt"><input type="radio" name="q4" value="25">Actively using AI</label>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="submit" class="btn btn-primary btn-block">See My Results</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="overlay" id="bookOverlay">
+  <div class="modal">
+    <button class="modal-close" data-close="bookOverlay">✕</button>
+    <h2>Book Consultation</h2>
+    <p class="hint" id="bookAdvisorLine">Choose a date and time for your session with <b>—</b>.</p>
+    <div class="cal-head">
+      <b id="bookMonthLabel" style="font-size:13.5px;"></b>
+      <div class="cal-nav"><button id="bookCalPrev">‹</button><button id="bookCalNext">›</button></div>
+    </div>
+    <div class="cal-grid" id="bookCalGrid"></div>
+    <div class="q-block" style="margin-top:16px;">
+      <p>Available time slots</p>
+      <div class="slot-grid" id="slotGrid"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary btn-block" id="confirmBookBtn">Confirm Booking</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="reportOverlay">
+  <div class="modal wide">
+    <button class="modal-close" data-close="reportOverlay">✕</button>
+    <h2 id="reportTitle">Digital Growth Assessment Report</h2>
+    <p class="hint" id="reportDate"></p>
+    <div id="reportBody" style="font-size:13.5px;line-height:1.7;color:var(--ink-700);"></div>
+    <div class="modal-actions">
+      <button class="btn btn-primary btn-block" id="reportDownloadBtn">⬇ Download this report</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="chatOverlay">
+  <div class="modal">
+    <button class="modal-close" data-close="chatOverlay">✕</button>
+    <h2>Chat with Support</h2>
+    <p class="hint">Our team typically replies within a few minutes.</p>
+    <div id="chatBody" style="display:flex;flex-direction:column;gap:10px;max-height:280px;overflow-y:auto;margin-bottom:14px;">
+      <div style="background:#f1f5fb;border-radius:12px;padding:10px 13px;font-size:13px;max-width:85%;">Hi Chris 👋 How can we help with your digital growth plan today?</div>
+    </div>
+    <form id="chatForm" style="display:flex;gap:8px;">
+      <input id="chatInput" type="text" placeholder="Type a message..." style="flex:1;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font-size:13px;outline:none;">
+      <button class="btn btn-primary" type="submit">Send</button>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7"/></svg><span id="toastMsg">Saved</span></div>
+
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const tabs = document.querySelectorAll('.role-tab');
-    const title = document.getElementById('loginTitle');
-    const sub = document.getElementById('loginSub');
-    const submitBtn = document.getElementById('submitBtn');
-    const roleNote = document.getElementById('roleNote');
-    const roleNoteText = document.getElementById('roleNoteText');
-    const roleNoteIcon = document.getElementById('roleNoteIcon');
-    const signupPrompt = document.getElementById('signupPrompt');
-    const signupBtn = document.getElementById('signupBtn');
-    const form = document.getElementById('loginForm');
-    let redirect = 'client/client-dashboard.html';
-    let currentRole = 'sme';
+const STORAGE_KEY = 'exabytes-growth-advisor-state-v1';
 
-    function applyRole(tab) {
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      title.textContent = tab.dataset.title;
-      sub.textContent = tab.dataset.sub;
-      submitBtn.textContent = tab.dataset.btn;
-      redirect = tab.dataset.redirect;
-      currentRole = tab.dataset.role;
+const defaultState = {
+  user:{name:'Chris Tan', biz:'The Green Spoon Cafe', email:'chris@greenspooncafe.com', phone:'+60 12-345 6789', industry:'Food & Beverage', size:'6-20 employees', about:'A cosy neighbourhood cafe serving coffee, brunch and baked goods.', joinedDate:'12 Apr 2026'},
+  scores:{maturity:58, ai:46, urgency:92, deal:'RM 8,000 – 15,000'},
+  assessDate:'26 Aug 2026',
+  roadmap:{
+    p1:[{t:'Set up a POS system', d:true},{t:'Implement a website with online ordering', d:false},{t:'Start using basic CRM', d:false}],
+    p2:[{t:'Integrate POS with inventory management', d:true},{t:'Use marketing automation (email/social)', d:false},{t:'Implement data analytics dashboard', d:false}],
+    p3:[{t:'Use AI for customer insights & forecasting', d:false},{t:'Implement AI chatbot for customer service', d:false},{t:'Explore advanced e-commerce solutions', d:false}]
+  },
+  progress:[
+    {t:'Assessment Completed', done:true},
+    {t:'View Recommendations', done:true},
+    {t:'Book Consultation', done:false},
+    {t:'Meet with Consultant', done:false},
+    {t:'Implement & Grow', done:false}
+  ],
+  history:[
+    {date:'26 Aug 2026', maturity:58, ai:46, urgency:92, latest:true},
+    {date:'12 Apr 2026', maturity:42, ai:38, urgency:78, latest:false},
+    {date:'03 Jan 2026', maturity:35, ai:28, urgency:65, latest:false}
+  ],
+  appointments:[
+    {advisor:'Sarah Lim', type:'Business Strategy Consultation', date:'Sep 9, 2026', time:'10:00 AM – 11:00 AM', status:'Confirmed'},
+    {advisor:'Daniel Wong', type:'Digital Marketing Consultation', date:'Sep 16, 2026', time:'2:00 PM – 3:00 PM', status:'Confirmed'},
+    {advisor:'Rachel Tan', type:'Finance Consultation', date:'Sep 23, 2026', time:'11:00 AM – 12:00 PM', status:'Pending'}
+  ]
+};
 
-      const note = tab.dataset.note;
-      if (note) {
-        roleNoteText.textContent = note;
-        const iconName = tab.dataset.noteIcon;
-        if (window.ICONS && window.ICONS[iconName]) roleNoteIcon.innerHTML = window.ICONS[iconName];
-        roleNote.style.display = 'flex';
-      } else {
-        roleNote.style.display = 'none';
-      }
+let state = loadState();
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return JSON.parse(JSON.stringify(defaultState));
+}
+function saveState(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
 
-      const signupHtml = tab.dataset.signup;
-      const isSme = currentRole === 'sme';
-      if (signupHtml) {
-        signupPrompt.innerHTML = signupHtml;
-        signupPrompt.style.display = 'block';
-      } else {
-        signupPrompt.style.display = 'none';
-      }
-      signupBtn.style.display = isSme ? 'block' : 'none';
-    }
+const advisors = [
+  {name:'Sarah Lim', role:'Business Strategy Consultant', cat:'Business Strategy', exp:'10+ years experience', spec:'Business Growth, Strategy', desc:'Helps SMEs build scalable business strategies and improve operational efficiency.', rating:'4.9', reviews:128, avail:'Available'},
+  {name:'Daniel Wong', role:'Digital Marketing Specialist', cat:'Marketing', exp:'8+ years experience', spec:'Digital Marketing, Branding', desc:'Specialises in digital marketing, SEO and social media strategy to boost your online presence.', rating:'4.8', reviews:96, avail:'Available'},
+  {name:'Rachel Tan', role:'Finance Advisor', cat:'Finance', exp:'12+ years experience', spec:'Financial Planning, Funding', desc:'Provides financial planning, cash flow management and funding advice for SMEs.', rating:'4.9', reviews:78, avail:'Next Available Tomorrow'},
+  {name:'Jason Lee', role:'Operations Consultant', cat:'Operations', exp:'9+ years experience', spec:'Operations, Process Improvement', desc:'Helps businesses streamline operations and improve productivity.', rating:'4.7', reviews:65, avail:'Available'},
+  {name:'Aisha Kamal', role:'Digital Transformation Lead', cat:'Digital Transformation', exp:'11+ years experience', spec:'Systems, Automation', desc:'Guides SMEs through end-to-end digital transformation and tool adoption.', rating:'4.9', reviews:54, avail:'Available'}
+];
 
-    tabs.forEach(tab => tab.addEventListener('click', () => applyRole(tab)));
+const painPointsData = [
+  {icon:'⚙️', bg:'var(--blue-100)', color:'var(--blue-600)', title:'Manual operations and lack of automation', desc:'Many processes are still done manually, causing inefficiency and higher operational costs.'},
+  {icon:'🌐', bg:'var(--green-100)', color:'#0a8a4f', title:'Limited online presence and digital marketing', desc:'Your digital presence is minimal, missing opportunities to reach new customers and increase sales.'},
+  {icon:'📊', bg:'var(--purple-100)', color:'var(--purple-500)', title:'No data tracking or customer insights', desc:'Lack of data makes it hard to understand customer behaviour, measure performance and make informed decisions.'}
+];
+const whyToolsData = ['Save time and reduce manual work','Improve customer experience and reach more customers','Make data-driven decisions for sustainable growth'];
+const nextStepsData = [
+  {title:'Build a professional website & POS integration', desc:'Create a seamless online ordering experience and connect with your inventory system.'},
+  {title:'Set up digital marketing campaigns', desc:'Increase brand visibility and attract new customers through social media and targeted ads.'},
+  {title:'Implement basic CRM & data tracking', desc:'Start collecting customer data and track key metrics for better decision making.'}
+];
+const toolsData = [
+  {logo:'🛍️', name:'Shopify', desc:'E-commerce platform to sell online and manage orders.', tag:'E-commerce', tagClass:'ecom'},
+  {logo:'🧡', name:'HubSpot CRM', desc:'Manage customer relationships and sales pipeline.', tag:'CRM', tagClass:'crm'},
+  {logo:'🐵', name:'Mailchimp', desc:'Email marketing and automation.', tag:'Marketing', tagClass:'mkt'},
+  {logo:'Z', name:'Zaio POS', desc:'Point of sale system for retail and F&B.', tag:'POS System', tagClass:'pos'}
+];
 
-    // Password show/hide
-    const pwInput = document.getElementById('password');
-    const toggleBtn = document.getElementById('togglePassword');
-    const eyeIcon = document.getElementById('eyeIcon');
-    toggleBtn.addEventListener('click', () => {
-      const isText = pwInput.type === 'text';
-      pwInput.type = isText ? 'password' : 'text';
-      eyeIcon.innerHTML = window.ICONS[isText ? 'eye' : 'eyeOff'];
-    });
+const industryColorsProfile = { "Food & Beverage":"#f79009", "Retail":"#1656f5", "Services":"#7c5cf0", "Manufacturing":"#17b26a", "Other":"#64748b" };
 
-    signupBtn.addEventListener('click', () => {
-      window.location.href = 'assessment.html';
-    });
+function initials(name){ return name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase(); }
+function showToast(msg){
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(()=>t.classList.remove('show'), 2600);
+}
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>closeModal(b.dataset.close)));
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{ if(e.target===o) o.classList.remove('open'); }));
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      window.location.href = redirect;
-    });
+function renderIdentity(){
+  document.getElementById('topAvatar').textContent = initials(state.user.name);
+  document.getElementById('topName').textContent = state.user.name;
+  document.getElementById('topBiz').textContent = state.user.biz;
+  document.getElementById('heroHello').textContent = `Hello, ${state.user.name.split(' ')[0]}! 👋`;
+  document.getElementById('heroBiz').textContent = state.user.biz;
+  document.getElementById('assessDate').textContent = state.assessDate;
+  document.getElementById('assessDate2').textContent = state.assessDate;
+}
 
-    // Inject all static icons on page load
-    document.querySelectorAll('[data-icon]').forEach(el => {
-      const iconName = el.getAttribute('data-icon');
-      if (window.ICONS && window.ICONS[iconName]) {
-        // Only set it if it's empty to prevent overwriting dynamic ones unnecessarily
-        if (!el.innerHTML.trim()) {
-           el.innerHTML = window.ICONS[iconName];
-        }
-      }
+function scoreCardHTML(){
+  const s = state.scores;
+  const items = [
+    {label:'Digital Maturity Score', value:s.maturity, icon:'📶', bg:'var(--blue-100)', color:'var(--blue-600)', note:s.maturity>=70?"Great progress! You're well ahead of the curve.":s.maturity>=40?"You're on the right track! With a few key upgrades, you can unlock more efficiency and growth.":"Early stage. Foundational upgrades will unlock quick wins."},
+    {label:'AI Readiness Score', value:s.ai, icon:'✨', bg:'var(--purple-100)', color:'var(--purple-500)', note:s.ai>=70?"Your team is ready to adopt advanced AI tools.":"AI adoption is at the early stage. Focus on building your foundation and team readiness."},
+    {label:'Urgency Score', value:s.urgency, icon:'⚠️', bg:'var(--red-100)', color:'var(--red-500)', note:"High priority. Addressing your key pain points soon can help you stay competitive."},
+  ];
+  return items.map(it=>`
+    <div class="score-card">
+      <div class="score-top"><div class="score-icon" style="background:${it.bg};color:${it.color};">${it.icon}</div><div class="score-label">${it.label}</div></div>
+      <div class="score-value">${it.value}<span> / 100</span></div>
+      <div class="bar"><i style="width:${it.value}%;background:${it.color};"></i></div>
+      <div class="score-note">${it.note}</div>
+    </div>`).join('');
+}
+
+function dealCardHTML(){
+  return `<div class="score-card">
+    <div class="score-top"><div class="score-icon" style="background:#e8effe;color:#1656f5;">💰</div><div class="score-label">Estimated Deal Size</div></div>
+    <div class="score-value" style="font-size:20px;">${state.scores.deal}</div>
+    <div class="score-note">Based on recommended tools and business size.</div>
+  </div>`;
+}
+
+function renderScores(){
+  document.getElementById('scoreGrid').innerHTML = scoreCardHTML() + dealCardHTML();
+  document.getElementById('scoreGrid2').innerHTML = scoreCardHTML();
+}
+
+function phaseHTML(key, num, cls, title, range, focus){
+  const items = state.roadmap[key];
+  const lis = items.map((it,i)=>`<li class="${it.d?'done':''}" data-key="${key}" data-i="${i}"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7"/></svg></span><span>${it.t}</span></li>`).join('');
+  return `<div class="phase ${cls}">
+    <div class="phase-top"><div class="phase-num">${num}</div><div><div class="phase-range">${range}</div></div></div>
+    <div class="phase-title">${title}</div>
+    <ul class="phase-list">${lis}</ul>
+    <span class="focus-tag">Focus: ${focus}</span>
+  </div>`;
+}
+
+function roadmapHTML(){
+  return phaseHTML('p1','1','p1','Build Your Digital Foundation','0 – 3 months','Operations & Customer Experience')
+       + phaseHTML('p2','2','p2','Automate & Integrate','3 – 6 months','Efficiency & Marketing')
+       + phaseHTML('p3','3','p3','Scale with AI','6 – 12 months','Growth & Innovation');
+}
+
+function renderRoadmap(){
+  document.getElementById('phasesGrid').innerHTML = roadmapHTML();
+  document.getElementById('phasesGrid2').innerHTML = roadmapHTML();
+  document.querySelectorAll('.phase-list li').forEach(li=>{
+    li.addEventListener('click', ()=>{
+      const key = li.dataset.key, i = +li.dataset.i;
+      state.roadmap[key][i].d = !state.roadmap[key][i].d;
+      saveState();
+      renderRoadmap();
     });
   });
+}
+
+function renderTools(){
+  document.getElementById('toolsGrid').innerHTML = toolsData.map(t=>`
+    <div class="tool-card">
+      <div class="tool-top"><div class="tool-logo">${t.logo}</div><div class="tool-name">${t.name}</div></div>
+      <div class="tool-desc">${t.desc}</div>
+      <span class="tag ${t.tagClass}">${t.tag}</span>
+      <button class="btn btn-sm btn-block toolLearnBtn" data-tool="${t.name}">Learn More</button>
+    </div>`).join('');
+  document.querySelectorAll('.toolLearnBtn').forEach(b=>b.addEventListener('click', ()=>{
+    showToast(`${b.dataset.tool} — more info coming soon`);
+  }));
+}
+
+function renderFindings(){
+  document.getElementById('painPoints').innerHTML = painPointsData.map(p=>`
+    <div class="find-item"><div class="find-ic" style="background:${p.bg};color:${p.color};">${p.icon}</div><div><p class="find-title">${p.title}</p></div></div>`).join('');
+  document.getElementById('findingsList').innerHTML = painPointsData.map(p=>`
+    <div class="find-item"><div class="find-ic" style="background:${p.bg};color:${p.color};">${p.icon}</div><div><p class="find-title">${p.title}</p><p class="find-desc">${p.desc}</p></div></div>`).join('');
+  document.getElementById('whyList').innerHTML = whyToolsData.map(w=>`<li style="display:flex;gap:8px;"><span style="color:#17b26a;">✓</span>${w}</li>`).join('');
+  document.getElementById('nextSteps').innerHTML = nextStepsData.map((s,i)=>`
+    <div class="step-item"><div class="step-num">${i+1}</div><div><p class="find-title" style="margin-bottom:2px;">${s.title}</p><p class="find-desc">${s.desc}</p></div></div>`).join('');
+}
+
+function renderProgress(){
+  const done = state.progress.filter(p=>p.done).length;
+  const total = state.progress.length;
+  const pct = done/total;
+  [document.getElementById('ringProgress'), document.getElementById('ringProgress2')].forEach(ring=>{
+    const c = 2*Math.PI*52;
+    ring.style.strokeDasharray = c;
+    ring.style.strokeDashoffset = c*(1-pct);
+  });
+  document.getElementById('ringCount').textContent = `${done}/${total}`;
+  document.getElementById('ringCount2').textContent = `${done}/${total}`;
+
+  const html = state.progress.map((p,i)=>{
+    let cls = p.done? 'done' : (i===done? 'current':'');
+    return `<li class="${cls}" data-i="${i}"><span class="step-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7"/></svg></span>${p.t}</li>`;
+  }).join('');
+  document.getElementById('progressSteps').innerHTML = html;
+  document.getElementById('progressSteps2').innerHTML = html;
+  document.querySelectorAll('.steps-check li').forEach(li=>{
+    li.addEventListener('click', ()=>{
+      const i = +li.dataset.i;
+      state.progress[i].done = !state.progress[i].done;
+      saveState();
+      renderProgress();
+    });
+  });
+}
+
+function renderHistory(){
+  document.getElementById('historyList').innerHTML = state.history.map((h,i)=>`
+    <div class="history-row">
+      <div><b>Digital Growth Assessment</b>${h.latest?'<span class="latest-pill">Latest</span>':''}<div class="history-date">${h.date}</div></div>
+      <div class="hstat"><b>${h.maturity}</b><span>Digital Maturity</span></div>
+      <div class="hstat"><b>${h.ai}</b><span>AI Readiness</span></div>
+      <div class="hstat"><b>${h.urgency}</b><span>Urgency</span></div>
+      <button class="btn btn-sm" data-i="${i}" onclick="viewReport(${i})">👁 View Report</button>
+    </div>`).join('');
+}
+
+function viewReport(i){
+  const h = state.history[i];
+  document.getElementById('reportTitle').textContent = 'Digital Growth Assessment Report';
+  document.getElementById('reportDate').textContent = `Completed on ${h.date}`;
+  document.getElementById('reportBody').innerHTML = `
+    <p><b>${state.user.biz}</b> — assessment summary</p>
+    <p>Digital Maturity Score: <b>${h.maturity}/100</b><br>AI Readiness Score: <b>${h.ai}/100</b><br>Urgency Score: <b>${h.urgency}/100</b></p>
+    <p>Key pain points identified: manual operations, limited online presence, and lack of customer data tracking.</p>
+    <p>Recommended focus: build digital foundations, automate core operations, then scale using AI-driven tools.</p>`;
+  window.__currentReport = h;
+  openModal('reportOverlay');
+}
+
+let activeCat = 'All';
+function renderAdvisorTabs(){
+  const cats = ['All','Business Strategy','Marketing','Digital Transformation','Finance','Operations'];
+  document.getElementById('advisorTabs').innerHTML = cats.map(c=>`<button class="tab ${c===activeCat?'active':''}" data-cat="${c}">${c}</button>`).join('');
+  document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click', ()=>{ activeCat=t.dataset.cat; renderAdvisorTabs(); renderAdvisors(); }));
+}
+
+function renderAdvisors(){
+  const list = advisors.filter(a=>activeCat==='All' || a.cat===activeCat);
+  document.getElementById('advisorGrid').innerHTML = list.map(a=>`
+    <div class="advisor-card">
+      <div class="adv-top">
+        <div class="adv-avatar">${initials(a.name)}</div>
+        <span class="avail-pill ${a.avail.includes('Tomorrow')?'soon':''}">${a.avail}</span>
+      </div>
+      <div><p class="adv-name">${a.name}</p><p class="adv-role">${a.role}</p></div>
+      <div class="adv-meta"><span>🕒 ${a.exp}</span><span>🏷 ${a.spec}</span></div>
+      <p class="adv-desc">${a.desc}</p>
+      <p class="adv-rating">⭐ ${a.rating} <span style="color:var(--ink-500);font-weight:500;">(${a.reviews} reviews)</span></p>
+      <button class="btn btn-primary btn-block bookBtn" data-name="${a.name}" data-role="${a.role}">Book Consultation</button>
+    </div>`).join('');
+  document.querySelectorAll('.bookBtn').forEach(b=>b.addEventListener('click', ()=>openBooking(b.dataset.name, b.dataset.role)));
+}
+
+function renderAppointments(){
+  if(state.appointments.length===0){
+    document.getElementById('apptList').innerHTML = `<p style="font-size:12.5px;color:var(--ink-500);">No upcoming appointments yet. Book a consultation to get started.</p>`;
+    return;
+  }
+  document.getElementById('apptList').innerHTML = state.appointments.map((a,i)=>`
+    <div class="appt-card">
+      <div class="appt-top"><span class="appt-title">${a.type}</span><span class="pill ${a.status.toLowerCase()}">${a.status}</span></div>
+      <div class="appt-meta"><span>👤 ${a.advisor}</span><span>📅 ${a.date}</span><span>🕒 ${a.time}</span></div>
+      <button class="appt-cancel" data-i="${i}">Cancel appointment</button>
+    </div>`).join('');
+  document.querySelectorAll('.appt-cancel').forEach(b=>b.addEventListener('click', ()=>{
+    const i = +b.dataset.i;
+    state.appointments.splice(i,1);
+    saveState();
+    renderAppointments();
+    showToast('Appointment cancelled');
+  }));
+}
+
+let calMonth = new Date(2026,8,1);
+function buildCalendar(monthDate, gridId, labelId, selectedDate, onSelect){
+  const label = document.getElementById(labelId);
+  label.textContent = monthDate.toLocaleString('en-US',{month:'long', year:'numeric'});
+  const grid = document.getElementById(gridId);
+  const dows = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  let html = dows.map(d=>`<div class="cal-dow">${d}</div>`).join('');
+  const year = monthDate.getFullYear(), month = monthDate.getMonth();
+  const firstDay = new Date(year, month, 1);
+  let startOffset = (firstDay.getDay()+6)%7;
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  for(let i=0;i<startOffset;i++) html += `<div></div>`;
+  for(let d=1; d<=daysInMonth; d++){
+    const dateObj = new Date(year, month, d);
+    const isPast = dateObj < new Date(2026,8,8);
+    const isSel = selectedDate && selectedDate.getFullYear()===year && selectedDate.getMonth()===month && selectedDate.getDate()===d;
+    const hasDot = !isPast && (d%3===0);
+    html += `<div class="cal-day ${isPast?'disabled':''} ${hasDot?'has-dot':''} ${isSel?'selected':''}" data-d="${d}">${d}</div>`;
+  }
+  grid.innerHTML = html;
+  if(onSelect){
+    grid.querySelectorAll('.cal-day:not(.disabled)').forEach(cell=>{
+      cell.addEventListener('click', ()=> onSelect(new Date(year, month, +cell.dataset.d)));
+    });
+  }
+}
+
+let sideSelectedDate = new Date(2026,8,9);
+function renderSideCalendar(){
+  buildCalendar(calMonth, 'calGrid', 'calMonthLabel', sideSelectedDate, (d)=>{ sideSelectedDate = d; renderSideCalendar(); });
+}
+document.getElementById('calPrev').addEventListener('click', ()=>{ calMonth = new Date(calMonth.getFullYear(), calMonth.getMonth()-1, 1); renderSideCalendar(); });
+document.getElementById('calNext').addEventListener('click', ()=>{ calMonth = new Date(calMonth.getFullYear(), calMonth.getMonth()+1, 1); renderSideCalendar(); });
+document.getElementById('viewSlotsBtn').addEventListener('click', ()=>{ openBooking(null,null,sideSelectedDate); });
+
+let bookMonth = new Date(2026,8,1);
+let bookSelectedDate = new Date(2026,8,9);
+let bookSelectedSlot = null;
+let bookingAdvisor = {name:'Sarah Lim', role:'Business Strategy Consultant'};
+
+function openBooking(name, role, presetDate){
+  if(name) bookingAdvisor = {name, role};
+  bookSelectedDate = presetDate || new Date(2026,8,9);
+  bookMonth = new Date(bookSelectedDate.getFullYear(), bookSelectedDate.getMonth(), 1);
+  bookSelectedSlot = null;
+  document.getElementById('bookAdvisorLine').innerHTML = `Choose a date and time for your session with <b>${bookingAdvisor.name}</b> (${bookingAdvisor.role}).`;
+  renderBookCalendar();
+  renderSlots();
+  openModal('bookOverlay');
+}
+
+function renderBookCalendar(){
+  buildCalendar(bookMonth, 'bookCalGrid', 'bookMonthLabel', bookSelectedDate, (d)=>{ bookSelectedDate=d; bookSelectedSlot=null; renderBookCalendar(); renderSlots(); });
+}
+document.getElementById('bookCalPrev').addEventListener('click', ()=>{ bookMonth = new Date(bookMonth.getFullYear(), bookMonth.getMonth()-1,1); renderBookCalendar(); });
+document.getElementById('bookCalNext').addEventListener('click', ()=>{ bookMonth = new Date(bookMonth.getFullYear(), bookMonth.getMonth()+1,1); renderBookCalendar(); });
+
+const allSlots = ['9:00 AM','10:00 AM','11:00 AM','1:00 PM','2:00 PM','3:00 PM','4:00 PM','5:00 PM'];
+function renderSlots(){
+  const day = bookSelectedDate.getDate();
+  const slots = allSlots.filter((_,i)=> (day+i)%4 !== 0);
+  document.getElementById('slotGrid').innerHTML = slots.map(s=>`<button type="button" class="slot ${s===bookSelectedSlot?'selected':''}" data-s="${s}">${s}</button>`).join('');
+  document.querySelectorAll('.slot').forEach(b=>b.addEventListener('click', ()=>{ bookSelectedSlot=b.dataset.s; renderSlots(); }));
+}
+
+document.getElementById('confirmBookBtn').addEventListener('click', ()=>{
+  if(!bookSelectedSlot){ showToast('Please select a time slot'); return; }
+  const dateLabel = bookSelectedDate.toLocaleDateString('en-US',{month:'short', day:'numeric', year:'numeric'});
+  const endTime = allSlots[(allSlots.indexOf(bookSelectedSlot)+1)%allSlots.length];
+  state.appointments.unshift({advisor:bookingAdvisor.name, type:`${bookingAdvisor.role} Consultation`, date:dateLabel, time:`${bookSelectedSlot} – ${endTime}`, status:'Confirmed'});
+  state.progress[2].done = true;
+  saveState();
+  renderAppointments();
+  renderProgress();
+  closeModal('bookOverlay');
+  showToast(`Consultation booked with ${bookingAdvisor.name}`);
+});
+
+document.getElementById('retakeBtn').addEventListener('click', ()=> openModal('retakeOverlay'));
+document.getElementById('retakeForm').addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const q1 = +fd.get('q1'), q2 = +fd.get('q2'), q3 = +fd.get('q3'), q4 = +fd.get('q4');
+  const maturity = Math.min(100, q1 + q2 + 10);
+  const ai = Math.min(100, q4 + q3 + 6);
+  const urgency = Math.max(10, 100 - Math.round((maturity+ai)/2.3));
+  state.scores = {maturity, ai, urgency, deal: maturity>60? 'RM 12,000 – 20,000' : 'RM 8,000 – 15,000'};
+  const today = new Date(2026,8,8);
+  state.assessDate = today.toLocaleDateString('en-US',{day:'2-digit', month:'short', year:'numeric'});
+  state.history.forEach(h=>h.latest=false);
+  state.history.unshift({date: state.assessDate, maturity, ai, urgency, latest:true});
+  saveState();
+  renderIdentity(); renderScores(); renderHistory(); renderProfileHeader();
+  closeModal('retakeOverlay');
+  showToast('Assessment updated with your new results');
+});
+
+function downloadReport(h){
+  h = h || {date: state.assessDate, maturity: state.scores.maturity, ai: state.scores.ai, urgency: state.scores.urgency};
+  const text = `AI SME DIGITAL GROWTH ADVISOR
+Business: ${state.user.biz}
+Owner: ${state.user.name}
+Assessment Date: ${h.date}
+
+SCORES
+Digital Maturity Score: ${h.maturity}/100
+AI Readiness Score: ${h.ai}/100
+Urgency Score: ${h.urgency}/100
+Estimated Deal Size: ${state.scores.deal}
+
+KEY PAIN POINTS
+${painPointsData.map(p=>'- '+p.title).join('\n')}
+
+RECOMMENDED NEXT STEPS
+${nextStepsData.map((s,i)=>(i+1)+'. '+s.title+' - '+s.desc).join('\n')}
+
+RECOMMENDED TOOLS
+${toolsData.map(t=>'- '+t.name+': '+t.desc).join('\n')}
+
+Powered by Exabytes Malaysia
+`;
+  const blob = new Blob([text], {type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `Digital-Growth-Report-${h.date.replace(/\s+/g,'-')}.txt`;
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+  showToast('Report downloaded');
+}
+
+['downloadBtn','downloadBtn2','downloadBtn3','downloadBtn4'].forEach(id=>{
+  const el = document.getElementById(id);
+  if(el) el.addEventListener('click', ()=>downloadReport());
+});
+document.getElementById('reportDownloadBtn').addEventListener('click', ()=> downloadReport(window.__currentReport));
+
+['chatBtn','chatBtn2','chatBtn3'].forEach(id=>{
+  const el = document.getElementById(id);
+  if(el) el.addEventListener('click', ()=> openModal('chatOverlay'));
+});
+document.getElementById('chatForm').addEventListener('submit', (e)=>{
+  e.preventDefault();
+  const input = document.getElementById('chatInput');
+  const val = input.value.trim();
+  if(!val) return;
+  const body = document.getElementById('chatBody');
+  body.insertAdjacentHTML('beforeend', `<div style="align-self:flex-end;background:var(--blue-600);color:#fff;border-radius:12px;padding:10px 13px;font-size:13px;max-width:85%;margin-left:auto;">${val}</div>`);
+  input.value='';
+  body.scrollTop = body.scrollHeight;
+  setTimeout(()=>{
+    body.insertAdjacentHTML('beforeend', `<div style="background:#f1f5fb;border-radius:12px;padding:10px 13px;font-size:13px;max-width:85%;">Thanks for reaching out! One of our advisors will follow up shortly.</div>`);
+    body.scrollTop = body.scrollHeight;
+  }, 700);
+});
+
+/* ---------- PROFILE PAGE (company-profile style) ---------- */
+
+function pScoreColor(score){ return score>=60?'#17b26a':(score>=35?'#f79009':'#f04438'); }
+function pScoreTier(score){
+  if(score>=70) return {label:'Advanced', color:'#17b26a'};
+  if(score>=40) return {label:'Moderate', color:'#f79009'};
+  return {label:'Basic', color:'#f04438'};
+}
+
+function renderProfileHeader(){
+  const u = state.user;
+  const indColor = industryColorsProfile[u.industry] || '#64748b';
+
+  document.getElementById('profileIcon').style.background = indColor;
+  document.getElementById('profileIcon').textContent = initials(u.name);
+  document.getElementById('profileNameHead').textContent = u.biz;
+  document.getElementById('profileMetaHead').innerHTML = `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;vertical-align:-2px;margin-right:2px;"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>${u.industry}
+    <span class="sep">•</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;vertical-align:-2px;margin-right:2px;"><path d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-5.13a4 4 0 11-8 0 4 4 0 018 0zm6 3a4 4 0 10-4-4"/></svg>${u.size}
+    <span class="sep">•</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;vertical-align:-2px;margin-right:2px;"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>${u.email}
+  `;
+
+  const d = state.scores.maturity, g = state.scores.ai;
+  const dColor = pScoreColor(d), gColor = pScoreColor(g);
+
+  document.getElementById('profDigitalRing').style.background = `conic-gradient(${dColor} ${d*3.6}deg, #eef1f7 0deg)`;
+  document.getElementById('profDigitalNum').textContent = d;
+  const dTier = pScoreTier(d);
+  document.getElementById('profDigitalTier').textContent = dTier.label;
+  document.getElementById('profDigitalTier').style.background = dTier.color+'22';
+  document.getElementById('profDigitalTier').style.color = dTier.color;
+
+  document.getElementById('profGrowthRing').style.background = `conic-gradient(${gColor} ${g*3.6}deg, #eef1f7 0deg)`;
+  document.getElementById('profGrowthNum').textContent = g;
+  const gTier = pScoreTier(g);
+  document.getElementById('profGrowthTier').textContent = gTier.label;
+  document.getElementById('profGrowthTier').style.background = gTier.color+'22';
+  document.getElementById('profGrowthTier').style.color = gTier.color;
+
+  document.getElementById('profJoined').textContent = `Joined ${u.joinedDate || state.assessDate}`;
+  document.getElementById('ovJoined').textContent = u.joinedDate || state.assessDate;
+  document.getElementById('ovAssess').textContent = state.assessDate;
+  const doneCount = state.progress.filter(p=>p.done).length;
+  document.getElementById('ovProgress').textContent = `${doneCount}/${state.progress.length}`;
+
+  const rows = [
+    { icon:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4.5 5-6 8-6s6.5 1.5 8 6"/>', lbl:'Full Name', val:u.name },
+    { icon:'<path d="M3 21h18M5 21V7l7-4 7 4v14"/>', lbl:'Business Name', val:u.biz },
+    { icon:'<path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>', lbl:'Email', val:`<a href="mailto:${u.email}">${u.email}</a>` },
+    { icon:'<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.33 1.79.63 2.65a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.43-1.2a2 2 0 0 1 2.11-.45c.86.3 1.75.51 2.65.63A2 2 0 0 1 22 16.92z"/>', lbl:'Phone', val:u.phone },
+    { icon:'<path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>', lbl:'Industry', val:u.industry },
+    { icon:'<path d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-5.13a4 4 0 11-8 0 4 4 0 018 0zm6 3a4 4 0 10-4-4"/>', lbl:'Business Size', val:u.size },
+    { icon:'<path d="M4 6h16M4 12h16M4 18h7"/>', lbl:'About', val: u.about || '—' }
+  ];
+  document.getElementById('bizInfoView').innerHTML = rows.map(r=>`
+    <div class="pinfo-row">
+      <div class="pinfo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${r.icon}</svg></div>
+      <div><div class="pinfo-lbl">${r.lbl}</div><div class="pinfo-val">${r.val}</div></div>
+    </div>`).join('');
+
+  const events = [];
+  events.push({ title:'Account created', desc:`Joined as ${u.biz}`, date:u.joinedDate || state.assessDate, color:'#1656f5', bg:'#e8effe', svg:'<path d="M12 4v16m8-8H4"/>' });
+  events.push({ title:'Assessment completed', desc:`Digital Maturity ${state.scores.maturity}, AI Readiness ${state.scores.ai}`, date:state.assessDate, color:'#17b26a', bg:'#e3faee', svg:'<path d="m5 13 4 4L19 7"/>' });
+  if(state.appointments.length){
+    events.push({ title:'Consultation booked', desc:`${state.appointments[0].type} with ${state.appointments[0].advisor}`, date:state.appointments[0].date, color:'#7c5cf0', bg:'#efe9fe', svg:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>' });
+  }
+  document.getElementById('profActivity').innerHTML = events.map(e=>`
+    <div class="pact-item">
+      <div class="pact-icon" style="background:${e.bg};color:${e.color}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${e.svg}</svg></div>
+      <div><div class="pact-title">${e.title}</div><div class="pact-desc">${e.desc}</div><div class="pact-meta">${e.date}</div></div>
+    </div>`).join('');
+}
+
+function renderProfileForm(){
+  document.getElementById('f-name').value = state.user.name;
+  document.getElementById('f-biz').value = state.user.biz;
+  document.getElementById('f-email').value = state.user.email;
+  document.getElementById('f-phone').value = state.user.phone;
+  document.getElementById('f-industry').value = state.user.industry;
+  document.getElementById('f-size').value = state.user.size;
+  document.getElementById('f-about').value = state.user.about;
+}
+
+document.getElementById('editProfileBtn').addEventListener('click', ()=>{
+  renderProfileForm();
+  document.getElementById('bizInfoView').style.display = 'none';
+  document.getElementById('profileForm').style.display = 'block';
+  document.getElementById('editProfileBtn').style.display = 'none';
+});
+document.getElementById('cancelEditBtn').addEventListener('click', ()=>{
+  document.getElementById('bizInfoView').style.display = 'block';
+  document.getElementById('profileForm').style.display = 'none';
+  document.getElementById('editProfileBtn').style.display = 'inline-flex';
+});
+
+document.getElementById('profileForm').addEventListener('submit', (e)=>{
+  e.preventDefault();
+  state.user = {
+    ...state.user,
+    name: document.getElementById('f-name').value.trim() || state.user.name,
+    biz: document.getElementById('f-biz').value.trim() || state.user.biz,
+    email: document.getElementById('f-email').value.trim(),
+    phone: document.getElementById('f-phone').value.trim(),
+    industry: document.getElementById('f-industry').value,
+    size: document.getElementById('f-size').value,
+    about: document.getElementById('f-about').value.trim()
+  };
+  saveState();
+  renderIdentity();
+  renderProfileHeader();
+  document.getElementById('bizInfoView').style.display = 'block';
+  document.getElementById('profileForm').style.display = 'none';
+  document.getElementById('editProfileBtn').style.display = 'inline-flex';
+  showToast('Profile saved');
+});
+
+function goToPage(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active', n.dataset.page===page));
+  window.scrollTo({top:0, behavior:'smooth'});
+  document.getElementById('notifDrop').classList.remove('open');
+  document.getElementById('userDrop').classList.remove('open');
+}
+document.querySelectorAll('[data-page]').forEach(el=>{
+  el.addEventListener('click', (e)=>{
+    e.preventDefault();
+    goToPage(el.dataset.page);
+  });
+});
+
+document.getElementById('bellBtn').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  document.getElementById('notifDrop').classList.toggle('open');
+  document.getElementById('userDrop').classList.remove('open');
+  document.getElementById('notifDot').style.display='none';
+});
+document.getElementById('userBtn').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  document.getElementById('userDrop').classList.toggle('open');
+  document.getElementById('notifDrop').classList.remove('open');
+});
+document.addEventListener('click', ()=>{
+  document.getElementById('notifDrop').classList.remove('open');
+  document.getElementById('userDrop').classList.remove('open');
+});
+
+document.getElementById('searchInput').addEventListener('keydown', (e)=>{
+  if(e.key==='Enter'){
+    const q = e.target.value.trim();
+    if(q) showToast(`No results found for "${q}" — try a different term`);
+  }
+});
+
+function renderAll(){
+  renderIdentity();
+  renderScores();
+  renderRoadmap();
+  renderTools();
+  renderFindings();
+  renderProgress();
+  renderHistory();
+  renderAdvisorTabs();
+  renderAdvisors();
+  renderAppointments();
+  renderSideCalendar();
+  renderProfileForm();
+  renderProfileHeader();
+}
+renderAll();
 </script>
 </body>
 </html>
