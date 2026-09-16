@@ -1,252 +1,597 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FAQ — SME Growth Advisor</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/faqStyle.css">
-<link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ | ExaPulse AI</title>
+    <!-- FontAwesome Icons & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<!-- Header Navigation -->
-<header class="site-header">
-  <div class="wrap">
-    <a href="index.html" class="brand">
-      <span class="brand-mark" data-icon="logo"></span>
-      <span>ExaPulse AI<span class="brand-sub">SME GROWTH ADVISOR</span></span>
-    </a>
-    <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="#how-it-works">How It Works</a>
-      <a href="assessment.html">Assessment</a>
-      <a href="aboutus.html">About Us</a>
-      <a href="faq.html" class="active">FAQ</a>
-    </nav>
-    <div class="nav-actions">
-      <a href="login.html" class="btn btn-outline btn-sm">Log In</a>
-      <button class="nav-toggle" aria-label="Menu" data-icon="menu"></button>
-    </div>
-  </div>
-</header>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/faqStyle.css">
 
-<!-- Dark Hero with Search Box -->
-<section class="faq-hero">
-  <div class="wrap hero-content">
-    <h1>How can we help your enterprise prepare?</h1>
-    <p class="hero-lead">Get detailed information on assessment guidelines, growth scores, advisor networks, and platform compliance.</p>
-    
-    <div class="faq-search-box">
-      <span data-icon="search" class="search-icon"></span>
-      <input type="text" id="faqSearchInput" placeholder="Search standard operating procedures, questions, regulations..." />
-    </div>
-  </div>
-</section>
-
-<!-- Single-Column Card FAQ Section -->
-<section class="section faq-main-section">
-  <div class="wrap">
-
-    <div class="category-header">
-      <span data-icon="briefcase2" class="category-icon"></span>
-      <h2>Frequently Asked Questions</h2>
-    </div>
-
-    <div class="faq-list" id="faqList">
-
-      <div class="faq-card open">
-        <button class="faq-card-header" aria-expanded="true">
-          <div class="faq-title-group">
-            <h3>What is SME Growth Advisor?</h3>
-            <p class="faq-answer-text">SME Growth Advisor is a platform that helps Malaysian small and medium businesses grow and digitalise. We combine a free AI-powered business assessment with a curated marketplace of digital solutions and access to vetted human advisors.</p>
-          </div>
-          <span class="chev-ic" data-icon="chevronDown"></span>
-        </button>
-      </div>
-
-      <div class="faq-card">
-        <button class="faq-card-header" aria-expanded="false">
-          <div class="faq-title-group">
-            <h3>Is the business assessment really free?</h3>
-            <p class="faq-answer-text">Yes. The assessment is 100% free with no credit card required, and takes about 5–7 minutes. You'll get an instant preview of your Growth Score, and creating a free account unlocks your full personalised report.</p>
-          </div>
-          <span class="chev-ic" data-icon="chevronDown"></span>
-        </button>
-      </div>
-
-      <div class="faq-card">
-        <button class="faq-card-header" aria-expanded="false">
-          <div class="faq-title-group">
-            <h3>How does the AI Growth Advisor work?</h3>
-            <p class="faq-answer-text">The AI Growth Advisor analyses your assessment answers across six key areas — strategy, sales & marketing, operations, finance, people, and digitalisation — and surfaces the highest-impact opportunities and solutions for your specific business.</p>
-          </div>
-          <span class="chev-ic" data-icon="chevronDown"></span>
-        </button>
-      </div>
-
-      <div class="faq-card">
-        <button class="faq-card-header" aria-expanded="false">
-          <div class="faq-title-group">
-            <h3>Can solution providers list their products on the platform?</h3>
-            <p class="faq-answer-text">Yes. Software vendors and service providers can apply for a Provider account, submit listings for review, and get matched with SMEs whose assessment results show a genuine fit for their solution.</p>
-          </div>
-          <span class="chev-ic" data-icon="chevronDown"></span>
-        </button>
-      </div>
-
-      <div class="faq-card">
-        <button class="faq-card-header" aria-expanded="false">
-          <div class="faq-title-group">
-            <h3>How are advisors vetted?</h3>
-            <p class="faq-answer-text">Every advisor goes through a background and experience review by our Advisor Network team before being approved. We look for real, relevant SME consulting experience — not just credentials.</p>
-          </div>
-          <span class="chev-ic" data-icon="chevronDown"></span>
-        </button>
-      </div>
-
-      <div class="faq-card">
-        <button class="faq-card-header" aria-expanded="false">
-          <div class="faq-title-group">
-            <h3>Is my business data secure?</h3>
-            <p class="faq-answer-text">Your assessment answers and company information are kept private and are only used to generate your personalised insights and recommendations. We never sell your data to third parties.</p>
-          </div>
-          <span class="chev-ic" data-icon="chevronDown"></span>
-        </button>
-      </div>
-
-      <div class="faq-card">
-        <button class="faq-card-header" aria-expanded="false">
-          <div class="faq-title-group">
-            <h3>Which industries and regions do you support?</h3>
-            <p class="faq-answer-text">We support SMEs across all major industries — manufacturing, retail, F&amp;B, professional services, construction, and more — and across all states in Malaysia.</p>
-          </div>
-          <span class="chev-ic" data-icon="chevronDown"></span>
-        </button>
-      </div>
-
-      <div class="faq-card">
-        <button class="faq-card-header" aria-expanded="false">
-          <div class="faq-title-group">
-            <h3>How do I get started?</h3>
-            <p class="faq-answer-text">Just click "Assess My Business" to take the free assessment. You'll get instant results, and can create a free account afterwards to unlock your full report and solution matches.</p>
-          </div>
-          <span class="chev-ic" data-icon="chevronDown"></span>
-        </button>
-      </div>
-
-    </div>
-
-    <div id="noResults" class="no-results" style="display:none;">
-      No matching questions found. Try searching for something else.
-    </div>
-  </div>
-</section>
-
-<!-- Footer -->
-<footer class="site-footer">
-  <div class="wrap">
-    <div class="footer-top">
-      <div class="footer-col brand-col">
-        <div class="footer-brand">
-          <span class="brand-mark" data-icon="logo"></span> 
-          <span>SME Growth Advisor</span>
-        </div>
-        <p>Empowering Malaysian SMEs to grow, digitalise, and succeed in today's competitive world.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="assessment.html">Assessment</a></li>
-          <li><a href="aboutus.html">About Us</a></li>
-          <li><a href="faq.html">FAQ</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Solutions</h4>
-        <ul>
-          <li><a href="#">Digitalisation</a></li>
-          <li><a href="#">Marketing &amp; Sales</a></li>
-          <li><a href="#">Finance</a></li>
-        </ul>
-      </div>
-      <div class="footer-col newsletter-col">
-        <h4>Stay Updated</h4>
-        <p>Subscribe for the latest tips and updates.</p>
-        <div class="newsletter-row">
-          <input type="email" placeholder="Enter your email">
-          <button aria-label="Subscribe" data-icon="arrowRight"></button>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 SME Growth Advisor. All rights reserved.</span>
-      <span class="footer-legal">
-        <a href="#">Privacy Policy</a>
-        <span class="dot">•</span>
-        <a href="#">Terms of Use</a>
-      </span>
-    </div>
-  </div>
-</footer>
-
-<script src="js/icons.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // Inject SVGs dynamically
-    document.querySelectorAll('[data-icon]').forEach(el => {
-      const iconName = el.getAttribute('data-icon');
-      if (window.ICONS && window.ICONS[iconName]) {
-        el.innerHTML = window.ICONS[iconName];
-      }
-    });
-
-    // Accordions Toggle Behavior
-    const faqCards = document.querySelectorAll('.faq-card');
-    faqCards.forEach(card => {
-      const headerBtn = card.querySelector('.faq-card-header');
-      headerBtn.addEventListener('click', () => {
-        const isOpen = card.classList.contains('open');
-        
-        // Close other cards
-        faqCards.forEach(c => {
-          c.classList.remove('open');
-          c.querySelector('.faq-card-header').setAttribute('aria-expanded', 'false');
-        });
-
-        // Open clicked card if it was closed
-        if (!isOpen) {
-          card.classList.add('open');
-          headerBtn.setAttribute('aria-expanded', 'true');
+    <!-- Styles required for opening/closing the FAQ items -->
+    <style>
+        .faq-item {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            background: #ffffff;
+            overflow: hidden;
+            transition: border-color 0.2s ease;
         }
-      });
-    });
 
-    // Live Search Filter functionality
-    const searchInput = document.getElementById('faqSearchInput');
-    const noResults = document.getElementById('noResults');
+        .faq-question {
+            width: 100%;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #0f172a;
+            text-align: left;
+        }
 
-    if (searchInput) {
-      searchInput.addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase().trim();
-        let visibleCount = 0;
+        .faq-chevron {
+            transition: transform 0.3s ease;
+            font-size: 1.1rem;
+        }
 
-        faqCards.forEach(card => {
-          const text = card.textContent.toLowerCase();
-          if (text.includes(query)) {
-            card.style.display = 'block';
-            visibleCount++;
-          } else {
-            card.style.display = 'none';
-          }
+        /* Hidden answer state */
+        .faq-answer {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            padding: 0 20px;
+            color: #475569;
+            font-size: 0.9375rem;
+            line-height: 1.6;
+            transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.3s ease;
+        }
+
+        /* Open/Expanded state */
+        .faq-item.open {
+            border-color: #2463eb;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+            opacity: 1;
+            padding: 0 20px 18px 20px;
+        }
+
+        .faq-item.open .faq-chevron {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+
+<body>
+<!-- Header Navigation -->
+  <header class="site-header">
+    <div class="container wrap">
+        <a href="index.html" class="brand">
+            <img src="logo.jpg" alt="Website Logo" class="logo">
+        </a>
+    
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html" >Home</a>
+        <a href="index.html#how-it-works">How It Works</a>
+        <a href="assessment.html">Assessment</a>
+        <a href="aboutus.html">About Us</a>
+        <a href="faq.html" class="active">FAQ</a>
+    </nav>
+
+      <div class="nav-actions">
+        <a href="index.html#login" class="btn btn-outline btn-sm">Log In</a>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+    <main>
+
+        <section class="hero">
+            <div class="container hero-content">
+                <h1>How Can We Help You?</h1>
+                <p>
+                    Find answers to common questions about ExaPulse AI,
+                    our business assessment, and how our AI-powered
+                    solutions help Malaysian SMEs grow.
+                </p>
+
+                <form class="search-wrapper" id="faqSearchForm">
+                    <span class="search-icon">⌕</span>
+                    <input
+                        type="search"
+                        id="faqSearch"
+                        placeholder="Search for a question (e.g. assessment, account...)"
+                        aria-label="Search frequently asked questions"
+                    >
+                    <button type="submit" class="search-btn">Search</button>
+                </form>
+            </div>
+        </section>
+
+
+        <!-- CATEGORY FILTERS -->
+        <section class="category-section">
+            <div class="container">
+                <div class="category-list" role="group" aria-label="FAQ categories">
+                    <button class="category-btn active" data-category="all">
+                        All Questions <span class="category-count">16</span>
+                    </button>
+                    <button class="category-btn" data-category="getting-started">
+                        Getting Started <span class="category-count">4</span>
+                    </button>
+                    <button class="category-btn" data-category="assessment">
+                        Assessment <span class="category-count">4</span>
+                    </button>
+                    <button class="category-btn" data-category="account">
+                        Account & Billing <span class="category-count">4</span>
+                    </button>
+                    <button class="category-btn" data-category="technical">
+                        Technical Support <span class="category-count">4</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- FAQ QUESTIONS -->
+        <section class="faq-section">
+            <div class="container faq-container">
+
+                <!-- GETTING STARTED -->
+                <section class="faq-category" data-category="getting-started">
+                    <div class="category-heading">
+                        <div class="category-icon">↗</div>
+                        <div>
+                            <h2>Getting Started</h2>
+                            <p>Learn the basics about ExaPulse AI and how to get started.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-list">
+                        <article class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>What is ExaPulse AI?</span>
+                                <span class="faq-chevron">⌄</span>
+                            </button>
+                            <div class="faq-answer">
+                                ExaPulse AI is an AI-powered digital growth advisory platform designed to help Malaysian SMEs understand their business needs, identify digital opportunities, and plan practical improvements.
+                            </div>
+                        </article>
+
+                        <article class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Who is ExaPulse AI for?</span>
+                                <span class="faq-chevron">⌄</span>
+                            </button>
+                            <div class="faq-answer">
+                                ExaPulse AI is designed for small and medium-sized businesses that want to improve their digital maturity, discover growth opportunities, and make more informed technology decisions.
+                            </div>
+                        </article>
+
+                        <article class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>How do I get started?</span>
+                                <span class="faq-chevron">⌄</span>
+                            </button>
+                            <div class="faq-answer">
+                                You can begin by visiting our Assessment page and starting the business assessment. Follow the questions to receive insights based on your business information.
+                            </div>
+                        </article>
+
+                        <article class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Do I need technical knowledge to use ExaPulse AI?</span>
+                                <span class="faq-chevron">⌄</span>
+                            </button>
+                            <div class="faq-answer">
+                                No. The platform is designed to be accessible to business owners and teams regardless of their technical background.
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+
+                <!-- ASSESSMENT -->
+                <section class="faq-category" data-category="assessment">
+                    <div class="category-heading">
+                        <div class="category-icon">▣</div>
+                        <div>
+                            <h2>Assessment</h2>
+                            <p>Everything you need to know about the business growth assessment.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-list">
+                        <article class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>What kind of insights will I get from the assessment?</span>
+                                <span class="faq-chevron">⌄</span>
+                            </button>
+                            <div class="faq-answer">
+                                The assessment evaluates areas such as business operations, digital maturity, AI readiness, and potential pain points. It provides recommendations to help you identify possible areas for improvement.
+                            </div>
+                        </article>
+
+                        <article class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>How long does the assessment take?</span>
+                                <span class="faq-chevron">⌄</span>
+                            </button>
+                            <div class="faq-answer">
+                                The assessment is designed to be completed in approximately five minutes. The actual time may vary depending on your answers.
+                            </div>
+                        </article>
+
+                        <article class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Is the assessment free?</span>
+                                <span class="faq-chevron">⌄</span>
+                            </button>
+                            <div class="faq-answer">
+                                The assessment is intended to provide an initial understanding of your business growth opportunities. Please contact our team for the latest information about available services and pricing.
+                            </div>
+                        </article>
+
+                        <article class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Can I retake the assessment later?</span>
+                                <span class="faq-chevron">⌄</span>
+                            </button>
+                            <div class="faq-answer">
+                                Yes, you can revisit the assessment and provide updated information to review your business needs again.
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+
+                <!-- ACCOUNT & BILLING -->
+                <section class="faq-category" data-category="account">
+                    <div class="category-heading">
+                        <div class="category-icon">◎</div>
+                        <div>
+                            <h2>Account & Billing</h2>
+                            <p>Information about your account and services.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-list">
+                        <article class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>How do I update my profile information?</span>
+                                <span class="faq-chevron">⌄</span>
+                            </button>
+                            <div class="faq-answer">
+                                Log in to your account and open your profile settings. You can update the available account information from there.
+                            </div>
+                        </article>
+
+                        <article class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>What payment methods do you accept?</span>
+                                <span class="faq-chevron">⌄</span>
+                            </button>
+                            <div class="faq-answer">
+                                Available payment methods depend on the services offered and your selected plan. Contact our team for current payment details.
+                            </div>
+                        </article>
+
+                        <article class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Can I cancel my subscription?</span>
+                                <span class="faq-chevron">⌄</span>
+                            </button>
+                            <div class="faq-answer">
+                                Subscription cancellation depends on your service plan and its terms. Contact support for assistance with your account.
+                            </div>
+                        </article>
+
+                        <article class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Will I be charged after the free trial?</span>
+                                <span class="faq-chevron">⌄</span>
+                            </button>
+                            <div class="faq-answer">
+                                Any charges following a trial depend on the selected service and its billing terms. Review the applicable plan information before subscribing.
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+
+                <!-- TECHNICAL SUPPORT -->
+                <section class="faq-category" data-category="technical">
+                    <div class="category-heading">
+                        <div class="category-icon">♧</div>
+                        <div>
+                            <h2>Technical Support</h2>
+                            <p>Get help with technical issues and troubleshooting.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-list">
+                        <article class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>The platform is not loading. What should I do?</span>
+                                <span class="faq-chevron">⌄</span>
+                            </button>
+                            <div class="faq-answer">
+                                Check your internet connection and try refreshing the page. You can also try another browser or clear your browser cache. If the issue continues, contact our support team.
+                            </div>
+                        </article>
+
+                        <article class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>I forgot my password. How can I reset it?</span>
+                                <span class="faq-chevron">⌄</span>
+                            </button>
+                            <div class="faq-answer">
+                                Use the password reset option on the login page and follow the instructions provided. If you need further assistance, contact support.
+                            </div>
+                        </article>
+
+                        <article class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Who can I contact for further support?</span>
+                                <span class="faq-chevron">⌄</span>
+                            </button>
+                            <div class="faq-answer">
+                                You can contact our team through the support options in the section below. We will assist with your questions and technical concerns.
+                            </div>
+                        </article>
+
+                        <article class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span>Are there any system requirements to use ExaPulse AI?</span>
+                                <span class="faq-chevron">⌄</span>
+                            </button>
+                            <div class="faq-answer">
+                                ExaPulse AI is designed to work through modern web browsers. A stable internet connection and an up-to-date browser are recommended.
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <div class="no-results" id="noResults" style="display: none;">
+                    <h3>No questions found</h3>
+                    <p>Try a different keyword or select another category.</p>
+                </div>
+
+            </div>
+        </section>
+
+<!-- STILL NEED HELP SECTION -->
+<section class="support-cta-section">
+    <div class="support-container">
+        <!-- Left Info Column -->
+        <div class="support-intro">
+            <div class="support-badge">
+                <i class="fa-solid fa-headset"></i>
+            </div>
+            <h2>Still Need Help?</h2>
+            <p>Can't find what you're looking for? Our team is here to help you. Reach out through any of the options.</p>
+        </div>
+
+        <!-- Right Options Grid -->
+        <div class="support-options-grid">
+            <!-- Option 1: Email -->
+            <a href="mailto:support@exapulseai.com" class="support-option-card">
+                <div class="support-icon-box">
+                    <i class="fa-regular fa-envelope"></i>
+                </div>
+                <div class="support-option-content">
+                    <h3>Email Us</h3>
+                    <p class="support-detail">support@exapulseai.com</p>
+                </div>
+                <div class="support-arrow">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </a>
+
+            <!-- Option 2: Live Chat -->
+            <a href="#" class="support-option-card">
+                <div class="support-icon-box">
+                    <i class="fa-regular fa-comments"></i>
+                </div>
+                <div class="support-option-content">
+                    <h3>Live Chat</h3>
+                    <p class="support-detail">Contact our support team</p>
+                </div>
+                <div class="support-arrow">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </a>
+
+            <!-- Option 3: Call Us -->
+            <a href="tel:+60312345678" class="support-option-card">
+                <div class="support-icon-box">
+                    <i class="fa-solid fa-phone"></i>
+                </div>
+                <div class="support-option-content">
+                    <h3>Call Us</h3>
+                    <p class="support-detail">+60 3 1234 5678</p>
+                </div>
+                <div class="support-arrow">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </a>
+
+            <!-- Option 4: About Us -->
+            <a href="aboutus.html" class="support-option-card">
+                <div class="support-icon-box">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </div>
+                <div class="support-option-content">
+                    <h3>About Us</h3>
+                    <p class="support-detail">Learn more about our team</p>
+                </div>
+                <div class="support-arrow">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-inner">
+          <div class="footer-brand-wrap">
+            <span class="logo-name">ExaPulse AI</span>
+            <span class="footer-divider"></span>
+            <span class="logo-tagline">SME GROWTH ADVISORY</span>
+          </div>
+
+          <nav class="footer-nav">
+            <a href="index.html">Home</a>
+            <a href="how-it-works.html">How It Works</a>
+            <a href="assessment.html">Assessment</a>
+            <a href="aboutus.html">About Us</a>
+            <a href="faq.html">FAQ</a>
+          </nav>
+
+          <div class="footer-right">
+            <div class="social">
+              <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+              <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+              <a href="#" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+            </div>
+            <span class="footer-divider"></span>
+            <span>&copy; 2026 ExaPulse AI. All rights reserved.</span>
+          </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            /* =========================
+               MOBILE NAVIGATION
+            ========================= */
+            const menuToggle = document.getElementById("menuToggle");
+            const navLinks = document.getElementById("navLinks");
+
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener("click", () => {
+                    const isOpen = navLinks.classList.toggle("open");
+                    menuToggle.setAttribute("aria-expanded", isOpen);
+                    menuToggle.textContent = isOpen ? "✕" : "☰";
+                });
+            }
+
+            /* =========================
+               FAQ ACCORDION
+            ========================= */
+            const faqItems = document.querySelectorAll(".faq-item");
+
+            faqItems.forEach(item => {
+                const question = item.querySelector(".faq-question");
+
+                question.addEventListener("click", () => {
+                    const isOpen = item.classList.contains("open");
+
+                    // Close all other questions
+                    faqItems.forEach(otherItem => {
+                        otherItem.classList.remove("open");
+                        otherItem.querySelector(".faq-question").setAttribute("aria-expanded", "false");
+                    });
+
+                    // Toggle current item
+                    if (!isOpen) {
+                        item.classList.add("open");
+                        question.setAttribute("aria-expanded", "true");
+                    }
+                });
+            });
+
+            /* =========================
+               FAQ SEARCH & FILTER
+            ========================= */
+            const searchForm = document.getElementById("faqSearchForm");
+            const searchInput = document.getElementById("faqSearch");
+            const categoryButtons = document.querySelectorAll(".category-btn");
+            const faqCategories = document.querySelectorAll(".faq-category");
+            const noResults = document.getElementById("noResults");
+
+            let activeCategory = "all";
+
+            function filterFAQs() {
+                const searchTerm = searchInput.value.trim().toLowerCase();
+                let visibleCount = 0;
+
+                faqCategories.forEach(category => {
+                    const categoryName = category.dataset.category;
+                    const categoryMatches = activeCategory === "all" || activeCategory === categoryName;
+                    let categoryVisibleCount = 0;
+
+                    const items = category.querySelectorAll(".faq-item");
+
+                    items.forEach(item => {
+                        const questionText = item.querySelector(".faq-question").textContent.toLowerCase();
+                        const answerText = item.querySelector(".faq-answer").textContent.toLowerCase();
+
+                        const matchesSearch = !searchTerm || questionText.includes(searchTerm) || answerText.includes(searchTerm);
+                        const shouldShow = categoryMatches && matchesSearch;
+
+                        item.style.display = shouldShow ? "" : "none";
+
+                        if (shouldShow) {
+                            categoryVisibleCount++;
+                            visibleCount++;
+                        } else {
+                            item.classList.remove("open");
+                            item.querySelector(".faq-question").setAttribute("aria-expanded", "false");
+                        }
+                    });
+
+                    category.style.display = categoryVisibleCount > 0 ? "" : "none";
+                });
+
+                if (noResults) {
+                    noResults.style.display = visibleCount === 0 ? "block" : "none";
+                }
+            }
+
+            if (searchForm) {
+                searchForm.addEventListener("submit", event => {
+                    event.preventDefault();
+                    filterFAQs();
+                });
+            }
+
+            if (searchInput) {
+                searchInput.addEventListener("input", filterFAQs);
+            }
+
+            categoryButtons.forEach(button => {
+                button.addEventListener("click", () => {
+                    activeCategory = button.dataset.category;
+
+                    categoryButtons.forEach(btn => btn.classList.remove("active"));
+                    button.classList.add("active");
+
+                    filterFAQs();
+                });
+            });
         });
-
-        noResults.style.display = visibleCount === 0 ? 'block' : 'none';
-      });
-    }
-  });
-</script>
+    </script>
 </body>
 </html>
