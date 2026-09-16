@@ -5,8 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Log In — SME Growth Advisor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/loginStyle.css">
+
 </head>
 <body>
 
@@ -15,11 +17,7 @@
   <!-- Left Hero Panel -->
   <aside class="login-aside">
     <a href="index.html" class="brand">
-      <span class="brand-mark" data-icon="logo"></span>
-      <div class="brand-text">
-        <span>SME</span>
-        <span class="brand-sub">GROWTH ADVISOR</span>
-      </div>
+      <img src="logo.jpg" alt="SME Growth Advisor" class="logo">
     </a>
 
     <div class="login-aside-mid">
@@ -27,10 +25,29 @@
       <p>Log in to pick up where you left off — your growth score, personalised solutions, and advisor conversations are all waiting for you.</p>
     </div>
 
-    <nav class="aside-links">
-      <a href="#">What to expect</a>
-      <a href="#">Other solutions</a>
-    </nav>
+    <div class="aside-proof">
+      <div class="proof-head">
+        <span class="proof-label">Your growth score</span>
+        <span class="proof-score">72<small>/100</small></span>
+      </div>
+      <div class="proof-bars" aria-hidden="true">
+        <span style="--h:34%; --i:0"></span>
+        <span style="--h:46%; --i:1"></span>
+        <span style="--h:41%; --i:2"></span>
+        <span style="--h:58%; --i:3"></span>
+        <span style="--h:67%; --i:4"></span>
+        <span style="--h:63%; --i:5"></span>
+        <span style="--h:82%; --i:6"></span>
+        <span style="--h:100%; --i:7"></span>
+      </div>
+      <p class="proof-caption">Recalculated after every advisor session.</p>
+    </div>
+
+    <div class="aside-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact support</a>
+    </div>
   </aside>
 
   <!-- Right Form Panel -->
@@ -54,7 +71,7 @@
           data-btn="Log In"
           data-note-icon="sparkles"
           data-redirect="client/client-dashboard.html"
-          data-signup="Don't have an account? &lt;a href=&quot;assessment.html&quot;&gt;Start your free assessment&lt;/a&gt;">
+          data-signup="Don't have an account? &lt;a href=&quot;signup.html&quot;&gt;Sign up&lt;/a&gt;">
           <span data-icon="briefcase2"></span> SME User
         </button>
 
@@ -81,7 +98,7 @@
         <span id="roleNoteText"></span>
       </div>
 
-      <div class="login-error" id="loginError" style="display:none; background:#fde8e8; color:#e14b4b; border-radius:9px; padding:10px 14px; font-size:13px; margin-bottom:14px;"></div>
+      <div class="login-error" id="loginError" style="display:none;"></div>
 
       <form id="loginForm">
         <div class="input-group">
@@ -112,9 +129,8 @@
 
         <button type="submit" class="btn btn-primary btn-block" id="submitBtn">Log In</button>
 
-        <p class="signup-prompt" id="signupPrompt">Don't have an account? <a href="assessment.html">Start your free assessment</a></p>
-
-        <button type="button" class="btn btn-outline btn-block" id="signupBtn">Sign Up</button>
+        <p class="signup-prompt" id="signupPrompt">Don't have an account? <a href="signup.html">Sign up</a></p>
+       
       </form>
     </div>
   </main>
@@ -132,7 +148,6 @@
     const roleNoteText = document.getElementById('roleNoteText');
     const roleNoteIcon = document.getElementById('roleNoteIcon');
     const signupPrompt = document.getElementById('signupPrompt');
-    const signupBtn = document.getElementById('signupBtn');
     const form = document.getElementById('loginForm');
     const loginError = document.getElementById('loginError');
     let redirect = 'client/client-dashboard.html';
@@ -166,7 +181,7 @@
       } else {
         signupPrompt.style.display = 'none';
       }
-      signupBtn.style.display = isSme ? 'block' : 'none';
+      // signupBtn.style.display = isSme ? 'block' : 'none';
     }
 
     tabs.forEach(tab => tab.addEventListener('click', () => applyRole(tab)));
@@ -178,12 +193,13 @@
     toggleBtn.addEventListener('click', () => {
       const isText = pwInput.type === 'text';
       pwInput.type = isText ? 'password' : 'text';
+      toggleBtn.setAttribute('aria-label', isText ? 'Show password' : 'Hide password');
       eyeIcon.innerHTML = window.ICONS[isText ? 'eye' : 'eyeOff'];
     });
 
-    signupBtn.addEventListener('click', () => {
-      window.location.href = 'assessment.html';
-    });
+    // signupBtn.addEventListener('click', () => {
+    //   window.location.href = 'signup.html';
+    // });
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -197,7 +213,7 @@
 
         if (!account || email !== account.email.toLowerCase() || password !== account.password) {
           loginError.textContent = 'Incorrect email or password for the Admin console.';
-          loginError.style.display = 'block';
+          loginError.style.display = 'flex';
           return;
         }
 

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up — SME Growth Advisor</title>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/loginStyle.css">
+</head>
+<body>
+
+    <div class="login-shell">
+        <!-- Left Panel: Brand Hero -->
+        <aside class="login-aside">
+            <a href="index.html" class="brand">
+              <img src="logo.jpg" alt="SME Growth Advisor" class="logo">
+            </a>
+
+            <div class="login-aside-mid">
+                <h2>Know exactly where your business stands.</h2>
+                <p>Answer a short assessment and get a growth score, a ranked list of what to fix first, and an advisor who knows your numbers.</p>
+            </div>
+
+            <div class="aside-proof">
+                <div class="proof-head">
+                    <span class="proof-label">Typical score after 90 days</span>
+                    <span class="proof-score">+24<small>pts</small></span>
+                </div>
+                <div class="proof-bars" aria-hidden="true">
+                    <span style="--h:30%; --i:0"></span>
+                    <span style="--h:38%; --i:1"></span>
+                    <span style="--h:44%; --i:2"></span>
+                    <span style="--h:52%; --i:3"></span>
+                    <span style="--h:61%; --i:4"></span>
+                    <span style="--h:70%; --i:5"></span>
+                    <span style="--h:84%; --i:6"></span>
+                    <span style="--h:100%; --i:7"></span>
+                </div>
+                <p class="proof-caption">Based on members who complete their first three actions.</p>
+            </div>
+
+            <div class="aside-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Contact sales</a>
+            </div>
+        </aside>
+
+        <!-- Right Panel: Registration Form -->
+        <main class="login-main">
+            <div class="login-box">
+
+                <!-- Mobile Brand Header -->
+                <a href="index.html" class="brand brand-mobile">
+                    <div class="brand-mark">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <div class="brand-text">
+                        <span>SME</span>
+                        <span class="brand-sub">GROWTH ADVISOR</span>
+                    </div>
+                </a>
+
+                <!-- Account Type Switcher -->
+                <div class="role-tabs">
+                    <button class="role-tab active" type="button" onclick="switchRole('personal', this)">
+                        <span data-icon><i class="fa-regular fa-user"></i></span>
+                        <span>Individual</span>
+                    </button>
+                    <button class="role-tab" type="button" onclick="switchRole('team', this)">
+                        <span data-icon><i class="fa-solid fa-users"></i></span>
+                        <span>Team / Business</span>
+                    </button>
+                </div>
+
+                <!-- Header Title -->
+                <div class="header-group">
+                    <h1>Create an account</h1>
+                    <p class="sub">Start with a 14-day free trial. No card needed.</p>
+                </div>
+
+                <!-- Context Note -->
+                <div class="role-note" id="role-note">
+                    <span data-icon><i class="fa-solid fa-circle-info"></i></span>
+                    <span id="role-note-text">Individual accounts suit sole traders, freelancers, and single-owner businesses.</span>
+                </div>
+
+                <!-- Registration Form -->
+                <form action="#" method="POST">
+                    <div class="input-group">
+                        <label for="fullname">Full name</label>
+                        <div class="input-field">
+                            <span data-icon><i class="fa-regular fa-id-card"></i></span>
+                            <input type="text" id="fullname" name="fullname" placeholder="Nur Aisyah Rahman" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="email">Email address</label>
+                        <div class="input-field">
+                            <span data-icon><i class="fa-regular fa-envelope"></i></span>
+                            <input type="email" id="email" name="email" placeholder="name@company.com" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <div class="input-field">
+                            <span data-icon><i class="fa-solid fa-lock"></i></span>
+                            <input type="password" id="password" name="password" placeholder="At least 8 characters" required minlength="8">
+                            <button type="button" onclick="togglePasswordVisibility('password', this)" aria-label="Show password">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Terms Agreement -->
+                    <div class="login-row-between">
+                        <label class="remember-check">
+                            <input type="checkbox" required>
+                            <span>I agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a></span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Create account</button>
+                </form>
+
+                <p class="signup-prompt">
+                    Already have an account? <a href="login.html">Log in</a>
+                </p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Password Visibility Toggle
+        function togglePasswordVisibility(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const icon = btn.querySelector('i');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fa-regular fa-eye-slash';
+                btn.setAttribute('aria-label', 'Hide password');
+            } else {
+                input.type = 'password';
+                icon.className = 'fa-regular fa-eye';
+                btn.setAttribute('aria-label', 'Show password');
+            }
+        }
+
+        // Account Type Toggle
+        function switchRole(type, element) {
+            document.querySelectorAll('.role-tab').forEach(tab => tab.classList.remove('active'));
+            element.classList.add('active');
+
+            const noteText = document.getElementById('role-note-text');
+            if (type === 'team') {
+                noteText.textContent = "Team accounts let you invite colleagues, set roles, and share one growth dashboard.";
+            } else {
+                noteText.textContent = "Individual accounts suit sole traders, freelancers, and single-owner businesses.";
+            }
+        }
+    </script>
+</body>
+</html>

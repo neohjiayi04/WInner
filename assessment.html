@@ -10,6 +10,7 @@
           content="ExaPulse AI Business Growth Potential Assessment">
 
     <title>Assessment | ExaPulse AI</title>
+     <link rel="stylesheet" href="css/components.css">
 
     <style>
         /* =========================================================
@@ -152,69 +153,6 @@
             font-weight: 700;
             letter-spacing: .4px;
             color: #7892ae;
-        }
-
-        /* NAVIGATION */
-
-        .nav {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            height: 100%;
-        }
-
-        .nav-link {
-            height: 100%;
-            display: flex;
-            align-items: center;
-            position: relative;
-            color: #365c84;
-            font-size: 13px;
-            font-weight: 500;
-            transition: color .2s ease;
-        }
-
-        .nav-link:hover {
-            color: var(--blue);
-        }
-
-        .nav-link.active {
-            color: var(--blue);
-            font-weight: 700;
-        }
-
-        .nav-link.active::after {
-            content: "";
-            position: absolute;
-            height: 2px;
-            width: 64px;
-            background: var(--blue);
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .login-btn {
-            border: 1px solid #6ca8ef;
-            background: white;
-            color: #0966dc;
-            border-radius: 22px;
-            padding: 8px 22px;
-            font-size: 12px;
-            font-weight: 700;
-            transition: .2s;
-        }
-
-        .login-btn:hover {
-            background: #edf6ff;
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            border: 0;
-            background: none;
-            color: var(--blue);
-            font-size: 26px;
         }
 
         /* =========================================================
@@ -1507,61 +1445,29 @@
 <!-- ============================================================
      HEADER
 ============================================================= -->
-<header class="header">
-
-    <div class="container header-inner">
-
-        <a href="#home" class="logo">
-
-            <div class="logo-symbol"></div>
-
-            <div class="logo-text">
-                <span class="logo-name">ExaPulse AI</span>
-                <span class="logo-tagline">AI-POWERED GROWTH</span>
-            </div>
-
+<!-- Header Navigation -->
+  <header class="site-header">
+    <div class="container wrap">
+        <a href="index.html" class="brand">
+            <img src="logo.jpg" alt="Website Logo" class="logo">
         </a>
+    
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html" >Home</a>
+        <a href="index.html#how-it-works">How It Works</a>
+        <a href="assessment.html"class="active">Assessment</a>
+        <a href="aboutus.html">About Us</a>
+        <a href="faq.html" >FAQ</a>
+    </nav>
 
-        <button
-            class="mobile-menu-btn"
-            id="mobileMenuBtn"
-            aria-label="Open navigation">
-            ☰
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-outline btn-sm">Log In</a>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
         </button>
-
-        <nav class="nav" id="mainNav">
-
-            <a href="#home" class="nav-link">
-                Home
-            </a>
-
-            <a href="#how-it-works" class="nav-link">
-                How It Works
-            </a>
-
-            <a href="#assessment" class="nav-link active">
-                Assessment
-            </a>
-
-            <a href="#about" class="nav-link">
-                About Us
-            </a>
-
-            <a href="#faq" class="nav-link">
-                FAQ
-            </a>
-
-            <button
-                class="login-btn"
-                id="loginButton">
-                Log In
-            </button>
-
-        </nav>
-
+      </div>
     </div>
-
-</header>
+  </header>
 
 
 <!-- ============================================================
@@ -2658,47 +2564,7 @@
         new Array(questions.length).fill(null);
 
 
-    /* =========================================================
-       OPEN ASSESSMENT
-    ========================================================= */
-
-    document
-        .querySelectorAll(".start-assessment")
-        .forEach(button => {
-
-            button.addEventListener("click", () => {
-
-                openModal("assessmentModal");
-
-                currentQuestion = 0;
-
-                answers =
-                    new Array(questions.length).fill(null);
-
-                document
-                    .getElementById("assessmentQuestions")
-                    .style.display = "block";
-
-                document
-                    .getElementById("resultScreen")
-                    .classList.remove("show");
-
-                renderQuestion();
-
-            });
-
-        });
-
-
-    document
-        .getElementById("assessmentClose")
-        .addEventListener("click", () => {
-
-            closeModal("assessmentModal");
-
-        });
-
-
+    
     /* =========================================================
        RENDER QUESTION
     ========================================================= */
