@@ -1,72 +1,240 @@
 /* =====================================================
    COMPONENTS — reusable UI pieces shared across public pages
    (buttons, layout helpers, top nav, footer).
-   Requires base.css (design tokens) to be loaded first.
+   Requires: base.css (design tokens)
    Used by: index.html, aboutus.html, faq.html, results.html
    ===================================================== */
 
-/* ---------- Buttons ---------- */
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
-  padding:.75rem 1.5rem;border-radius:.6rem;font-weight:600;font-size:.95rem;
-  transition:background .15s ease, color .15s ease, border-color .15s ease, transform .1s ease;
-  white-space:nowrap;
-}
-.btn:active{transform:translateY(1px);}
-.btn-primary{background:var(--blue);color:#fff;border:1px solid var(--blue);}
-.btn-outline{background:#fff;color:var(--blue);border:1px solid var(--blue);}
-.btn-outline:hover{background:var(--blue-light);}
-.btn-ghost{background:transparent;color:var(--slate);border:1px solid var(--border);}
-.btn-ghost:hover{background:#F8FAFC;}
-.btn-sm{padding:.5rem 1rem;font-size:.85rem;}
-.btn-block{width:100%;}
+/* ==========================================
+   1. BUTTONS
+========================================== */
 
-/* ---------- Layout helpers ---------- */
-.wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
-.section{padding:88px 0;}
-.card{background:#fff;border:1px solid var(--border);border-radius:1rem;}
-
-/* ---------- Nav ---------- */
-.site-header{
-  position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--border);
-}
-.site-header .wrap{
-  display:flex;align-items:center;justify-content:space-between;height:72px;
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.6rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
 }
 
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background: var(--blue, #2463eb);
+  color: var(--white, #ffffff);
+  border: 1px solid var(--blue, #2463eb);
+}
+
+.btn-primary:hover {
+  background: #174fc7;
+  border-color: #174fc7;
+  box-shadow: 0 4px 12px rgba(36, 99, 235, 0.25);
+}
+
+.btn-outline {
+  background: var(--white, #ffffff);
+  color: var(--blue, #2463eb);
+  border: 1px solid #bcd2f7;
+}
+
+.btn-outline:hover {
+  background: var(--light-blue, #edf5ff);
+  border-color: var(--blue, #2463eb);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--muted, #7186a5);
+  border: 1px solid var(--border, #dce7f5);
+}
+
+.btn-ghost:hover {
+  background: var(--pale-blue, #f5f9ff);
+  color: var(--navy, #122e56);
+}
+
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* ==========================================
+   2. LAYOUT HELPERS & CARDS
+========================================== */
+
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.section {
+  padding: 88px 0;
+}
+
+.card {
+  background: var(--white, #ffffff);
+  border: 1px solid var(--border, #dce7f5);
+  border-radius: 1rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px -6px rgba(18, 46, 86, 0.08);
+}
+
+/* ==========================================
+   3. SITE HEADER & NAVIGATION
+========================================== */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  top-margin: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border, #dce7f5);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.site-header .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+
+/* Logo Styling */
 .brand {
   display: flex;
   align-items: center;
-  height: 100%; /* Spans full navbar height */
-  padding: 12px 0; /* Creates 12px vertical spacing top and bottom */
+  gap: 12px;
+  height: 100%;
+  text-decoration: none;
 }
 
 .logo {
-  height: 100%;       /* Fills the height of .brand */
-  max-height: 48px;   /* Prevents image from becoming overly tall */
-  width: auto;        /* Preserves aspect ratio */
-  object-fit: contain;
-  display: block;
+  width: auto; 
+  height: 70%;
 }
 
-.nav-links{display:flex;align-items:center;gap:32px;}
-.nav-links a{font-size:.94rem;font-weight:500;color:var(--slate);transition:color .15s;}
-.nav-links a.active{color:var(--blue);font-weight:600;}
-.nav-links a:hover{color:var(--blue);}
-
-.nav-actions{display:flex;align-items:center;gap:12px;}
-
-.nav-toggle{display:none;background:none;border:none;padding:6px;}
-
-@media (max-width:900px){
-  .nav-links{display:none;}
-  .nav-toggle{display:block;}
-}
-@media (max-width:640px){
-  .nav-actions .btn-outline{display:none;}
+/* Links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
 }
 
-/* ---------- Footer ---------- */
+.nav-links a {
+  font-size: 0.94rem;
+  font-weight: 500;
+  color: var(--muted, #7186a5);
+  transition: color 0.2s ease;
+  position: relative;
+  text-decoration: none;
+}
+
+.nav-links a.active,
+.nav-links a:hover {
+  color: var(--blue, #2463eb);
+}
+
+.nav-links a.active {
+  font-weight: 600;
+}
+
+.nav-links a.active::after {
+  content: "";
+  position: absolute;
+  bottom: -24px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--blue, #2463eb);
+  border-radius: 2px 2px 0 0;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.nav-toggle {
+  display: none;
+  background: transparent;
+  border: 1px solid var(--border, #dce7f5);
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: var(--navy, #122e56);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+/* Responsive Header */
+@media (max-width: 900px) {
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 72px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: var(--white, #ffffff);
+    border-bottom: 1px solid var(--border, #dce7f5);
+    padding: 16px 24px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links a {
+    padding: 12px 0;
+  }
+
+  .nav-links a.active::after {
+    display: none;
+  }
+
+  .nav-toggle {
+    display: block;
+  }
+}
+
+@media (max-width: 640px) {
+  .nav-actions .btn-outline {
+    display: none;
+  }
+}
+
+/* ==========================================
+   4. COMPACT DARK FOOTER
+========================================== */
+
 .footer {
   background: var(--dark-navy, #0b2346);
   color: #C9D6EE;
@@ -74,7 +242,6 @@
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-/* Wrapper container to keep content centered & bounded */
 .footer-inner {
   width: min(1120px, calc(100% - 48px));
   margin: 0 auto;
@@ -84,7 +251,7 @@
   gap: 24px;
 }
 
-/* --- Left: Logo & Tagline --- */
+/* Left: Brand */
 .footer-brand-wrap {
   display: flex;
   align-items: center;
@@ -100,14 +267,14 @@
 }
 
 .footer .logo-tagline {
-  color: #8CA1CC; /* Brighter tone for contrast */
+  color: #8CA1CC;
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
-/* --- Center: Navigation Links --- */
+/* Center: Links */
 .footer-nav {
   display: flex;
   align-items: center;
@@ -117,6 +284,7 @@
 
 .footer-nav a {
   color: #b0c4de;
+  text-decoration: none;
   transition: color 0.15s ease;
 }
 
@@ -124,7 +292,7 @@
   color: #ffffff;
 }
 
-/* --- Right: Socials + Divider + Copyright --- */
+/* Right: Socials & Copyright */
 .footer-right {
   display: flex;
   align-items: center;
@@ -147,11 +315,12 @@
   align-items: center;
   opacity: 0.85;
   transition: opacity 0.2s ease, color 0.2s ease;
+  text-decoration: none;
 }
 
 .social a:hover {
   opacity: 1;
-  color: #2463eb;
+  color: var(--blue, #2463eb);
 }
 
 .footer-divider {
@@ -160,7 +329,7 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* --- Responsive adjustment --- */
+/* Responsive Footer */
 @media (max-width: 900px) {
   .footer-inner {
     flex-direction: column;

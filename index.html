@@ -4,36 +4,43 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SME Growth Advisor — Grow and Digitalise Your Business</title>
+<!-- FontAwesome Icons & Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/pages/home.css">
 </head>
+
 <body>
-
-<header class="site-header">
-  <div class="wrap">
-    <a href="index.html" class="brand">
-      <span class="brand-mark" data-icon="logo"></span>
-      <span>ExaPulse AI<span class="brand-sub">SME GROWTH ADVISOR</span></span>
-    </a>
-    <nav class="nav-links">
-      <a href="index.html" class="active">Home</a>
-      <a href="#how-it-works">How It Works</a>
-      <a href="assessment.html">Assessment</a>
-      <a href="aboutus.html">About Us</a>
-      <a href="faq.html">FAQ</a>
+  <header class="site-header">
+    <div class="container wrap">
+        <a href="index.html" class="brand">
+            <img src="logo.jpg" alt="Website Logo" class="logo">
+        </a>
+    
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html" class="active">Home</a>
+        <a href="index.html#how-it-works">How It Works</a>
+        <a href="assessment.html">Assessment</a>
+        <a href="aboutus.html">About Us</a>
+        <a href="faq.html">FAQ</a>
     </nav>
-    <div class="nav-actions">
-      <a href="login.html" class="btn btn-outline btn-sm">Log In</a>
-      <button class="nav-toggle" aria-label="Menu" data-icon="menu"></button>
-    </div>
-  </div>
-</header>
 
+      <div class="nav-actions">
+        <a href="index.html#login" class="btn btn-outline btn-sm">Log In</a>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
 <section class="hero">
   <div class="wrap">
     <div class="hero-copy">
-      <span class="eyebrow-pill"><span data-icon="sparkles" style="width:14px;height:14px;display:inline-flex"></span> AI + Human Expertise. Real Growth.</span>
+      <span class="eyebrow-pill" style="color: blue;"><span data-icon="sparkles" style="width:14px;height:14px;display:inline-flex"></span> AI + Human Expertise. Real Growth.</span>
       <h1>Your Trusted Partner in Growing and Digitalising Your Business</h1>
       <p class="lead">AI-powered insights, expert advisors, and digital solutions to help your business grow smarter, faster, and stronger.</p>
       <div class="cta-row">
@@ -70,8 +77,8 @@
             </div>
             <div class="mock-hexwrap">
               <svg viewBox="0 0 100 100" width="80" height="80">
-                <polygon points="50,10 85,30 85,70 50,90 15,70 15,30" fill="none" stroke="#E2E8F0" stroke-width="1.5"/>
-                <polygon points="50,22 72,34 72,66 50,78 28,66 28,34" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
+                <polygon points="52.5,10.5 89.25,31.5 89.25,73.5 52.5,94.5 15.75,73.5 15.75,31.5" fill="none" stroke="#E2E8F0" stroke-width="1.5"/>
+                <polygon points="52.5,23.1 75.6,35.7 75.6,69.3 52.5,81.9 29.4,69.3 29.4,35.7" fill="#DBEAFE" stroke="#2563EB" stroke-width="2"/>
               </svg>
             </div>
           </div>
@@ -171,44 +178,33 @@
   </div>
 </section>
 
-<footer class="site-footer">
-  <div class="wrap">
-    <div class="footer-top">
-      <div>
-        <div class="footer-brand"><span class="brand-mark" data-icon="logo"></span> SME Growth Advisor</div>
-        <p>Empowering Malaysian SMEs to grow, digitalise, and succeed in today's competitive world.</p>
-        <div class="footer-social">
-          <a href="#" aria-label="Facebook" data-icon="facebook"></a>
-          <a href="#" aria-label="LinkedIn" data-icon="linkedin"></a>
-          <a href="#" aria-label="YouTube" data-icon="youtube"></a>
-        </div>
+<!-- Dark Footer -->
+<footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand-wrap">
+        <span class="logo-name">ExaPulse AI</span>
+        <span class="footer-divider"></span>
+        <span class="logo-tagline">SME GROWTH ADVISORY</span>
       </div>
-      <div>
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="#how-it-works">How It Works</a></li>
-          <li><a href="assessment.html">Assessment</a></li>
-          <li><a href="aboutus.html">About Us</a></li>
-          <li><a href="faq.html">FAQ</a></li>
-        </ul>
-      </div>
-    
-    
-      <div>
-        <h4>Stay Updated</h4>
-        <p>Subscribe to our newsletter for the latest tips and updates.</p>
-        <div class="newsletter-row">
-          <input type="email" placeholder="Enter your email">
-          <button aria-label="Subscribe" data-icon="arrowRight"></button>
+
+      <nav class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="how-it-works.html">How It Works</a>
+        <a href="assessment.html">Assessment</a>
+        <a href="aboutus.html">About Us</a>
+        <a href="faq.html">FAQ</a>
+      </nav>
+
+      <div class="footer-right">
+        <div class="social">
+          <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
         </div>
+        <span class="footer-divider"></span>
+        <span>&copy; 2026 ExaPulse AI. All rights reserved.</span>
       </div>
     </div>
-    <div class="footer-bottom">
-      <span>© 2026 SME Growth Advisor. All rights reserved.</span>
-      <span><a href="#">Privacy Policy</a> &nbsp;|&nbsp; <a href="#">Terms of Use</a></span>
-    </div>
-  </div>
 </footer>
 
 <script src="js/icons.js"></script>
