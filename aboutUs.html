@@ -6,6 +6,7 @@
 <title>About Us — SME Growth Advisor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
 
 <style>
 /* ---------- BRAND DESIGN SYSTEM ---------- */
@@ -127,67 +128,6 @@ body {
 .card:hover {
   transform: translateY(-3px);
   box-shadow: 0 15px 35px -5px rgba(37, 99, 235, 0.12);
-}
-
-/* ---------- HEADER ---------- */
-.site-header {
-  background: transparent;
-  padding: 24px 0;
-}
-
-.site-header .wrap {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.brand {
-  font-size: 18px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--dark-navy);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.brand-sub {
-  color: var(--primary-blue);
-  margin-left: 4px;
-  font-weight: 700;
-}
-
-.nav-links {
-  display: flex;
-  gap: 36px;
-}
-
-.nav-links a {
-  text-decoration: none;
-  color: var(--text-main);
-  font-size: 15px;
-  font-weight: 500;
-  transition: color 0.15s;
-}
-
-.nav-links a:hover,
-.nav-links a.active {
-  color: var(--primary-blue);
-  font-weight: 600;
-}
-
-.nav-actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.nav-toggle {
-  display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
 }
 
 /* ---------- HERO ---------- */
@@ -623,17 +563,18 @@ body {
 </head>
 <body>
 
+<!-- Header Navigation -->
 <header class="site-header">
   <div class="wrap">
     <a href="index.html" class="brand">
       <span class="brand-mark" data-icon="logo"></span>
-      <span>SME<span class="brand-sub">GROWTH ADVISOR</span></span>
+      <span>ExaPulse AI<span class="brand-sub">SME GROWTH ADVISOR</span></span>
     </a>
     <nav class="nav-links">
       <a href="index.html">Home</a>
       <a href="#how-it-works">How It Works</a>
       <a href="assessment.html">Assessment</a>
-      <a href="aboutus.html" class="active">About Us</a>
+      <a href="aboutus.html"  class="active">About Us</a>
       <a href="faq.html">FAQ</a>
     </nav>
     <div class="nav-actions">
