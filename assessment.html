@@ -1,1816 +1,3041 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI SME Digital Growth Advisor — Exabytes Malaysia</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<style>
-:root{
-  --paper:#ffffff;
-  --wash:#F1F4F9;
-  --sunk:#E7ECF3;
-  --line:#D6DEE9;
-  --ink:#0A2540;
-  --ink-2:#39506B;
-  --ink-3:#6B7F96;
-  --blue:#1266C9;
-  --blue-soft:#E4EEFB;
-  --amber:#E08A00;
-  --amber-soft:#FCF0DA;
-  --green:#0F8F66;
-  --green-soft:#DFF3EC;
-  --red:#C2453D;
-  --red-soft:#FAE6E4;
-  --r:10px;
-  --shadow:0 1px 2px rgba(10,37,64,.06), 0 8px 24px -16px rgba(10,37,64,.35);
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --paper:#10202F; --wash:#0A1723; --sunk:#16293A; --line:#263D53;
-    --ink:#EAF1F8; --ink-2:#B3C4D6; --ink-3:#8399AF;
-    --blue:#5AA0F0; --blue-soft:#17304C; --amber:#F0A93A; --amber-soft:#3A2B10;
-    --green:#3FBF95; --green-soft:#10312A; --red:#E8776E; --red-soft:#3A1E1C;
-    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
-  }
-}
-:root[data-theme="dark"]{
-  --paper:#10202F; --wash:#0A1723; --sunk:#16293A; --line:#263D53;
-  --ink:#EAF1F8; --ink-2:#B3C4D6; --ink-3:#8399AF;
-  --blue:#5AA0F0; --blue-soft:#17304C; --amber:#F0A93A; --amber-soft:#3A2B10;
-  --green:#3FBF95; --green-soft:#10312A; --red:#E8776E; --red-soft:#3A1E1C;
-  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
-}
-*{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
-body{
-  margin:0; background:var(--wash); color:var(--ink);
-  font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
-  font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;
-  font-variant-numeric:tabular-nums;
-}
-img{max-width:100%}
-h1,h2,h3,h4{margin:0; line-height:1.2; letter-spacing:-.02em; font-weight:700}
-p{margin:0}
-a{color:var(--blue)}
-button{font:inherit}
-:focus-visible{outline:2px solid var(--blue); outline-offset:2px; border-radius:4px}
-@media (prefers-reduced-motion: reduce){*{transition:none !important; animation:none !important}}
+    <meta charset="UTF-8">
 
-.shell{max-width:1120px; margin:0 auto; padding:0 20px}
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-/* ---------- top bar ---------- */
-.topbar{
-  position:sticky; top:0; z-index:40; background:var(--paper);
-  border-bottom:1px solid var(--line);
-}
-.topbar-in{max-width:1120px; margin:0 auto; padding:12px 20px; display:flex; align-items:center; gap:16px}
-.mark{display:flex; align-items:baseline; gap:9px; font-weight:800; letter-spacing:-.03em}
-.mark .exa{color:var(--amber)}
-.mark .sub{font-weight:500; font-size:12.5px; color:var(--ink-3); letter-spacing:0}
-.topbar .spacer{flex:1}
-.ghost{
-  background:transparent; border:1px solid var(--line); color:var(--ink-2);
-  padding:6px 12px; border-radius:var(--r); cursor:pointer; font-size:13px; font-weight:600;
-}
-.ghost:hover{background:var(--sunk)}
+    <meta name="description"
+          content="ExaPulse AI Business Growth Potential Assessment">
 
-/* ---------- buttons ---------- */
-.btn{
-  display:inline-flex; align-items:center; justify-content:center; gap:8px;
-  padding:10px 18px; border-radius:var(--r); border:1px solid transparent;
-  font-weight:600; font-size:14px; cursor:pointer; text-decoration:none;
-  transition:background .12s ease, border-color .12s ease;
-}
-.btn-primary{background:var(--blue); color:#fff}
-.btn-primary:hover{filter:brightness(1.08)}
-.btn-amber{background:var(--amber); color:#241400}
-.btn-amber:hover{filter:brightness(1.06)}
-.btn-line{background:var(--paper); border-color:var(--line); color:var(--ink)}
-.btn-line:hover{background:var(--sunk)}
-.btn[disabled]{opacity:.5; cursor:not-allowed}
-.btn-wide{width:100%}
+    <title>Assessment | ExaPulse AI</title>
 
-/* ---------- intro ---------- */
-.intro{padding:56px 0 48px}
-.intro-grid{display:grid; grid-template-columns:1.15fr .85fr; gap:44px; align-items:center}
-.intro h1{font-size:clamp(28px,4.2vw,44px); font-weight:800; letter-spacing:-.035em; margin-bottom:14px}
-.intro .lede{color:var(--ink-2); font-size:17px; max-width:56ch; margin-bottom:22px}
-.intro .cta-row{display:flex; gap:12px; flex-wrap:wrap; align-items:center}
-.intro .fineprint{color:var(--ink-3); font-size:13px; margin-top:14px}
-.flow{
-  background:var(--paper); border:1px solid var(--line); border-radius:14px;
-  padding:20px; box-shadow:var(--shadow);
-}
-.flow h3{font-size:13px; color:var(--ink-3); font-weight:600; letter-spacing:0; margin-bottom:14px}
-.flow ol{margin:0; padding:0; list-style:none; counter-reset:f}
-.flow li{
-  counter-increment:f; position:relative; padding:0 0 16px 34px; font-size:14px; color:var(--ink-2);
-}
-.flow li:last-child{padding-bottom:0}
-.flow li::before{
-  content:counter(f); position:absolute; left:0; top:0; width:22px; height:22px;
-  border-radius:50%; background:var(--blue-soft); color:var(--blue);
-  font-size:11.5px; font-weight:700; display:grid; place-items:center;
-}
-.flow li::after{
-  content:''; position:absolute; left:10.5px; top:24px; bottom:8px; width:1px; background:var(--line);
-}
-.flow li:last-child::after{display:none}
-.flow li b{color:var(--ink); font-weight:600; display:block}
+    <style>
+        /* =========================================================
+           GLOBAL
+        ========================================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-/* ---------- assessment layout ---------- */
-.work{display:grid; grid-template-columns:230px 1fr; gap:34px; padding:32px 0 72px; align-items:start}
-.rail{position:sticky; top:74px}
-.rail-step{display:flex; gap:11px; padding-bottom:20px; position:relative; cursor:default}
-.rail-step:last-child{padding-bottom:0}
-.rail-step::after{content:''; position:absolute; left:12px; top:26px; bottom:-2px; width:2px; background:var(--line)}
-.rail-step:last-child::after{display:none}
-.rail-step.done::after{background:var(--blue)}
-.dot{
-  flex:0 0 auto; width:26px; height:26px; border-radius:50%; background:var(--paper);
-  border:2px solid var(--line); display:grid; place-items:center; font-size:11.5px;
-  font-weight:700; color:var(--ink-3); z-index:1;
-}
-.rail-step.now .dot{border-color:var(--blue); color:var(--blue); box-shadow:0 0 0 4px var(--blue-soft)}
-.rail-step.done .dot{background:var(--blue); border-color:var(--blue); color:#fff}
-.rail-label{font-size:13.5px; font-weight:600; color:var(--ink-3); padding-top:3px}
-.rail-step.now .rail-label,.rail-step.done .rail-label{color:var(--ink)}
-.rail-step.go{cursor:pointer}
-.rail-step:not(.go):not(.now){opacity:.5}
+        html {
+            scroll-behavior: smooth;
+        }
 
-.card{
-  background:var(--paper); border:1px solid var(--line); border-radius:14px;
-  padding:26px; box-shadow:var(--shadow); margin-bottom:18px;
-}
-.card.tight{padding:20px}
-.stephead{display:flex; justify-content:space-between; gap:16px; align-items:flex-start; margin-bottom:6px}
-.stephead h2{font-size:22px}
-.count{font-size:12.5px; color:var(--ink-3); font-weight:600; white-space:nowrap; padding-top:4px}
-.sub{color:var(--ink-2); font-size:14px; margin-top:6px}
-.track{height:5px; background:var(--sunk); border-radius:99px; overflow:hidden; margin-top:18px}
-.fill{height:100%; background:var(--blue); border-radius:99px; transition:width .25s ease}
+        body {
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Arial,
+                sans-serif;
 
-/* ---------- fields ---------- */
-.field{margin-bottom:26px}
-.field:last-child{margin-bottom:0}
-.field > label, .qlabel{display:block; font-size:14px; font-weight:600; margin-bottom:4px}
-.hint{font-size:12.5px; color:var(--ink-3); margin-bottom:10px}
-.opts{display:grid; gap:8px; grid-template-columns:1fr}
-.opts.c2{grid-template-columns:repeat(2,1fr)}
-.opts.c3{grid-template-columns:repeat(3,1fr)}
-@media(max-width:700px){.opts.c2,.opts.c3{grid-template-columns:1fr}}
-.opt{
-  display:flex; align-items:center; gap:10px; padding:10px 13px; background:var(--paper);
-  border:1px solid var(--line); border-radius:var(--r); cursor:pointer; font-size:13.5px;
-  font-weight:500; transition:border-color .12s ease, background .12s ease;
-}
-.opt:hover{border-color:var(--ink-3)}
-.opt .pip{
-  width:15px; height:15px; border-radius:50%; border:2px solid var(--ink-3); flex:0 0 auto;
-}
-.opt.on{border-color:var(--blue); background:var(--blue-soft); color:var(--blue); font-weight:600}
-.opt.on .pip{border-color:var(--blue); background:var(--blue); box-shadow:inset 0 0 0 3px var(--paper)}
-.opt.box .pip{border-radius:4px}
-.opt.box.on .pip{box-shadow:none; position:relative}
-.opt.box.on .pip::after{
-  content:''; position:absolute; left:3.5px; top:.5px; width:4px; height:8px;
-  border:solid var(--paper); border-width:0 2px 2px 0; transform:rotate(43deg);
-}
-.field.bad .opts{outline:1.5px solid var(--red); outline-offset:5px; border-radius:var(--r)}
-.err{display:none; color:var(--red); font-size:12.5px; margin-top:7px; font-weight:500}
-.field.bad .err{display:block}
+            color: #123a68;
+            background: #ffffff;
+            line-height: 1.6;
+        }
 
-.slide{margin-top:4px}
-.badge{
-  display:inline-block; background:var(--blue-soft); color:var(--blue); font-size:12px;
-  font-weight:700; padding:2px 9px; border-radius:99px; margin-bottom:9px;
-}
-.slide.raw .badge{background:var(--sunk); color:var(--ink-3)}
-input[type=range]{
-  -webkit-appearance:none; appearance:none; width:100%; height:5px; border-radius:99px;
-  background:var(--sunk); outline:none; cursor:pointer;
-}
-.slide.raw input[type=range]{opacity:.55}
-input[type=range]::-webkit-slider-thumb{
-  -webkit-appearance:none; appearance:none; width:18px; height:18px; border-radius:50%;
-  background:var(--paper); border:3px solid var(--blue); cursor:pointer;
-}
-input[type=range]::-moz-range-thumb{
-  width:14px; height:14px; border-radius:50%; background:var(--paper);
-  border:3px solid var(--blue); cursor:pointer;
-}
-.scale{display:flex; justify-content:space-between; gap:6px; margin-top:7px; font-size:11px; color:var(--ink-3)}
-.scale span{flex:1; text-align:center}
-.scale span:first-child{text-align:left}
-.scale span:last-child{text-align:right}
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
 
-.textin{
-  width:100%; padding:9px 12px; border:1px solid var(--line); border-radius:var(--r);
-  background:var(--paper); color:var(--ink); font-size:14px;
-}
-.navrow{display:flex; justify-content:space-between; gap:12px; margin-top:4px}
+        button {
+            cursor: pointer;
+        }
 
-/* ---------- AI follow-up ---------- */
-.ai-slot{
-  border:1px dashed var(--amber); background:var(--amber-soft); border-radius:12px;
-  padding:16px; margin-top:20px;
-}
-.ai-slot .tag{
-  font-size:11.5px; font-weight:700; color:var(--amber); display:flex; align-items:center; gap:6px; margin-bottom:6px;
-}
-.ai-slot p{font-size:13px; color:var(--ink-2)}
-.spin{
-  width:13px; height:13px; border:2px solid var(--amber); border-right-color:transparent;
-  border-radius:50%; display:inline-block; animation:sp .7s linear infinite;
-}
-@keyframes sp{to{transform:rotate(360deg)}}
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
 
-/* ---------- review ---------- */
-.rev-sec{border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:14px}
-.rev-sec:last-of-type{border:none; margin-bottom:0}
-.rev-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:8px}
-.rev-head h3{font-size:14px}
-.rev-edit{background:none; border:none; color:var(--blue); font-weight:600; font-size:13px; cursor:pointer; padding:2px 6px; border-radius:6px}
-.rev-edit:hover{background:var(--blue-soft)}
-.rev-row{display:flex; justify-content:space-between; gap:18px; padding:4px 0; font-size:13.5px}
-.rev-row .k{color:var(--ink-3)}
-.rev-row .v{font-weight:600; text-align:right}
-.rev-row .v.none{color:var(--ink-3); font-weight:500}
+        img {
+            max-width: 100%;
+            display: block;
+        }
 
-/* ---------- results ---------- */
-.res-top{display:flex; justify-content:space-between; gap:20px; align-items:flex-end; flex-wrap:wrap; padding:28px 0 18px}
-.res-top h1{font-size:28px}
-.res-top .meta{color:var(--ink-2); font-size:14px; margin-top:6px}
-.toolbar{display:flex; gap:10px; flex-wrap:wrap}
-.res-grid{display:grid; grid-template-columns:1fr 320px; gap:24px; align-items:start; padding-bottom:72px}
-@media(max-width:980px){
-  .res-grid{grid-template-columns:1fr}
-  .work{grid-template-columns:1fr}
-  .rail{position:static; display:flex; overflow-x:auto; gap:8px; padding-bottom:8px}
-  .rail-step{padding:0 0 0 0; flex:0 0 auto; align-items:center}
-  .rail-step::after{display:none}
-  .rail-label{font-size:12.5px; white-space:nowrap}
-  .intro-grid{grid-template-columns:1fr}
-}
-.side{display:flex; flex-direction:column; gap:18px; position:sticky; top:74px}
-@media(max-width:980px){.side{position:static}}
+        :root {
+            --blue: #086bea;
+            --blue-dark: #0d3c6b;
+            --blue-light: #eaf4ff;
+            --text: #123a68;
+            --muted: #5b7ba2;
+            --border: #dce9f7;
+            --background: #f7fbff;
+            --white: #ffffff;
+            --shadow: 0 12px 35px rgba(25, 92, 160, 0.08);
+        }
 
-.scoreboard{display:grid; grid-template-columns:1fr 1fr; gap:0}
-@media(max-width:620px){.scoreboard{grid-template-columns:1fr}}
-.scorecell{padding:20px 22px}
-.scorecell + .scorecell{border-left:1px solid var(--line)}
-@media(max-width:620px){.scorecell + .scorecell{border-left:none; border-top:1px solid var(--line)}}
-.scorecell .k{font-size:13px; color:var(--ink-3); font-weight:600}
-.big{font-size:44px; font-weight:800; letter-spacing:-.04em; line-height:1.05; margin:4px 0 2px}
-.big small{font-size:17px; font-weight:600; color:var(--ink-3); letter-spacing:0}
-.band{
-  display:inline-block; font-size:12px; font-weight:700; padding:3px 10px; border-radius:99px; margin-bottom:8px;
-}
-.band.lo{background:var(--red-soft); color:var(--red)}
-.band.mid{background:var(--amber-soft); color:var(--amber)}
-.band.hi{background:var(--green-soft); color:var(--green)}
-.scorecell p{font-size:13px; color:var(--ink-2)}
+        .container {
+            width: min(1120px, calc(100% - 48px));
+            margin: 0 auto;
+        }
 
-h2.sec{font-size:19px; margin:30px 0 4px}
-.sec-note{color:var(--ink-2); font-size:13.5px; margin-bottom:14px}
+        /* =========================================================
+           HEADER
+        ========================================================= */
 
-.radar-row{display:grid; grid-template-columns:300px 1fr; gap:24px; align-items:center}
-@media(max-width:760px){.radar-row{grid-template-columns:1fr}}
-.dims{display:flex; flex-direction:column; gap:2px}
-.dim{display:grid; grid-template-columns:1fr auto auto; gap:10px; align-items:center; padding:7px 0; border-bottom:1px solid var(--line); font-size:13.5px}
-.dim:last-child{border-bottom:none}
-.dim .nm{font-weight:600}
-.dim .nm small{display:block; font-weight:400; color:var(--ink-3); font-size:12px}
-.stars{letter-spacing:2px; color:var(--amber); font-size:14px; white-space:nowrap}
-.stars i{color:var(--line); font-style:normal}
-.dim .n{color:var(--ink-3); font-size:12.5px; min-width:34px; text-align:right}
+        .header {
+            height: 68px;
+            background: rgba(255, 255, 255, 0.96);
+            border-bottom: 1px solid #edf3f9;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
 
-.pain{display:flex; gap:13px; padding:13px 0; border-bottom:1px solid var(--line)}
-.pain:last-child{border-bottom:none}
-.pain .rank{
-  flex:0 0 auto; width:24px; height:24px; border-radius:7px; background:var(--red-soft); color:var(--red);
-  display:grid; place-items:center; font-size:12px; font-weight:700; margin-top:1px;
-}
-.pain.soft .rank{background:var(--sunk); color:var(--ink-3)}
-.pain h4{font-size:14.5px}
-.pain .ev{font-size:12.5px; color:var(--ink-3); margin-top:3px}
-.pain .ev b{color:var(--ink-2); font-weight:600}
+        .header-inner {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
 
-.rec{border:1px solid var(--line); border-radius:12px; padding:0; margin-bottom:12px; overflow:hidden}
-.rec-h{display:flex; gap:12px; align-items:flex-start; padding:15px 17px; background:var(--sunk)}
-.rec-h .num{
-  flex:0 0 auto; width:22px; height:22px; border-radius:6px; background:var(--amber); color:#241400;
-  font-size:12px; font-weight:800; display:grid; place-items:center; margin-top:1px;
-}
-.rec-h .prob{font-size:13px; color:var(--ink-2)}
-.rec-h .prob b{color:var(--ink); font-weight:600}
-.rec-b{padding:15px 17px}
-.rec-b .lead{
-  display:flex; gap:9px; align-items:center; font-size:15px; font-weight:700; margin-bottom:8px; flex-wrap:wrap;
-}
-.pill{font-size:11px; font-weight:700; padding:2px 8px; border-radius:99px; background:var(--amber-soft); color:var(--amber)}
-.pill.b{background:var(--blue-soft); color:var(--blue)}
-.pill.g{background:var(--green-soft); color:var(--green)}
-.why{font-size:13.5px; color:var(--ink-2)}
-.why b{color:var(--ink); font-weight:600}
-.alts{margin-top:11px; padding-top:11px; border-top:1px dashed var(--line); font-size:12.5px; color:var(--ink-3)}
-.alts b{color:var(--ink-2); font-weight:600}
-.recmeta{display:flex; gap:18px; flex-wrap:wrap; margin-top:11px; font-size:12.5px; color:var(--ink-3)}
-.recmeta span b{display:block; color:var(--ink); font-size:13px; font-weight:700}
+        /* LOGO */
 
-.phase{display:grid; grid-template-columns:132px 1fr; gap:18px; padding:16px 0; border-bottom:1px solid var(--line)}
-.phase:last-child{border-bottom:none}
-@media(max-width:620px){.phase{grid-template-columns:1fr; gap:6px}}
-.phase .when{font-size:12.5px; color:var(--ink-3); font-weight:600}
-.phase .when b{display:block; color:var(--blue); font-size:14px; font-weight:700}
-.phase h4{font-size:15px; margin-bottom:5px}
-.phase ul{margin:7px 0 0; padding-left:17px; font-size:13.5px; color:var(--ink-2)}
-.phase li{margin-bottom:3px}
-.phase .roi{font-size:12.5px; color:var(--green); font-weight:600; margin-top:7px}
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-.roi-calc{display:grid; grid-template-columns:1fr 1fr; gap:22px}
-@media(max-width:700px){.roi-calc{grid-template-columns:1fr}}
-.roi-out{background:#0A2540; color:#fff; border-radius:12px; padding:20px}
-.roi-out .k{font-size:12px; color:#9FB4C9; font-weight:600}
-.roi-out .v{font-size:30px; font-weight:800; letter-spacing:-.03em; color:#4ADE9E; margin:2px 0 14px}
-.roi-out .v.sm{font-size:19px; color:#fff; margin-bottom:0}
-.roi-out hr{border:none; border-top:1px solid #1E3A56; margin:14px 0}
-.calcline{display:flex; justify-content:space-between; font-size:13px; padding:4px 0; color:#C9D8E6}
-.calcline b{color:#fff}
-.assume{font-size:12px; color:var(--ink-3); margin-top:12px}
+        .logo-symbol {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, #1478ed, #075bd2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
 
-.note-box{
-  background:var(--sunk); border-radius:10px; padding:15px; font-size:13.5px;
-  color:var(--ink-2); white-space:pre-wrap; margin-top:12px; min-height:40px;
-}
-.chatlog{display:flex; flex-direction:column; gap:10px; margin-bottom:12px; max-height:340px; overflow:auto}
-.bub{padding:10px 13px; border-radius:11px; font-size:13.5px; max-width:88%; white-space:pre-wrap}
-.bub.me{background:var(--blue); color:#fff; align-self:flex-end; border-bottom-right-radius:3px}
-.bub.ai{background:var(--sunk); color:var(--ink); align-self:flex-start; border-bottom-left-radius:3px}
-.askrow{display:flex; gap:8px}
-.askrow .textin{flex:1}
+        .logo-symbol::before,
+        .logo-symbol::after {
+            content: "";
+            position: absolute;
+            width: 15px;
+            height: 2px;
+            background: white;
+            border-radius: 5px;
+            left: 7px;
+        }
 
-.snap .row{display:flex; justify-content:space-between; gap:12px; font-size:13px; padding:5px 0}
-.snap .row .k{color:var(--ink-3)}
-.snap .row .v{font-weight:600; text-align:right}
-.side h3{font-size:15px; margin-bottom:10px; padding-bottom:9px; border-bottom:1px solid var(--line)}
-.lead-ok{background:var(--green-soft); border:1px solid var(--green); border-radius:10px; padding:14px; font-size:13px}
-.lead-ok h4{color:var(--green); font-size:14px; margin-bottom:6px}
-.lead-ok .row{display:flex; justify-content:space-between; padding:3px 0; gap:10px}
-.lead-ok .row .k{color:var(--ink-3)}
-.lead-ok .row .v{font-weight:700; text-align:right}
-.msg{font-size:12.5px; margin-top:9px}
-.msg.bad{color:var(--red)}
-.msg.good{color:var(--green)}
-label.tick{display:flex; gap:9px; align-items:flex-start; font-size:13px; color:var(--ink-2); cursor:pointer}
-label.tick input{margin-top:3px; accent-color:var(--blue)}
-.foot{border-top:1px solid var(--line); padding:20px 0 40px; color:var(--ink-3); font-size:12.5px}
-.hidden{display:none !important}
-#pdfStage{position:fixed; left:-10000px; top:0; width:794px}
-</style>
+        .logo-symbol::before {
+            top: 10px;
+            box-shadow: 0 5px 0 white, 0 10px 0 white;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.05;
+        }
+
+        .logo-name {
+            font-size: 14px;
+            font-weight: 800;
+            color: #123a68;
+        }
+
+        .logo-tagline {
+            font-size: 6px;
+            font-weight: 700;
+            letter-spacing: .4px;
+            color: #7892ae;
+        }
+
+        /* NAVIGATION */
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            height: 100%;
+        }
+
+        .nav-link {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            position: relative;
+            color: #365c84;
+            font-size: 13px;
+            font-weight: 500;
+            transition: color .2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--blue);
+        }
+
+        .nav-link.active {
+            color: var(--blue);
+            font-weight: 700;
+        }
+
+        .nav-link.active::after {
+            content: "";
+            position: absolute;
+            height: 2px;
+            width: 64px;
+            background: var(--blue);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .login-btn {
+            border: 1px solid #6ca8ef;
+            background: white;
+            color: #0966dc;
+            border-radius: 22px;
+            padding: 8px 22px;
+            font-size: 12px;
+            font-weight: 700;
+            transition: .2s;
+        }
+
+        .login-btn:hover {
+            background: #edf6ff;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            border: 0;
+            background: none;
+            color: var(--blue);
+            font-size: 26px;
+        }
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+
+        .hero {
+            min-height: 333px;
+            background:
+                radial-gradient(
+                    circle at 72% 45%,
+                    rgba(206, 229, 255, .65),
+                    transparent 27%
+                ),
+                linear-gradient(
+                    110deg,
+                    #f5faff 0%,
+                    #eef7ff 100%
+                );
+
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(220, 237, 255, .48);
+            right: 60px;
+            top: -110px;
+        }
+
+        .hero-inner {
+            min-height: 333px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #ffffff;
+            border: 1px solid #e0edf9;
+            border-radius: 20px;
+            padding: 5px 12px;
+            color: #315d89;
+            font-size: 10px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .eyebrow-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--blue);
+            border-radius: 50%;
+        }
+
+        .hero h1 {
+            font-size: 37px;
+            line-height: 1.18;
+            color: #12385f;
+            font-weight: 800;
+            letter-spacing: -.7px;
+            max-width: 560px;
+            margin-bottom: 12px;
+        }
+
+        .hero-description {
+            color: #55769a;
+            font-size: 14px;
+            max-width: 530px;
+            line-height: 1.55;
+            margin-bottom: 20px;
+        }
+
+        .primary-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            min-height: 39px;
+            padding: 0 21px;
+            background: linear-gradient(135deg, #1677ec, #0965db);
+            color: white;
+            border: 0;
+            border-radius: 9px;
+            font-size: 12px;
+            font-weight: 700;
+            box-shadow: 0 7px 17px rgba(0, 105, 225, .2);
+            transition: all .2s ease;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 23px rgba(0, 105, 225, .28);
+        }
+
+        .arrow {
+            font-size: 18px;
+            line-height: 0;
+        }
+
+        /* =========================================================
+           HERO DASHBOARD
+        ========================================================= */
+
+        .hero-visual {
+            position: relative;
+            min-height: 270px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cloud {
+            position: absolute;
+            width: 410px;
+            height: 245px;
+            background: rgba(219, 236, 255, .5);
+            border-radius: 50%;
+            filter: blur(.2px);
+        }
+
+        .cloud::before,
+        .cloud::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(219, 236, 255, .5);
+        }
+
+        .cloud::before {
+            width: 90px;
+            height: 90px;
+            left: 25px;
+            top: 5px;
+        }
+
+        .cloud::after {
+            width: 100px;
+            height: 100px;
+            right: 20px;
+            top: 30px;
+        }
+
+        .dashboard-card {
+            width: 365px;
+            height: 196px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(34, 97, 157, .13);
+            display: grid;
+            grid-template-columns: 137px 1fr;
+            overflow: hidden;
+            position: relative;
+            z-index: 3;
+        }
+
+        .score-area {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-right: 1px solid #edf3fa;
+        }
+
+        .score-ring {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background:
+                conic-gradient(
+                    #126de5 0deg 245deg,
+                    #dceafa 245deg 360deg
+                );
+
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .score-ring::after {
+            content: "";
+            width: 62px;
+            height: 62px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .score-value {
+            position: relative;
+            z-index: 2;
+            font-size: 17px;
+            font-weight: 800;
+            color: #104578;
+        }
+
+        .score-label {
+            margin-top: 5px;
+            font-size: 9px;
+            color: #4d78a3;
+            font-weight: 600;
+        }
+
+        .metrics {
+            padding: 19px 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .metric {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-size: 9px;
+            color: #4e6e91;
+        }
+
+        .metric-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #e9f3ff;
+            color: var(--blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            font-weight: 800;
+        }
+
+        .metric-value {
+            margin-left: auto;
+            color: #4d79a3;
+            font-weight: 600;
+        }
+
+        .report-bubble {
+            position: absolute;
+            z-index: 5;
+            bottom: 12px;
+            left: 8px;
+            width: 158px;
+            min-height: 54px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 9px 24px rgba(36, 94, 145, .14);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .report-icon {
+            width: 26px;
+            height: 30px;
+            border-radius: 6px;
+            background: #e8f3ff;
+            color: var(--blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .report-bubble strong {
+            display: block;
+            font-size: 9px;
+            color: #1c4b7b;
+            line-height: 1.35;
+        }
+
+        /* =========================================================
+           WHY SECTION
+        ========================================================= */
+
+        .section {
+            padding: 42px 0;
+        }
+
+        .section-heading {
+            margin-bottom: 22px;
+        }
+
+        .heading-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 7px;
+        }
+
+        .heading-line {
+            width: 24px;
+            height: 2px;
+            background: var(--blue);
+        }
+
+        .section-title {
+            font-size: 20px;
+            line-height: 1.25;
+            font-weight: 800;
+            color: #123e70;
+        }
+
+        .section-description {
+            margin-left: 39px;
+            max-width: 500px;
+            font-size: 12px;
+            color: #55799f;
+            line-height: 1.55;
+        }
+
+        /* =========================================================
+           BENEFIT CARDS
+        ========================================================= */
+
+        .benefit-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 17px;
+        }
+
+        .benefit-card {
+            min-height: 185px;
+            border: 1px solid #e2edf7;
+            border-radius: 8px;
+            padding: 16px 16px 14px;
+            background: linear-gradient(
+                145deg,
+                #ffffff,
+                #f8fbfe
+            );
+            transition: all .2s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+            border-color: #cfe2f6;
+        }
+
+        .benefit-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #e7f2ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            color: #066be8;
+        }
+
+        .benefit-icon svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .benefit-title {
+            font-size: 12px;
+            line-height: 1.35;
+            font-weight: 750;
+            color: #123f70;
+            margin-bottom: 8px;
+        }
+
+        .benefit-text {
+            font-size: 11px;
+            color: #6383a5;
+            line-height: 1.55;
+        }
+
+        /* =========================================================
+           INCLUDED SECTION
+        ========================================================= */
+
+        .included-section {
+            padding-top: 4px;
+            padding-bottom: 55px;
+        }
+
+        .included-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 65px;
+            align-items: center;
+        }
+
+        .assessment-list {
+            margin-top: 19px;
+            display: flex;
+            flex-direction: column;
+            gap: 11px;
+        }
+
+        .assessment-item {
+            display: grid;
+            grid-template-columns: 31px 1fr;
+            gap: 12px;
+            align-items: start;
+        }
+
+        .number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #e8f3ff;
+            color: #1171e8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .assessment-item-title {
+            font-size: 12px;
+            font-weight: 750;
+            color: #174779;
+            margin-bottom: 1px;
+        }
+
+        .assessment-item-description {
+            font-size: 11px;
+            color: #6383a5;
+        }
+
+        /* =========================================================
+           MOCK LAPTOP / TESTIMONIAL
+        ========================================================= */
+
+        .testimonial-wrapper {
+            position: relative;
+            min-height: 310px;
+        }
+
+        .office-background {
+            width: 100%;
+            height: 210px;
+            border-radius: 8px;
+            background:
+                linear-gradient(
+                    135deg,
+                    #eaf1ef,
+                    #f8faf8 50%,
+                    #dfe9e8
+                );
+            position: relative;
+            overflow: hidden;
+        }
+
+        .office-background::before {
+            content: "";
+            position: absolute;
+            width: 90px;
+            height: 160px;
+            background: #cfdedb;
+            left: 40px;
+            top: 15px;
+            border-radius: 4px;
+            opacity: .5;
+        }
+
+        .office-background::after {
+            content: "";
+            position: absolute;
+            width: 75px;
+            height: 75px;
+            background: #e2ebe8;
+            border-radius: 50%;
+            left: 75px;
+            bottom: -30px;
+        }
+
+        .cup {
+            position: absolute;
+            width: 36px;
+            height: 31px;
+            background: white;
+            border-radius: 3px 3px 12px 12px;
+            bottom: 40px;
+            left: 110px;
+            box-shadow: 0 3px 5px rgba(0,0,0,.08);
+            z-index: 2;
+        }
+
+        .cup::after {
+            content: "";
+            position: absolute;
+            width: 13px;
+            height: 13px;
+            border: 3px solid white;
+            border-left: 0;
+            right: -9px;
+            top: 5px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .laptop {
+            position: absolute;
+            width: 205px;
+            height: 125px;
+            right: 60px;
+            top: 26px;
+            background: #1d2630;
+            border-radius: 7px 7px 3px 3px;
+            padding: 8px;
+            box-shadow: 0 10px 15px rgba(20,40,50,.2);
+            z-index: 3;
+        }
+
+        .laptop-screen {
+            width: 100%;
+            height: 100%;
+            background: #f5faff;
+            border-radius: 3px;
+            padding: 8px;
+            display: grid;
+            grid-template-columns: 28px 1fr;
+            gap: 7px;
+        }
+
+        .screen-sidebar {
+            background: #0e69df;
+            border-radius: 2px;
+        }
+
+        .screen-content {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .screen-title {
+            height: 9px;
+            width: 60px;
+            background: #204d7d;
+            border-radius: 2px;
+        }
+
+        .screen-score {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .small-ring {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: conic-gradient(
+                #1673e9 0 245deg,
+                #dbe9f7 245deg
+            );
+        }
+
+        .chart {
+            height: 35px;
+            display: flex;
+            align-items: end;
+            gap: 4px;
+        }
+
+        .bar {
+            width: 12px;
+            background: #5c9ef0;
+            border-radius: 2px 2px 0 0;
+        }
+
+        .bar:nth-child(1) { height: 14px; }
+        .bar:nth-child(2) { height: 25px; }
+        .bar:nth-child(3) { height: 19px; }
+        .bar:nth-child(4) { height: 30px; }
+
+        .laptop-base {
+            position: absolute;
+            width: 235px;
+            height: 7px;
+            background: #c4cbd0;
+            bottom: -7px;
+            left: -15px;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .quote-card {
+            position: absolute;
+            background: white;
+            width: 90%;
+            left: 5%;
+            bottom: 0;
+            min-height: 130px;
+            border-radius: 8px;
+            box-shadow: 0 9px 25px rgba(35, 95, 150, .12);
+            padding: 17px 20px;
+            z-index: 5;
+        }
+
+        .quote-mark {
+            font-size: 29px;
+            line-height: .8;
+            color: #0d71e9;
+            font-weight: 900;
+        }
+
+        .quote {
+            font-size: 11px;
+            line-height: 1.55;
+            color: #55789d;
+            margin: 8px 0 13px;
+            max-width: 370px;
+        }
+
+        .author {
+            font-size: 10px;
+            color: #174678;
+            font-weight: 750;
+        }
+
+        .author-role {
+            font-size: 8px;
+            color: #7190ad;
+        }
+
+        /* =========================================================
+           CTA
+        ========================================================= */
+
+        .cta-section {
+            padding-bottom: 32px;
+        }
+
+        .cta-box {
+            min-height: 182px;
+            border-radius: 8px;
+            background:
+                radial-gradient(
+                    circle at 100% 20%,
+                    rgba(221, 237, 255, .9),
+                    transparent 27%
+                ),
+                linear-gradient(
+                    110deg,
+                    #eef7ff,
+                    #f7fbff
+                );
+            border: 1px solid #e0edf9;
+            padding: 34px 62px;
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            align-items: center;
+            gap: 40px;
+            overflow: hidden;
+        }
+
+        .cta-title {
+            font-size: 22px;
+            line-height: 1.25;
+            color: #123e70;
+            font-weight: 800;
+            max-width: 390px;
+            margin-bottom: 8px;
+        }
+
+        .cta-description {
+            font-size: 11px;
+            color: #6181a2;
+            line-height: 1.5;
+            max-width: 370px;
+            margin-bottom: 14px;
+        }
+
+        .cta-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        .cta-feature {
+            text-align: center;
+        }
+
+        .cta-feature-icon {
+            width: 45px;
+            height: 45px;
+            margin: 0 auto 7px;
+            border-radius: 50%;
+            background: #e5f1ff;
+            color: #066de8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cta-feature-icon svg {
+            width: 21px;
+            height: 21px;
+        }
+
+        .cta-feature-title {
+            color: #19497a;
+            font-size: 10px;
+            font-weight: 750;
+        }
+
+        .cta-feature-text {
+            color: #6b8bab;
+            font-size: 9px;
+            line-height: 1.35;
+        }
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        .footer {
+            background: #142b43;
+            color: white;
+            padding: 25px 0;
+        }
+
+        .footer-inner {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .footer .logo-name {
+            color: white;
+        }
+
+        .footer .logo-tagline {
+            color: #91a8be;
+        }
+
+        .footer-nav {
+            display: flex;
+            gap: 22px;
+            font-size: 9px;
+            color: #e0e9f2;
+        }
+
+        .footer-nav a:hover {
+            color: #6db2ff;
+        }
+
+        .footer-right {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 13px;
+            font-size: 8px;
+            color: #b6c6d6;
+        }
+
+        .social {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social a {
+            font-size: 12px;
+            color: white;
+            transition: .2s;
+        }
+
+        .social a:hover {
+            color: #61aaff;
+        }
+
+        .footer-divider {
+            width: 1px;
+            height: 20px;
+            background: #52687d;
+        }
+
+        /* =========================================================
+           MODALS
+        ========================================================= */
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 37, 63, .55);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 3000;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            width: min(600px, 100%);
+            max-height: 90vh;
+            overflow-y: auto;
+            background: white;
+            border-radius: 18px;
+            padding: 30px;
+            box-shadow: 0 30px 80px rgba(0,0,0,.2);
+            position: relative;
+            animation: modalIn .25s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px) scale(.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 17px;
+            width: 32px;
+            height: 32px;
+            border: 0;
+            border-radius: 50%;
+            background: #edf5fc;
+            color: #41678e;
+            font-size: 20px;
+        }
+
+        .modal h2 {
+            font-size: 24px;
+            color: #123e70;
+            margin-bottom: 7px;
+        }
+
+        .modal-subtitle {
+            color: #6887a7;
+            font-size: 13px;
+            margin-bottom: 22px;
+        }
+
+        /* LOGIN */
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: #254e78;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .form-group input {
+            width: 100%;
+            border: 1px solid #d5e3f0;
+            border-radius: 8px;
+            padding: 11px 12px;
+            outline: none;
+            color: #234d78;
+        }
+
+        .form-group input:focus {
+            border-color: #5799e9;
+            box-shadow: 0 0 0 3px #e8f3ff;
+        }
+
+        .full-btn {
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        .login-message {
+            display: none;
+            padding: 10px;
+            background: #e9f7ee;
+            color: #287044;
+            border-radius: 7px;
+            margin-top: 12px;
+            font-size: 12px;
+        }
+
+        /* =========================================================
+           ASSESSMENT MODAL
+        ========================================================= */
+
+        .assessment-progress {
+            height: 7px;
+            background: #e8f0f8;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 15px 0 22px;
+        }
+
+        .assessment-progress-bar {
+            height: 100%;
+            width: 16.66%;
+            background: linear-gradient(90deg, #0871eb, #45a0ff);
+            transition: width .3s ease;
+        }
+
+        .question-count {
+            font-size: 11px;
+            color: #6b88a5;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        .question {
+            font-size: 19px;
+            line-height: 1.35;
+            color: #153f6c;
+            font-weight: 750;
+            margin-bottom: 17px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .option {
+            width: 100%;
+            text-align: left;
+            border: 1px solid #d9e7f4;
+            background: #fff;
+            color: #416584;
+            border-radius: 9px;
+            padding: 12px 14px;
+            font-size: 12px;
+            transition: all .2s;
+        }
+
+        .option:hover {
+            border-color: #75adeb;
+            background: #f5faff;
+        }
+
+        .option.selected {
+            border-color: #0871eb;
+            background: #eaf4ff;
+            color: #075cbf;
+            font-weight: 700;
+        }
+
+        .assessment-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 22px;
+            gap: 10px;
+        }
+
+        .secondary-btn {
+            min-height: 38px;
+            padding: 0 18px;
+            border: 1px solid #cddfec;
+            background: white;
+            color: #416887;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .secondary-btn:hover {
+            background: #f4f9fd;
+        }
+
+        .secondary-btn:disabled {
+            opacity: .45;
+            cursor: not-allowed;
+        }
+
+        /* RESULT */
+
+        .result-screen {
+            text-align: center;
+            display: none;
+        }
+
+        .result-screen.show {
+            display: block;
+        }
+
+        .result-circle {
+            width: 145px;
+            height: 145px;
+            border-radius: 50%;
+            margin: 15px auto 20px;
+            background:
+                conic-gradient(
+                    #0871eb 0 270deg,
+                    #dceafa 270deg
+                );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .result-circle::after {
+            content: "";
+            position: absolute;
+            width: 112px;
+            height: 112px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .result-number {
+            position: relative;
+            z-index: 2;
+            font-size: 28px;
+            font-weight: 800;
+            color: #123e70;
+        }
+
+        .result-screen h2 {
+            margin-bottom: 8px;
+        }
+
+        .result-description {
+            font-size: 13px;
+            color: #6483a2;
+            max-width: 450px;
+            margin: 0 auto 20px;
+        }
+
+        .result-items {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            text-align: left;
+            margin-bottom: 22px;
+        }
+
+        .result-item {
+            background: #f5faff;
+            border: 1px solid #dfecf8;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .result-item strong {
+            display: block;
+            font-size: 11px;
+            color: #1c4b79;
+        }
+
+        .result-item span {
+            font-size: 10px;
+            color: #7190ad;
+        }
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 1000px) {
+
+            .benefit-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .cta-box {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 800px) {
+
+            .container {
+                width: min(100% - 32px, 600px);
+            }
+
+            .header {
+                height: 62px;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav {
+                display: none;
+                position: absolute;
+                top: 62px;
+                left: 0;
+                right: 0;
+                height: auto;
+                background: white;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                border-bottom: 1px solid #e4edf6;
+                box-shadow: 0 10px 25px rgba(0,0,0,.06);
+            }
+
+            .nav.open {
+                display: flex;
+            }
+
+            .nav-link {
+                height: 48px;
+                padding: 0 20px;
+                justify-content: center;
+            }
+
+            .nav-link.active::after {
+                display: none;
+            }
+
+            .login-btn {
+                margin: 10px auto 15px;
+            }
+
+            .hero {
+                padding: 45px 0;
+            }
+
+            .hero-inner {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero h1 {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-description {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-visual {
+                min-height: 260px;
+            }
+
+            .benefit-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .included-grid {
+                grid-template-columns: 1fr;
+                gap: 35px;
+            }
+
+            .cta-box {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .cta-title,
+            .cta-description {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .cta-features {
+                margin-top: 10px;
+            }
+
+            .footer-inner {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer .logo {
+                justify-content: center;
+            }
+
+            .footer-nav {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .footer-right {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .hero-description {
+                font-size: 13px;
+            }
+
+            .dashboard-card {
+                width: 310px;
+                height: 180px;
+                grid-template-columns: 115px 1fr;
+            }
+
+            .cloud {
+                width: 330px;
+            }
+
+            .report-bubble {
+                left: 0;
+                bottom: 2px;
+                width: 145px;
+            }
+
+            .benefit-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .benefit-card {
+                min-height: auto;
+            }
+
+            .section {
+                padding: 35px 0;
+            }
+
+            .section-title {
+                font-size: 18px;
+            }
+
+            .section-description {
+                margin-left: 0;
+            }
+
+            .heading-row {
+                gap: 10px;
+            }
+
+            .cta-box {
+                padding: 25px 20px;
+            }
+
+            .cta-features {
+                gap: 10px;
+            }
+
+            .quote-card {
+                width: 94%;
+                left: 3%;
+            }
+
+            .laptop {
+                right: 25px;
+                transform: scale(.8);
+                transform-origin: top right;
+            }
+
+            .result-items {
+                grid-template-columns: 1fr;
+            }
+
+            .modal {
+                padding: 24px 20px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<header class="topbar">
-  <div class="topbar-in">
-    <div class="mark">
-      <span class="exa">EXABYTES</span>
-      <span class="sub">AI SME Digital Growth Advisor</span>
+<!-- ============================================================
+     HEADER
+============================================================= -->
+<header class="header">
+
+    <div class="container header-inner">
+
+        <a href="#home" class="logo">
+
+            <div class="logo-symbol"></div>
+
+            <div class="logo-text">
+                <span class="logo-name">ExaPulse AI</span>
+                <span class="logo-tagline">AI-POWERED GROWTH</span>
+            </div>
+
+        </a>
+
+        <button
+            class="mobile-menu-btn"
+            id="mobileMenuBtn"
+            aria-label="Open navigation">
+            ☰
+        </button>
+
+        <nav class="nav" id="mainNav">
+
+            <a href="#home" class="nav-link">
+                Home
+            </a>
+
+            <a href="#how-it-works" class="nav-link">
+                How It Works
+            </a>
+
+            <a href="#assessment" class="nav-link active">
+                Assessment
+            </a>
+
+            <a href="#about" class="nav-link">
+                About Us
+            </a>
+
+            <a href="#faq" class="nav-link">
+                FAQ
+            </a>
+
+            <button
+                class="login-btn"
+                id="loginButton">
+                Log In
+            </button>
+
+        </nav>
+
     </div>
-    <div class="spacer"></div>
-    <button class="ghost" id="themeBtn" title="Switch light / dark">Theme</button>
-    <button class="ghost hidden" id="restartBtn">Start over</button>
-  </div>
+
 </header>
 
-<!-- ============ VIEW 1: INTRO ============ -->
-<section id="viewIntro">
-  <div class="shell intro">
-    <div class="intro-grid">
-      <div>
-        <h1>Find out where your business should spend its next digital ringgit.</h1>
-        <p class="lede">Answer a handful of questions about how you work today. In under five minutes you get a digital maturity score, an AI readiness score, the five problems costing you the most, and a costed 12-month roadmap of what to fix first.</p>
-        <div class="cta-row">
-          <button class="btn btn-primary" id="startBtn">Start the assessment</button>
-          <button class="btn btn-line hidden" id="resumeBtn">Resume last assessment</button>
+
+<!-- ============================================================
+     HERO
+============================================================= -->
+<main id="assessment">
+
+<section class="hero" id="home">
+
+    <div class="container hero-inner">
+
+        <div class="hero-content">
+
+            <div class="eyebrow">
+                <span class="eyebrow-dot"></span>
+                Assessment
+            </div>
+
+            <h1>
+                Get Your Business
+                Growth Potential Score
+            </h1>
+
+            <p class="hero-description">
+                Take our quick 12-minute assessment to discover your
+                business's strengths, identify areas for improvement,
+                and receive a personalised AI-powered growth report.
+            </p>
+
+            <button
+                class="primary-btn start-assessment">
+                Start the Assessment
+                <span class="arrow">→</span>
+                <a href="test.html"></a>
+            </button>
+
         </div>
-        <p class="fineprint">Built for Malaysian SMEs. No account needed. Your answers stay in this browser until you ask for a consultation.</p>
-      </div>
-      <div class="flow">
-        <h3>What happens in five minutes</h3>
-        <ol>
-          <li><b>Business discovery</b>Industry, size, workload and goal.</li>
-          <li><b>Digital maturity score</b>Website, cloud, CRM, marketing, security, AI.</li>
-          <li><b>AI readiness score</b>Leadership, data, skills, workflow, process.</li>
-          <li><b>Pain point analysis</b>Ranked, each traced to your own answers.</li>
-          <li><b>Action roadmap and ROI</b>Three phases, costed, with hours saved.</li>
-          <li><b>Proposal and consultation</b>Branded PDF, lead sent to a consultant.</li>
-        </ol>
-      </div>
+
+
+        <div class="hero-visual">
+
+            <div class="cloud"></div>
+
+            <div class="dashboard-card">
+
+                <div class="score-area">
+
+                    <div class="score-ring">
+                        <span class="score-value">
+                            68<small>/100</small>
+                        </span>
+                    </div>
+
+                    <span class="score-label">
+                        Growth Potential
+                    </span>
+
+                </div>
+
+                <div class="metrics">
+
+                    <div class="metric">
+                        <span class="metric-icon">✓</span>
+                        <span>Business Discovery</span>
+                        <span class="metric-value">8/10</span>
+                    </div>
+
+                    <div class="metric">
+                        <span class="metric-icon">×</span>
+                        <span>Digital Maturity</span>
+                        <span class="metric-value">7/10</span>
+                    </div>
+
+                    <div class="metric">
+                        <span class="metric-icon">✦</span>
+                        <span>AI Readiness</span>
+                        <span class="metric-value">6/10</span>
+                    </div>
+
+                    <div class="metric">
+                        <span class="metric-icon">◧</span>
+                        <span>Pain Point Analysis</span>
+                        <span class="metric-value">7/10</span>
+                    </div>
+
+                    <div class="metric">
+                        <span class="metric-icon">✓</span>
+                        <span>Roadmap & ROI</span>
+                        <span class="metric-value">8/10</span>
+                    </div>
+
+                    <div class="metric">
+                        <span class="metric-icon">?</span>
+                        <span>Proposal & Consultation</span>
+                        <span class="metric-value">7/10</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="report-bubble">
+
+                <div class="report-icon">
+                    ▣
+                </div>
+
+                <div>
+                    <strong>
+                        Your personalised
+                    </strong>
+
+                    <strong>
+                        report is ready!
+                    </strong>
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
-  </div>
+
 </section>
 
-<!-- ============ VIEW 2: ASSESSMENT ============ -->
-<section id="viewForm" class="hidden">
-  <div class="shell work">
-    <aside class="rail" id="rail"></aside>
-    <main>
-      <div class="card tight">
-        <div class="stephead">
-          <h2 id="stTitle">Tell us about your business</h2>
-          <span class="count" id="stCount">Step 1 of 6</span>
-        </div>
-        <p class="sub" id="stSub"></p>
-        <div class="track"><div class="fill" id="stFill" style="width:16%"></div></div>
-      </div>
-      <div class="card" id="qCard"></div>
-      <div class="navrow">
-        <button class="btn btn-line" id="backBtn">Back</button>
-        <button class="btn btn-primary" id="nextBtn">Next</button>
-      </div>
-    </main>
-  </div>
-</section>
 
-<!-- ============ VIEW 3: RESULTS ============ -->
-<section id="viewResults" class="hidden">
-  <div class="shell">
-    <div class="res-top">
-      <div>
-        <h1>Digital &amp; AI Transformation Blueprint</h1>
-        <p class="meta" id="resMeta"></p>
-      </div>
-      <div class="toolbar">
-        <button class="btn btn-line" id="editBtn">Edit answers</button>
-        <button class="btn btn-amber" id="pdfBtn">Download PDF proposal</button>
-      </div>
+<!-- ============================================================
+     WHY TAKE ASSESSMENT
+============================================================= -->
+
+<section class="section" id="how-it-works">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <div class="heading-row">
+                <span class="heading-line"></span>
+
+                <h2 class="section-title">
+                    Why Take the Assessment?
+                </h2>
+            </div>
+
+            <p class="section-description">
+                Get clear insights, actionable recommendations, and a roadmap
+                to help your business grow — faster and smarter.
+            </p>
+
+        </div>
+
+
+        <div class="benefit-grid">
+
+            <article class="benefit-card">
+
+                <div class="benefit-icon">
+                    <svg viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor"
+                         stroke-width="2">
+                        <circle cx="12" cy="12" r="8"></circle>
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M12 4V2"></path>
+                        <path d="M20 12h2"></path>
+                    </svg>
+                </div>
+
+                <h3 class="benefit-title">
+                    Understand<br>
+                    Your Business
+                </h3>
+
+                <p class="benefit-text">
+                    Discover your current strengths and opportunities.
+                </p>
+
+            </article>
+
+
+            <article class="benefit-card">
+
+                <div class="benefit-icon">
+                    <svg viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor"
+                         stroke-width="2">
+                        <path d="M9 18h6"></path>
+                        <path d="M10 22h4"></path>
+                        <path d="M8 14c-1.5-1.1-2.5-2.8-2.5-4.7A6.5 6.5 0 0 1 18.5 9.3c0 1.9-1 3.6-2.5 4.7-.8.6-1 1.3-1 2H9c0-.7-.2-1.4-1-2Z"></path>
+                    </svg>
+                </div>
+
+                <h3 class="benefit-title">
+                    Identify<br>
+                    Key Gaps
+                </h3>
+
+                <p class="benefit-text">
+                    Pinpoint what's holding your business back.
+                </p>
+
+            </article>
+
+
+            <article class="benefit-card">
+
+                <div class="benefit-icon">
+                    <svg viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor"
+                         stroke-width="2">
+                        <path d="M4 19V5"></path>
+                        <path d="M4 19h17"></path>
+                        <path d="m7 15 4-4 3 2 5-6"></path>
+                    </svg>
+                </div>
+
+                <h3 class="benefit-title">
+                    Get Personalised<br>
+                    Recommendations
+                </h3>
+
+                <p class="benefit-text">
+                    Receive AI-driven suggestions tailored to your needs.
+                </p>
+
+            </article>
+
+
+            <article class="benefit-card">
+
+                <div class="benefit-icon">
+                    <svg viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor"
+                         stroke-width="2">
+                        <circle cx="12" cy="12" r="9"></circle>
+                        <path d="M12 7v5l3 2"></path>
+                    </svg>
+                </div>
+
+                <h3 class="benefit-title">
+                    Save Time & Effort
+                </h3>
+
+                <p class="benefit-text">
+                    Complete in just 12 minutes.
+                </p>
+
+            </article>
+
+
+            <article class="benefit-card">
+
+                <div class="benefit-icon">
+                    <svg viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor"
+                         stroke-width="2">
+                        <path d="M14 4 20 10"></path>
+                        <path d="M15 3 21 9l-4 1-5 8-3-3 8-5Z"></path>
+                        <path d="m5 19-2 2"></path>
+                    </svg>
+                </div>
+
+                <h3 class="benefit-title">
+                    Plan for Sustainable
+                    Growth
+                </h3>
+
+                <p class="benefit-text">
+                    Turn insights into action with a clear roadmap.
+                </p>
+
+            </article>
+
+        </div>
+
     </div>
 
-    <div class="res-grid">
-      <main id="resMain"></main>
-      <aside class="side">
-        <div class="card tight snap">
-          <h3>Business snapshot</h3>
-          <div id="snapBody"></div>
-        </div>
-
-        <div class="card tight" id="leadCard">
-          <h3>Request a free consultation</h3>
-          <p class="sub" style="margin-bottom:12px">A consultant gets this full blueprint before they call you, so the first conversation starts at the roadmap, not at square one.</p>
-          <div class="field" style="margin-bottom:12px">
-            <label class="qlabel" for="ldName">Full name</label>
-            <input class="textin" id="ldName" placeholder="Tan Wei Ming" autocomplete="name">
-          </div>
-          <div class="field" style="margin-bottom:12px">
-            <label class="qlabel" for="ldCompany">Company</label>
-            <input class="textin" id="ldCompany" placeholder="Sunrise Trading Sdn Bhd" autocomplete="organization">
-          </div>
-          <div class="field" style="margin-bottom:12px">
-            <label class="qlabel" for="ldEmail">Work email</label>
-            <input class="textin" id="ldEmail" type="email" placeholder="weiming@company.com.my" autocomplete="email">
-          </div>
-          <div class="field" style="margin-bottom:12px">
-            <label class="qlabel" for="ldPhone">Phone</label>
-            <input class="textin" id="ldPhone" type="tel" placeholder="012-345 6789" autocomplete="tel">
-          </div>
-          <div class="field" style="margin-bottom:14px">
-            <label class="tick"><input type="checkbox" id="ldConsent"><span>Send my assessment results to an Exabytes consultant so they can prepare before calling.</span></label>
-          </div>
-          <button class="btn btn-primary btn-wide" id="ldSubmit">Create my lead</button>
-          <p class="msg" id="ldMsg"></p>
-        </div>
-
-        <div class="card tight hidden" id="askCard">
-          <h3>Ask the advisor</h3>
-          <p class="sub" style="margin-bottom:12px">Questions about your blueprint — sequencing, budget, what a tool actually does.</p>
-          <div class="chatlog" id="chatLog"></div>
-          <div class="askrow">
-            <input class="textin" id="askIn" placeholder="Why CRM before automation?">
-            <button class="btn btn-primary" id="askBtn">Ask</button>
-          </div>
-          <p class="msg" id="askMsg"></p>
-        </div>
-      </aside>
-    </div>
-  </div>
 </section>
 
-<div class="shell foot">
-  Indicative scores, costs and savings are generated from your own answers using published SME benchmarks. Treat them as a starting point for a conversation, not a quotation.
+
+<!-- ============================================================
+     INCLUDED
+============================================================= -->
+
+<section class="included-section" id="about">
+
+    <div class="container">
+
+        <div class="included-grid">
+
+            <div>
+
+                <div class="section-heading">
+
+                    <div class="heading-row">
+                        <span class="heading-line"></span>
+
+                        <h2 class="section-title">
+                            What's Included in the Assessment?
+                        </h2>
+                    </div>
+
+                    <p class="section-description">
+                        Our assessment covers six key areas to give you a
+                        complete picture of your business's growth potential.
+                    </p>
+
+                </div>
+
+
+                <div class="assessment-list">
+
+                    <div class="assessment-item">
+                        <span class="number">1</span>
+
+                        <div>
+                            <div class="assessment-item-title">
+                                Business discovery
+                            </div>
+
+                            <div class="assessment-item-description">
+                                Industry, size, workload and goal.
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="assessment-item">
+                        <span class="number">2</span>
+
+                        <div>
+                            <div class="assessment-item-title">
+                                Digital maturity score
+                            </div>
+
+                            <div class="assessment-item-description">
+                                Website, cloud, CRM, marketing, security, AI.
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="assessment-item">
+                        <span class="number">3</span>
+
+                        <div>
+                            <div class="assessment-item-title">
+                                AI readiness score
+                            </div>
+
+                            <div class="assessment-item-description">
+                                Leadership, data, skills, workflow, process.
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="assessment-item">
+                        <span class="number">4</span>
+
+                        <div>
+                            <div class="assessment-item-title">
+                                Pain point analysis
+                            </div>
+
+                            <div class="assessment-item-description">
+                                Ranked, each traced to your own answers.
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="assessment-item">
+                        <span class="number">5</span>
+
+                        <div>
+                            <div class="assessment-item-title">
+                                Action roadmap and ROI
+                            </div>
+
+                            <div class="assessment-item-description">
+                                Three phases, costed, with hours saved.
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="assessment-item">
+                        <span class="number">6</span>
+
+                        <div>
+                            <div class="assessment-item-title">
+                                Proposal and consultation
+                            </div>
+
+                            <div class="assessment-item-description">
+                                Branded PDF, lead sent to a consultant.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="testimonial-wrapper">
+
+                <div class="office-background">
+
+                    <div class="cup"></div>
+
+                    <div class="laptop">
+
+                        <div class="laptop-screen">
+
+                            <div class="screen-sidebar"></div>
+
+                            <div class="screen-content">
+
+                                <div class="screen-title"></div>
+
+                                <div class="screen-score">
+
+                                    <div class="small-ring"></div>
+
+                                    <div>
+                                        <div class="screen-title"
+                                             style="width:42px">
+                                        </div>
+
+                                        <div class="screen-title"
+                                             style="width:30px;margin-top:5px">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="chart">
+                                    <span class="bar"></span>
+                                    <span class="bar"></span>
+                                    <span class="bar"></span>
+                                    <span class="bar"></span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="laptop-base"></div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="quote-card">
+
+                    <div class="quote-mark">
+                        “
+                    </div>
+
+                    <p class="quote">
+                        The assessment gave us a clear roadmap and helped us
+                        focus on what really matters. It was quick, easy and
+                        incredibly insightful!
+                    </p>
+
+                    <div class="author">
+                        Jia Yi Tan
+                    </div>
+
+                    <div class="author-role">
+                        Founder, ABC Digital Solutions
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ============================================================
+     CTA
+============================================================= -->
+
+<section class="cta-section" id="faq">
+
+    <div class="container">
+
+        <div class="cta-box">
+
+            <div>
+
+                <h2 class="cta-title">
+                    Ready to Unlock Your
+                    Business Potential?
+                </h2>
+
+                <p class="cta-description">
+                    Take the first step towards a smarter, more efficient
+                    and future-ready business.
+                </p>
+
+                <button class="primary-btn start-assessment">
+                    Start the Assessment
+                    <span class="arrow">→</span>
+                </button>
+
+            </div>
+
+
+            <div class="cta-features">
+
+                <div class="cta-feature">
+
+                    <div class="cta-feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor"
+                             stroke-width="2.5">
+                            <path d="m13 2-8 12h6l-1 8 8-12h-6l1-8Z"></path>
+                        </svg>
+                    </div>
+
+                    <div class="cta-feature-title">
+                        Fast & Easy
+                    </div>
+
+                    <div class="cta-feature-text">
+                        Just 12 minutes
+                    </div>
+
+                </div>
+
+
+                <div class="cta-feature">
+
+                    <div class="cta-feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor"
+                             stroke-width="2">
+                            <path d="M12 3 20 6v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3Z"></path>
+                            <path d="m9 12 2 2 4-5"></path>
+                        </svg>
+                    </div>
+
+                    <div class="cta-feature-title">
+                        Secure
+                    </div>
+
+                    <div class="cta-feature-text">
+                        Your data is safe
+                    </div>
+
+                </div>
+
+
+                <div class="cta-feature">
+
+                    <div class="cta-feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor"
+                             stroke-width="2">
+                            <path d="m12 3 2.7 5.5 6.3.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.4l6.3-.9L12 3Z"></path>
+                        </svg>
+                    </div>
+
+                    <div class="cta-feature-title">
+                        AI-Powered
+                    </div>
+
+                    <div class="cta-feature-text">
+                        Real insights,<br>
+                        real results
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- ============================================================
+     FOOTER
+============================================================= -->
+<footer class="footer">
+
+    <div class="container footer-inner">
+
+        <div class="logo">
+
+            <div class="logo-symbol"></div>
+
+            <div class="logo-text">
+                <span class="logo-name">ExaPulse AI</span>
+                <span class="logo-tagline">
+                    AI-POWERED GROWTH
+                </span>
+            </div>
+
+        </div>
+
+
+        <nav class="footer-nav">
+            <a href="#home">Home</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#assessment">Assessment</a>
+            <a href="#about">About Us</a>
+            <a href="#faq">FAQ</a>
+        </nav>
+
+
+        <div class="footer-right">
+            <div class="social">
+                <a href="#" aria-label="LinkedIn">in</a>
+                <a href="#" aria-label="Instagram">◎</a>
+                <a href="#" aria-label="YouTube">▶</a>
+            </div>
+
+            <span class="footer-divider"></span>
+
+            <span>
+                © 2026 ExaPulse AI. All rights reserved.
+            </span>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- ============================================================
+     LOGIN MODAL
+============================================================= -->
+
+<div class="modal-overlay" id="loginModal">
+
+    <div class="modal">
+
+        <button
+            class="modal-close"
+            data-close="loginModal">
+            ×
+        </button>
+
+        <h2>Welcome Back</h2>
+
+        <p class="modal-subtitle">
+            Log in to access your ExaPulse AI account.
+        </p>
+
+        <form id="loginForm">
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email Address
+                </label>
+
+                <input
+                    id="email"
+                    type="email"
+                    placeholder="you@example.com"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    id="password"
+                    type="password"
+                    placeholder="Enter your password"
+                    required>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="primary-btn full-btn">
+
+                Log In
+
+            </button>
+
+        </form>
+
+
+        <div
+            class="login-message"
+            id="loginMessage">
+
+            Login successful. Welcome to ExaPulse AI!
+
+        </div>
+
+    </div>
+
 </div>
 
-<div id="pdfStage"></div>
+
+<!-- ============================================================
+     ASSESSMENT MODAL
+============================================================= -->
+
+<div class="modal-overlay" id="assessmentModal">
+
+    <div class="modal">
+
+        <button
+            class="modal-close"
+            id="assessmentClose">
+            ×
+        </button>
+
+
+        <div id="assessmentQuestions">
+
+            <h2>Business Growth Assessment</h2>
+
+            <p class="modal-subtitle">
+                Answer six quick questions to generate your
+                Growth Potential Score.
+            </p>
+
+
+            <div class="assessment-progress">
+
+                <div
+                    class="assessment-progress-bar"
+                    id="progressBar">
+                </div>
+
+            </div>
+
+
+            <div
+                class="question-count"
+                id="questionCount">
+                Question 1 of 6
+            </div>
+
+
+            <div
+                class="question"
+                id="questionText">
+            </div>
+
+
+            <div
+                class="options"
+                id="options">
+            </div>
+
+
+            <div class="assessment-controls">
+
+                <button
+                    class="secondary-btn"
+                    id="previousButton"
+                    disabled>
+                    ← Previous
+                </button>
+
+                <button
+                    class="primary-btn"
+                    id="nextButton">
+                    Next →
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="result-screen"
+            id="resultScreen">
+
+            <div class="eyebrow">
+                <span class="eyebrow-dot"></span>
+                Assessment Complete
+            </div>
+
+            <div class="result-circle">
+
+                <span
+                    class="result-number"
+                    id="resultNumber">
+                    0/100
+                </span>
+
+            </div>
+
+            <h2>
+                Your Growth Potential
+            </h2>
+
+            <p
+                class="result-description"
+                id="resultDescription">
+            </p>
+
+
+            <div class="result-items">
+
+                <div class="result-item">
+                    <strong>Business Discovery</strong>
+                    <span id="resultBusiness">—</span>
+                </div>
+
+                <div class="result-item">
+                    <strong>Digital Maturity</strong>
+                    <span id="resultDigital">—</span>
+                </div>
+
+                <div class="result-item">
+                    <strong>AI Readiness</strong>
+                    <span id="resultAI">—</span>
+                </div>
+
+                <div class="result-item">
+                    <strong>Growth Opportunity</strong>
+                    <span id="resultGrowth">—</span>
+                </div>
+
+            </div>
+
+
+            <button
+                class="primary-btn"
+                id="finishAssessment">
+                Done
+                <span class="arrow">→</span>
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================= -->
 
 <script>
-/* ============================================================
-   AI SME DIGITAL GROWTH ADVISOR — Exabytes Malaysia
-   Single-file assessment -> scoring -> analysis -> roadmap ->
-   ROI -> PDF proposal -> lead creation.
-   ============================================================ */
 
-/* ---------- 1. QUESTION CONFIGURATION ---------- */
+    /* =========================================================
+       MOBILE NAVIGATION
+    ========================================================= */
 
-const HOURS = [
-  {label:"Under 2 hours", v:1},
-  {label:"2 – 5 hours", v:3.5},
-  {label:"5 – 10 hours", v:7.5},
-  {label:"10 – 20 hours", v:15},
-  {label:"More than 20 hours", v:25}
-];
+    const mobileMenuBtn =
+        document.getElementById("mobileMenuBtn");
 
-const STEPS = [
-  {
-    id:1, rail:"Business", title:"Tell us about your business",
-    sub:"Six quick facts. Everything after this is shaped by these answers.",
-    fields:[
-      {n:"industry", q:"Industry", type:"pills", cols:3, req:true,
-       options:["Manufacturing","Retail & e-commerce","Food & beverage","Professional services","Construction","Technology","Healthcare","Tourism & hospitality","Logistics","Education","Other"]},
-      {n:"employees", q:"Number of employees", type:"pills", cols:3, req:true,
-       options:[{label:"1 – 5", v:3},{label:"6 – 20", v:13},{label:"21 – 50", v:35},{label:"51 – 200", v:120},{label:"More than 200", v:300}]},
-      {n:"yearsTrading", q:"How long have you been trading?", type:"pills", cols:2, req:true,
-       options:["Less than 1 year","1 – 5 years","6 – 10 years","More than 10 years"]},
-      {n:"revenue", q:"Annual revenue", type:"pills", cols:2, req:true,
-       options:[{label:"Below RM500K", v:300000},{label:"RM500K – RM2M", v:1200000},{label:"RM2M – RM10M", v:5000000},{label:"Above RM10M", v:18000000}]},
-      {n:"location", q:"Where are you based?", type:"pills", cols:3, req:true,
-       options:["Selangor","Kuala Lumpur","Penang","Johor","Melaka","Negeri Sembilan","Perak","Kedah","Kelantan","Terengganu","Pahang","Sabah","Sarawak"]},
-      {n:"model", q:"Who do you sell to?", type:"pills", cols:3, req:true,
-       options:["Mostly businesses (B2B)","Mostly consumers (B2C)","Both","Through distributors"]},
-      {n:"goal", q:"Your main goal for the next 12 months", type:"pills", cols:2, req:true,
-       options:["Increase revenue","Improve efficiency","Digitalise operations","Expand to new markets","Strengthen team & capability"]}
-    ]
-  },
-  {
-    id:2, rail:"Operations", title:"How the work gets done today",
-    sub:"Be honest about the time cost — this is what the ROI estimate is built from.",
-    fields:[
-      {n:"enquiryHours", q:"Hours a week your team spends answering customer enquiries by hand", hint:"WhatsApp, phone, email, walk-ins — added up across everyone.", type:"pills", cols:3, req:true, options:HOURS},
-      {n:"adminHours", q:"Hours a week spent on manual admin", hint:"Re-typing orders, chasing quotes, invoicing, stock counts, filing.", type:"pills", cols:3, req:true, options:HOURS},
-      {n:"efficiency", q:"How efficiently does the business run right now?", type:"slider", min:1, max:5,
-       scale:["Very poor","Poor","Average","Good","Excellent"]},
-      {n:"dataTracking", q:"Do you track performance with actual numbers?", type:"slider", min:1, max:5,
-       scale:["Never","Rarely","Monthly","Weekly","Live dashboards"]},
-      {n:"challenges", q:"Biggest operational headaches", hint:"Pick every one that applies.", type:"checks",
-       options:["Too much manual work","Costs creeping up","Can't hire or keep staff","Poor internal communication","Data scattered everywhere","Slow to respond to customers","Stock or delivery problems","Cash flow visibility"]}
-    ]
-  },
-  {
-    id:3, rail:"Digital maturity", title:"What you run on today",
-    sub:"Pick the line closest to reality. These six answers produce your digital maturity score.",
-    fields:[
-      {n:"website", q:"Website", type:"pills", req:true, dim:"Website", options:[
-        {label:"No website at all", v:0},
-        {label:"Social media pages only", v:1},
-        {label:"Basic brochure website", v:2},
-        {label:"Website with SEO and analytics", v:4},
-        {label:"Online store or booking system that takes orders", v:5}]},
-      {n:"email", q:"Business email", type:"pills", req:true, options:[
-        {label:"Free personal email (Gmail, Yahoo, Hotmail)", v:0},
-        {label:"We own a domain but still use free email", v:2},
-        {label:"Business email on our own domain", v:4},
-        {label:"Business email with security, archiving and shared mailboxes", v:5}]},
-      {n:"cloud", q:"Files, systems and backup", type:"pills", req:true, dim:"Cloud", options:[
-        {label:"Everything sits on individual computers", v:0},
-        {label:"A shared drive or server in the office", v:1},
-        {label:"Some files in cloud storage", v:3},
-        {label:"Cloud productivity suite the whole team uses", v:4},
-        {label:"Cloud servers with managed, tested backups", v:5}]},
-      {n:"crm", q:"How you track customers and deals", type:"pills", req:true, dim:"CRM", options:[
-        {label:"Spreadsheets, notebooks and WhatsApp threads", v:0},
-        {label:"One shared contact list", v:1},
-        {label:"A CRM, used by part of the team", v:3},
-        {label:"CRM with a pipeline and automated follow-ups", v:5}]},
-      {n:"marketing", q:"Marketing", type:"pills", req:true, dim:"Marketing", options:[
-        {label:"Word of mouth only", v:0},
-        {label:"Occasional social posts", v:1},
-        {label:"Regular campaigns, but we can't tell what works", v:3},
-        {label:"Campaigns with tracked cost per lead", v:5}]},
-      {n:"cyber", q:"Cybersecurity and recovery", type:"pills", req:true, dim:"Cybersecurity", options:[
-        {label:"Nothing specific in place", v:0},
-        {label:"Antivirus on the computers", v:1},
-        {label:"Antivirus plus occasional manual backups", v:2},
-        {label:"Scheduled backups, MFA and access rules", v:4},
-        {label:"Monitoring, SSL and a recovery plan we've tested", v:5}]},
-      {n:"aiAdoption", q:"AI in the business today", type:"pills", req:true, dim:"AI adoption", options:[
-        {label:"Not using AI at all", v:0},
-        {label:"Staff experiment with ChatGPT on their own", v:1},
-        {label:"One AI tool inside one process", v:3},
-        {label:"AI built into how we work every day", v:5}]},
-      {n:"aiInterest", q:"How interested are you in adopting AI?", type:"slider", min:1, max:5,
-       scale:["Not interested","Curious","Interested","Keen","Already budgeted"]},
-      {n:"barrier", q:"Biggest thing holding digitalisation back", type:"pills", cols:2, req:true,
-       options:["Cost","We don't know where to start","No one internally has the skills","Staff resist changing how they work","No time to run a project"]}
-    ]
-  },
-  {
-    id:4, rail:"AI readiness", title:"Is the business ready for AI?",
-    sub:"Rate each honestly, 1 to 5. Readiness is about the organisation, not the technology.",
-    fields:[
-      {n:"leadership", q:"Leadership buy-in for changing how things are done", type:"slider", min:1, max:5,
-       scale:["None","Sceptical","Open","Supportive","Driving it"]},
-      {n:"dataAvail", q:"Is your business data available and organised?", type:"slider", min:1, max:5,
-       scale:["On paper","Scattered files","Some systems","Mostly digital","Clean and central"]},
-      {n:"skills", q:"Staff digital skills", type:"slider", min:1, max:5,
-       scale:["Very low","Basic","Average","Strong","Advanced"]},
-      {n:"workflow", q:"How digital are your day-to-day workflows?", type:"slider", min:1, max:5,
-       scale:["All manual","Mostly manual","Mixed","Mostly digital","End-to-end digital"]},
-      {n:"process", q:"Are your processes documented?", type:"slider", min:1, max:5,
-       scale:["Not at all","In people's heads","Some written","Most documented","Documented and followed"]}
-    ]
-  },
-  {
-    id:5, rail:"Growth & budget", title:"Where you're headed, and what you can spend",
-    sub:"The roadmap is sequenced to fit the budget you tell us here.",
-    fields:[
-      {n:"growthChallenge", q:"Biggest thing blocking growth", type:"pills", cols:2, req:true,
-       options:["Finding new customers","Converting the leads we get","Scaling operations","Hiring the right people","Price competition","Cash flow"]},
-      {n:"strategy", q:"How clear is your growth plan?", type:"slider", min:1, max:5,
-       scale:["No plan","Rough idea","Written plan","Plan with targets","Plan, targets, reviewed"]},
-      {n:"future", q:"Where do you want to be in three years?", type:"pills", cols:2, req:true,
-       options:["Stable, more profitable","National expansion","Regional / ASEAN expansion","New products and services","Ready to be acquired"]},
-      {n:"budget", q:"Realistic monthly budget for digital tools and services", type:"pills", cols:3, req:true,
-       options:[{label:"Under RM500", v:400},{label:"RM500 – RM1,500", v:1000},{label:"RM1,500 – RM5,000", v:3250},{label:"Above RM5,000", v:7000},{label:"Not sure yet", v:1000}]},
-      {n:"advisor", q:"Would a conversation with a consultant help?", type:"pills", cols:3, req:true,
-       options:["Yes, soon","Maybe later","Not right now"]}
-    ]
-  },
-  {id:6, rail:"Review", title:"Check your answers", sub:"Edit anything that isn't right, then generate your blueprint.", review:true}
-];
+    const mainNav =
+        document.getElementById("mainNav");
 
-/* Rule-based dynamic follow-up, sharpened by Claude when available */
-const FOLLOWUPS = {
-  "Increase revenue":{q:"Where does the extra revenue realistically come from?",
-    o:["Winning new customers","Selling more to existing customers","Better margin on what we sell","New products or services"]},
-  "Improve efficiency":{q:"Which process eats the most staff time today?",
-    o:["Quoting and invoicing","Stock, orders and fulfilment","Answering customer enquiries","HR, payroll and claims"]},
-  "Digitalise operations":{q:"Which operational area needs digitalising first?",
-    o:["Sales and invoicing","Inventory and fulfilment","Customer service","HR and payroll"]},
-  "Expand to new markets":{q:"What kind of expansion are you planning?",
-    o:["Other Malaysian states","ASEAN / regional","Online into new segments","Export beyond ASEAN"]},
-  "Strengthen team & capability":{q:"Where is the capability gap widest?",
-    o:["Digital and tool skills","Sales capability","Leadership and management","Technical or production skills"]}
-};
+    mobileMenuBtn.addEventListener("click", () => {
 
-/* ---------- 2. STATE ---------- */
+        mainNav.classList.toggle("open");
 
-const D = {};              // answers
-const touched = new Set(); // sliders the user actually moved
-let step = 1, maxStep = 1;
-let sampleFn = null;       // Claude sampling, when the viewer allows it
-let chatTurns = [];
-const LS_KEY = "exabytes.sme.assessment.v2";
-
-const $ = id => document.getElementById(id);
-const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const rm = n => "RM" + Math.round(n).toLocaleString("en-MY");
-const optLabel = o => typeof o === "string" ? o : o.label;
-const optVal = o => typeof o === "string" ? o : o.v;
-
-function fieldDef(name){
-  for (const s of STEPS) if (s.fields) { const f = s.fields.find(f => f.n === name); if (f) return f; }
-  return null;
-}
-/* numeric value behind a chosen pill, else fallback */
-function val(name, fb){
-  const f = fieldDef(name); const chosen = D[name];
-  if (f && f.options && chosen != null){
-    const o = f.options.find(o => optLabel(o) === chosen);
-    if (o && typeof o !== "string" && o.v != null) return o.v;
-  }
-  return typeof D[name] === "number" ? D[name] : fb;
-}
-function sv(name){ return touched.has(name) ? (D[name] || 0) : (D[name] || 3); }
-
-function save(){
-  try { localStorage.setItem(LS_KEY, JSON.stringify({D, touched:[...touched], step, maxStep})); } catch(e){}
-}
-function load(){
-  try {
-    const raw = localStorage.getItem(LS_KEY); if (!raw) return false;
-    const o = JSON.parse(raw); if (!o || !o.D) return false;
-    Object.assign(D, o.D); (o.touched||[]).forEach(t => touched.add(t));
-    maxStep = o.maxStep || 1; step = Math.min(o.step || 1, STEPS.length);
-    return Object.keys(D).length > 2;
-  } catch(e){ return false; }
-}
-
-/* ---------- 3. FORM RENDERING ---------- */
-
-function railHTML(){
-  return STEPS.map(s => {
-    const cls = s.id === step ? "now" : (s.id < step ? "done" : "");
-    const go = s.id <= maxStep ? " go" : "";
-    return `<div class="rail-step ${cls}${go}" data-go="${s.id}">
-      <span class="dot">${s.id < step ? "&#10003;" : s.id}</span>
-      <span class="rail-label">${esc(s.rail)}</span></div>`;
-  }).join("");
-}
-
-function fieldHTML(f){
-  const head = `<label class="qlabel">${esc(f.q)}</label>` + (f.hint ? `<p class="hint">${esc(f.hint)}</p>` : "");
-  if (f.type === "pills"){
-    const cols = f.cols ? " c" + f.cols : "";
-    return `<div class="field" data-f="${f.n}">${head}
-      <div class="opts${cols}" data-name="${f.n}" role="radiogroup">
-      ${f.options.map(o => {
-        const l = optLabel(o);
-        return `<div class="opt${D[f.n] === l ? " on" : ""}" role="radio" tabindex="0" aria-checked="${D[f.n]===l}" data-v="${esc(l)}"><span class="pip"></span><span>${esc(l)}</span></div>`;
-      }).join("")}
-      </div><p class="err">Pick one to continue.</p></div>`;
-  }
-  if (f.type === "checks"){
-    const sel = D[f.n] || [];
-    return `<div class="field" data-f="${f.n}">${head}
-      <div class="opts c2" data-check="${f.n}">
-      ${f.options.map(o => `<div class="opt box${sel.includes(o) ? " on" : ""}" role="checkbox" tabindex="0" aria-checked="${sel.includes(o)}" data-v="${esc(o)}"><span class="pip"></span><span>${esc(o)}</span></div>`).join("")}
-      </div></div>`;
-  }
-  if (f.type === "slider"){
-    const raw = !touched.has(f.n);
-    const v = raw ? Math.ceil((f.min + f.max) / 2) : D[f.n];
-    return `<div class="field" data-f="${f.n}">${head}
-      <div class="slide${raw ? " raw" : ""}" data-slide="${f.n}">
-        <span class="badge" data-badge="${f.n}">${raw ? "Drag to rate" : esc(f.scale[v - f.min])}</span>
-        <input type="range" min="${f.min}" max="${f.max}" step="1" value="${v}" data-range="${f.n}" aria-label="${esc(f.q)}">
-        <div class="scale">${f.scale.map(s => `<span>${esc(s)}</span>`).join("")}</div>
-      </div></div>`;
-  }
-  return "";
-}
-
-function followUpHTML(){
-  const fu = (D.fuQ && Array.isArray(D.fuO) && D.fuO.length) ? {q:D.fuQ, o:D.fuO} : FOLLOWUPS[D.goal];
-  if (!fu || !fu.o || !fu.o.length) return "";
-  const aiBtn = sampleFn ? `<button class="btn btn-line" style="padding:6px 12px;font-size:12.5px;margin-top:10px" id="fuAi">Rewrite this question for my industry</button>` : "";
-  return `<div class="ai-slot" id="fuSlot">
-    <div class="tag"><span>&#9670;</span> FOLLOW-UP QUESTION &mdash; chosen because your goal is &ldquo;${esc(D.goal)}&rdquo;</div>
-    <label class="qlabel" id="fuLabel">${esc(fu.q)}</label>
-    <div class="opts c2" data-name="fuAnswer" style="margin-top:8px">
-      ${fu.o.map(o => `<div class="opt${D.fuAnswer === o ? " on" : ""}" role="radio" tabindex="0" data-v="${esc(o)}"><span class="pip"></span><span>${esc(o)}</span></div>`).join("")}
-    </div>${aiBtn}<p class="msg" id="fuMsg"></p></div>`;
-}
-
-function renderStep(){
-  const s = STEPS.find(x => x.id === step);
-  $("stTitle").textContent = s.title;
-  $("stSub").textContent = s.sub;
-  $("stCount").textContent = `Step ${s.id} of ${STEPS.length}`;
-  $("stFill").style.width = Math.round(step / STEPS.length * 100) + "%";
-  $("rail").innerHTML = railHTML();
-
-  if (s.review){
-    $("qCard").innerHTML = reviewHTML();
-  } else {
-    let html = s.fields.map(fieldHTML).join("");
-    if (s.id === 1 && D.goal) html += followUpHTML();
-    $("qCard").innerHTML = html;
-  }
-  wire();
-  $("backBtn").style.visibility = step === 1 ? "hidden" : "visible";
-  $("nextBtn").textContent = step === STEPS.length ? "Generate my blueprint" : "Next";
-  window.scrollTo({top:0, behavior:"smooth"});
-}
-
-function wire(root){
-  const card = root || $("qCard");
-  card.querySelectorAll("[data-name] .opt").forEach(el => {
-    const pick = () => {
-      const group = el.closest("[data-name]"); const name = group.dataset.name;
-      group.querySelectorAll(".opt").forEach(o => { o.classList.remove("on"); o.setAttribute("aria-checked","false"); });
-      el.classList.add("on"); el.setAttribute("aria-checked","true");
-      D[name] = el.dataset.v;
-      const fld = el.closest(".field"); if (fld) fld.classList.remove("bad");
-      save();
-      if (name === "goal") injectFollowUp();
-    };
-    el.addEventListener("click", pick);
-    el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " "){ e.preventDefault(); pick(); }});
-  });
-  card.querySelectorAll("[data-check] .opt").forEach(el => {
-    const tog = () => {
-      const name = el.closest("[data-check]").dataset.check;
-      D[name] = D[name] || [];
-      const v = el.dataset.v;
-      if (D[name].includes(v)){ D[name] = D[name].filter(x => x !== v); el.classList.remove("on"); el.setAttribute("aria-checked","false"); }
-      else { D[name].push(v); el.classList.add("on"); el.setAttribute("aria-checked","true"); }
-      save();
-    };
-    el.addEventListener("click", tog);
-    el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " "){ e.preventDefault(); tog(); }});
-  });
-  card.querySelectorAll("[data-range]").forEach(inp => {
-    const name = inp.dataset.range; const f = fieldDef(name);
-    const on = () => {
-      touched.add(name); D[name] = Number(inp.value);
-      inp.closest(".slide").classList.remove("raw");
-      card.querySelector(`[data-badge="${name}"]`).textContent = f.scale[Number(inp.value) - f.min];
-      save();
-    };
-    inp.addEventListener("input", on); inp.addEventListener("change", on);
-  });
-  card.querySelectorAll(".rev-edit").forEach(b => b.addEventListener("click", () => { step = Number(b.dataset.jump); renderStep(); }));
-  const c = $("revConsent"); if (c) c.addEventListener("change", () => { D.consent = c.checked; save(); });
-  const fa = $("fuAi"); if (fa) fa.addEventListener("click", aiFollowUp);
-}
-
-function injectFollowUp(){
-  if (step !== 1) return;
-  const old = $("fuSlot"); if (old) old.remove();
-  const html = followUpHTML(); if (!html) return;
-  $("qCard").insertAdjacentHTML("beforeend", html);
-  wire($("fuSlot"));   // wire() already binds the "rewrite this question" button
-}
-
-function reviewHTML(){
-  const secs = STEPS.filter(s => !s.review).map(s => {
-    const rows = s.fields.map(f => {
-      let v;
-      if (f.type === "checks") v = (D[f.n] || []).join(", ");
-      else if (f.type === "slider") v = touched.has(f.n) ? f.scale[D[f.n] - f.min] : "";
-      else v = D[f.n];
-      return `<div class="rev-row"><span class="k">${esc(f.q)}</span><span class="v${v ? "" : " none"}">${esc(v || "Not answered")}</span></div>`;
-    }).join("");
-    const extra = (s.id === 1 && D.fuAnswer)
-      ? `<div class="rev-row"><span class="k">${esc(D.fuQ || (FOLLOWUPS[D.goal]||{}).q || "Follow-up")}</span><span class="v">${esc(D.fuAnswer)}</span></div>` : "";
-    return `<div class="rev-sec"><div class="rev-head"><h3>${esc(s.rail)}</h3>
-      <button class="rev-edit" data-jump="${s.id}">Edit</button></div>${rows}${extra}</div>`;
-  }).join("");
-  return secs + `<div style="margin-top:18px"><label class="tick">
-    <input type="checkbox" id="revConsent" ${D.consent ? "checked" : ""}>
-    <span>I agree that Exabytes may process these answers to produce my personalised blueprint.</span></label></div>`;
-}
-
-function validate(){
-  const s = STEPS.find(x => x.id === step);
-  let ok = true;
-  $("qCard").querySelectorAll(".field").forEach(f => f.classList.remove("bad"));
-  if (s.fields){
-    s.fields.forEach(f => {
-      if (f.req && !D[f.n]){
-        const el = $("qCard").querySelector(`.field[data-f="${f.n}"]`);
-        if (el) el.classList.add("bad");
-        ok = false;
-      }
     });
-  }
-  if (s.review && !D.consent){
-    const c = $("revConsent");
-    if (c) c.focus();
-    alert("Please tick the consent box so we can generate your blueprint.");
-    ok = false;
-  }
-  if (!ok){
-    const bad = $("qCard").querySelector(".field.bad");
-    if (bad) bad.scrollIntoView({behavior:"smooth", block:"center"});
-  }
-  return ok;
-}
 
-/* ---------- 4. SCORING ENGINE ---------- */
 
-const DIMS = ["website","cloud","crm","marketing","cyber","aiAdoption"];
-const DIM_NAME = {website:"Website", cloud:"Cloud & backup", crm:"CRM", marketing:"Marketing", cyber:"Cybersecurity", aiAdoption:"AI adoption"};
+    document.querySelectorAll(".nav-link").forEach(link => {
 
-function maturity(){
-  const dims = DIMS.map(n => {
-    const raw = val(n, 0);
-    return {key:n, name:DIM_NAME[n], stars:Math.max(0, Math.min(5, Math.round(raw))), raw, answer:D[n] || "Not answered"};
-  });
-  const total = dims.reduce((a, d) => a + d.raw, 0);
-  return {dims, score:Math.round(total / (DIMS.length * 5) * 100)};
-}
+        link.addEventListener("click", () => {
 
-const AI_FACTORS = [
-  {n:"leadership", label:"Leadership buy-in"},
-  {n:"dataAvail",  label:"Data availability"},
-  {n:"skills",     label:"Employee skills"},
-  {n:"workflow",   label:"Digital workflow"},
-  {n:"process",    label:"Process maturity"}
-];
+            mainNav.classList.remove("open");
 
-function aiReadiness(){
-  const rows = AI_FACTORS.map(f => ({label:f.label, v:sv(f.n)}));
-  const score = Math.round(rows.reduce((a, r) => a + r.v, 0) / (rows.length * 5) * 100);
-  let band, verdict;
-  if (score < 40){ band = "lo"; verdict = "Not ready yet. Fix the foundations — data, tools and documented process — before any AI project."; }
-  else if (score < 60){ band = "mid"; verdict = "Building the foundations. One narrow, low-risk AI pilot is realistic; company-wide AI is not."; }
-  else if (score < 80){ band = "hi"; verdict = "Ready to pilot. Pick one high-volume process, measure it, then widen."; }
-  else { band = "hi"; verdict = "Ready to scale. You can run AI across several processes with proper governance."; }
-  return {rows, score, band, verdict};
-}
+        });
 
-function growthScore(){
-  const m = maturity().score;
-  const a = aiReadiness().score;
-  const ops = (sv("efficiency") + sv("dataTracking")) / 10 * 100;
-  const strat = sv("strategy") / 5 * 100;
-  return Math.round(m * 0.35 + a * 0.2 + ops * 0.25 + strat * 0.2);
-}
+    });
 
-function bandOf(s){ return s < 40 ? "lo" : s < 65 ? "mid" : "hi"; }
-function bandWord(s){ return s < 40 ? "Early stage" : s < 65 ? "Getting there" : "Strong"; }
 
-/* ---------- 5. PAIN POINT ANALYSIS (evidence-based) ---------- */
+    /* =========================================================
+       MODAL HELPERS
+    ========================================================= */
 
-function painPoints(){
-  const p = [];
-  const add = (w, title, ev, key) => p.push({w, title, ev, key});
-  const enq = val("enquiryHours", 0), adm = val("adminHours", 0);
-  const challenges = D.challenges || [];
+    function openModal(id) {
 
-  if (val("website", 0) <= 1) add(95, "Customers can't find or check you online",
-    `You answered &ldquo;${esc(D.website)}&rdquo;. Most Malaysian buyers verify a supplier online before they call.`, "website");
-  if (val("email", 0) <= 2) add(90, "Business email isn't on your own domain",
-    `You answered &ldquo;${esc(D.email)}&rdquo;. A free-mail address costs you credibility on every quote you send.`, "email");
-  if (val("crm", 0) <= 1) add(88, "No CRM — leads live in spreadsheets and people's heads",
-    `You answered &ldquo;${esc(D.crm)}&rdquo;. Nobody can tell you today how many open deals you have.`, "crm");
-  if (enq >= 5) add(86, "Customer enquiries are handled entirely by hand",
-    `${enq} hours a week across the team, by your own estimate.`, "enquiry");
-  if (adm >= 5) add(82, "Too much manual admin work",
-    `${adm} hours a week re-typing, chasing and filing.`, "admin");
-  if (val("cyber", 0) <= 2) add(84, "One bad day away from losing your data",
-    `You answered &ldquo;${esc(D.cyber)}&rdquo;. Ransomware and hardware failure both end the same way without tested backups.`, "cyber");
-  if (val("cloud", 0) <= 2) add(74, "Files and systems are tied to the office",
-    `You answered &ldquo;${esc(D.cloud)}&rdquo;. Work stops when a machine or the office does.`, "cloud");
-  if (val("marketing", 0) <= 3) add(76, "Marketing spend isn't measurable",
-    `You answered &ldquo;${esc(D.marketing)}&rdquo;. You can't cut what's wasted if you can't see cost per lead.`, "marketing");
-  if (sv("dataTracking") <= 2) add(72, "Decisions are made without performance data",
-    `You rated performance tracking ${sv("dataTracking")}/5.`, "data");
-  if (val("aiAdoption", 0) <= 1 && sv("aiInterest") >= 4) add(68, "Real interest in AI, no adoption behind it",
-    `AI interest rated ${sv("aiInterest")}/5, but current use is &ldquo;${esc(D.aiAdoption)}&rdquo;.`, "ai");
-  if (sv("process") <= 2) add(66, "No internal knowledge management",
-    `Process documentation rated ${sv("process")}/5 — the business runs on what individuals remember.`, "process");
-  if (sv("skills") <= 2) add(62, "Staff digital skills lag behind the tools",
-    `Digital skills rated ${sv("skills")}/5, which caps the return on anything you buy.`, "skills");
-  if (challenges.includes("Can't hire or keep staff")) add(58, "Headcount can't be the answer to growth",
-    `You flagged hiring and retention as an operational headache.`, "people");
-  if (challenges.includes("Cash flow visibility")) add(57, "Cash position isn't visible in real time",
-    `You flagged cash flow visibility as an operational headache.`, "cash");
+        const modal =
+            document.getElementById(id);
 
-  p.sort((a, b) => b.w - a.w);
-  return p;
-}
+        modal.classList.add("show");
 
-/* ---------- 6. RECOMMENDATION ENGINE ---------- */
-/* problem key -> what to buy, alternatives, why, phase, indicative monthly cost */
+        document.body.style.overflow = "hidden";
 
-const CATALOG = {
-  email:{ primary:"Exabytes Business Email Hosting",
-    alts:["Google Workspace","Microsoft 365 Business"],
-    why:"Every quote, invoice and reply goes out from your own domain instead of a free mailbox. It is the cheapest credibility you will ever buy, and it takes about a day to switch.",
-    phase:1, cost:[15, 60], effort:"1–2 days" },
-  website:{ primary:"Exabytes AI Website Builder or Managed WordPress",
-    alts:["EasyStore or Shopify if you need to sell online","Magento for large catalogues"],
-    why:"Buyers check you online before they call. A site that states what you do, proves you exist and captures an enquiry is the difference between being shortlisted and being skipped.",
-    phase:1, cost:[50, 350], effort:"2–4 weeks" },
-  cloud:{ primary:"Exabytes Cloud Storage with Managed Backup",
-    alts:["Google Workspace Drive","Microsoft OneDrive for Business"],
-    why:"Files stop living on one person's laptop. The team works on one version, and the business keeps working when a machine dies.",
-    phase:1, cost:[40, 200], effort:"1–2 weeks" },
-  cyber:{ primary:"Exabytes Managed Backup, SSL and Email Security",
-    alts:["Acronis Cyber Protect","Microsoft Defender for Business"],
-    why:"Scheduled offsite backups, MFA and a tested restore. This is insurance: it never looks urgent until the morning it is the only thing that matters.",
-    phase:1, cost:[60, 300], effort:"1–2 weeks" },
-  crm:{ primary:"Exabytes-supported CRM (Zoho CRM or Freshsales)",
-    alts:["HubSpot Starter","Pipedrive"],
-    why:"Every lead gets an owner, a stage and a next action. Follow-ups stop depending on whoever remembers, and you finally get a number for how many deals are open.",
-    phase:2, cost:[80, 400], effort:"4–6 weeks" },
-  enquiry:{ primary:"AI Customer Support Chatbot with WhatsApp and web handover",
-    alts:["Freshdesk with AI replies","Zoho SalesIQ"],
-    why:"The same ten questions arrive every day. A bot trained on your own FAQs answers them instantly around the clock and passes the real ones to a human with the history attached.",
-    phase:3, cost:[150, 600], effort:"4–8 weeks" },
-  admin:{ primary:"Cloud productivity suite with workflow automation",
-    alts:["Zoho One","Microsoft 365 with Power Automate"],
-    why:"Quote, invoice and approval steps stop being re-typed between apps. This is where most of the recovered hours come from.",
-    phase:2, cost:[60, 350], effort:"4–8 weeks" },
-  marketing:{ primary:"Exabytes Digital Marketing with tracked landing pages and EDM",
-    alts:["Mailchimp","Meta and Google Ads with conversion tracking"],
-    why:"Campaigns get a tracked destination and a measurable cost per lead, so you can stop the spend that does nothing and double the spend that works.",
-    phase:2, cost:[300, 2000], effort:"ongoing", adspend:true },
-  data:{ primary:"Business dashboard on your existing data (Zoho Analytics or Looker Studio)",
-    alts:["Microsoft Power BI","Google Looker Studio"],
-    why:"One screen with revenue, pipeline and cost. Weekly numbers replace monthly guesses, which is the precondition for everything else on this roadmap.",
-    phase:2, cost:[50, 300], effort:"2–4 weeks" },
-  ai:{ primary:"AI Sales and Marketing Assistant on your CRM data",
-    alts:["Copilot in Microsoft 365","Zoho Zia"],
-    why:"Drafts follow-ups, summarises calls and flags deals going cold. It only works once the CRM in Phase 2 actually holds your data — which is why it sits here and not earlier.",
-    phase:3, cost:[100, 500], effort:"6–10 weeks" },
-  process:{ primary:"Team knowledge base with AI search",
-    alts:["Notion","Confluence","Zoho Learn"],
-    why:"What people know gets written down once and found by everyone. Onboarding drops from months to weeks and the business stops being hostage to individuals.",
-    phase:2, cost:[30, 200], effort:"ongoing" },
-  skills:{ primary:"Exabytes SME digital enablement and staff training",
-    alts:["HRD Corp claimable programmes","Vendor-led onboarding sessions"],
-    why:"Tools nobody can use are shelfware. Budget training alongside the software, not after it — and check HRD Corp claimability before you pay.",
-    phase:1, cost:[0, 400], effort:"ongoing" },
-  people:{ primary:"Cloud HR and payroll with self-service",
-    alts:["Zoho People","Talenox"],
-    why:"Leave, claims and payroll stop consuming management time, and the process survives the person who currently runs it leaving.",
-    phase:2, cost:[40, 250], effort:"3–5 weeks" },
-  cash:{ primary:"Cloud accounting connected to invoicing",
-    alts:["Xero","QuickBooks","AutoCount Cloud"],
-    why:"Invoices, payments and cash position in one place, ready for e-invoicing obligations rather than reconstructed at month end.",
-    phase:2, cost:[50, 300], effort:"4–6 weeks" }
-};
-
-function recommendations(){
-  const seen = new Set();
-  return painPoints().filter(p => CATALOG[p.key]).map(p => {
-    if (seen.has(p.key)) return null;
-    seen.add(p.key);
-    const c = CATALOG[p.key];
-    return Object.assign({}, c, {problem:p.title, evidence:p.ev, key:p.key, w0:p.w, mid:(c.cost[0] + c.cost[1]) / 2});
-  }).filter(Boolean);
-}
-
-/* When nothing is broken, the advice is optimisation, not remediation. */
-const OPTIMISE = [
-  {key:"opt-ai", problem:"No obvious gaps — the question is now where AI adds margin",
-   primary:"AI Sales and Marketing Assistant on your CRM data",
-   alts:["Microsoft 365 Copilot","Zoho Zia"],
-   why:"With clean data and digital workflows already in place, you are in the small minority of Malaysian SMEs that can put AI on top of real data rather than on top of a mess. Start where volume is highest and the cost of a mistake is lowest.",
-   phase:2, cost:[100, 500], effort:"6–10 weeks", mid:300},
-  {key:"opt-review", problem:"Spend is probably spread across overlapping tools",
-   primary:"Exabytes cloud and licence optimisation review",
-   alts:["Direct vendor consolidation","In-house audit"],
-   why:"Businesses at your maturity usually pay twice for the same capability across three vendors. A consolidation review typically returns more than a new tool does.",
-   phase:1, cost:[0, 0], effort:"2–3 weeks", mid:0}
-];
-
-/* Buying everything at once is how SMEs waste money. Spend to the budget
-   they stated, in problem-severity order, and defer the rest openly. */
-function plan(){
-  const all = recommendations();
-  const budget = val("budget", 1000);
-  if (!all.length) return {picks:OPTIMISE.slice(), deferred:[], budget, spend:300, optimise:true};
-
-  /* Severity leads, but foundations get a nudge — buying a chatbot before
-     you own your email address is the sequencing mistake the brief names. */
-  const BONUS = {1:12, 2:4, 3:0};
-  const ranked = all.slice().sort((a, b) => (b.w0 + BONUS[b.phase]) - (a.w0 + BONUS[a.phase]));
-  const picks = [], deferred = [];
-  let spend = 0;
-  ranked.forEach(r => {
-    const chargeable = r.adspend ? 0 : r.mid;          // ad spend is a growth decision, not overhead
-    const fits = spend + chargeable <= budget * 1.1;
-    if ((fits || picks.length < 3) && picks.length < 8){ picks.push(r); spend += chargeable; }
-    else deferred.push(r);
-  });
-  return {picks, deferred, budget, spend, optimise:false};
-}
-
-/* ---------- 7. ROADMAP ---------- */
-
-const PHASE_META = {
-  1:{name:"Phase 1 — Quick wins", when:"Month 1 – 3", roi:"Payback in 2 – 4 weeks"},
-  2:{name:"Phase 2 — Productivity", when:"Month 3 – 6", roi:"Payback in 3 – 6 months"},
-  3:{name:"Phase 3 — Growth & automation", when:"Month 6 – 12", roi:"Payback in 6 – 12 months"}
-};
-const PHASE_AIM = {
-  1:"Get the foundations credible and safe: people can find you, reach you, and you cannot lose your data.",
-  2:"Stop the bleeding of staff hours. Put customer and business data into systems that can be measured.",
-  3:"Automate the repetitive volume and put AI on top of data that is finally clean enough to use."
-};
-
-function roadmap(){
-  const recs = plan().picks;
-  return [1,2,3].map(n => ({
-    n, ...PHASE_META[n], aim:PHASE_AIM[n],
-    items:recs.filter(r => r.phase === n)
-  })).filter(p => p.items.length);
-}
-
-/* ---------- 8. ROI ESTIMATOR ---------- */
-
-let roiRate = null, roiDeflect = 60;
-
-function defaultRate(){
-  const rev = val("revenue", 1200000), staff = val("employees", 13);
-  const perHead = rev / Math.max(1, staff) / 2000;   // revenue per employee-hour
-  return Math.max(18, Math.min(75, Math.round(perHead * 0.35 / 5) * 5 || 25));
-}
-const r0 = n => (Math.round(n * 10) / 10).toString();
-function roi(){
-  const rate = roiRate == null ? defaultRate() : roiRate;
-  const enq = val("enquiryHours", 0), adm = val("adminHours", 0);
-  const enqSaved = enq * (roiDeflect / 100);
-  const admSaved = adm * 0.35;
-  const hours = enqSaved + admSaved;
-  const annual = hours * rate * 48;                       // steady state, once the roadmap is done
-  const P = plan();
-  const monthlyCost = P.picks.reduce((a, r) => a + (r.adspend ? 0 : r.mid), 0);
-  const adSpend = P.picks.reduce((a, r) => a + (r.adspend ? r.mid : 0), 0);
-  /* Year one is partial: Phase 1 runs 12 months, Phase 2 about 9, Phase 3 about 4,
-     and the savings only arrive as each phase lands. */
-  const MONTHS = {1:12, 2:9, 3:4};
-  const yearOneCost = P.picks.reduce((a, r) => a + (r.adspend ? 0 : r.mid) * MONTHS[r.phase], 0);
-  const yearOneSaving = annual * 0.55;
-  const net = yearOneSaving - yearOneCost;
-  const payback = (annual > 0 && yearOneCost > 0) ? Math.max(0.5, yearOneCost / (annual / 12)) : null;
-  const covers = monthlyCost > 0 && annual >= monthlyCost * 12;
-  const verdict = monthlyCost === 0
-    ? `Nothing on this roadmap carries a meaningful subscription cost, so there is no payback to calculate. The ${r0(hours)} hours a week still on the table are worth ${rm(annual)} a year if you choose to go after them.`
-    : annual === 0
-    ? "You reported almost no manual hours, so this roadmap has to be justified by growth rather than by time saved."
-    : covers
-      ? `Recovered time alone covers the stack: ${rm(annual)} a year of staff time against ${rm(monthlyCost * 12)} of subscriptions. Anything the website and marketing bring in is on top.`
-      : `Recovered time covers about ${Math.round(annual / Math.max(1, monthlyCost * 12) * 100)}% of the subscription cost. The rest has to come from growth — more enquiries captured, fewer lost deals — so treat Phase 1 as the test before committing to Phase 3.`;
-  return {rate, enq, adm, enqSaved, admSaved, hours, annual, monthlyCost, adSpend,
-          yearOneCost, yearOneSaving, net, payback, covers, verdict, deflect:roiDeflect, picks:P.picks};
-}
-
-/* ---------- 9. LEAD ROUTING ---------- */
-
-const TERRITORY = {
-  "Kuala Lumpur":"Central", "Selangor":"Central", "Negeri Sembilan":"Central", "Melaka":"Southern",
-  "Johor":"Southern", "Penang":"Northern", "Kedah":"Northern", "Perak":"Northern",
-  "Kelantan":"East Coast", "Terengganu":"East Coast", "Pahang":"East Coast",
-  "Sabah":"East Malaysia", "Sarawak":"East Malaysia"
-};
-const DESK = {
-  "Central":"Exabytes Central SME Desk (KL / Selangor)",
-  "Northern":"Exabytes Northern SME Desk (Penang HQ)",
-  "Southern":"Exabytes Southern SME Desk (Johor)",
-  "East Coast":"Exabytes East Coast SME Desk",
-  "East Malaysia":"Exabytes East Malaysia SME Desk"
-};
-function priority(){
-  const rev = val("revenue", 0), budget = val("budget", 0);
-  let s = 0;
-  if (D.advisor === "Yes, soon") s += 3; else if (D.advisor === "Maybe later") s += 1;
-  if (rev >= 5000000) s += 2; else if (rev >= 1200000) s += 1;
-  if (budget >= 3250) s += 2; else if (budget >= 1000) s += 1;
-  if (aiReadiness().score >= 60) s += 1;
-  return s >= 6 ? "A — call within 24 hours" : s >= 3 ? "B — call within 3 working days" : "C — nurture by email";
-}
-function leadId(){
-  return "EXA-" + new Date().getFullYear() + "-" + Math.random().toString(36).slice(2, 7).toUpperCase();
-}
-
-/* ---------- 10. RESULTS RENDERING ---------- */
-
-function radarSVG(dims, size){
-  const c = size / 2, r = size * 0.33, n = dims.length;
-  const pt = (i, f) => {
-    const a = -Math.PI / 2 + i * 2 * Math.PI / n;
-    return [c + Math.cos(a) * r * f, c + Math.sin(a) * r * f];
-  };
-  let rings = "";
-  [0.25, 0.5, 0.75, 1].forEach(f => {
-    const p = dims.map((_, i) => pt(i, f).join(",")).join(" ");
-    rings += `<polygon points="${p}" fill="none" stroke="var(--line)" stroke-width="1"/>`;
-  });
-  let spokes = "";
-  dims.forEach((d, i) => {
-    const [x, y] = pt(i, 1);
-    spokes += `<line x1="${c}" y1="${c}" x2="${x}" y2="${y}" stroke="var(--line)" stroke-width="1"/>`;
-    const [lx, ly] = pt(i, 1.26);
-    const anchor = Math.abs(lx - c) < 6 ? "middle" : (lx > c ? "start" : "end");
-    spokes += `<text x="${lx}" y="${ly}" text-anchor="${anchor}" dominant-baseline="middle" font-size="10.5" font-weight="600" fill="var(--ink-3)">${esc(d.name)}</text>`;
-  });
-  const shape = dims.map((d, i) => pt(i, Math.max(0.04, d.raw / 5)).join(",")).join(" ");
-  const knobs = dims.map((d, i) => {
-    const [x, y] = pt(i, Math.max(0.04, d.raw / 5));
-    return `<circle cx="${x}" cy="${y}" r="3" fill="var(--blue)"/>`;
-  }).join("");
-  return `<svg viewBox="0 0 ${size} ${size}" width="100%" role="img" aria-label="Digital maturity radar">
-    ${rings}${spokes}
-    <polygon points="${shape}" fill="var(--blue)" fill-opacity="0.18" stroke="var(--blue)" stroke-width="2" stroke-linejoin="round"/>
-    ${knobs}</svg>`;
-}
-
-const starRow = n => "&#9733;".repeat(n) + `<i>${"&#9733;".repeat(5 - n)}</i>`;
-
-function renderResults(){
-  const m = maturity(), ai = aiReadiness(), g = growthScore(), pp = painPoints(), P = plan(), recs = P.picks, rd = roadmap(), r = roi();
-  const biz = `${D.industry || "Your"} business`;
-
-  $("resMeta").textContent = `${biz} · ${D.employees || "?"} staff · ${D.location || "Malaysia"} · generated ${new Date().toLocaleDateString("en-MY", {day:"numeric", month:"long", year:"numeric"})}`;
-
-  $("snapBody").innerHTML = [
-    ["Industry", D.industry], ["Employees", D.employees], ["Trading for", D.yearsTrading],
-    ["Revenue", D.revenue], ["Location", D.location], ["Sells to", D.model],
-    ["12-month goal", D.goal], ["Focus area", D.fuAnswer], ["Monthly budget", D.budget],
-    ["Main blocker", D.barrier]
-  ].filter(x => x[1]).map(x => `<div class="row"><span class="k">${esc(x[0])}</span><span class="v">${esc(x[1])}</span></div>`).join("");
-
-  const top5 = pp.slice(0, 5), rest = pp.slice(5);
-
-  $("resMain").innerHTML = `
-  <div class="card" style="padding:0">
-    <div class="scoreboard">
-      <div class="scorecell">
-        <div class="k">Digital maturity</div>
-        <div class="big">${m.score}<small>/100</small></div>
-        <span class="band ${bandOf(m.score)}">${bandWord(m.score)}</span>
-        <p>Across website, cloud, CRM, marketing, cybersecurity and AI adoption.</p>
-      </div>
-      <div class="scorecell">
-        <div class="k">AI readiness</div>
-        <div class="big">${ai.score}<small>/100</small></div>
-        <span class="band ${ai.band}">${ai.score < 40 ? "Not ready" : ai.score < 60 ? "Foundation building" : ai.score < 80 ? "Ready to pilot" : "Ready to scale"}</span>
-        <p>${esc(ai.verdict)}</p>
-      </div>
-    </div>
-  </div>
-
-  <h2 class="sec">Digital maturity, dimension by dimension</h2>
-  <p class="sec-note">Overall <b>${m.score}/100</b>. Your combined growth readiness score is <b>${g}/100</b>, which also weighs how the business runs and how clear the plan is.</p>
-  <div class="card">
-    <div class="radar-row">
-      <div>${radarSVG(m.dims, 300)}</div>
-      <div class="dims">
-        ${m.dims.map(d => `<div class="dim">
-          <span class="nm">${esc(d.name)}<small>${esc(d.answer)}</small></span>
-          <span class="stars">${starRow(d.stars)}</span>
-          <span class="n">${d.stars}/5</span></div>`).join("")}
-      </div>
-    </div>
-  </div>
-
-  <h2 class="sec">AI readiness breakdown</h2>
-  <p class="sec-note">${esc(ai.verdict)}</p>
-  <div class="card">
-    <div class="dims">
-      ${ai.rows.map(row => `<div class="dim">
-        <span class="nm">${esc(row.label)}</span>
-        <span class="stars">${starRow(row.v)}</span>
-        <span class="n">${row.v}/5</span></div>`).join("")}
-    </div>
-  </div>
-
-  <h2 class="sec">${top5.length ? "Your top " + top5.length + " problems" : "Problem analysis"}</h2>
-  <p class="sec-note">${top5.length ? "Ranked by what each one costs you. Every line is traced back to an answer you gave."
-    : "Nothing in your answers triggered a remediation flag — unusual, and worth saying plainly rather than inventing problems to sell against."}</p>
-  <div class="card">
-    ${top5.length ? "" : `<p class="why">Your foundations are in place: website, email, cloud, CRM, marketing measurement, security and AI adoption all scored at or near the top, and you reported little manual load. The useful conversation here is optimisation and margin, not fixing gaps. The recommendations below reflect that.</p>`}
-    ${top5.map((p, i) => `<div class="pain"><span class="rank">${i + 1}</span>
-      <div><h4>${esc(p.title)}</h4><p class="ev">${p.ev}</p></div></div>`).join("")}
-    ${rest.length ? `<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)">
-      <p class="sec-note" style="margin-bottom:6px">Also flagged, lower priority</p>
-      ${rest.map(p => `<div class="pain soft"><span class="rank">&middot;</span>
-        <div><h4>${esc(p.title)}</h4><p class="ev">${p.ev}</p></div></div>`).join("")}</div>` : ""}
-  </div>
-
-  <h2 class="sec">${P.optimise ? "Where to go next" : "What to buy, and why"}</h2>
-  <p class="sec-note">${P.optimise
-    ? "No remediation needed, so these are the two moves that actually change the numbers from here."
-    : `Each problem maps to one recommended solution and the alternatives worth quoting against it. Costs are indicative monthly ranges, and the list is capped to fit the ${esc(D.budget || "budget")} a month you told us about.`}</p>
-  ${recs.map((rec, i) => `<div class="rec">
-    <div class="rec-h"><span class="num">${i + 1}</span>
-      <div class="prob"><b>Problem:</b> ${esc(rec.problem)}</div></div>
-    <div class="rec-b">
-      <div class="lead">${esc(rec.primary)} <span class="pill">Recommended</span>
-        <span class="pill ${rec.phase === 1 ? "g" : "b"}">Phase ${rec.phase}</span></div>
-      <p class="why"><b>Why this:</b> ${esc(rec.why)}</p>
-      <div class="recmeta">
-        <span>Indicative cost<b>${rec.cost[0] === 0 ? "From RM0" : rm(rec.cost[0]) + " – " + rm(rec.cost[1])} / month</b></span>
-        <span>Time to value<b>${esc(rec.effort)}</b></span>
-      </div>
-      <div class="alts"><b>Also consider:</b> ${rec.alts.map(esc).join(" &middot; ")}</div>
-    </div></div>`).join("")}
-  ${P.deferred.length ? `<div class="card tight" style="border-style:dashed">
-    <h3 style="font-size:15px;margin-bottom:6px">Deliberately deferred</h3>
-    <p class="sec-note" style="margin-bottom:10px">Real for you, but not affordable alongside the above at ${esc(D.budget || "your stated budget")} a month. Buying these now is how SMEs end up with tools nobody uses. Revisit once Phase 1 has paid for itself.</p>
-    ${P.deferred.map(d => `<div class="dim"><span class="nm">${esc(d.primary)}<small>${esc(d.problem)}</small></span>
-      <span class="n">${d.cost[0] === 0 ? "from RM0" : rm(d.cost[0]) + "&ndash;" + rm(d.cost[1])}/mo</span></div>`).join("")}
-  </div>` : ""}
-
-  <h2 class="sec">Your 12-month roadmap</h2>
-  <p class="sec-note">Sequence matters more than selection. Each phase exists because the next one depends on it.</p>
-  <div class="card">
-    ${rd.length ? "" : `<p class="why">Nothing urgent enough to phase. Revisit this assessment in six months, or after a change in headcount, systems or market.</p>`}
-    ${rd.map(p => `<div class="phase">
-      <div class="when"><b>${esc(p.when)}</b>${esc(p.name.split("—")[1] ? p.name.split("—")[1].trim() : "")}</div>
-      <div>
-        <h4>${esc(p.name)}</h4>
-        <p class="why">${esc(p.aim)}</p>
-        <ul>${p.items.map(i => `<li>${esc(i.primary)}</li>`).join("")}</ul>
-        <p class="roi">${esc(p.roi)}</p>
-      </div></div>`).join("")}
-  </div>
-
-  <h2 class="sec">What it's worth</h2>
-  <p class="sec-note">Based on the hours you told us your team spends now. Move the sliders to test your own assumptions.</p>
-  <div class="card">
-    <div class="roi-calc">
-      <div>
-        <div class="field" style="margin-bottom:20px">
-          <label class="qlabel">Loaded cost of an hour of staff time</label>
-          <p class="hint">Salary plus the cost of employing someone. Default is estimated from your revenue and headcount.</p>
-          <div class="slide"><span class="badge" id="rateBadge">${rm(r.rate)} / hour</span>
-            <input type="range" id="rateRange" min="15" max="80" step="5" value="${r.rate}">
-            <div class="scale"><span>RM15</span><span>RM80</span></div></div>
-        </div>
-        <div class="field">
-          <label class="qlabel">Share of enquiries a chatbot and automation can handle</label>
-          <p class="hint">Typical Malaysian SME deflection sits between 50% and 70% for repeat questions.</p>
-          <div class="slide"><span class="badge" id="defBadge">${r.deflect}%</span>
-            <input type="range" id="defRange" min="20" max="80" step="5" value="${r.deflect}">
-            <div class="scale"><span>20%</span><span>80%</span></div></div>
-        </div>
-        <p class="assume" id="roiVerdict" style="color:var(--ink-2);font-size:13px;font-weight:500"></p>
-        <p class="assume" id="roiAssume"></p>
-      </div>
-      <div class="roi-out">
-        <div class="k">Staff time recovered, once the roadmap is done</div>
-        <div class="v" id="roiAnnual"></div>
-        <div class="calcline"><span>Enquiry handling</span><b id="roiEnq"></b></div>
-        <div class="calcline"><span>Manual admin</span><b id="roiAdm"></b></div>
-        <div class="calcline"><span>Total hours recovered</span><b id="roiHrs"></b></div>
-        <hr>
-        <div class="calcline"><span>Recommended stack</span><b id="roiCost"></b></div>
-        <div class="calcline"><span>Year-one cost (phased)</span><b id="roiY1"></b></div>
-        <div class="calcline"><span>Payback on that spend</span><b id="roiPay"></b></div>
-        <hr>
-        <div class="k">Year-one position</div>
-        <div class="v sm" id="roiNet"></div>
-      </div>
-    </div>
-  </div>
-
-  <h2 class="sec">Consultant notes</h2>
-  <p class="sec-note">A short internal brief so the first sales conversation starts at the roadmap instead of square one.</p>
-  <div class="card">
-    <div style="display:flex;gap:10px;flex-wrap:wrap">
-      <button class="btn btn-line" id="notesBtn">Generate consultant notes</button>
-      <button class="btn btn-line hidden" id="notesStop">Stop</button>
-    </div>
-    <div class="note-box" id="notesBox">${esc(baseNotes())}</div>
-    <p class="msg" id="notesMsg"></p>
-  </div>`;
-
-  updateROI();
-  $("rateRange").addEventListener("input", e => { roiRate = Number(e.target.value); updateROI(); });
-  $("defRange").addEventListener("input", e => { roiDeflect = Number(e.target.value); updateROI(); });
-  $("notesBtn").addEventListener("click", aiNotes);
-  if (!sampleFn) $("notesBtn").textContent = "Refresh consultant notes";
-}
-
-function updateROI(){
-  const r = roi();
-  $("rateBadge").textContent = rm(r.rate) + " / hour";
-  $("defBadge").textContent = r.deflect + "%";
-  $("roiAnnual").textContent = rm(r.annual) + " / year";
-  $("roiEnq").textContent = r.enqSaved.toFixed(1) + " hrs / week";
-  $("roiAdm").textContent = r.admSaved.toFixed(1) + " hrs / week";
-  $("roiHrs").textContent = r.hours.toFixed(1) + " hrs / week";
-  $("roiCost").textContent = rm(r.monthlyCost) + " / month";
-  $("roiY1").textContent = rm(r.yearOneCost);
-  $("roiPay").textContent = r.payback ? r.payback.toFixed(1) + " months" : "n/a";
-  $("roiNet").textContent = (r.net >= 0 ? "+" : "\u2212") + rm(Math.abs(r.net));
-  $("roiVerdict").textContent = r.verdict;
-  $("roiAssume").textContent =
-    `How this is worked out: ${r.enq} enquiry hours \u00d7 ${r.deflect}% deflected, plus ${r.adm} admin hours \u00d7 35% automated, `
-    + `costed at ${rm(r.rate)}/hour over 48 working weeks. Year-one cost charges Phase 1 for 12 months, Phase 2 for 9 and Phase 3 for 4, `
-    + `and credits 55% of the saving because each phase only starts paying once it lands. `
-    + (r.adSpend ? `Advertising budget of about ${rm(r.adSpend)}/month is excluded — that is a growth decision, not overhead. ` : "")
-    + `Time saved is labour only; revenue from a working website and tracked marketing is not counted here.`;
-}
-
-/* ---------- 11. CONSULTANT NOTES ---------- */
-
-function baseNotes(){
-  const m = maturity(), ai = aiReadiness(), pp = painPoints(), recs = plan().picks, r = roi();
-  const terr = TERRITORY[D.location] || "Central";
-  return [
-`PROFILE — ${D.industry || "Unknown industry"}, ${D.employees || "?"} staff, ${D.revenue || "revenue not stated"}, ${D.location || "Malaysia"}, ${D.model || ""}.`,
-`SCORES — Digital maturity ${m.score}/100. AI readiness ${ai.score}/100. Weakest dimensions: ${m.dims.slice().sort((a,b)=>a.raw-b.raw).slice(0,2).map(d=>d.name.toLowerCase()).join(" and ")}.`,
-`STATED GOAL — ${D.goal || "not stated"}${D.fuAnswer ? ", specifically " + D.fuAnswer.toLowerCase() : ""}. Blocker they named: ${D.barrier || "not stated"}.`,
-`LEAD WITH — ${pp.slice(0,3).map((p,i)=>`(${i+1}) ${p.title}`).join("; ")}.`,
-`OPENING OFFER — ${recs.slice(0,2).map(x=>x.primary).join(" + ")}. Phase 1 only; do not pitch AI on the first call.`,
-`MONEY — Budget stated: ${D.budget || "not stated"}. Indicative solution cost ${rm(r.monthlyCost)}/month against ${rm(r.annual)}/year in recovered time. Payback ${r.payback ? r.payback.toFixed(1) + " months" : "n/a"}.`,
-`EXPECT THIS OBJECTION — ${D.barrier === "Cost" ? "price. Anchor on the payback figure, not the monthly fee." : D.barrier === "Staff resist changing how they work" ? "internal resistance. Offer a single-department pilot and include training in the quote." : D.barrier === "No time to run a project" ? "no bandwidth. Sell managed implementation, not licences." : D.barrier === "No one internally has the skills" ? "no internal skills. Bundle enablement and check HRD Corp claimability." : "uncertainty about where to start. Walk the three phases in order and stop at Phase 1."}`,
-`ROUTING — ${terr} territory, ${DESK[terr]}. Priority ${priority()}.`
-  ].join("\n\n");
-}
-
-async function aiNotes(){
-  if (!sampleFn){ renderNotes(baseNotes()); return; }
-  const btn = $("notesBtn"), stop = $("notesStop"), box = $("notesBox"), msg = $("notesMsg");
-  const ctl = new AbortController();
-  stop.classList.remove("hidden");
-  stop.onclick = () => ctl.abort();
-  btn.disabled = true; msg.textContent = ""; box.textContent = "Thinking\u2026";
-  const m = maturity(), ai = aiReadiness(), r = roi();
-  const prompt =
-`You are briefing an Exabytes Malaysia SME sales consultant before their first call. Write tight internal notes, no greeting, no sign-off, no markdown formatting. Use these headings exactly, each followed by two or three sentences: PROFILE, WHAT HURTS, HOW TO OPEN, MONEY, OBJECTION TO EXPECT, DO NOT DO.
-Be specific to this business and blunt. Malaysian business context. Prices in RM.
-
-Business: ${D.industry}, ${D.employees} staff, revenue ${D.revenue}, ${D.location}, sells ${D.model}, trading ${D.yearsTrading}.
-Goal: ${D.goal}${D.fuAnswer ? " / " + D.fuAnswer : ""}. Named blocker: ${D.barrier}. Growth blocker: ${D.growthChallenge}. Three-year aim: ${D.future}. Monthly budget: ${D.budget}. Wants a consultant: ${D.advisor}.
-Digital maturity ${m.score}/100 (${m.dims.map(d => d.name + " " + d.stars + "/5").join(", ")}).
-AI readiness ${ai.score}/100 (${ai.rows.map(x => x.label + " " + x.v + "/5").join(", ")}).
-Manual load: ${r.enq} hrs/week on enquiries, ${r.adm} hrs/week on admin.
-Top problems: ${painPoints().slice(0, 5).map(p => p.title).join("; ")}.
-Planned recommendations: ${plan().picks.slice(0, 4).map(x => x.primary).join("; ")}.
-Estimated annual saving ${rm(r.annual)} against ${rm(r.monthlyCost)}/month of solutions.`;
-  try {
-    const res = await sampleFn(prompt, {signal:ctl.signal, modelTier:"default", onText:({text}) => { box.textContent = text; }});
-    renderNotes(res.text);
-    msg.className = "msg good"; msg.textContent = "Written by Claude from your answers. Check the numbers before sending.";
-  } catch (e){
-    if (e.code === "cancelled"){ renderNotes(baseNotes()); msg.textContent = ""; }
-    else {
-      renderNotes(baseNotes());
-      msg.className = "msg bad";
-      msg.textContent = e.code === "not_granted"
-        ? "Claude wasn't allowed for this page, so these are the rule-based notes."
-        : "Couldn't reach Claude just now — showing the rule-based notes instead.";
-      if (e.code === "not_granted" || e.code === "sampling_disabled"){ sampleFn = null; $("askCard").classList.add("hidden"); }
     }
-  } finally {
-    btn.disabled = false; stop.classList.add("hidden");
-  }
-}
-function renderNotes(t){ $("notesBox").textContent = t; window.__notes = t; }
 
-/* ---------- 12. ASK THE ADVISOR ---------- */
 
-function contextBlob(){
-  const m = maturity(), ai = aiReadiness(), r = roi();
-  return `You are an Exabytes Malaysia SME digital advisor answering the business owner directly. Be concise (under 150 words), practical, and Malaysian in context. Only discuss this business and this blueprint. Prices in RM. If asked something outside digital and AI transformation for this SME, say it is outside what you can advise on here.
+    function closeModal(id) {
 
-THEIR BLUEPRINT
-Business: ${D.industry}, ${D.employees} staff, ${D.revenue}, ${D.location}. Goal: ${D.goal}. Blocker: ${D.barrier}. Budget: ${D.budget}.
-Digital maturity ${m.score}/100: ${m.dims.map(d => d.name + " " + d.stars + "/5").join(", ")}.
-AI readiness ${ai.score}/100.
-Top problems: ${painPoints().slice(0, 5).map(p => p.title).join("; ")}.
-Roadmap: ${roadmap().map(p => p.when + " — " + p.items.map(i => i.primary).join(", ")).join(" | ")}.
-ROI estimate: ${r.hours.toFixed(1)} hrs/week recovered, ${rm(r.annual)}/year, against ${rm(r.monthlyCost)}/month of solutions.`;
-}
+        const modal =
+            document.getElementById(id);
 
-async function ask(){
-  const input = $("askIn"), log = $("chatLog"), msg = $("askMsg");
-  const q = input.value.trim(); if (!q || !sampleFn) return;
-  input.value = ""; msg.textContent = "";
-  log.insertAdjacentHTML("beforeend", `<div class="bub me">${esc(q)}</div>`);
-  const bub = document.createElement("div");
-  bub.className = "bub ai"; bub.textContent = "Thinking\u2026";
-  log.appendChild(bub); log.scrollTop = log.scrollHeight;
-  chatTurns.push({role:"user", content:q});
-  $("askBtn").disabled = true;
-  try {
-    const turns = [{role:"user", content:contextBlob()}, ...chatTurns.slice(-8)];
-    const res = await sampleFn(turns, {cache:false, modelTier:"default", onText:({text}) => { bub.textContent = text; log.scrollTop = log.scrollHeight; }});
-    chatTurns.push({role:"assistant", content:res.text});
-  } catch (e){
-    bub.textContent = e.text || "";
-    if (!bub.textContent) bub.remove();
-    chatTurns.pop();
-    msg.className = "msg bad";
-    msg.textContent = e.code === "not_granted" ? "Claude isn't available for this page."
-      : e.code === "rate_limited" ? "Too many questions at once — try again in a minute."
-      : "Couldn't reach Claude just now.";
-    if (e.code === "not_granted" || e.code === "sampling_disabled"){ sampleFn = null; $("askCard").classList.add("hidden"); }
-  } finally {
-    $("askBtn").disabled = false;
-    log.scrollTop = log.scrollHeight;
-  }
-}
+        modal.classList.remove("show");
 
-/* ---------- 13. AI FOLLOW-UP QUESTION ---------- */
+        document.body.style.overflow = "";
 
-async function aiFollowUp(){
-  if (!sampleFn) return;
-  const btn = $("fuAi"), msg = $("fuMsg");
-  btn.disabled = true; msg.className = "msg"; msg.innerHTML = `<span class="spin"></span> Writing a question for a ${esc(D.industry || "Malaysian")} business\u2026`;
-  try {
-    const out = await sampleFn.json(
-`A Malaysian SME is completing a digital transformation assessment. Write ONE sharp multiple-choice follow-up question that would most change what we recommend to them, given what we already know. It must be answerable by picking one of four short, mutually exclusive options that a non-technical owner would understand. Do not ask about budget or industry — we already have those.
-
-Industry: ${D.industry}. Staff: ${D.employees}. Revenue: ${D.revenue}. Sells to: ${D.model}. 12-month goal: ${D.goal}.
-
-Reply with only a JSON object: {"question": "...", "options": ["...","...","...","..."]}`,
-      {modelTier:"quick"});
-    if (out && out.question && Array.isArray(out.options) && out.options.length >= 2){
-      D.fuQ = String(out.question); D.fuO = out.options.slice(0, 4).map(String); D.fuAnswer = null;
-      save(); injectFollowUp();
-      const s2 = $("fuMsg"); if (s2){ s2.className = "msg good"; s2.textContent = "Question written by Claude for your industry."; }
-      return;
     }
-    throw {code:"invalid_json"};
-  } catch (e){
-    msg.className = "msg bad";
-    msg.textContent = e.code === "not_granted" ? "Claude isn't available here — keeping the standard follow-up." : "Couldn't write a new question — keeping the standard follow-up.";
-    if (e.code === "not_granted" || e.code === "sampling_disabled") sampleFn = null;
-  } finally {
-    const b = $("fuAi"); if (b) b.disabled = false;
-  }
-}
 
-/* ---------- 14. PDF PROPOSAL (Bonus 3) ---------- */
 
-function proposalHTML(lead){
-  const m = maturity(), ai = aiReadiness(), pp = painPoints(), P = plan(), recs = P.picks, rd = roadmap(), r = roi();
-  const today = new Date().toLocaleDateString("en-MY", {day:"numeric", month:"long", year:"numeric"});
-  const H = (t) => `<h2 style="font-size:13pt;color:#0A2540;margin:22px 0 8px;padding-bottom:5px;border-bottom:2px solid #E08A00;letter-spacing:-0.02em">${t}</h2>`;
-  const stars = n => `<span style="color:#E08A00;letter-spacing:1px">${"&#9733;".repeat(n)}</span><span style="color:#D6DEE9;letter-spacing:1px">${"&#9733;".repeat(5 - n)}</span>`;
-  const kv = (k, v) => `<tr><td style="padding:3px 10px 3px 0;color:#6B7F96;font-size:9pt;white-space:nowrap">${k}</td><td style="padding:3px 0;color:#0A2540;font-size:9pt;font-weight:600">${esc(v || "—")}</td></tr>`;
+    document.querySelectorAll("[data-close]").forEach(button => {
 
-  return `<div style="font-family:Inter,Helvetica,Arial,sans-serif;color:#0A2540;background:#ffffff;padding:26px 30px;font-size:9.5pt;line-height:1.45">
+        button.addEventListener("click", () => {
 
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #0A2540;padding-bottom:12px">
-    <div>
-      <div style="font-size:16pt;font-weight:800;letter-spacing:-0.04em;color:#E08A00">EXABYTES</div>
-      <div style="font-size:8pt;color:#6B7F96;margin-top:2px">AI Horizon Solution Challenge 2026 &middot; SME Digital Growth Advisor</div>
-    </div>
-    <div style="text-align:right;font-size:8pt;color:#6B7F96">
-      <div>Prepared ${today}</div>
-      <div>Reference ${esc(lead && lead.id ? lead.id : "DRAFT-" + new Date().getFullYear())}</div>
-    </div>
-  </div>
+            closeModal(
+                button.getAttribute("data-close")
+            );
 
-  <h1 style="font-size:19pt;font-weight:800;letter-spacing:-0.03em;margin:18px 0 4px">Digital &amp; AI Transformation Blueprint</h1>
-  <p style="color:#39506B;margin:0 0 4px;font-size:10pt">${esc(D.industry || "SME")} &middot; ${esc(D.employees || "")} employees &middot; ${esc(D.location || "Malaysia")}</p>
+        });
 
-  <div style="page-break-inside:avoid">
-  ${H("1. Business summary")}
-  <table style="width:100%;border-collapse:collapse"><tbody>
-    ${kv("Industry", D.industry)}${kv("Employees", D.employees)}${kv("Trading for", D.yearsTrading)}
-    ${kv("Annual revenue", D.revenue)}${kv("Location", D.location)}${kv("Sells to", D.model)}
-    ${kv("12-month goal", D.goal)}${kv("Priority area", D.fuAnswer)}${kv("Main blocker", D.barrier)}
-    ${kv("Growth blocker", D.growthChallenge)}${kv("Three-year aim", D.future)}${kv("Monthly budget", D.budget)}
-  </tbody></table>
-  </div>
+    });
 
-  <div style="page-break-inside:avoid">
-  ${H("2. Digital maturity")}
-  <div style="display:flex;gap:16px;align-items:center;margin-bottom:8px">
-    <div style="background:#0A2540;color:#fff;border-radius:8px;padding:12px 18px;text-align:center">
-      <div style="font-size:24pt;font-weight:800;line-height:1">${m.score}</div>
-      <div style="font-size:7.5pt;color:#9FB4C9">OUT OF 100</div>
-    </div>
-    <div style="flex:1;font-size:9pt;color:#39506B">Scored across the six dimensions below. Weakest: <b>${m.dims.slice().sort((a,b)=>a.raw-b.raw).slice(0,2).map(d=>d.name).join(" and ")}</b> — these set the sequence of the roadmap in section 5.</div>
-  </div>
-  <table style="width:100%;border-collapse:collapse">
-    ${m.dims.map(d => `<tr style="border-bottom:1px solid #E7ECF3">
-      <td style="padding:5px 0;font-weight:600;width:28%">${esc(d.name)}</td>
-      <td style="padding:5px 8px;color:#6B7F96;font-size:8.5pt">${esc(d.answer)}</td>
-      <td style="padding:5px 0;text-align:right;white-space:nowrap">${stars(d.stars)}</td></tr>`).join("")}
-  </table>
-  </div>
 
-  <div style="page-break-inside:avoid">
-  ${H("3. AI readiness")}
-  <div style="display:flex;gap:16px;align-items:center;margin-bottom:8px">
-    <div style="background:#E08A00;color:#241400;border-radius:8px;padding:12px 18px;text-align:center">
-      <div style="font-size:24pt;font-weight:800;line-height:1">${ai.score}</div>
-      <div style="font-size:7.5pt">OUT OF 100</div>
-    </div>
-    <div style="flex:1;font-size:9pt;color:#39506B">${esc(ai.verdict)}</div>
-  </div>
-  <table style="width:100%;border-collapse:collapse">
-    ${ai.rows.map(x => `<tr style="border-bottom:1px solid #E7ECF3">
-      <td style="padding:5px 0;font-weight:600">${esc(x.label)}</td>
-      <td style="padding:5px 0;text-align:right">${stars(x.v)}</td></tr>`).join("")}
-  </table>
-  </div>
+    document.querySelectorAll(".modal-overlay").forEach(overlay => {
 
-  <div style="page-break-inside:avoid">
-  ${H("4. Top " + Math.min(5, pp.length) + " problems, with evidence")}
-  ${pp.slice(0, 5).map((p, i) => `<div style="margin-bottom:8px;padding-left:20px;position:relative">
-    <div style="position:absolute;left:0;top:1px;width:14px;height:14px;border-radius:4px;background:#FAE6E4;color:#C2453D;font-size:7.5pt;font-weight:700;text-align:center;line-height:14px">${i + 1}</div>
-    <div style="font-weight:700;font-size:9.5pt">${esc(p.title)}</div>
-    <div style="color:#6B7F96;font-size:8.5pt">${p.ev}</div></div>`).join("")}
-  </div>
+        overlay.addEventListener("click", event => {
 
-  ${H("5. Recommended solutions")}
-  ${recs.map((rec, i) => `<div style="page-break-inside:avoid;border:1px solid #D6DEE9;border-radius:6px;margin-bottom:8px;overflow:hidden">
-    <div style="background:#F1F4F9;padding:7px 10px;font-size:8.5pt;color:#39506B"><b>Problem ${i + 1}:</b> ${esc(rec.problem)}</div>
-    <div style="padding:9px 10px">
-      <div style="font-weight:700;font-size:10pt;margin-bottom:3px">${esc(rec.primary)}
-        <span style="background:#FCF0DA;color:#E08A00;font-size:7pt;font-weight:700;padding:1px 6px;border-radius:8px;margin-left:5px">PHASE ${rec.phase}</span></div>
-      <div style="font-size:8.5pt;color:#39506B"><b>Why:</b> ${esc(rec.why)}</div>
-      <div style="font-size:8pt;color:#6B7F96;margin-top:5px">
-        Indicative ${rec.cost[0] === 0 ? "from RM0" : rm(rec.cost[0]) + " – " + rm(rec.cost[1])}/month &middot; time to value ${esc(rec.effort)} &middot;
-        alternatives: ${rec.alts.map(esc).join(", ")}</div>
-    </div></div>`).join("")}
+            if (event.target === overlay) {
 
-  <div style="page-break-inside:avoid">
-  ${H("6. Implementation roadmap")}
-  ${rd.map(p => `<div style="margin-bottom:10px;border-left:3px solid #1266C9;padding-left:11px">
-    <div style="font-size:8pt;color:#1266C9;font-weight:700">${esc(p.when)}</div>
-    <div style="font-weight:700;font-size:10pt">${esc(p.name)}</div>
-    <div style="font-size:8.5pt;color:#39506B;margin-bottom:3px">${esc(p.aim)}</div>
-    <ul style="margin:0;padding-left:16px;font-size:8.5pt;color:#39506B">${p.items.map(i => `<li>${esc(i.primary)}</li>`).join("")}</ul>
-    <div style="font-size:8pt;color:#0F8F66;font-weight:600;margin-top:3px">${esc(p.roi)}</div></div>`).join("")}
-  </div>
+                overlay.classList.remove("show");
 
-  <div style="page-break-inside:avoid">
-  ${H("7. Estimated return")}
-  <div style="background:#0A2540;color:#fff;border-radius:8px;padding:14px 16px">
-    <div style="display:flex;justify-content:space-between;gap:20px">
-      <div><div style="font-size:7.5pt;color:#9FB4C9">HOURS RECOVERED</div>
-        <div style="font-size:15pt;font-weight:800">${r.hours.toFixed(1)} hrs / week</div></div>
-      <div><div style="font-size:7.5pt;color:#9FB4C9">ANNUAL VALUE OF THAT TIME</div>
-        <div style="font-size:15pt;font-weight:800;color:#4ADE9E">${rm(r.annual)}</div></div>
-      <div><div style="font-size:7.5pt;color:#9FB4C9">PAYBACK</div>
-        <div style="font-size:15pt;font-weight:800">${r.payback ? r.payback.toFixed(1) + " months" : "n/a"}</div></div>
-    </div>
-  </div>
-  <p style="font-size:8.5pt;color:#39506B;margin-top:8px"><b>${esc(r.verdict)}</b></p>
-  <p style="font-size:8pt;color:#6B7F96;margin-top:5px">${esc(
-    `${r.enq} enquiry hours/week × ${r.deflect}% deflected, plus ${r.adm} admin hours/week × 35% automated, costed at ${rm(r.rate)}/hour over 48 working weeks. Recommended stack ${rm(r.monthlyCost)}/month; year-one cost ${rm(r.yearOneCost)} with phases charged from when they start. Labour saving only — revenue effects are not counted.`)}</p>
-  </div>
+                document.body.style.overflow = "";
 
-  ${P.deferred.length ? `<div style="page-break-inside:avoid">
-    ${H("7b. Deliberately deferred")}
-    <p style="font-size:8.5pt;color:#39506B;margin-bottom:6px">Genuine issues, held back to keep total spend inside the stated budget of ${esc(D.budget || "n/a")} per month. Revisit after Phase 1.</p>
-    <table style="width:100%;border-collapse:collapse">
-      ${P.deferred.map(d => `<tr style="border-bottom:1px solid #E7ECF3">
-        <td style="padding:4px 0;font-weight:600;font-size:8.5pt">${esc(d.primary)}</td>
-        <td style="padding:4px 0;font-size:8pt;color:#6B7F96;text-align:right;white-space:nowrap">${d.cost[0] === 0 ? "from RM0" : rm(d.cost[0]) + "–" + rm(d.cost[1])}/mo</td></tr>`).join("")}
-    </table></div>` : ""}
+            }
 
-  <div style="page-break-inside:avoid">
-  ${H("8. Consultant notes")}
-  <div style="background:#F1F4F9;border-radius:6px;padding:11px 13px;font-size:8.5pt;color:#39506B;white-space:pre-wrap">${esc(window.__notes || baseNotes())}</div>
-  </div>
+        });
 
-  <div style="page-break-inside:avoid">
-  ${H("9. Next step")}
-  ${lead ? `<table style="width:100%;border-collapse:collapse"><tbody>
-      ${kv("Lead reference", lead.id)}${kv("Contact", lead.name)}${kv("Company", lead.company)}
-      ${kv("Email", lead.email)}${kv("Phone", lead.phone)}${kv("Assigned to", lead.desk)}${kv("Priority", lead.priority)}
-    </tbody></table>`
-    : `<p style="font-size:9pt;color:#39506B">Request a free consultation from the advisor page and this proposal is attached to the lead automatically, so your consultant arrives already knowing your size, budget, pain points and recommended sequence.</p>`}
-  </div>
+    });
 
-  <p style="margin-top:22px;padding-top:9px;border-top:1px solid #D6DEE9;font-size:7.5pt;color:#6B7F96">
-    Scores, costs and savings are indicative, generated from the answers given on ${today}. They are a basis for discussion, not a quotation. &copy; Exabytes Malaysia.</p>
-  </div>`;
-}
 
-async function downloadPDF(){
-  const btn = $("pdfBtn"), old = btn.textContent;
-  btn.disabled = true; btn.textContent = "Building proposal\u2026";
-  try {
-    const stage = $("pdfStage");
-    stage.innerHTML = proposalHTML(window.__lead);
-    const worker = html2pdf().set({
-      margin:[8, 0, 10, 0],
-      filename:`Exabytes_Blueprint_${(D.industry || "SME").replace(/[^A-Za-z0-9]/g, "")}_${new Date().toISOString().slice(0, 10)}.pdf`,
-      image:{type:"jpeg", quality:0.96},
-      html2canvas:{scale:2, useCORS:true, backgroundColor:"#ffffff", logging:false},
-      jsPDF:{unit:"mm", format:"a4", orientation:"portrait"},
-      pagebreak:{mode:["css", "legacy"]}
-    }).from(stage.firstElementChild);
+    document.addEventListener("keydown", event => {
 
-    const dl = await claudeUse("downloads");
-    if (dl){
-      const blob = await worker.outputPdf("blob");
-      await dl.save({filename:`Exabytes_Blueprint_${new Date().toISOString().slice(0, 10)}.pdf`, data:blob});
-    } else {
-      await worker.save();
+        if (event.key === "Escape") {
+
+            document.querySelectorAll(".modal-overlay")
+                .forEach(modal => {
+                    modal.classList.remove("show");
+                });
+
+            document.body.style.overflow = "";
+
+        }
+
+    });
+
+
+    /* =========================================================
+       LOGIN
+    ========================================================= */
+
+    const loginButton =
+        document.getElementById("loginButton");
+
+    const loginModal =
+        document.getElementById("loginModal");
+
+    loginButton.addEventListener("click", () => {
+
+        openModal("loginModal");
+
+    });
+
+
+    document
+        .getElementById("loginForm")
+        .addEventListener("submit", event => {
+
+            event.preventDefault();
+
+            const message =
+                document.getElementById("loginMessage");
+
+            message.style.display = "block";
+
+            setTimeout(() => {
+
+                closeModal("loginModal");
+
+                message.style.display = "none";
+
+            }, 1500);
+
+        });
+
+
+    /* =========================================================
+       ASSESSMENT DATA
+    ========================================================= */
+
+    const questions = [
+
+        {
+            question:
+                "How clearly defined are your current business goals?",
+
+            options: [
+                "We don't have clearly defined goals",
+                "We have some general goals",
+                "Our goals are clearly defined",
+                "Our goals are measurable and regularly reviewed"
+            ]
+        },
+
+        {
+            question:
+                "How digitally mature is your business?",
+
+            options: [
+                "Most processes are manual",
+                "We use some digital tools",
+                "Most important processes are digital",
+                "Our operations are highly integrated digitally"
+            ]
+        },
+
+        {
+            question:
+                "How is AI currently used in your business?",
+
+            options: [
+                "We do not use AI",
+                "We are exploring AI",
+                "We use AI for selected tasks",
+                "AI is integrated into several business processes"
+            ]
+        },
+
+        {
+            question:
+                "How well do you understand your biggest business pain points?",
+
+            options: [
+                "We are still trying to identify them",
+                "We know some of our main challenges",
+                "We have identified our key pain points",
+                "We continuously measure and address them"
+            ]
+        },
+
+        {
+            question:
+                "How structured is your business improvement process?",
+
+            options: [
+                "We mostly react to problems",
+                "We improve things when necessary",
+                "We have a structured improvement process",
+                "We use data and KPIs to drive continuous improvement"
+            ]
+        },
+
+        {
+            question:
+                "How ready is your business to invest in future growth?",
+
+            options: [
+                "We are not currently planning investments",
+                "We are considering future improvements",
+                "We have plans and resources for improvement",
+                "We actively invest in technology and growth"
+            ]
+        }
+
+    ];
+
+
+    let currentQuestion = 0;
+
+    let answers =
+        new Array(questions.length).fill(null);
+
+
+    /* =========================================================
+       OPEN ASSESSMENT
+    ========================================================= */
+
+    document
+        .querySelectorAll(".start-assessment")
+        .forEach(button => {
+
+            button.addEventListener("click", () => {
+
+                openModal("assessmentModal");
+
+                currentQuestion = 0;
+
+                answers =
+                    new Array(questions.length).fill(null);
+
+                document
+                    .getElementById("assessmentQuestions")
+                    .style.display = "block";
+
+                document
+                    .getElementById("resultScreen")
+                    .classList.remove("show");
+
+                renderQuestion();
+
+            });
+
+        });
+
+
+    document
+        .getElementById("assessmentClose")
+        .addEventListener("click", () => {
+
+            closeModal("assessmentModal");
+
+        });
+
+
+    /* =========================================================
+       RENDER QUESTION
+    ========================================================= */
+
+    function renderQuestion() {
+
+        const question =
+            questions[currentQuestion];
+
+        document
+            .getElementById("questionCount")
+            .textContent =
+            `Question ${currentQuestion + 1} of ${questions.length}`;
+
+
+        document
+            .getElementById("questionText")
+            .textContent =
+            question.question;
+
+
+        const optionsContainer =
+            document.getElementById("options");
+
+        optionsContainer.innerHTML = "";
+
+
+        question.options.forEach((option, index) => {
+
+            const button =
+                document.createElement("button");
+
+            button.type = "button";
+
+            button.className = "option";
+
+            button.textContent = option;
+
+
+            if (answers[currentQuestion] === index) {
+
+                button.classList.add("selected");
+
+            }
+
+
+            button.addEventListener("click", () => {
+
+                answers[currentQuestion] = index;
+
+                document
+                    .querySelectorAll(".option")
+                    .forEach(item => {
+                        item.classList.remove("selected");
+                    });
+
+                button.classList.add("selected");
+
+            });
+
+
+            optionsContainer.appendChild(button);
+
+        });
+
+
+        const progress =
+            ((currentQuestion + 1) /
+                questions.length) * 100;
+
+
+        document
+            .getElementById("progressBar")
+            .style.width =
+            `${progress}%`;
+
+
+        document
+            .getElementById("previousButton")
+            .disabled =
+            currentQuestion === 0;
+
+
+        const nextButton =
+            document.getElementById("nextButton");
+
+
+        if (currentQuestion === questions.length - 1) {
+
+            nextButton.textContent =
+                "View My Score →";
+
+        } else {
+
+            nextButton.textContent =
+                "Next →";
+
+        }
+
     }
-    stage.innerHTML = "";
-  } catch (e){
-    if (!e || e.code !== "declined") alert("The proposal couldn't be generated just now. Please try again.");
-  } finally {
-    btn.disabled = false; btn.textContent = old;
-  }
-}
 
-/* ---------- 15. LEAD CREATION (sales tool) ---------- */
 
-function createLead(){
-  const msg = $("ldMsg");
-  const name = $("ldName").value.trim(), company = $("ldCompany").value.trim();
-  const email = $("ldEmail").value.trim(), phone = $("ldPhone").value.trim();
-  if (!name || !company || !email || !phone){
-    msg.className = "msg bad"; msg.textContent = "Fill in all four fields so a consultant can reach you."; return;
-  }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-    msg.className = "msg bad"; msg.textContent = "That email address doesn't look right."; return;
-  }
-  if (!$("ldConsent").checked){
-    msg.className = "msg bad"; msg.textContent = "Tick the box so we can pass your results to a consultant."; return;
-  }
-  const terr = TERRITORY[D.location] || "Central";
-  const m = maturity(), ai = aiReadiness(), r = roi();
-  const lead = {
-    id:leadId(), created:new Date().toISOString(), name, company, email, phone,
-    territory:terr, desk:DESK[terr], priority:priority(),
-    industry:D.industry, employees:D.employees, revenue:D.revenue, location:D.location,
-    budget:D.budget, goal:D.goal, blocker:D.barrier,
-    maturityScore:m.score, aiReadinessScore:ai.score, growthScore:growthScore(),
-    painPoints:painPoints().slice(0, 5).map(p => p.title),
-    recommended:plan().picks.map(x => ({phase:x.phase, solution:x.primary})),
-    deferred:plan().deferred.map(x => x.primary),
-    estimatedAnnualSaving:Math.round(r.annual), indicativeMonthlyCost:Math.round(r.monthlyCost),
-    consultantNotes:window.__notes || baseNotes()
-  };
-  window.__lead = lead;
-  try { localStorage.setItem("exabytes.sme.lead." + lead.id, JSON.stringify(lead)); } catch(e){}
+    /* =========================================================
+       PREVIOUS
+    ========================================================= */
 
-  $("leadCard").innerHTML = `
-    <h3>Consultation requested</h3>
-    <div class="lead-ok">
-      <h4>Lead created and assigned</h4>
-      <div class="row"><span class="k">Reference</span><span class="v">${esc(lead.id)}</span></div>
-      <div class="row"><span class="k">Assigned to</span><span class="v">${esc(lead.desk)}</span></div>
-      <div class="row"><span class="k">Priority</span><span class="v">${esc(lead.priority)}</span></div>
-      <div class="row"><span class="k">Report attached</span><span class="v">Yes</span></div>
-    </div>
-    <p class="sub" style="margin-top:12px">Your consultant already has your scores, pain points, recommended sequence and budget. Expect contact on ${esc(phone)}.</p>
-    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
-      <button class="btn btn-amber" id="pdfBtn2">Download proposal</button>
-      <button class="btn btn-line" id="leadJson">Export lead record</button>
-    </div>
-    <p class="msg" id="ldMsg2"></p>`;
-  $("pdfBtn2").addEventListener("click", downloadPDF);
-  $("leadJson").addEventListener("click", exportLead);
-}
+    document
+        .getElementById("previousButton")
+        .addEventListener("click", () => {
 
-async function exportLead(){
-  const data = JSON.stringify(window.__lead, null, 2);
-  const m2 = $("ldMsg2");
-  try {
-    const dl = await claudeUse("downloads");
-    if (dl){
-      await dl.save({filename:window.__lead.id + ".json", data});
-      m2.className = "msg good"; m2.textContent = "Lead record saved. This is the payload a CRM would receive.";
-    } else {
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(new Blob([data], {type:"application/json"}));
-      a.download = window.__lead.id + ".json"; a.click();
-      setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+            if (currentQuestion > 0) {
+
+                currentQuestion--;
+
+                renderQuestion();
+
+            }
+
+        });
+
+
+    /* =========================================================
+       NEXT
+    ========================================================= */
+
+    document
+        .getElementById("nextButton")
+        .addEventListener("click", () => {
+
+            if (answers[currentQuestion] === null) {
+
+                alert(
+                    "Please select an answer before continuing."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                currentQuestion <
+                questions.length - 1
+            ) {
+
+                currentQuestion++;
+
+                renderQuestion();
+
+            } else {
+
+                calculateResult();
+
+            }
+
+        });
+
+
+    /* =========================================================
+       CALCULATE RESULT
+    ========================================================= */
+
+    function calculateResult() {
+
+        let total = 0;
+
+
+        answers.forEach(answer => {
+
+            /*
+                Each question has 4 choices:
+
+                0 = 25%
+                1 = 50%
+                2 = 75%
+                3 = 100%
+            */
+
+            total +=
+                (answer + 1) * 25;
+
+        });
+
+
+        const score =
+            Math.round(
+                total / questions.length
+            );
+
+
+        document
+            .getElementById("resultNumber")
+            .textContent =
+            `${score}/100`;
+
+
+        let description;
+
+
+        if (score < 50) {
+
+            description =
+                "Your assessment highlights several opportunities to strengthen your digital foundation and prepare your business for sustainable growth.";
+
+        } else if (score < 75) {
+
+            description =
+                "Your business has a solid foundation with several opportunities to improve digital maturity, AI readiness and operational efficiency.";
+
+        } else {
+
+            description =
+                "Your business demonstrates strong growth potential and a solid foundation for further digital transformation and AI adoption.";
+
+        }
+
+
+        document
+            .getElementById("resultDescription")
+            .textContent =
+            description;
+
+
+        const scores = answers.map(answer =>
+            (answer + 1) * 25
+        );
+
+
+        document
+            .getElementById("resultBusiness")
+            .textContent =
+            `${scores[0]}/100`;
+
+
+        document
+            .getElementById("resultDigital")
+            .textContent =
+            `${scores[1]}/100`;
+
+
+        document
+            .getElementById("resultAI")
+            .textContent =
+            `${scores[2]}/100`;
+
+
+        document
+            .getElementById("resultGrowth")
+            .textContent =
+            `${Math.round(
+                (scores[3] +
+                 scores[4] +
+                 scores[5]) / 3
+            )}/100`;
+
+
+        document
+            .getElementById("assessmentQuestions")
+            .style.display = "none";
+
+
+        document
+            .getElementById("resultScreen")
+            .classList.add("show");
+
     }
-  } catch (e){
-    if (e && e.code === "declined") return;
-    m2.className = "msg bad"; m2.textContent = "Couldn't export the lead record here.";
-  }
-}
 
-/* ---------- 16. NAVIGATION & BOOT ---------- */
 
-function show(view){
-  ["viewIntro", "viewForm", "viewResults"].forEach(v => $(v).classList.toggle("hidden", v !== view));
-  $("restartBtn").classList.toggle("hidden", view === "viewIntro");
-  window.scrollTo({top:0, behavior:"instant"});
-}
+    /* =========================================================
+       FINISH
+    ========================================================= */
 
-function generate(){
-  D.completedAt = new Date().toISOString(); save();
-  renderResults(); show("viewResults");
-}
+    document
+        .getElementById("finishAssessment")
+        .addEventListener("click", () => {
 
-$("startBtn").addEventListener("click", () => { step = 1; maxStep = Math.max(maxStep, 1); renderStep(); show("viewForm"); });
-$("resumeBtn").addEventListener("click", () => {
-  if (D.completedAt){ renderResults(); show("viewResults"); }
-  else { renderStep(); show("viewForm"); }
-});
-$("editBtn").addEventListener("click", () => { step = 1; renderStep(); show("viewForm"); });
-$("pdfBtn").addEventListener("click", downloadPDF);
-$("ldSubmit").addEventListener("click", createLead);
-$("askBtn").addEventListener("click", ask);
-$("askIn").addEventListener("keydown", e => { if (e.key === "Enter") ask(); });
-$("nextBtn").addEventListener("click", () => {
-  if (!validate()) return;
-  if (step < STEPS.length){ step++; maxStep = Math.max(maxStep, step); save(); renderStep(); }
-  else generate();
-});
-$("backBtn").addEventListener("click", () => { if (step > 1){ step--; renderStep(); } });
-document.addEventListener("click", e => {
-  const r = e.target.closest(".rail-step.go");
-  if (r && !$("viewForm").classList.contains("hidden")){ step = Number(r.dataset.go); renderStep(); }
-});
-$("restartBtn").addEventListener("click", () => {
-  if (!confirm("Clear your answers and start again?")) return;
-  try { localStorage.removeItem(LS_KEY); } catch(e){}
-  Object.keys(D).forEach(k => delete D[k]); touched.clear();
-  step = 1; maxStep = 1; window.__lead = null; window.__notes = null;
-  location.reload();
-});
-$("themeBtn").addEventListener("click", () => {
-  const cur = document.documentElement.getAttribute("data-theme");
-  const next = cur === "dark" ? "light" : cur === "light" ? "dark"
-    : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark");
-  document.documentElement.setAttribute("data-theme", next);
-});
+            closeModal("assessmentModal");
 
-/* capability helper — resolves null wherever the runtime isn't there */
-async function claudeUse(name){
-  try {
-    if (!window.claude || typeof window.claude.use !== "function") return null;
-    return await window.claude.use(name);
-  } catch(e){ return null; }
-}
+        });
 
-if (load()) $("resumeBtn").classList.remove("hidden");
 
-/* Light up the Claude-powered extras once (and if) the runtime answers */
-claudeUse("sample").then(fn => {
-  if (!fn) return;
-  sampleFn = fn;
-  $("askCard").classList.remove("hidden");
-  if (!$("viewForm").classList.contains("hidden")) renderStep();
-});
+    /* =========================================================
+       ACTIVE NAVIGATION ON SCROLL
+    ========================================================= */
+
+    const sections = document.querySelectorAll(
+        "main section[id]"
+    );
+
+    const navLinks =
+        document.querySelectorAll(".nav-link");
+
+
+    window.addEventListener("scroll", () => {
+
+        let current = "assessment";
+
+        sections.forEach(section => {
+
+            const sectionTop =
+                section.offsetTop - 100;
+
+            if (
+                window.scrollY >=
+                sectionTop
+            ) {
+
+                current =
+                    section.getAttribute("id");
+
+            }
+
+        });
+
+
+        navLinks.forEach(link => {
+
+            link.classList.remove("active");
+
+            const href =
+                link.getAttribute("href");
+
+
+            if (
+                href === `#${current}`
+            ) {
+
+                link.classList.add("active");
+
+            }
+
+        });
+
+    });
+
+
 </script>
+
 </body>
 </html>
