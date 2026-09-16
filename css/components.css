@@ -1,0 +1,186 @@
+/* =====================================================
+   COMPONENTS — reusable UI pieces shared across public pages
+   (buttons, layout helpers, top nav, footer).
+   Requires base.css (design tokens) to be loaded first.
+   Used by: index.html, aboutus.html, faq.html, results.html
+   ===================================================== */
+
+/* ---------- Buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  padding:.75rem 1.5rem;border-radius:.6rem;font-weight:600;font-size:.95rem;
+  transition:background .15s ease, color .15s ease, border-color .15s ease, transform .1s ease;
+  white-space:nowrap;
+}
+.btn:active{transform:translateY(1px);}
+.btn-primary{background:var(--blue);color:#fff;border:1px solid var(--blue);}
+.btn-outline{background:#fff;color:var(--blue);border:1px solid var(--blue);}
+.btn-outline:hover{background:var(--blue-light);}
+.btn-ghost{background:transparent;color:var(--slate);border:1px solid var(--border);}
+.btn-ghost:hover{background:#F8FAFC;}
+.btn-sm{padding:.5rem 1rem;font-size:.85rem;}
+.btn-block{width:100%;}
+
+/* ---------- Layout helpers ---------- */
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+.section{padding:88px 0;}
+.card{background:#fff;border:1px solid var(--border);border-radius:1rem;}
+
+/* ---------- Nav ---------- */
+.site-header{
+  position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--border);
+}
+.site-header .wrap{
+  display:flex;align-items:center;justify-content:space-between;height:72px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  height: 100%; /* Spans full navbar height */
+  padding: 12px 0; /* Creates 12px vertical spacing top and bottom */
+}
+
+.logo {
+  height: 100%;       /* Fills the height of .brand */
+  max-height: 48px;   /* Prevents image from becoming overly tall */
+  width: auto;        /* Preserves aspect ratio */
+  object-fit: contain;
+  display: block;
+}
+
+.nav-links{display:flex;align-items:center;gap:32px;}
+.nav-links a{font-size:.94rem;font-weight:500;color:var(--slate);transition:color .15s;}
+.nav-links a.active{color:var(--blue);font-weight:600;}
+.nav-links a:hover{color:var(--blue);}
+
+.nav-actions{display:flex;align-items:center;gap:12px;}
+
+.nav-toggle{display:none;background:none;border:none;padding:6px;}
+
+@media (max-width:900px){
+  .nav-links{display:none;}
+  .nav-toggle{display:block;}
+}
+@media (max-width:640px){
+  .nav-actions .btn-outline{display:none;}
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  background: var(--dark-navy, #0b2346);
+  color: #C9D6EE;
+  padding: 48px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Wrapper container to keep content centered & bounded */
+.footer-inner {
+  width: min(1120px, calc(100% - 48px));
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+/* --- Left: Logo & Tagline --- */
+.footer-brand-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.footer .logo-name {
+  color: #ffffff;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.footer .logo-tagline {
+  color: #8CA1CC; /* Brighter tone for contrast */
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* --- Center: Navigation Links --- */
+.footer-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-size: 0.88rem;
+}
+
+.footer-nav a {
+  color: #b0c4de;
+  transition: color 0.15s ease;
+}
+
+.footer-nav a:hover {
+  color: #ffffff;
+}
+
+/* --- Right: Socials + Divider + Copyright --- */
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.8rem;
+  color: #8CA1CC;
+  white-space: nowrap;
+}
+
+.social {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.social a {
+  color: #ffffff;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  opacity: 0.85;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.social a:hover {
+  opacity: 1;
+  color: #2463eb;
+}
+
+.footer-divider {
+  width: 1px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* --- Responsive adjustment --- */
+@media (max-width: 900px) {
+  .footer-inner {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    gap: 16px;
+  }
+  
+  .footer-nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+  
+  .footer-right {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .footer-divider {
+    display: none;
+  }
+}
