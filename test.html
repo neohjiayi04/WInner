@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,26 +8,34 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<link rel="stylesheet" href="css/pages/assessment.css">
+<link rel="stylesheet" href="css/pages/test.css">
+
 </head>
 <body>
 
-<header class="topbar">
-  <div class="topbar-in">
-    <div class="mark">
-      <span class="exa">EXABYTES</span>
-      <span class="sub">AI SME Digital Growth Advisor</span>
-    </div>
-    <nav class="topbar-nav">
+<header class="site-header">
+  <div class="wrap">
+    <!-- Brand Logo -->
+    <a href="index.html" class="brand">
+      <img src="logo-light.jpeg" alt="ExaPulse AI Logo" class="logo logo-light">
+      <img src="logo-dark.png" alt="ExaPulse AI Logo" class="logo logo-dark">
+    </a>
+
+    <!-- Center Navigation Block -->
+    <nav class="nav-links">
       <a href="index.html">Home</a>
+      <a href="#how-it-works">How It Works</a>
       <a href="assessment.html" class="active">Assessment</a>
       <a href="aboutus.html">About Us</a>
       <a href="faq.html">FAQ</a>
-      <a href="login.html" class="btn btn-outline btn-sm">Log In</a>
     </nav>
-    <div class="spacer"></div>
-    <button class="ghost" id="themeBtn" title="Switch light / dark">Theme</button>
-    <button class="ghost hidden" id="restartBtn">Start over</button>
+
+    <!-- Right Action Controls (Log In + Theme) -->
+    <div class="nav-actions">
+      <a href="login.html" class="btn-login">Log In</a>
+      <button class="ghost" id="themeBtn" title="Switch light / dark">Theme</button>
+      <button class="ghost hidden" id="restartBtn">Start over</button>
+    </div>
   </div>
 </header>
 
@@ -308,6 +315,7 @@ let step = 1, maxStep = 1;
 let sampleFn = null;       // Claude sampling, when the viewer allows it
 let chatTurns = [];
 const LS_KEY = "exabytes.sme.assessment.v2";
+const RESULTS_KEY = "exabytes.sme.results.v1";
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -1400,15 +1408,41 @@ function show(view){
   window.scrollTo({top:0, behavior:"instant"});
 }
 
+/* Package every real, answer-derived output the results page needs.
+   Nothing here is mock data — it's the output of the scoring engine
+   above, run against this user's own D (answers). */
+function buildResultsPayload(){
+  const m = maturity(), ai = aiReadiness(), g = growthScore(), pp = painPoints(),
+        P = plan(), rd = roadmap(), r = roi();
+  return {
+    generatedAt: new Date().toISOString(),
+    snapshot: {
+      industry: D.industry, employees: D.employees, yearsTrading: D.yearsTrading,
+      revenue: D.revenue, location: D.location, model: D.model, goal: D.goal,
+      focus: D.fuAnswer, budget: D.budget, barrier: D.barrier
+    },
+    maturity: m,
+    aiReadiness: ai,
+    growthScore: g,
+    painPoints: pp,
+    plan: {picks:P.picks, deferred:P.deferred, budget:P.budget, spend:P.spend, optimise:P.optimise},
+    roadmap: rd,
+    roi: r
+  };
+}
+
 function generate(){
   D.completedAt = new Date().toISOString(); save();
-  renderResults(); show("viewResults");
+  try { localStorage.setItem(RESULTS_KEY, JSON.stringify(buildResultsPayload())); } catch(e){}
+  location.href = "results.html";
 }
 
 $("startBtn").addEventListener("click", () => { step = 1; maxStep = Math.max(maxStep, 1); renderStep(); show("viewForm"); });
 $("resumeBtn").addEventListener("click", () => {
-  if (D.completedAt){ renderResults(); show("viewResults"); }
-  else { renderStep(); show("viewForm"); }
+  if (D.completedAt){
+    try { localStorage.setItem(RESULTS_KEY, JSON.stringify(buildResultsPayload())); } catch(e){}
+    location.href = "results.html";
+  } else { renderStep(); show("viewForm"); }
 });
 $("editBtn").addEventListener("click", () => { step = 1; renderStep(); show("viewForm"); });
 $("pdfBtn").addEventListener("click", downloadPDF);
@@ -1427,7 +1461,7 @@ document.addEventListener("click", e => {
 });
 $("restartBtn").addEventListener("click", () => {
   if (!confirm("Clear your answers and start again?")) return;
-  try { localStorage.removeItem(LS_KEY); } catch(e){}
+  try { localStorage.removeItem(LS_KEY); localStorage.removeItem(RESULTS_KEY); } catch(e){}
   Object.keys(D).forEach(k => delete D[k]); touched.clear();
   step = 1; maxStep = 1; window.__lead = null; window.__notes = null;
   location.reload();
@@ -1447,7 +1481,10 @@ async function claudeUse(name){
   } catch(e){ return null; }
 }
 
-if (load()) $("resumeBtn").classList.remove("hidden");
+if (load()){
+  $("resumeBtn").classList.remove("hidden");
+  $("resumeBtn").textContent = D.completedAt ? "View my results" : "Resume last assessment";
+}
 
 /* Light up the Claude-powered extras once (and if) the runtime answers */
 claudeUse("sample").then(fn => {
