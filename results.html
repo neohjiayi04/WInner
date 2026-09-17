@@ -27,26 +27,28 @@
 </head>
 <body>
 
-<header class="site-header">
-  <div class="wrap">
-    <a href="index.html" class="brand">
-      <span class="brand-mark" data-icon="logo"></span>
-      <span>SME<span class="brand-sub">GROWTH ADVISOR</span></span>
-    </a>
-    <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="solutions.html">Solutions</a>
-      <a href="resources.html">Resources</a>
-      <a href="advisors.html">Advisors</a>
-      <a href="aboutus.html">About Us</a>
+  <header class="site-header">
+    <div class="container wrap">
+        <a href="index.html" class="brand">
+            <img src="logo.jpg" alt="Website Logo" class="logo">
+        </a>
+    
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="index.html#how-it-works">How It Works</a>
+        <a href="assessment.html"  class="active">Assessment</a>
+        <a href="aboutus.html">About Us</a>
+        <a href="faq.html">FAQ</a>
     </nav>
-    <div class="nav-actions">
-      <a href="login.html" class="btn btn-outline btn-sm">Log In</a>
-      <a href="signup.html" class="btn btn-primary btn-sm">Get Started</a>
-      <button class="nav-toggle" aria-label="Menu" data-icon="menu"></button>
+
+        <div class="nav-actions">
+          <a href="login.html" class="btn btn-outline btn-sm">Log In</a>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
     </div>
-  </div>
-</header>
+  </header>
 
 <section class="results-body">
   <div class="wrap">
@@ -62,18 +64,13 @@
           <h1 style="margin: 0; font-size: 1.75rem;">Your Assessment Results</h1>
           <p style="margin: 4px 0 0; color: #64748b;">Snapshot for: <strong id="outCompanyName">Your Business</strong></p>
         </div>
-        <div style="text-align: right;">
-          <div class="exabytes-logo">EXABYTES</div>
-          <span style="font-size: 0.75rem; color: #64748b;">AI Horizon Advisor 2026</span>
+        <!--DOwnload pdf file-->
+        <div class="action-toolbar">
+          <button class="btn btn-outline" onclick="downloadPDFProposal(event)">Download PDF Proposal</button>
         </div>
       </div>
 
-      <div class="action-toolbar">
-        <button class="btn btn-outline" onclick="downloadPDFProposal(event)">📥 Download PDF Proposal</button>
-      </div>
-
-
-      <div class="results-grid">
+          <div class="results-grid">
         
         <!-- LEFT COLUMN: MAIN ANALYTICS REPORT -->
         <main>
@@ -282,6 +279,35 @@
     </form>
   </div>
 </div>
+
+<!-- Dark Footer -->
+<footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand-wrap">
+        <span class="logo-name">ExaPulse AI</span>
+        <span class="footer-divider"></span>
+        <span class="logo-tagline">SME GROWTH ADVISORY</span>
+      </div>
+
+      <nav class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="how-it-works.html">How It Works</a>
+        <a href="assessment.html">Assessment</a>
+        <a href="aboutus.html">About Us</a>
+        <a href="faq.html">FAQ</a>
+      </nav>
+
+      <div class="footer-right">
+        <div class="social">
+          <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        </div>
+        <span class="footer-divider"></span>
+        <span>&copy; 2026 ExaPulse AI. All rights reserved.</span>
+      </div>
+    </div>
+</footer>
 
 <script src="js/icons.js"></script>
 <script src="js/main.js"></script>
