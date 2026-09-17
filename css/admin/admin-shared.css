@@ -1,0 +1,67 @@
+/* =====================================================
+   ADMIN SHARED SHELL
+   Sidebar, topbar chrome, nav, search, user menu, bell —
+   identical across every admin page, defined once here.
+   Requires: base.css (design tokens)
+   Load AFTER base.css and BEFORE the page's own admin/*.css
+   Used by: all admin/*.html pages
+   ===================================================== */
+
+*{box-sizing:border-box;}
+
+body{
+    margin:0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+    background:var(--bg);
+    color:var(--text);
+  }
+
+.app{ display:flex; min-height:100vh; }
+
+.brand{ display:flex; align-items:center; gap:8px; font-size:20px; font-weight:700; margin-bottom:22px; }
+
+.brand .logo{ width:30px;height:30px;background:var(--blue); border-radius:8px;display:flex;align-items:center;justify-content:center; font-size:16px;font-weight:800; }
+
+.tagline{ font-size:19px; font-weight:700; line-height:1.25; margin-bottom:4px; }
+
+.subtag{ font-size:12px; color:#93a0c2; margin-bottom:26px; }
+
+.nav{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:4px; }
+
+.nav li{ display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:8px; font-size:14px; font-weight:500; color:#c3cbe0; cursor:pointer; }
+
+.nav li svg{ width:18px; height:18px; flex-shrink:0; }
+
+.nav li.active{ background:var(--blue); color:#fff; }
+
+.nav li:not(.active):hover{ background:rgba(255,255,255,0.06); color:#fff; }
+
+.sidebar-footer{ margin-top:auto; padding-top:30px; }
+
+.sidebar-footer .msg{ font-size:13px; color:#93a0c2; line-height:1.5; margin-bottom:16px; }
+
+.sidebar-footer .wordmark{ font-size:16px; font-weight:700; color:#fff; }
+
+.search{ flex:1; max-width:520px; display:flex; align-items:center; gap:10px; background:#fff; border:1px solid var(--border); border-radius:10px; padding:11px 16px; color:var(--muted-2); font-size:14px; }
+
+.search svg{ width:16px; height:16px; color:var(--muted-2); flex-shrink:0; }
+
+.topbar-right{ display:flex; align-items:center; gap:18px; }
+
+.bell{ position:relative; width:38px;height:38px; border-radius:50%; display:flex;align-items:center;justify-content:center; background:#fff; border:1px solid var(--border); color:var(--text); }
+
+.bell svg{ width:18px;height:18px; }
+
+.bell .dot{ position:absolute; top:-4px; right:-4px; background:var(--red); color:#fff; font-size:10px; font-weight:700; width:17px;height:17px;border-radius:50%; display:flex;align-items:center;justify-content:center; border:2px solid var(--bg); }
+
+.user{ display:flex; align-items:center; gap:10px; cursor:pointer; }
+
+.avatar{ width:38px;height:38px;border-radius:50%; background:var(--blue); color:#fff; font-weight:700; font-size:13px; display:flex;align-items:center;justify-content:center; }
+
+.user-info{ line-height:1.25; }
+
+.user-info .name{ font-size:13.5px; font-weight:600; }
+
+.user-info .role{ font-size:11.5px; color:var(--muted); }
+
+.chev{ width:14px;height:14px; color:var(--muted); }
