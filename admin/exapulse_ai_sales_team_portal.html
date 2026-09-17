@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExaPulse AI - Sales Representative Portal</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome 6 Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            500: '#0284c7', // Primary ExaPulse Blue
+                            600: '#0369a1',
+                            700: '#075985',
+                        },
+                        surface: '#f8fafc',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        /* Custom scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .page-section {
+            display: none;
+            animation: fadeIn 0.25s ease-in-out;
+        }
+        .page-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-surface text-slate-800 antialiased min-h-screen flex flex-col justify-between">
+
+    <div class="flex min-h-screen w-full relative overflow-x-hidden">
+
+        <!-- ================= PERSISTENT LEFT SIDEBAR ================= -->
+        <aside id="sidebar" class="w-64 bg-white border-r border-slate-200 flex flex-col justify-between shrink-0 transition-all duration-300 z-30 fixed inset-y-0 left-0 md:static -translate-x-full md:translate-x-0">
+            <div>
+                <!-- Brand Header -->
+                <div class="p-5 flex items-center justify-between border-b border-slate-100">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-sky-400 flex items-center justify-center text-white text-xl font-bold shadow-md shadow-brand-500/20">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </div>
+                        <div>
+                            <div class="font-bold text-slate-900 text-lg leading-tight tracking-tight">ExaPulse <span class="text-brand-500">AI</span></div>
+                            <div class="text-[10px] font-semibold text-slate-400 tracking-wider uppercase">SME Growth Advisor</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nav Navigation List -->
+                <nav class="p-4 space-y-1.5" id="sidebar-nav">
+                    
+                    <!-- Nav 1: Dashboard -->
+                    <button onclick="navigateTo('dashboard', this)" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm text-white bg-brand-500 shadow-sm transition-all">
+                        <i class="fa-solid fa-house text-base w-5 text-center"></i>
+                        <span>Dashboard</span>
+                    </button>
+
+                    <!-- Nav 2: Enquiries / My Leads -->
+                    <button onclick="navigateTo('enquiries', this)" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl font-medium text-sm text-slate-600 hover:bg-slate-100 transition-all">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-inbox text-base w-5 text-center text-slate-400"></i>
+                            <span>Enquiries</span>
+                        </div>
+                        <span class="bg-red-500 text-white text-[11px] font-bold px-2 py-0.5 rounded-full">8</span>
+                    </button>
+
+                    <!-- Nav 3: Assessments -->
+                    <button onclick="navigateTo('assessments', this)" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm text-slate-600 hover:bg-slate-100 transition-all">
+                        <i class="fa-solid fa-file-signature text-base w-5 text-center text-slate-400"></i>
+                        <span>Assessments</span>
+                    </button>
+
+                    <!-- Nav 4: Calendar & Consultations -->
+                    <button onclick="navigateTo('calendar', this)" class="nav-btn w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl font-medium text-sm text-slate-600 hover:bg-slate-100 transition-all">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-regular fa-calendar-check text-base w-5 text-center text-slate-400"></i>
+                            <span>Consultations</span>
+                        </div>
+                        <span class="bg-brand-100 text-brand-700 text-[11px] font-bold px-2 py-0.5 rounded-full">3 Today</span>
+                    </button>
+
+                    <!-- Nav 5: Performance & Reports -->
+                    <button onclick="navigateTo('performance', this)" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm text-slate-600 hover:bg-slate-100 transition-all">
+                        <i class="fa-solid fa-trophy text-base w-5 text-center text-slate-400"></i>
+                        <span>Reports & Targets</span>
+                    </button>
+
+                    <!-- Nav 6: Settings -->
+                    <button onclick="navigateTo('settings', this)" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm text-slate-600 hover:bg-slate-100 transition-all">
+                        <i class="fa-solid fa-gear text-base w-5 text-center text-slate-400"></i>
+                        <span>Settings</span>
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Sidebar Promo Footer Card -->
+            <div class="p-4">
+                <div class="bg-gradient-to-br from-sky-50 to-indigo-50 border border-sky-100 rounded-2xl p-4 text-center relative overflow-hidden">
+                    <div class="w-8 h-8 rounded-lg bg-brand-500/10 text-brand-600 flex items-center justify-center mx-auto mb-2 text-sm font-bold">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <p class="text-xs text-slate-500 font-medium leading-relaxed">More than just a lead.</p>
+                    <p class="text-sm font-bold text-brand-600">It's a head start.</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Mobile Sidebar Overlay -->
+        <div id="sidebar-overlay" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-slate-900/40 z-20 hidden md:hidden"></div>
+
+        <!-- ================= MAIN CONTENT WRAPPER ================= -->
+        <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+
+            <!-- GLOBAL HEADER -->
+            <header class="bg-white border-b border-slate-200 px-4 md:px-8 py-3.5 sticky top-0 z-10 flex items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleMobileSidebar()" class="md:hidden text-slate-500 hover:text-slate-800 p-2 rounded-lg hover:bg-slate-100">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                    <div>
+                        <h1 id="page-header-title" class="text-lg md:text-xl font-bold text-slate-900 leading-tight">
+                            Good morning, Daniel Tan 👋
+                        </h1>
+                        <p id="page-header-subtitle" class="text-xs text-slate-500">Sales Representative View • Personal Pipeline & Actions</p>
+                    </div>
+                </div>
+
+                <!-- Right Header Actions -->
+                <div class="flex items-center gap-3 shrink-0">
+                    <!-- Global Date Range Filter -->
+                    <div class="hidden sm:flex items-center gap-2 bg-slate-100 hover:bg-slate-200/70 transition-colors px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-medium text-slate-700 cursor-pointer">
+                        <i class="fa-regular fa-calendar text-slate-500"></i>
+                        <span>26 Sep 2026 - 02 Oct 2026</span>
+                        <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+                    </div>
+
+                    <!-- Quick Action Trigger -->
+                    <button onclick="openLogModal('General')" class="bg-brand-500 hover:bg-brand-600 text-white font-semibold text-xs px-3 py-2 rounded-xl shadow-xs transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-plus text-xs"></i>
+                        <span class="hidden md:inline">Log Lead Activity</span>
+                    </button>
+
+                    <!-- Notifications Button -->
+                    <button class="relative p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition-all">
+                        <i class="fa-regular fa-bell text-base"></i>
+                        <span class="absolute top-1.5 right-1.5 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">5</span>
+                    </button>
+
+                    <!-- User Profile Avatar -->
+                    <div class="flex items-center gap-2.5 border-l border-slate-200 pl-3">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=120" alt="Daniel Tan" class="w-9 h-9 rounded-full object-cover ring-2 ring-brand-500/30">
+                        <div class="hidden xl:block">
+                            <div class="text-xs font-bold text-slate-800 leading-tight">Daniel Tan</div>
+                            <span class="inline-block text-[10px] text-brand-600 font-semibold">Senior Sales Advisor</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- CONTAINER FOR SPA PAGES -->
+            <main class="p-4 md:p-8 space-y-6 max-w-7xl w-full mx-auto flex-1">
+
+                <!-- ================= PAGE 1: DASHBOARD ================= -->
+                <section id="page-dashboard" class="page-section active space-y-6">
+                    
+                    <!-- KPI Cards Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-xs hover:shadow-sm transition-all">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">My Active Leads</span>
+                                <div class="w-10 h-10 rounded-xl bg-brand-50 text-brand-500 flex items-center justify-center text-lg font-bold">
+                                    <i class="fa-solid fa-user-group"></i>
+                                </div>
+                            </div>
+                            <div class="flex items-baseline justify-between">
+                                <div class="text-3xl font-extrabold text-slate-900">28</div>
+                                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md"><i class="fa-solid fa-arrow-up text-[10px]"></i> +15%</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400 mt-2">vs. last week (24 assigned)</p>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-xs hover:shadow-sm transition-all">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Pending Follow-ups</span>
+                                <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center text-lg font-bold">
+                                    <i class="fa-regular fa-clock"></i>
+                                </div>
+                            </div>
+                            <div class="flex items-baseline justify-between">
+                                <div class="text-3xl font-extrabold text-slate-900">6</div>
+                                <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md">2 High Urgency</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400 mt-2">Action required today</p>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-xs hover:shadow-sm transition-all">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Consultations This Week</span>
+                                <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-lg font-bold">
+                                    <i class="fa-solid fa-calendar-check"></i>
+                                </div>
+                            </div>
+                            <div class="flex items-baseline justify-between">
+                                <div class="text-3xl font-extrabold text-slate-900">8</div>
+                                <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md"><i class="fa-solid fa-arrow-up text-[10px]"></i> +25%</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400 mt-2">Target: 6/week achieved</p>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-xs hover:shadow-sm transition-all">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">My Win Rate</span>
+                                <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-lg font-bold">
+                                    <i class="fa-solid fa-chart-pie"></i>
+                                </div>
+                            </div>
+                            <div class="flex items-baseline justify-between">
+                                <div class="text-3xl font-extrabold text-slate-900">62%</div>
+                                <span class="text-xs font-bold text-brand-600 bg-brand-50 px-2 py-0.5 rounded-md">Top Performer</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400 mt-2">Avg deal cycle: 4.2 days</p>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard Main Content Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Chart Area -->
+                        <div class="lg:col-span-2 bg-white p-5 rounded-2xl border border-slate-100 shadow-xs space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h2 class="text-base font-bold text-slate-900">Weekly Activity Trends</h2>
+                                    <p class="text-xs text-slate-500">Assigned leads vs. Contacted vs. Deals Closed</p>
+                                </div>
+                                <span class="text-xs bg-slate-100 text-slate-600 px-3 py-1 rounded-xl font-medium">Last 7 Days</span>
+                            </div>
+                            <div class="h-64 w-full">
+                                <canvas id="dashboardTrendChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Rep Quick Tools -->
+                        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-xs space-y-4">
+                            <h2 class="text-base font-bold text-slate-900">Rep Quick Actions</h2>
+                            <div class="space-y-2.5">
+                                <button onclick="openLogModal('ABC Manufacturing')" class="w-full flex items-center justify-between p-3 rounded-xl border border-slate-100 bg-slate-50 hover:bg-brand-500 hover:text-white group transition-all text-left">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-9 h-9 rounded-lg bg-white text-brand-500 group-hover:bg-white/20 group-hover:text-white flex items-center justify-center text-sm shadow-xs">
+                                            <i class="fa-solid fa-phone"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-xs font-bold text-slate-800 group-hover:text-white">Log Call Activity</div>
+                                            <div class="text-[10px] text-slate-400 group-hover:text-white/80">Record meeting outcome</div>
+                                        </div>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-right text-xs text-slate-400 group-hover:text-white"></i>
+                                </button>
+
+                                <button onclick="navigateTo('calendar')" class="w-full flex items-center justify-between p-3 rounded-xl border border-slate-100 bg-slate-50 hover:bg-brand-500 hover:text-white group transition-all text-left">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-9 h-9 rounded-lg bg-white text-purple-600 group-hover:bg-white/20 group-hover:text-white flex items-center justify-center text-sm shadow-xs">
+                                            <i class="fa-regular fa-calendar-plus"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-xs font-bold text-slate-800 group-hover:text-white">Schedule Meeting</div>
+                                            <div class="text-[10px] text-slate-400 group-hover:text-white/80">Book Google/Teams consultation</div>
+                                        </div>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-right text-xs text-slate-400 group-hover:text-white"></i>
+                                </button>
+
+                                <button onclick="navigateTo('assessments')" class="w-full flex items-center justify-between p-3 rounded-xl border border-slate-100 bg-slate-50 hover:bg-brand-500 hover:text-white group transition-all text-left">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-9 h-9 rounded-lg bg-white text-emerald-600 group-hover:bg-white/20 group-hover:text-white flex items-center justify-center text-sm shadow-xs">
+                                            <i class="fa-solid fa-file-export"></i>
+                                        </div>
+                                        <div>
+                                            <div class="text-xs font-bold text-slate-800 group-hover:text-white">Generate Assessment</div>
+                                            <div class="text-[10px] text-slate-400 group-hover:text-white/80">AI Readiness Diagnostic PDF</div>
+                                        </div>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-right text-xs text-slate-400 group-hover:text-white"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= PAGE 2: ENQUIRIES / MY LEADS ================= -->
+                <section id="page-enquiries" class="page-section space-y-6">
+                    <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-xs space-y-4">
+                        <!-- Table Filter Header -->
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+                            <div class="relative flex-1 max-w-md">
+                                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-xs"></i>
+                                <input type="text" id="leadSearchInput" onkeyup="searchLeads()" placeholder="Search by company, contact person or email..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            </div>
+                            
+                            <div class="flex items-center gap-2 overflow-x-auto">
+                                <button onclick="filterLeadStatus('all', this)" class="lead-filter-btn px-3 py-1.5 rounded-xl bg-brand-500 text-white font-semibold text-xs shadow-xs">All Leads (8)</button>
+                                <button onclick="filterLeadStatus('new', this)" class="lead-filter-btn px-3 py-1.5 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium text-xs">New (2)</button>
+                                <button onclick="filterLeadStatus('followup', this)" class="lead-filter-btn px-3 py-1.5 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium text-xs">Follow-up (3)</button>
+                                <button onclick="filterLeadStatus('scheduled', this)" class="lead-filter-btn px-3 py-1.5 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 font-medium text-xs">Scheduled (2)</button>
+                            </div>
+                        </div>
+
+                        <!-- Leads Table -->
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs border-collapse">
+                                <thead class="bg-slate-50 text-slate-500 font-semibold border-b border-slate-100 uppercase tracking-wider">
+                                    <tr>
+                                        <th class="py-3 px-4">Company</th>
+                                        <th class="py-3 px-4">Contact Person</th>
+                                        <th class="py-3 px-4">Industry</th>
+                                        <th class="py-3 px-4">Status</th>
+                                        <th class="py-3 px-4">Lead Score</th>
+                                        <th class="py-3 px-4">Consultation Time</th>
+                                        <th class="py-3 px-4 text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="enquiriesTableBody" class="divide-y divide-slate-100 text-slate-700">
+                                    <!-- Dynamic rows rendered via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= PAGE 3: ASSESSMENTS ================= -->
+                <section id="page-assessments" class="page-section space-y-6">
+                    <div class="flex items-center justify-between bg-white p-5 rounded-2xl border border-slate-100 shadow-xs">
+                        <div>
+                            <h2 class="text-base font-bold text-slate-900">Client AI Readiness & SME Growth Diagnostics</h2>
+                            <p class="text-xs text-slate-500">Generate, review, and send AI-driven business diagnostic reports to prospects</p>
+                        </div>
+                        <button onclick="triggerToast('Generated new AI Assessment Draft')" class="bg-brand-500 hover:bg-brand-600 text-white font-bold text-xs px-4 py-2 rounded-xl shadow-xs transition-all">
+                            + Generate New Assessment
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                        <!-- Assessment Card 1 -->
+                        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-xs space-y-4 hover:border-brand-200 transition-all">
+                            <div class="flex items-center justify-between">
+                                <span class="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2.5 py-1 rounded-full">High Readiness</span>
+                                <span class="text-slate-400 text-[11px]">24 Sep 2026</span>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-sm">ABC Manufacturing</h3>
+                                <p class="text-xs text-slate-500">Contact: Aisha Rahman • Manufacturing</p>
+                            </div>
+                            <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 space-y-2">
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-slate-500">AI Automation Score</span>
+                                    <span class="font-extrabold text-brand-600">84 / 100</span>
+                                </div>
+                                <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                                    <div class="bg-brand-500 h-full rounded-full" style="width: 84%"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 pt-2">
+                                <button onclick="triggerToast('Downloading PDF Report for ABC Manufacturing...')" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs py-2 rounded-xl transition-all flex items-center justify-center gap-1.5">
+                                    <i class="fa-solid fa-file-pdf text-red-500"></i> Download PDF
+                                </button>
+                                <button onclick="navigateTo('calendar')" class="flex-1 bg-brand-50 hover:bg-brand-500 hover:text-white text-brand-600 font-semibold text-xs py-2 rounded-xl transition-all">
+                                    Debrief Call
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Assessment Card 2 -->
+                        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-xs space-y-4 hover:border-brand-200 transition-all">
+                            <div class="flex items-center justify-between">
+                                <span class="bg-amber-100 text-amber-700 text-[10px] font-bold px-2.5 py-1 rounded-full">Medium Readiness</span>
+                                <span class="text-slate-400 text-[11px]">22 Sep 2026</span>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-sm">GreenTech Solutions</h3>
+                                <p class="text-xs text-slate-500">Contact: Lim Wei Jian • Technology</p>
+                            </div>
+                            <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 space-y-2">
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-slate-500">AI Automation Score</span>
+                                    <span class="font-extrabold text-amber-600">68 / 100</span>
+                                </div>
+                                <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                                    <div class="bg-amber-500 h-full rounded-full" style="width: 68%"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 pt-2">
+                                <button onclick="triggerToast('Downloading PDF Report for GreenTech Solutions...')" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs py-2 rounded-xl transition-all flex items-center justify-center gap-1.5">
+                                    <i class="fa-solid fa-file-pdf text-red-500"></i> Download PDF
+                                </button>
+                                <button onclick="navigateTo('calendar')" class="flex-1 bg-brand-50 hover:bg-brand-500 hover:text-white text-brand-600 font-semibold text-xs py-2 rounded-xl transition-all">
+                                    Debrief Call
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Assessment Card 3 -->
+                        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-xs space-y-4 hover:border-brand-200 transition-all">
+                            <div class="flex items-center justify-between">
+                                <span class="bg-sky-100 text-sky-700 text-[10px] font-bold px-2.5 py-1 rounded-full">Completed Diagnostic</span>
+                                <span class="text-slate-400 text-[11px]">20 Sep 2026</span>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-900 text-sm">Nova Retail Group</h3>
+                                <p class="text-xs text-slate-500">Contact: Priya Nair • Retail</p>
+                            </div>
+                            <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 space-y-2">
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-slate-500">AI Automation Score</span>
+                                    <span class="font-extrabold text-emerald-600">91 / 100</span>
+                                </div>
+                                <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                                    <div class="bg-emerald-500 h-full rounded-full" style="width: 91%"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 pt-2">
+                                <button onclick="triggerToast('Downloading PDF Report for Nova Retail...')" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs py-2 rounded-xl transition-all flex items-center justify-center gap-1.5">
+                                    <i class="fa-solid fa-file-pdf text-red-500"></i> Download PDF
+                                </button>
+                                <button onclick="navigateTo('calendar')" class="flex-1 bg-brand-50 hover:bg-brand-500 hover:text-white text-brand-600 font-semibold text-xs py-2 rounded-xl transition-all">
+                                    Debrief Call
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= PAGE 4: CALENDAR & CONSULTATIONS ================= -->
+                <section id="page-calendar" class="page-section space-y-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        
+                        <!-- Interactive Weekly Calendar View -->
+                        <div class="lg:col-span-2 bg-white p-5 rounded-2xl border border-slate-100 shadow-xs space-y-4">
+                            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                                <div class="flex items-center gap-3">
+                                    <h2 class="text-base font-bold text-slate-900">Consultation Schedule</h2>
+                                    <span class="text-xs bg-brand-50 text-brand-600 font-semibold px-2.5 py-1 rounded-lg border border-brand-100">Week of Sep 28 - Oct 04, 2026</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <button class="p-1.5 rounded-lg border border-slate-200 hover:bg-slate-100 text-slate-600"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+                                    <button class="p-1.5 rounded-lg border border-slate-200 hover:bg-slate-100 text-slate-600"><i class="fa-solid fa-chevron-right text-xs"></i></button>
+                                </div>
+                            </div>
+
+                            <!-- Calendar Day Schedule List -->
+                            <div class="space-y-3">
+                                <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50/50 flex items-center justify-between hover:border-brand-500 transition-all">
+                                    <div class="flex items-center gap-4">
+                                        <div class="text-center w-12 py-1 bg-brand-50 text-brand-600 rounded-lg border border-brand-100 font-bold text-xs">
+                                            MON<br><span class="text-sm text-slate-900">28</span>
+                                        </div>
+                                        <div>
+                                            <div class="font-bold text-slate-900 text-xs">ABC Manufacturing — SME Growth Consultation</div>
+                                            <div class="text-[11px] text-slate-500">Contact: Aisha Rahman • Google Meet</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-xs font-bold text-brand-600">10:00 AM - 10:45 AM</div>
+                                        <span class="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2 py-0.5 rounded-full">Confirmed</span>
+                                    </div>
+                                </div>
+
+                                <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50/50 flex items-center justify-between hover:border-brand-500 transition-all">
+                                    <div class="flex items-center gap-4">
+                                        <div class="text-center w-12 py-1 bg-purple-50 text-purple-600 rounded-lg border border-purple-100 font-bold text-xs">
+                                            TUE<br><span class="text-sm text-slate-900">29</span>
+                                        </div>
+                                        <div>
+                                            <div class="font-bold text-slate-900 text-xs">GreenTech Solutions — AI Implementation Pitch</div>
+                                            <div class="text-[11px] text-slate-500">Contact: Lim Wei Jian • Microsoft Teams</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-xs font-bold text-purple-600">02:30 PM - 03:15 PM</div>
+                                        <span class="bg-purple-100 text-purple-700 text-[10px] font-bold px-2 py-0.5 rounded-full">Scheduled</span>
+                                    </div>
+                                </div>
+
+                                <div class="p-3.5 rounded-xl border border-slate-200 bg-slate-50/50 flex items-center justify-between hover:border-brand-500 transition-all">
+                                    <div class="flex items-center gap-4">
+                                        <div class="text-center w-12 py-1 bg-amber-50 text-amber-600 rounded-lg border border-amber-100 font-bold text-xs">
+                                            WED<br><span class="text-sm text-slate-900">30</span>
+                                        </div>
+                                        <div>
+                                            <div class="font-bold text-slate-900 text-xs">Skyline Industries — Budget & Scope Review</div>
+                                            <div class="text-[11px] text-slate-500">Contact: Tan Boon Keat • Phone Call</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-xs font-bold text-amber-600">11:00 AM - 11:30 AM</div>
+                                        <span class="bg-amber-100 text-amber-700 text-[10px] font-bold px-2 py-0.5 rounded-full">Pending Prep</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Meeting Prep Notes Drawer -->
+                        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-xs space-y-4">
+                            <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                                <i class="fa-solid fa-clipboard-list text-brand-500"></i> Next Meeting Call Prep
+                            </h2>
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs space-y-2">
+                                <div class="font-bold text-slate-900">ABC Manufacturing</div>
+                                <p class="text-slate-600 leading-relaxed">Key Pain Points: High inventory turnaround latency and manual order entries.</p>
+                                <div class="pt-2 border-t border-slate-200 text-[11px] text-slate-500">
+                                    <strong class="text-slate-800">Target Objective:</strong> Secure agreement for ExaPulse AI Growth Module tier.
+                                </div>
+                            </div>
+                            <button onclick="triggerToast('Copied Google Meet link to clipboard')" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold text-xs py-2.5 rounded-xl transition-all shadow-xs">
+                                <i class="fa-solid fa-video mr-1"></i> Launch Meeting Link
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= PAGE 5: PERFORMANCE & REPORTS ================= -->
+                <section id="page-performance" class="page-section space-y-6">
+                    
+                    <!-- Top Performance Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-xs">
+                            <div class="text-xs font-semibold text-slate-500 uppercase">Monthly Commission Earned</div>
+                            <div class="text-3xl font-extrabold text-slate-900 mt-2">$4,850</div>
+                            <div class="text-xs text-emerald-600 font-semibold mt-1"><i class="fa-solid fa-arrow-up text-[10px]"></i> +18% vs last month</div>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-xs">
+                            <div class="text-xs font-semibold text-slate-500 uppercase">Total Revenue Generated</div>
+                            <div class="text-3xl font-extrabold text-slate-900 mt-2">$45,000</div>
+                            <div class="text-xs text-brand-600 font-semibold mt-1">75% of $60k target achieved</div>
+                        </div>
+
+                        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-xs">
+                            <div class="text-xs font-semibold text-slate-500 uppercase">Team Ranking</div>
+                            <div class="text-3xl font-extrabold text-slate-900 mt-2">#1 <span class="text-xs font-normal text-slate-500">out of 5 reps</span></div>
+                            <div class="text-xs text-purple-600 font-semibold mt-1">Top Performer Distinction</div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Commission Calculator & Funnel Analysis -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Funnel Chart -->
+                        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-xs space-y-4">
+                            <h2 class="text-base font-bold text-slate-900">Lead Conversion Funnel</h2>
+                            <div class="h-60 w-full">
+                                <canvas id="funnelChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Commission Calculator Widget -->
+                        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-xs space-y-4">
+                            <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                                <i class="fa-solid fa-calculator text-brand-500"></i> Commission Projection Calculator
+                            </h2>
+                            <div class="space-y-3 text-xs">
+                                <div>
+                                    <div class="flex justify-between mb-1 font-semibold">
+                                        <span>Estimated Closed Deal Value</span>
+                                        <span id="calcDealValText" class="text-brand-600 font-bold">$10,000</span>
+                                    </div>
+                                    <input type="range" id="calcRange" min="1000" max="50000" step="1000" value="10000" oninput="updateCommissionCalc(this.value)" class="w-full accent-brand-500 cursor-pointer">
+                                </div>
+                                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                                    <div class="flex justify-between">
+                                        <span class="text-slate-500">Base Commission (8%):</span>
+                                        <span id="calcBaseText" class="font-bold text-slate-800">$800</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-slate-500">Tier Achievement Bonus (+2%):</span>
+                                        <span id="calcBonusText" class="font-bold text-emerald-600">$200</span>
+                                    </div>
+                                    <div class="pt-2 border-t border-slate-200 flex justify-between text-sm font-extrabold text-slate-900">
+                                        <span>Estimated Total Payout:</span>
+                                        <span id="calcTotalText" class="text-brand-600">$1,000</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================= PAGE 6: SETTINGS & PROFILE ================= -->
+                <section id="page-settings" class="page-section space-y-6">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-xs max-w-4xl space-y-6">
+                        
+                        <div class="border-b border-slate-100 pb-4">
+                            <h2 class="text-base font-bold text-slate-900">Sales Representative Profile & Settings</h2>
+                            <p class="text-xs text-slate-500">Manage your working availability, notification alerts, and calendar links</p>
+                        </div>
+
+                        <!-- User Profile Info Form -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                            <div>
+                                <label class="block text-slate-600 font-semibold mb-1">Full Name</label>
+                                <input type="text" value="Daniel Tan" class="w-full border border-slate-200 rounded-xl p-2.5 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            </div>
+                            <div>
+                                <label class="block text-slate-600 font-semibold mb-1">Email Address</label>
+                                <input type="email" value="daniel.tan@exapulse.ai" readonly class="w-full border border-slate-200 rounded-xl p-2.5 bg-slate-100 text-slate-500 cursor-not-allowed">
+                            </div>
+                            <div>
+                                <label class="block text-slate-600 font-semibold mb-1">Assigned Region / Industry Focus</label>
+                                <input type="text" value="Manufacturing & Technology" class="w-full border border-slate-200 rounded-xl p-2.5 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            </div>
+                            <div>
+                                <label class="block text-slate-600 font-semibold mb-1">Google Meet Personal Link</label>
+                                <input type="text" value="https://meet.google.com/exapulse-rep-tan" class="w-full border border-slate-200 rounded-xl p-2.5 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            </div>
+                        </div>
+
+                        <!-- Notification Settings Toggles -->
+                        <div class="space-y-3 pt-4 border-t border-slate-100 text-xs">
+                            <h3 class="font-bold text-slate-900">Notification Preferences</h3>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-700">Email alerts for new assigned leads</span>
+                                <input type="checkbox" checked class="w-4 h-4 text-brand-500 rounded focus:ring-brand-500">
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-slate-700">SMS reminders 15 mins before consultations</span>
+                                <input type="checkbox" checked class="w-4 h-4 text-brand-500 rounded focus:ring-brand-500">
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-slate-100 flex justify-end">
+                            <button onclick="triggerToast('Settings and Profile saved successfully!')" class="bg-brand-500 hover:bg-brand-600 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow-xs transition-all">
+                                Save Preferences
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+
+            <!-- TODAY'S GOAL PERSISTENT FOOTER BAR -->
+            <footer class="bg-white border-t border-slate-200 px-4 md:px-8 py-3 sticky bottom-0 z-10">
+                <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-brand-50 text-brand-500 flex items-center justify-center font-bold text-base shrink-0">
+                            <i class="fa-solid fa-bullseye"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs font-bold text-slate-900">Today's Daily Target</div>
+                            <div class="text-[11px] text-slate-500">Reach 10 Lead Contacts & Complete 3 Consultations</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 sm:gap-4 overflow-x-auto w-full md:w-auto justify-between md:justify-end">
+                        <div class="bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-xl flex items-center gap-2 shrink-0 text-xs">
+                            <i class="fa-solid fa-phone text-brand-500"></i>
+                            <span><strong class="text-slate-900">4 / 10</strong> Contacts</span>
+                        </div>
+                        <div class="bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-xl flex items-center gap-2 shrink-0 text-xs">
+                            <i class="fa-solid fa-handshake text-purple-600"></i>
+                            <span><strong class="text-slate-900">2 / 3</strong> Consultations</span>
+                        </div>
+                        <div class="bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-xl flex items-center gap-2 shrink-0 text-xs">
+                            <i class="fa-solid fa-file-invoice text-emerald-600"></i>
+                            <span><strong class="text-slate-900">1</strong> Proposal Sent</span>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+    </div>
+
+    <!-- ================= MODALS & DRAWERS ================= -->
+
+    <!-- MODAL 1: LOG CALL ACTIVITY -->
+    <div id="logModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-slate-100">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-base font-bold text-slate-900" id="modalCompanyTitle">Log Call Activity</h3>
+                <button onclick="closeLogModal()" class="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+            </div>
+            <div class="space-y-4 text-xs">
+                <div>
+                    <label class="block text-slate-600 font-semibold mb-1">Interaction Outcome</label>
+                    <select class="w-full border border-slate-200 rounded-xl p-2.5 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        <option>Completed Consultation - Highly Interested</option>
+                        <option>Follow-up Needed - Sent Proposal</option>
+                        <option>Left Voicemail / No Answer</option>
+                        <option>Disqualified / Low Budget</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-slate-600 font-semibold mb-1">Discussion Notes</label>
+                    <textarea rows="3" class="w-full border border-slate-200 rounded-xl p-2.5 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="Type key takeaways from client call..."></textarea>
+                </div>
+            </div>
+            <div class="flex justify-end gap-2 mt-6">
+                <button onclick="closeLogModal()" class="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 font-medium text-xs">Cancel</button>
+                <button onclick="submitLogActivity()" class="px-4 py-2 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-bold text-xs shadow-xs">Save Log</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: LEAD DETAIL DRAWER -->
+    <div id="leadDetailDrawer" class="fixed inset-0 bg-slate-900/40 z-50 hidden flex justify-end">
+        <div class="bg-white w-full max-w-lg h-full p-6 shadow-2xl border-l border-slate-200 overflow-y-auto space-y-6">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-4">
+                <div>
+                    <h3 id="drawerCompanyName" class="text-lg font-bold text-slate-900">Company Name</h3>
+                    <p id="drawerLeadId" class="text-xs text-slate-400">EGH-00128</p>
+                </div>
+                <button onclick="closeLeadDrawer()" class="text-slate-400 hover:text-slate-600 text-xl">&times;</button>
+            </div>
+
+            <div class="space-y-4 text-xs">
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                    <div class="flex justify-between"><span class="text-slate-500">Contact Name:</span> <strong id="drawerContactName" class="text-slate-800">Aisha Rahman</strong></div>
+                    <div class="flex justify-between"><span class="text-slate-500">Email:</span> <strong id="drawerEmail" class="text-slate-800">aisha@abc.com</strong></div>
+                    <div class="flex justify-between"><span class="text-slate-500">Industry:</span> <strong id="drawerIndustry" class="text-slate-800">Manufacturing</strong></div>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-slate-800 mb-2">Change Lead Status</h4>
+                    <select id="drawerStatusSelect" class="w-full border border-slate-200 rounded-xl p-2.5 bg-slate-50 font-medium text-slate-700">
+                        <option value="new">New Lead</option>
+                        <option value="followup">Follow-up Required</option>
+                        <option value="scheduled">Consultation Scheduled</option>
+                        <option value="closed">Deal Closed Won</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="pt-6 border-t border-slate-100 flex gap-2">
+                <button onclick="updateLeadStatusFromDrawer()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold py-2.5 rounded-xl transition-all text-xs">Save Status Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed top-5 right-5 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl text-xs font-semibold flex items-center gap-2 translate-y-[-100px] opacity-0 transition-all duration-300 z-50">
+        <i class="fa-solid fa-circle-check text-emerald-400"></i>
+        <span id="toastMsg">Action completed successfully!</span>
+    </div>
+
+    <!-- ================= JAVASCRIPT APP LOGIC ================= -->
+    <script>
+        // Sample Leads State
+        let leadsData = [
+            { id: 'EGH-00128', company: 'ABC Manufacturing', contact: 'Aisha Rahman', email: 'aisha@abc.com', industry: 'Manufacturing', status: 'followup', score: '92%', time: 'Today - 4:00 PM' },
+            { id: 'EGH-00127', company: 'GreenTech Solutions', contact: 'Lim Wei Jian', email: 'lim@greentech.com', industry: 'Technology', status: 'scheduled', score: '88%', time: '29 Sep 2:30 PM' },
+            { id: 'EGH-00126', company: 'Nova Retail Group', contact: 'Priya Nair', email: 'priya@novaretail.com', industry: 'Retail', status: 'new', score: '75%', time: 'Claimed 2h ago' },
+            { id: 'EGH-00125', company: 'Skyline Industries', contact: 'Tan Boon Keat', email: 'boonkeat@skyline.com', industry: 'Manufacturing', status: 'followup', score: '84%', time: '30 Sep 10:00 AM' },
+            { id: 'EGH-00124', company: 'EcoBuild Sdn Bhd', contact: 'Chong Mei Ling', email: 'mei@ecobuild.com', industry: 'Construction', status: 'scheduled', score: '79%', time: '01 Oct 1:00 PM' },
+            { id: 'EGH-00123', company: 'Nexus Logistics', contact: 'David Wong', email: 'david@nexus.com', industry: 'Logistics', status: 'new', score: '81%', time: 'Claimed 5h ago' }
+        ];
+
+        let selectedLeadId = null;
+
+        // SPA Navigation Manager
+        function navigateTo(pageId, btnElement) {
+            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+            const targetPage = document.getElementById('page-' + pageId);
+            if(targetPage) targetPage.classList.add('active');
+
+            // Update Sidebar Buttons State
+            if(btnElement) {
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.classList.remove('bg-brand-500', 'text-white', 'shadow-sm');
+                    btn.classList.add('text-slate-600', 'hover:bg-slate-100');
+                    const icon = btn.querySelector('i');
+                    if(icon) icon.classList.add('text-slate-400');
+                });
+                btnElement.classList.remove('text-slate-600', 'hover:bg-slate-100');
+                btnElement.classList.add('bg-brand-500', 'text-white', 'shadow-sm');
+                const icon = btnElement.querySelector('i');
+                if(icon) icon.classList.remove('text-slate-400');
+            }
+
+            // Mobile sidebar close on click
+            document.getElementById('sidebar').classList.add('-translate-x-full');
+            document.getElementById('sidebar-overlay').classList.add('hidden');
+        }
+
+        // Mobile Sidebar Toggle
+        function toggleMobileSidebar() {
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+            document.getElementById('sidebar-overlay').classList.toggle('hidden');
+        }
+
+        // Render Leads Table
+        function renderLeadsTable(data) {
+            const tbody = document.getElementById('enquiriesTableBody');
+            if(!tbody) return;
+
+            tbody.innerHTML = data.map(lead => `
+                <tr class="hover:bg-sky-50/40 transition-colors">
+                    <td class="py-3.5 px-4 font-bold text-slate-900">${lead.company} <br><span class="text-[10px] text-slate-400 font-normal">${lead.id}</span></td>
+                    <td class="py-3.5 px-4"><div class="font-medium text-slate-800">${lead.contact}</div><div class="text-[10px] text-slate-400">${lead.email}</div></td>
+                    <td class="py-3.5 px-4 font-medium text-slate-600">${lead.industry}</td>
+                    <td class="py-3.5 px-4">${getStatusBadge(lead.status)}</td>
+                    <td class="py-3.5 px-4 font-extrabold text-emerald-600">${lead.score}</td>
+                    <td class="py-3.5 px-4 text-slate-600">${lead.time}</td>
+                    <td class="py-3.5 px-4 text-right">
+                        <button onclick="openLeadDrawer('${lead.id}')" class="bg-brand-50 hover:bg-brand-500 hover:text-white text-brand-600 font-semibold px-2.5 py-1.5 rounded-lg transition-all text-[11px]">
+                            View Details
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function getStatusBadge(status) {
+            if(status === 'new') return `<span class="bg-cyan-100 text-cyan-800 font-bold px-2.5 py-0.5 rounded-full text-[10px]">New Lead</span>`;
+            if(status === 'followup') return `<span class="bg-amber-100 text-amber-700 font-bold px-2.5 py-0.5 rounded-full text-[10px]">Follow-up</span>`;
+            if(status === 'scheduled') return `<span class="bg-blue-100 text-brand-700 font-bold px-2.5 py-0.5 rounded-full text-[10px]">Scheduled</span>`;
+            return `<span class="bg-emerald-100 text-emerald-700 font-bold px-2.5 py-0.5 rounded-full text-[10px]">Closed Won</span>`;
+        }
+
+        // Filter Leads by Status Tab
+        function filterLeadStatus(status, btn) {
+            document.querySelectorAll('.lead-filter-btn').forEach(b => {
+                b.classList.remove('bg-brand-500', 'text-white', 'font-semibold', 'shadow-xs');
+                b.classList.add('bg-slate-100', 'text-slate-600');
+            });
+            btn.classList.add('bg-brand-500', 'text-white', 'font-semibold', 'shadow-xs');
+            btn.classList.remove('bg-slate-100', 'text-slate-600');
+
+            if(status === 'all') renderLeadsTable(leadsData);
+            else renderLeadsTable(leadsData.filter(l => l.status === status));
+        }
+
+        // Search Leads
+        function searchLeads() {
+            const query = document.getElementById('leadSearchInput').value.toLowerCase();
+            const filtered = leadsData.filter(l => 
+                l.company.toLowerCase().includes(query) || 
+                l.contact.toLowerCase().includes(query) || 
+                l.email.toLowerCase().includes(query)
+            );
+            renderLeadsTable(filtered);
+        }
+
+        // Lead Drawer Helpers
+        function openLeadDrawer(id) {
+            const lead = leadsData.find(l => l.id === id);
+            if(!lead) return;
+            selectedLeadId = id;
+            document.getElementById('drawerCompanyName').innerText = lead.company;
+            document.getElementById('drawerLeadId').innerText = lead.id;
+            document.getElementById('drawerContactName').innerText = lead.contact;
+            document.getElementById('drawerEmail').innerText = lead.email;
+            document.getElementById('drawerIndustry').innerText = lead.industry;
+            document.getElementById('drawerStatusSelect').value = lead.status;
+            document.getElementById('leadDetailDrawer').classList.remove('hidden');
+        }
+
+        function closeLeadDrawer() {
+            document.getElementById('leadDetailDrawer').classList.add('hidden');
+        }
+
+        function updateLeadStatusFromDrawer() {
+            const newStatus = document.getElementById('drawerStatusSelect').value;
+            const lead = leadsData.find(l => l.id === selectedLeadId);
+            if(lead) {
+                lead.status = newStatus;
+                renderLeadsTable(leadsData);
+                closeLeadDrawer();
+                triggerToast(`Status for ${lead.company} updated!`);
+            }
+        }
+
+        // Modals & Toast Helpers
+        function openLogModal(company) {
+            document.getElementById('modalCompanyTitle').innerText = 'Log Call: ' + company;
+            document.getElementById('logModal').classList.remove('hidden');
+        }
+        function closeLogModal() { document.getElementById('logModal').classList.add('hidden'); }
+        function submitLogActivity() { closeLogModal(); triggerToast('Call activity recorded successfully!'); }
+
+        function triggerToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.classList.remove('translate-y-[-100px]', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            setTimeout(() => {
+                toast.classList.add('translate-y-[-100px]', 'opacity-0');
+                toast.classList.remove('translate-y-0', 'opacity-100');
+            }, 3000);
+        }
+
+        // Commission Calculator Update
+        function updateCommissionCalc(val) {
+            document.getElementById('calcDealValText').innerText = '$' + parseInt(val).toLocaleString();
+            const base = val * 0.08;
+            const bonus = val * 0.02;
+            document.getElementById('calcBaseText').innerText = '$' + base.toLocaleString();
+            document.getElementById('calcBonusText').innerText = '$' + bonus.toLocaleString();
+            document.getElementById('calcTotalText').innerText = '$' + (base + bonus).toLocaleString();
+        }
+
+        // Chart.js Initializers
+        window.onload = function() {
+            renderLeadsTable(leadsData);
+
+            // Chart 1: Dashboard Weekly Trend
+            const ctx1 = document.getElementById('dashboardTrendChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: ['26 Sep', '27 Sep', '28 Sep', '29 Sep', '30 Sep', '01 Oct', '02 Oct'],
+                    datasets: [{
+                        label: 'Leads Contacted',
+                        data: [8, 12, 10, 15, 18, 14, 22],
+                        borderColor: '#0284c7',
+                        backgroundColor: 'rgba(2, 132, 199, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            // Chart 2: Conversion Funnel Chart
+            const ctx2 = document.getElementById('funnelChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: ['Assigned (28)', 'Contacted (24)', 'Consulted (12)', 'Proposal Sent (8)', 'Closed Won (5)'],
+                    datasets: [{
+                        label: 'Conversion Stage Count',
+                        data: [28, 24, 12, 8, 5],
+                        backgroundColor: ['#e0f2fe', '#bae6fd', '#38bdf8', '#0284c7', '#10b981']
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y' }
+            });
+        };
+    </script>
+</body>
+</html>

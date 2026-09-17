@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Assessment Results — ExaPulse AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- Libraries for PDF Export & Email Sending -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<style>
+:root {
+  --bg-main: #F8FAFC;
+  --surface: #FFFFFF;
+  --navy-dark: #0A2540;
+  --navy-medium: #1E293B;
+  --blue-primary: #0066FF;
+  --blue-hover: #0052CC;
+  --blue-light: #F0F6FF;
+  --blue-border: #BFDBFE;
+  --text-main: #0F172A;
+  --text-muted: #64748B;
+  --text-light: #94A3B8;
+  --border-color: #E2E8F0;
+  --success: #10B981;
+  --success-bg: #ECFDF5;
+  --warning: #F59E0B;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Header */
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--navy-dark);
+}
+
+.brand-icon {
+  width: 36px;
+  height: 36px;
+  background: var(--navy-dark);
+  color: var(--blue-primary);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 28px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover, .nav-links a.active {
+  color: var(--blue-primary);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background: var(--blue-primary);
+  color: white;
+}
+.btn-primary:hover { background: var(--blue-hover); }
+
+.btn-outline {
+  border-color: var(--border-color);
+  background: var(--surface);
+  color: var(--navy-dark);
+}
+.btn-outline:hover { background: var(--bg-main); border-color: var(--text-light); }
+
+.btn-secondary {
+  background: var(--navy-dark);
+  color: white;
+}
+.btn-secondary:hover { background: var(--navy-medium); }
+
+/* Banner Tag Header */
+.results-header-tag {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 32px 0 24px;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.back-link:hover { color: var(--blue-primary); }
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--navy-dark);
+  letter-spacing: -0.5px;
+}
+
+/* Grid Layout */
+.results-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 32px;
+  margin-bottom: 60px;
+}
+
+/* Cards */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
+}
+
+/* Score Panel */
+.score-panel-inner {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 24px;
+  align-items: center;
+}
+
+.score-block {
+  text-align: center;
+  padding-right: 24px;
+  border-right: 1px solid var(--border-color);
+}
+
+.score-block .lbl {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+.score-block .num {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--navy-dark);
+  line-height: 1;
+  margin: 12px 0 8px;
+}
+
+.score-block .num span {
+  font-size: 1.25rem;
+  color: var(--text-light);
+}
+
+.progress-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--blue-light);
+  color: var(--blue-primary);
+  font-weight: 700;
+  font-size: 0.75rem;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+
+.spark-line {
+  width: 100%;
+  height: 36px;
+  margin-top: 8px;
+}
+
+.radar-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+}
+
+/* Callout Box */
+.callout {
+  background: var(--blue-light);
+  border: 1px solid var(--blue-border);
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.callout i {
+  color: var(--blue-primary);
+  font-size: 1.25rem;
+  margin-top: 2px;
+}
+
+.callout p {
+  font-size: 0.9rem;
+  color: var(--navy-dark);
+}
+
+/* Section Titles */
+.block-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--navy-dark);
+  margin: 32px 0 16px;
+}
+
+/* Opportunities */
+.opp-card {
+  display: flex;
+  gap: 20px;
+}
+
+.opp-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--blue-light);
+  color: var(--blue-primary);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.opp-tag {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--blue-primary);
+  letter-spacing: 0.5px;
+}
+
+.opp-card h4 {
+  font-size: 1.05rem;
+  color: var(--navy-dark);
+  margin: 4px 0 6px;
+}
+
+.opp-card p {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.impact-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.impact-bars {
+  display: flex;
+  gap: 3px;
+}
+
+.impact-bars span {
+  width: 12px;
+  height: 6px;
+  background: var(--border-color);
+  border-radius: 2px;
+}
+
+.impact-bars span.on {
+  background: var(--blue-primary);
+}
+
+.opp-side {
+  width: 200px;
+  border-left: 1px solid var(--border-color);
+  padding-left: 20px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.opp-side a {
+  color: var(--blue-primary);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+/* Locked Card */
+.opp-card.locked {
+  background: #FAFAFA;
+  border-style: dashed;
+}
+
+.opp-lock-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.unlock-cta {
+  text-align: right;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.unlock-cta a { color: var(--blue-primary); text-decoration: none; }
+
+/* Timeline */
+.timeline-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.timeline-item {
+  padding-left: 16px;
+  border-left: 3px solid var(--blue-primary);
+}
+
+/* ROI Banner */
+.roi-banner {
+  background: var(--navy-dark);
+  color: white;
+  border-radius: 12px;
+  padding: 28px;
+  margin-bottom: 24px;
+}
+
+.roi-banner h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+.roi-val { font-size: 1.6rem; font-weight: 800; color: var(--blue-primary); }
+
+/* Bottom CTA Banner */
+.bottom-banner {
+  background: var(--navy-medium);
+  color: white;
+  border-radius: 12px;
+  padding: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.bottom-banner h4 { font-size: 1.1rem; margin-bottom: 4px; }
+.bottom-banner p { font-size: 0.85rem; color: var(--text-light); max-width: 440px; }
+
+/* Sidebar Cards */
+.sidebar-card {
+  background: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.sidebar-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--navy-dark);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.snap-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border-color);
+  font-size: 0.85rem;
+}
+.snap-row:last-child { border-bottom: none; }
+.snap-row .lbl { color: var(--text-muted); }
+.snap-row .val { font-weight: 600; color: var(--navy-dark); }
+
+/* Forms */
+.form-group { margin-bottom: 12px; }
+.form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--navy-dark); margin-bottom: 4px; }
+.form-control {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-family: inherit;
+}
+.form-control:focus { outline: none; border-color: var(--blue-primary); }
+
+/* Unlock List */
+.unlock-list { list-style: none; margin: 12px 0 16px; }
+.unlock-list li { font-size: 0.8rem; color: var(--text-muted); padding: 4px 0; display: flex; align-items: center; gap: 8px; }
+
+/* Toasts */
+.lead-toast {
+  border-radius: 8px; padding: 14px 18px; margin-bottom: 20px;
+  font-size: 0.875rem; line-height: 1.5; border: 1px solid transparent;
+}
+.lead-toast.info { background: #EFF6FF; border-color: #BFDBFE; color: #1E40AF; }
+.lead-toast.success { background: #ECFDF5; border-color: #A7F3D0; color: #065F46; }
+.lead-toast.error { background: #FEF2F2; border-color: #FECACA; color: #991B1B; }
+
+/* Modal */
+.modal-backdrop {
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(10, 37, 64, 0.6); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
+}
+.modal-backdrop.active { opacity: 1; pointer-events: auto; }
+
+.modal-card {
+  background: white; border-radius: 12px; padding: 28px; width: 90%; max-width: 440px;
+}
+
+/* Footer */
+.footer {
+  background: var(--navy-dark);
+  color: white;
+  padding: 40px 0;
+  font-size: 0.85rem;
+}
+.footer-inner { display: flex; justify-content: space-between; align-items: center; }
+.footer-nav a { color: var(--text-light); text-decoration: none; margin-right: 20px; }
+.footer-nav a:hover { color: white; }
+
+@media (max-width: 900px) {
+  .results-grid { grid-template-columns: 1fr; }
+  .score-panel-inner { grid-template-columns: 1fr; }
+  .score-block { border-right: none; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+  .opp-card { flex-direction: column; }
+  .opp-side { width: 100%; border-left: none; border-top: 1px solid var(--border-color); padding-left: 0; padding-top: 12px; }
+}
+</style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="wrap header-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon"><i class="fa-solid fa-bolt"></i></div>
+        <span>ExaPulse AI</span>
+      </a>
+      
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#how-it-works">How It Works</a>
+        <a href="assessment.html" class="active">Assessment</a>
+        <a href="aboutus.html">About Us</a>
+        <a href="faq.html">FAQ</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-outline">Log In</a>
+      </div>
+    </div>
+  </header>
+
+  <section style="padding: 24px 0 60px;">
+    <div class="wrap">
+      
+      <div id="leadToast" class="lead-toast" style="display:none;"></div>
+      
+      <a href="assessment.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Assessment</a>
+      
+      <div class="results-header-tag">
+        <div>
+          <h1 class="page-title">Your Assessment Results</h1>
+          <p style="color: var(--text-muted); margin-top: 4px;">Snapshot for: <strong id="outCompanyName" style="color:var(--navy-dark)">Your Business</strong></p>
+        </div>
+        <button class="btn btn-outline" onclick="downloadPDFProposal(event)">
+          <i class="fa-solid fa-file-arrow-down"></i> Download PDF Proposal
+        </button>
+      </div>
+
+      <div class="results-grid">
+        
+        <!-- LEFT COLUMN: Analytics & Recommendations -->
+        <main>
+          
+          <!-- SCORES PANEL -->
+          <div class="card score-panel">
+            <div class="score-panel-inner">
+              <div class="score-block">
+                <span class="lbl">SME Growth Score</span>
+                <div class="num" id="smeGrowthScore">68<span>/100</span></div>
+                <span class="progress-tag" id="scoreTag">Good Progress</span>
+                <p id="scoreSummaryText" style="font-size:0.8rem; color:var(--text-muted);">You are doing well! With the right improvements in key areas, your business can grow even stronger.</p>
+                
+                <svg class="spark-line" viewBox="0 0 220 60" preserveAspectRatio="none">
+                  <polyline points="0,45 35,42 70,38 105,40 140,25 175,20 220,8" fill="none" stroke="#0066FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="220" cy="8" r="4" fill="#0066FF"/>
+                </svg>
+              </div>
+              <div class="radar-wrap">
+                <svg id="radarChart" viewBox="0 0 500 460" style="width:100%; max-width:360px; height:auto;"></svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="card callout">
+            <i class="fa-regular fa-lightbulb"></i>
+            <p>Great start! We've identified key opportunities that can help your business grow faster. <a href="#" style="color:var(--blue-primary); font-weight:700;">Login or create your free account</a> to access your full personalized report.</p>
+          </div>
+
+          <!-- TOP GROWTH OPPORTUNITIES -->
+          <h2 class="block-title">Top Growth Opportunities</h2>
+
+          <div class="card opp-card">
+            <div class="opp-icon"><i class="fa-solid fa-desktop"></i></div>
+            <div style="flex:1;">
+              <span class="opp-tag" id="oppTag">Highest Impact</span>
+              <h4 id="oppTitle">1. Improve Digitalisation</h4>
+              <p id="digitalReadinessText">Your digital readiness score is 46/100, which is below the average for businesses in your industry.</p>
+              <div class="impact-row">
+                Potential Impact
+                <span class="impact-bars" id="oppImpactBars"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span><span></span></span>
+                <span id="oppImpactWord" style="color:var(--navy-dark)">High</span>
+              </div>
+            </div>
+            <div class="opp-side">
+              <p style="font-size:0.8rem;"><strong style="color:var(--navy-dark);">Why it matters</strong><br><span id="oppWhy">Improving digitalisation can help you save time, reduce costs, and reach more customers.</span></p>
+              <a href="#">Learn more →</a>
+            </div>
+          </div>
+
+          <!-- DYNAMIC RECOMMENDATIONS CONTAINER -->
+          <div id="exabytesRecommendations"></div>
+
+          <div class="card opp-card locked" id="oppLockedCard">
+            <div class="opp-icon" style="background:#E2E8F0; color:var(--text-muted);"><i class="fa-solid fa-lock"></i></div>
+            <div class="opp-lock-row">
+              <div>
+                <h4 id="oppTitle2">2. Increase Sales &amp; Marketing Effectiveness</h4>
+                <p style="margin-bottom:0;" id="oppText2">Discover how to attract more qualified leads and convert them into loyal customers.</p>
+              </div>
+              <div class="unlock-cta">
+                <a href="#">Create an account<br>to unlock →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- ROADMAP -->
+          <h2 class="block-title">Phased Implementation Roadmap</h2>
+          <div class="card">
+            <div class="timeline-container" id="roadmapTimeline"></div>
+          </div>
+
+          <!-- ROI ESTIMATOR -->
+          <div class="roi-banner">
+            <h3>Quantified ROI & Operational Impact</h3>
+            <p style="font-size:0.85rem; color:var(--text-light);">Estimated savings by implementing automated enquiry management & enterprise cloud storage:</p>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
+              <div>
+                <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-light);">Weekly Hours Saved</div>
+                <div style="font-size:1.4rem; font-weight:700;" id="roiHoursText">10 hrs / week</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-light);">Est. Annual Savings</div>
+                <div class="roi-val" id="roiSavingsText">RM 23,400 / yr</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bottom-banner">
+            <div>
+              <h4>You're on the right track!</h4>
+              <p>Join thousands of SMEs across Malaysia who are growing their business smarter with data-driven insights.</p>
+            </div>
+            <div>
+              <a href="#" class="btn btn-primary">Create Free Account</a>
+            </div>
+          </div>
+
+        </main>
+
+        <!-- RIGHT SIDEBAR -->
+        <aside>
+          
+          <!-- Business Snapshot -->
+          <div class="sidebar-card">
+            <h3 class="sidebar-title"><i class="fa-regular fa-clipboard" style="color:var(--blue-primary);"></i> Your Business Snapshot</h3>
+            <div class="snap-row"><span class="lbl">Industry</span><span class="val" id="snapIndustry">Healthcare</span></div>
+            <div class="snap-row"><span class="lbl">Company Size</span><span class="val" id="snapSize">6 – 20 employees</span></div>
+            <div class="snap-row"><span class="lbl">Business Age</span><span class="val" id="snapAge">6 – 10 years</span></div>
+            <div class="snap-row"><span class="lbl">Location</span><span class="val" id="snapLocation">Kuala Lumpur</span></div>
+            <div class="snap-row"><span class="lbl">Primary Goal</span><span class="val" id="snapGoal">Digitalise operations</span></div>
+          </div>
+
+          <!-- Strategy Booking -->
+          <div class="sidebar-card">
+            <h3 class="sidebar-title"><i class="fa-regular fa-calendar-check" style="color:var(--blue-primary);"></i> Book Strategy Session</h3>
+            <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">Book a 1-on-1 strategy call directly with an SME consultant.</p>
+
+            <form id="bookingForm" onsubmit="handleConsultationSubmit(event)">
+              <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" class="form-control" id="fullName" placeholder="Jane Doe" required>
+              </div>
+
+              <div class="form-group">
+                <label for="workEmail">Work Email</label>
+                <input type="email" class="form-control" id="workEmail" placeholder="jane@company.com" required>
+              </div>
+
+              <button type="submit" class="btn btn-secondary" style="width:100%; margin-top:8px;">Schedule Consultation</button>
+            </form>
+          </div>
+
+          <!-- Unlock Card -->
+          <div class="sidebar-card" style="background: var(--blue-light); border-color: var(--blue-border);">
+            <h3 class="sidebar-title" style="color:var(--blue-primary);"><i class="fa-solid fa-lock"></i> Unlock Full Report</h3>
+            <p style="font-size:0.8rem; color:var(--navy-dark);">Create a free account to discover full growth opportunities & AI advisory.</p>
+            <ul class="unlock-list">
+              <li><i class="fa-solid fa-check" style="color:var(--blue-primary);"></i> 3 more growth opportunities</li>
+              <li><i class="fa-solid fa-check" style="color:var(--blue-primary);"></i> Full digitalisation roadmap</li>
+              <li><i class="fa-solid fa-check" style="color:var(--blue-primary);"></i> Compare with industry peers</li>
+            </ul>
+            <a href="#" class="btn btn-primary" style="width:100%;">Create Free Account</a>
+          </div>
+
+        </aside>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Lead Capture Modal -->
+  <div class="modal-backdrop" id="salesModal">
+    <div class="modal-card">
+      <h3 style="margin-top:0; color:var(--navy-dark)">Request Consultation</h3>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px;">Connect with a digital advisor to implement your customized roadmap.</p>
+      <form onsubmit="handleConsultationSubmit(event)">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label>Work Email</label>
+          <input type="email" class="form-control" required>
+        </div>
+        <div class="form-group" style="margin-bottom:20px;">
+          <label>Phone Number</label>
+          <input type="tel" class="form-control" required>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="btn btn-outline" style="flex:1;" onclick="closeSalesModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="flex:1;">Submit Lead</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <div>
+        <strong>ExaPulse AI</strong> — SME Growth Advisory
+      </div>
+      <div class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="assessment.html">Assessment</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+      <div style="color:var(--text-light); font-size:0.8rem;">
+        &copy; 2026 ExaPulse AI. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+<script>
+/* Lightweight Standalone Radar Chart Generator */
+function renderRadar(svgEl, dimensions) {
+  if (!svgEl || !dimensions || !dimensions.length) return;
+  const numVars = dimensions.length;
+  const center = 230;
+  const radius = 140;
+  let gridHtml = '';
+  let polygonPoints = [];
+
+  for (let level = 1; level <= 4; level++) {
+    const r = (radius / 4) * level;
+    let points = [];
+    for (let i = 0; i < numVars; i++) {
+      const angle = (Math.PI * 2 / numVars) * i - Math.PI / 2;
+      points.push(`${center + r * Math.cos(angle)},${center + r * Math.sin(angle)}`);
+    }
+    gridHtml += `<polygon points="${points.join(' ')}" fill="none" stroke="#E2E8F0" stroke-width="1"/>`;
+  }
+
+  dimensions.forEach((d, i) => {
+    const angle = (Math.PI * 2 / numVars) * i - Math.PI / 2;
+    const val = (d.value || 0) / 100;
+    polygonPoints.push(`${center + radius * val * Math.cos(angle)},${center + radius * val * Math.sin(angle)}`);
+
+    const lx = center + (radius + 32) * Math.cos(angle);
+    const ly = center + (radius + 18) * Math.sin(angle);
+    gridHtml += `<text x="${lx}" y="${ly}" text-anchor="middle" font-size="11" fill="#475569" font-weight="600">${d.name}</text>`;
+  });
+
+  gridHtml += `<polygon points="${polygonPoints.join(' ')}" fill="rgba(0, 102, 255, 0.2)" stroke="#0066FF" stroke-width="2.5"/>`;
+  svgEl.innerHTML = gridHtml;
+}
+
+/* Page Hydration & Logic */
+const RESULTS_KEY = "exabytes.sme.results.v1";
+let results;
+try { results = JSON.parse(localStorage.getItem(RESULTS_KEY) || "null"); } catch (e) { results = null; }
+
+// Fallback Mock Payload if Page Accessed Directly
+if (!results) {
+  results = {
+    snapshot: { industry: "Healthcare", employees: "6 - 20", yearsTrading: "6 - 10 years", location: "Kuala Lumpur", goal: "Digitalise operations" },
+    growthScore: 68,
+    maturity: { score: 46, dims: [{name:"Digital", raw:2.3}, {name:"Sales", raw:3.1}, {name:"Ops", raw:3.9}, {name:"Security", raw:3.5}, {name:"Finance", raw:4.2}] },
+    painPoints: [{title: "Improve Digitalisation", w: 80}, {title: "Sales & Marketing", w: 60}],
+    plan: { picks: [{primary: "Cloud Enterprise Suite", why: "Automates multi-location file syncing.", problem: "Manual Operations"}] },
+    roadmap: [{when: "Phase 1 (Month 1-3)", name: "Foundation Upgrade", items: [{primary: "Deploy Cloud Storage"}]}],
+    roi: { hours: 10, annual: 23400 }
+  };
+}
+
+const snap = results.snapshot || {};
+const m = results.maturity || {dims:[], score:0};
+const growth = results.growthScore || 0;
+const pains = results.painPoints || [];
+const plan = results.plan || {picks:[]};
+const roadmapPhases = results.roadmap || [];
+const roi = results.roi || {hours:0, annual:0};
+
+const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+const setHTML = (id, val) => { const el = document.getElementById(id); if (el) el.innerHTML = val; };
+
+// Populate Page
+try {
+  setText("snapIndustry", snap.industry || "Not answered");
+  setText("snapSize", snap.employees ? `${snap.employees}` : "Not answered");
+  setText("snapAge", snap.yearsTrading || "Not answered");
+  setText("snapLocation", snap.location || "Not answered");
+  setText("snapGoal", snap.goal || "Not answered");
+  setText("outCompanyName", `${snap.industry || "Your"} Business`);
+
+  setHTML("smeGrowthScore", `${growth}<span>/100</span>`);
+  setText("digitalReadinessText", `Your digital maturity score is ${m.score}/100 based on your assessment answers.`);
+  
+  renderRadar(document.getElementById('radarChart'), (m.dims || []).map(d => ({ name: d.name, value: Math.round((d.raw / 5) * 100) })));
+
+  setText("roiHoursText", `${Math.round(roi.hours || 0)} hrs / week`);
+  setText("roiSavingsText", `RM ${Math.round(roi.annual || 0).toLocaleString()} / yr`);
+
+  setHTML("roadmapTimeline", roadmapPhases.map(p => `
+    <div class="timeline-item">
+      <span style="font-size:0.75rem; color:var(--blue-primary); font-weight:700;">${p.when}</span>
+      <h4 style="margin:2px 0 4px; font-size:0.95rem;">${p.name}</h4>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">${(p.items || []).map(i => i.primary).join(", ")}</p>
+    </div>
+  `).join(""));
+} catch (e) { console.error("Hydration error:", e); }
+
+/* EmailJS Credentials */
+const EMAILJS_SERVICE_ID  = "REPLACE_WITH_YOUR_SERVICE_ID";
+const EMAILJS_TEMPLATE_ID = "REPLACE_WITH_YOUR_TEMPLATE_ID";
+const EMAILJS_PUBLIC_KEY  = "REPLACE_WITH_YOUR_PUBLIC_KEY";
+
+function showToast(message, type) {
+  const el = document.getElementById("leadToast");
+  if (!el) return;
+  el.textContent = message;
+  el.className = `lead-toast ${type}`;
+  el.style.display = "block";
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function closeSalesModal() { document.getElementById("salesModal").classList.remove("active"); }
+
+function handleConsultationSubmit(e) {
+  e.preventDefault();
+  showToast("Your strategy session request has been submitted successfully!", "success");
+  closeSalesModal();
+}
+
+function downloadPDFProposal(evt) {
+  if (typeof html2pdf === "undefined") {
+    showToast("PDF Engine loading. Please try again in a moment.", "error");
+    return;
+  }
+  const element = document.querySelector("main");
+  html2pdf().set({
+    margin: 0.5,
+    filename: `ExaPulse_Report_${Date.now()}.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+  }).from(element).save();
+}
+</script>
+</body>
+</html>

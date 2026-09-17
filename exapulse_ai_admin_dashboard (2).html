@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExaPulse AI - Admin Portal</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            blue: '#2563EB',
+                            darkBlue: '#1D4ED8',
+                            navy: '#0F172A',
+                            slate: '#1E293B',
+                            lightBg: '#F8FAFC',
+                            cardBg: '#FFFFFF',
+                            emerald: '#10B981',
+                            amber: '#F59E0B',
+                            purple: '#8B5CF6'
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01)',
+                        'floating': '0 20px 30px -10px rgba(37, 99, 235, 0.15)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+            color: #0F172A;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F1F5F9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-[#F8FAFC] flex text-slate-800">
+
+    <aside class="w-64 bg-brand-navy text-slate-300 flex flex-col justify-between fixed h-full z-30 shadow-xl">
+        <div>
+            <!-- Brand Header -->
+            <div class="h-16 flex items-center px-6 border-b border-slate-800 space-x-3">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-blue to-blue-400 flex items-center justify-center text-white shadow-md shadow-blue-500/30">
+                    <i class="fa-solid fa-chart-line text-base"></i>
+                </div>
+                <div>
+                    <div class="flex items-center space-x-1">
+                        <span class="font-extrabold text-lg text-white tracking-tight">ExaPulse</span>
+                        <span class="font-bold text-lg text-brand-blue">AI</span>
+                    </div>
+                    <span class="text-[9px] uppercase tracking-widest text-slate-400 font-semibold block -mt-1">SME Growth Advisor</span>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="p-4 space-y-1.5 text-xs font-medium">
+                <button onclick="switchTab('overview')" id="side-nav-overview" class="side-nav-item w-full flex items-center space-x-3 px-3.5 py-3 rounded-xl transition bg-brand-blue text-white shadow-lg shadow-blue-600/30">
+                    <i class="fa-solid fa-chart-pie text-base w-5 text-center"></i>
+                    <span>Overview & Metrics</span>
+                </button>
+
+                <button onclick="switchTab('sales')" id="side-nav-sales" class="side-nav-item w-full flex items-center space-x-3 px-3.5 py-3 rounded-xl transition text-slate-400 hover:text-white hover:bg-slate-800/60">
+                    <i class="fa-solid fa-user-tie text-base w-5 text-center"></i>
+                    <span>Sales Team & Clients</span>
+                </button>
+
+                <button onclick="switchTab('users')" id="side-nav-users" class="side-nav-item w-full flex items-center space-x-3 px-3.5 py-3 rounded-xl transition text-slate-400 hover:text-white hover:bg-slate-800/60">
+                    <i class="fa-solid fa-building-user text-base w-5 text-center"></i>
+                    <span>SME User Management</span>
+                </button>
+
+                <button onclick="switchTab('ai-config')" id="side-nav-ai-config" class="side-nav-item w-full flex items-center space-x-3 px-3.5 py-3 rounded-xl transition text-slate-400 hover:text-white hover:bg-slate-800/60">
+                    <i class="fa-solid fa-sliders text-base w-5 text-center"></i>
+                    <span>AI Algorithm Settings</span>
+                </button>
+
+                <button onclick="switchTab('advisory')" id="side-nav-advisory" class="side-nav-item w-full flex items-center space-x-3 px-3.5 py-3 rounded-xl transition text-slate-400 hover:text-white hover:bg-slate-800/60 relative">
+                    <i class="fa-solid fa-headset text-base w-5 text-center"></i>
+                    <span>Advisor Consultations</span>
+                    <span id="badge-pending" class="ml-auto px-2 py-0.5 text-[10px] font-bold bg-blue-500 text-white rounded-full">118 AI</span>
+                </button>
+            </nav>
+        </div>
+
+        <!-- Sidebar Footer Admin User Info -->
+        <div class="p-4 border-t border-slate-800">
+            <div class="flex items-center justify-between p-2 rounded-xl bg-slate-800/50">
+                <div class="flex items-center space-x-3">
+                    <img class="w-8 h-8 rounded-full ring-2 ring-brand-blue/40 object-cover" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80" alt="Admin Avatar">
+                    <div class="overflow-hidden">
+                        <p class="text-xs font-bold text-white truncate">Sarah Jenkins</p>
+                        <p class="text-[10px] text-slate-400 truncate">Super Admin</p>
+                    </div>
+                </div>
+                <button onclick="showToast('Logged out session')" class="text-slate-400 hover:text-red-400 text-xs p-1.5 transition">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN RIGHT CONTENT CONTAINER -->
+    <div class="flex-grow ml-64 flex flex-col min-h-screen">
+
+        <header class="h-16 bg-white border-b border-slate-200 px-6 flex items-center justify-between sticky top-0 z-20">
+            <div class="flex items-center space-x-3 w-72">
+                <div class="relative w-full">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                    <input type="text" placeholder="Global search SMEs, sales reps, grants..." class="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue/30">
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-brand-blue border border-blue-200">
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-blue mr-1.5 animate-pulse"></span> Admin Role Active
+                </span>
+
+                <!-- Notifications Dropdown -->
+                <div class="relative">
+                    <button onclick="toggleNotifications()" class="p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg relative transition">
+                        <i class="fa-regular fa-bell text-base"></i>
+                        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white"></span>
+                    </button>
+                    <div id="notif-dropdown" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-xl border border-slate-100 py-2 z-50">
+                        <div class="px-4 py-2 border-b border-slate-100 flex justify-between items-center">
+                            <span class="font-bold text-xs text-slate-700">System Notifications</span>
+                            <span class="text-[10px] text-brand-blue font-semibold cursor-pointer">Clear all</span>
+                        </div>
+                        <div class="max-h-60 overflow-y-auto divide-y divide-slate-50 text-xs">
+                            <div class="p-3 hover:bg-slate-50 transition">
+                                <p class="font-semibold text-slate-800">AI Consultation Match Created</p>
+                                <p class="text-slate-500 text-[11px]">Matched Alex's Bakery with Sarah Jenkins (98% fit)</p>
+                                <span class="text-[10px] text-slate-400">5 mins ago</span>
+                            </div>
+                            <div class="p-3 hover:bg-slate-50 transition">
+                                <p class="font-semibold text-slate-800">Deal Closed</p>
+                                <p class="text-slate-500 text-[11px]">Marcus Tan converted TechFlow Enterprise</p>
+                                <span class="text-[10px] text-slate-400">45 mins ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Workspace Area -->
+        <main class="p-8 flex-grow space-y-8">
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5" id="dynamic-kpi-container">
+                <!-- Dynamically updated by JS based on current active page tab -->
+            </div>
+
+            <!-- TAB 1: OVERVIEW & ANALYTICS -->
+            <div id="tab-overview" class="tab-content space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Main Growth Chart -->
+                    <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-100 shadow-soft">
+                        <div class="flex justify-between items-center mb-4">
+                            <div>
+                                <h2 class="font-bold text-slate-800 text-lg">National SME Digitalization Trajectory</h2>
+                                <p class="text-slate-500 text-xs">Monthly registration and average assessment readiness score</p>
+                            </div>
+                            <select class="text-xs bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 font-medium text-slate-600 focus:outline-none">
+                                <option>Last 6 Months</option>
+                                <option>Year 2026</option>
+                            </select>
+                        </div>
+                        <div class="h-64 relative">
+                            <canvas id="growthChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Regional / Agency Breakdown -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-soft flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-center mb-4">
+                                <h2 class="font-bold text-slate-800 text-lg">Grant Distribution Split</h2>
+                                <span class="text-[11px] text-brand-blue font-semibold bg-blue-50 px-2 py-0.5 rounded-full">National</span>
+                            </div>
+                            <div class="h-48 relative flex items-center justify-center">
+                                <canvas id="agencyChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 mt-4 pt-4 border-t border-slate-100 text-xs">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-3 h-3 rounded-full bg-blue-600"></span>
+                                <span class="text-slate-600 font-medium">MDEC (42%)</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                                <span class="text-slate-600 font-medium">SME Corp (28%)</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                                <span class="text-slate-600 font-medium">Cradle (18%)</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="w-3 h-3 rounded-full bg-purple-500"></span>
+                                <span class="text-slate-600 font-medium">MY Digital (12%)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: SALES TEAM & CLIENTS -->
+            <div id="tab-sales" class="tab-content hidden space-y-6">
+                
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-xl font-black text-slate-800">Sales Team & Client Allocations</h2>
+                        <p class="text-xs text-slate-500">Track which sales team members are handling specific SME accounts and pipeline stages.</p>
+                    </div>
+                    <button onclick="openAssignModal(smeList[0].id)" class="px-3.5 py-2 bg-brand-blue text-white text-xs font-bold rounded-xl hover:bg-brand-darkBlue shadow-md transition flex items-center space-x-1.5">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                        <span>Reassign Client Account</span>
+                    </button>
+                </div>
+
+                <!-- Sales Rep Cards Overview Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="sales-reps-container">
+                    <!-- Populated dynamically via JS -->
+                </div>
+
+                <!-- Client Assignment Table with Search & Filter -->
+                <div class="bg-white rounded-2xl border border-slate-100 shadow-soft overflow-hidden space-y-3">
+                    <div class="p-5 border-b border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div class="flex items-center space-x-3 w-full md:w-auto flex-grow max-w-md">
+                            <div class="relative w-full">
+                                <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-xs"></i>
+                                <input type="text" id="sales-client-search" onkeyup="filterSalesTable()" placeholder="Search SME name, sector, or sales rep..." class="w-full pl-9 pr-4 py-2 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-blue/30">
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-3 w-full md:w-auto justify-end">
+                            <select id="sales-rep-filter" onchange="filterSalesTable()" class="text-xs border border-slate-200 rounded-xl px-3 py-2 bg-slate-50 font-medium text-slate-700 focus:outline-none">
+                                <option value="ALL">All Sales Reps</option>
+                                <option value="Sarah Jenkins">Sarah Jenkins</option>
+                                <option value="Marcus Tan">Marcus Tan</option>
+                                <option value="Priya Ramesh">Priya Ramesh</option>
+                                <option value="Ahmad Razak">Ahmad Razak</option>
+                            </select>
+
+                            <select id="stage-filter" onchange="filterSalesTable()" class="text-xs border border-slate-200 rounded-xl px-3 py-2 bg-slate-50 font-medium text-slate-700 focus:outline-none">
+                                <option value="ALL">All Pipeline Stages</option>
+                                <option value="Onboarding">Onboarding</option>
+                                <option value="Assessment Complete">Assessment Complete</option>
+                                <option value="Solution Selected">Solution Selected</option>
+                                <option value="Closed Won">Closed Won</option>
+                                <option value="Follow-up Needed">Follow-up Needed</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 text-[11px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100">
+                                    <th class="py-3.5 px-6">SME Client</th>
+                                    <th class="py-3.5 px-4">Sector & Region</th>
+                                    <th class="py-3.5 px-4">Assigned Sales Rep</th>
+                                    <th class="py-3.5 px-4">Pipeline Status</th>
+                                    <th class="py-3.5 px-4">Deal Value</th>
+                                    <th class="py-3.5 px-4">Last Activity</th>
+                                    <th class="py-3.5 px-6 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sales-table-body" class="divide-y divide-slate-100 text-xs">
+                                <!-- Dynamic Sales Client Rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- TAB 3: SME USER MANAGEMENT -->
+            <div id="tab-users" class="tab-content hidden space-y-6">
+                <div class="bg-white rounded-2xl border border-slate-100 shadow-soft overflow-hidden">
+                    <div class="p-5 border-b border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div class="relative w-full md:w-80">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-sm"></i>
+                            <input type="text" id="user-search" onkeyup="filterSmeTable()" placeholder="Search SME, sector, or advisor..." class="w-full pl-9 pr-4 py-2 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-blue/30">
+                        </div>
+                        <div class="flex items-center space-x-3 w-full md:w-auto justify-end">
+                            <select id="status-filter" onchange="filterSmeTable()" class="text-xs border border-slate-200 rounded-xl px-3 py-2 bg-slate-50 font-medium text-slate-700 focus:outline-none">
+                                <option value="ALL">All Readiness Statuses</option>
+                                <option value="Advanced Leader">Advanced Leader (&gt;75)</option>
+                                <option value="Good Progress">Good Progress (50-75)</option>
+                                <option value="Needs Support">Needs Support (&lt;50)</option>
+                            </select>
+                            <button onclick="openAddSmeModal()" class="px-3.5 py-2 bg-brand-blue hover:bg-brand-darkBlue text-white font-medium text-xs rounded-xl shadow-md transition flex items-center space-x-1.5">
+                                <i class="fa-solid fa-plus"></i>
+                                <span>Register SME</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 text-[11px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100">
+                                    <th class="py-3.5 px-6">SME Business Name</th>
+                                    <th class="py-3.5 px-4">Sector & Agency</th>
+                                    <th class="py-3.5 px-4">Readiness Score</th>
+                                    <th class="py-3.5 px-4">Status</th>
+                                    <th class="py-3.5 px-4">Assigned Advisor</th>
+                                    <th class="py-3.5 px-6 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sme-table-body" class="divide-y divide-slate-100 text-xs">
+                                <!-- Dynamic Content Populated via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: AI ALGORITHM SETTINGS -->
+            <div id="tab-ai-config" class="tab-content hidden space-y-6">
+
+                <!-- Header & Formula Explanation Banner -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-100 shadow-soft space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                        <div>
+                            <div class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-brand-blue border border-blue-200 mb-1">
+                                <i class="fa-solid fa-brain mr-1.5"></i> ExaPulse Intelligence Algorithm
+                            </div>
+                            <h2 class="text-xl font-extrabold text-slate-800">AI Readiness Scoring Engine Architecture</h2>
+                        </div>
+                        <span class="text-xs bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1 rounded-full font-bold">
+                            Total Weight constraint: <span id="total-weight-indicator">100%</span>
+                        </span>
+                    </div>
+
+                    <!-- Mathematical Formula Display -->
+                    <div class="p-4 bg-slate-900 text-white rounded-xl font-mono text-xs overflow-x-auto">
+                        <span class="text-blue-400 font-bold">// ExaPulse Readiness Formula (0 - 100 Score)</span><br>
+                        <span class="text-yellow-300">Total Score</span> = (<span class="text-purple-300">Digital Presence</span> × <span id="formula-w-dp" class="text-emerald-400 font-bold">0.30</span>) + (<span class="text-purple-300">Operational Efficiency</span> × <span id="formula-w-op" class="text-emerald-400 font-bold">0.30</span>) + (<span class="text-purple-300">Customer Experience</span> × <span id="formula-w-cx" class="text-emerald-400 font-bold">0.20</span>) + (<span class="text-purple-300">Tech & Cloud Infra</span> × <span id="formula-w-tech" class="text-emerald-400 font-bold">0.20</span>)
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+                    <!-- Interactive Slider Controls Panel (7 Cols) -->
+                    <div class="lg:col-span-7 bg-white p-6 rounded-2xl border border-slate-100 shadow-soft space-y-5">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-slate-800 text-base">Adjust Weightage Distribution</h3>
+                            <button onclick="resetWeightsToDefault()" class="text-xs text-brand-blue hover:underline font-semibold">
+                                Reset Defaults
+                            </button>
+                        </div>
+
+                        <!-- Pillar 1 -->
+                        <div class="p-3.5 bg-slate-50 rounded-xl space-y-2">
+                            <div class="flex justify-between items-center text-xs font-bold">
+                                <span class="text-slate-800"><i class="fa-solid fa-globe text-brand-blue mr-2"></i> Digital Presence Weight (W_dp)</span>
+                                <span id="val-dp" class="text-brand-blue font-extrabold text-sm">30%</span>
+                            </div>
+                            <input type="range" min="5" max="60" value="30" id="slider-dp" oninput="adjustWeights('dp')" class="w-full accent-brand-blue cursor-pointer">
+                            <p class="text-[11px] text-slate-500">Measures website maturity, SEO rank, online marketing, and social channels.</p>
+                        </div>
+
+                        <!-- Pillar 2 -->
+                        <div class="p-3.5 bg-slate-50 rounded-xl space-y-2">
+                            <div class="flex justify-between items-center text-xs font-bold">
+                                <span class="text-slate-800"><i class="fa-solid fa-gears text-emerald-600 mr-2"></i> Operational Efficiency Weight (W_op)</span>
+                                <span id="val-op" class="text-emerald-600 font-extrabold text-sm">30%</span>
+                            </div>
+                            <input type="range" min="5" max="60" value="30" id="slider-op" oninput="adjustWeights('op')" class="w-full accent-emerald-600 cursor-pointer">
+                            <p class="text-[11px] text-slate-500">Evaluates ERP adoption, workflow automation, inventory digitization, and digital invoicing.</p>
+                        </div>
+
+                        <!-- Pillar 3 -->
+                        <div class="p-3.5 bg-slate-50 rounded-xl space-y-2">
+                            <div class="flex justify-between items-center text-xs font-bold">
+                                <span class="text-slate-800"><i class="fa-solid fa-headset text-purple-600 mr-2"></i> Customer Experience Weight (W_cx)</span>
+                                <span id="val-cx" class="text-purple-600 font-extrabold text-sm">20%</span>
+                            </div>
+                            <input type="range" min="5" max="60" value="20" id="slider-cx" oninput="adjustWeights('cx')" class="w-full accent-purple-600 cursor-pointer">
+                            <p class="text-[11px] text-slate-500">Tracks CRM integration, e-commerce support, and automated customer service response times.</p>
+                        </div>
+
+                        <!-- Pillar 4 -->
+                        <div class="p-3.5 bg-slate-50 rounded-xl space-y-2">
+                            <div class="flex justify-between items-center text-xs font-bold">
+                                <span class="text-slate-800"><i class="fa-solid fa-cloud text-amber-600 mr-2"></i> Tech & Cloud Infrastructure Weight (W_tech)</span>
+                                <span id="val-tech" class="text-amber-600 font-extrabold text-sm">20%</span>
+                            </div>
+                            <input type="range" min="5" max="60" value="20" id="slider-tech" oninput="adjustWeights('tech')" class="w-full accent-amber-600 cursor-pointer">
+                            <p class="text-[11px] text-slate-500">Assesses cloud migration security, automated data backup, and SaaS tool usage.</p>
+                        </div>
+
+                        <button onclick="showToast('Algorithm weights updated across system!')" class="w-full py-2.5 bg-brand-navy hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow transition">
+                            Apply New Weightages Globally
+                        </button>
+                    </div>
+
+                    <!-- Live Real-Time Preview Simulator (5 Cols) -->
+                    <div class="lg:col-span-5 space-y-6">
+                        
+                        <!-- Readiness Tiers Card -->
+                        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-soft space-y-3">
+                            <h3 class="font-bold text-slate-800 text-sm border-b border-slate-100 pb-2">Readiness Score Tiers</h3>
+                            
+                            <div class="space-y-2 text-xs">
+                                <div class="p-2 bg-emerald-50 border border-emerald-200 rounded-lg flex items-center justify-between">
+                                    <div>
+                                        <p class="font-bold text-emerald-800">Advanced Leader (&gt;75 Score)</p>
+                                        <p class="text-[11px] text-emerald-600">Eligible for Scaling Grants & Mentorship</p>
+                                    </div>
+                                    <i class="fa-solid fa-trophy text-emerald-600 text-lg"></i>
+                                </div>
+
+                                <div class="p-2 bg-blue-50 border border-blue-200 rounded-lg flex items-center justify-between">
+                                    <div>
+                                        <p class="font-bold text-blue-800">Good Progress (50 - 75 Score)</p>
+                                        <p class="text-[11px] text-blue-600">Recommended for Digitalization Solutions</p>
+                                    </div>
+                                    <i class="fa-solid fa-chart-line text-blue-600 text-lg"></i>
+                                </div>
+
+                                <div class="p-2 bg-amber-50 border border-amber-200 rounded-lg flex items-center justify-between">
+                                    <div>
+                                        <p class="font-bold text-amber-800">Needs Support (&lt;50 Score)</p>
+                                        <p class="text-[11px] text-amber-600">Requires Dedicated Advisor Onboarding</p>
+                                    </div>
+                                    <i class="fa-solid fa-triangle-exclamation text-amber-600 text-lg"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Real-time Interactive Test Calculator -->
+                        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-soft space-y-4">
+                            <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                                <h3 class="font-bold text-slate-800 text-sm">Live Score Preview Simulator</h3>
+                                <span class="text-[10px] text-slate-400 font-mono">Test Sample SME Input</span>
+                            </div>
+
+                            <p class="text-xs text-slate-500">Adjust sample raw sub-scores below to see instant calculated result based on active weights:</p>
+
+                            <div class="grid grid-cols-2 gap-3 text-xs">
+                                <div>
+                                    <label class="block font-medium text-slate-600 mb-1">Digital Presence Raw</label>
+                                    <input type="number" id="test-raw-dp" value="55" min="0" max="100" oninput="recalculatePreviewScore()" class="w-full p-2 border border-slate-200 rounded-lg font-bold">
+                                </div>
+                                <div>
+                                    <label class="block font-medium text-slate-600 mb-1">Ops Efficiency Raw</label>
+                                    <input type="number" id="test-raw-op" value="72" min="0" max="100" oninput="recalculatePreviewScore()" class="w-full p-2 border border-slate-200 rounded-lg font-bold">
+                                </div>
+                                <div>
+                                    <label class="block font-medium text-slate-600 mb-1">CX & CRM Raw</label>
+                                    <input type="number" id="test-raw-cx" value="68" min="0" max="100" oninput="recalculatePreviewScore()" class="w-full p-2 border border-slate-200 rounded-lg font-bold">
+                                </div>
+                                <div>
+                                    <label class="block font-medium text-slate-600 mb-1">Tech & Cloud Raw</label>
+                                    <input type="number" id="test-raw-tech" value="60" min="0" max="100" oninput="recalculatePreviewScore()" class="w-full p-2 border border-slate-200 rounded-lg font-bold">
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-slate-50 rounded-xl flex items-center justify-between border border-slate-200">
+                                <div>
+                                    <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Calculated Final Score</span>
+                                    <div class="text-2xl font-black text-brand-blue" id="preview-final-score">63.9 / 100</div>
+                                </div>
+                                <div id="preview-badge" class="px-2.5 py-1 text-xs font-bold rounded-full bg-blue-100 text-blue-800">
+                                    Good Progress
+                                </div>
+                            </div>
+
+                            <div class="p-3 bg-blue-50 text-blue-900 rounded-xl text-[11px] leading-relaxed">
+                                <i class="fa-solid fa-lightbulb text-brand-blue mr-1"></i>
+                                <span class="font-semibold">Triggered AI Recommendation:</span>
+                                <span id="preview-recommendation"> "Assign Digital CRM Solution and e-Commerce integration roadmap."</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- TAB 5: AI-DRIVEN ADVISOR CONSULTATIONS -->
+            <div id="tab-advisory" class="tab-content hidden space-y-6">
+                
+                <!-- AI Smart Matching System Banner -->
+                <div class="p-4 bg-gradient-to-r from-slate-900 via-brand-navy to-slate-900 text-white rounded-2xl shadow-lg border border-slate-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-brand-blue/30 text-brand-blue flex items-center justify-center text-lg border border-brand-blue/50 shrink-0">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <h3 class="font-bold text-sm text-white">AI Consultation Attribution Engine</h3>
+                                <span class="px-2 py-0.5 text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-full flex items-center">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 animate-pulse"></span> Active
+                                </span>
+                            </div>
+                            <p class="text-xs text-slate-300 mt-0.5">
+                                ExaPulse AI automatically analyzes SME readiness score gaps and matches clients to advisors based on domain expertise. Admins retain 100% manual override control.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="text-right shrink-0">
+                        <span class="text-xs text-slate-400 block font-medium">Auto-Attribution Accuracy</span>
+                        <span class="text-lg font-black text-brand-blue">96.4% Fit Rate</span>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-slate-100 shadow-soft p-6 space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-100 pb-4">
+                        <div>
+                            <h2 class="font-bold text-slate-800 text-lg">Advisor Consultation Schedule</h2>
+                            <p class="text-slate-500 text-xs">AI Smart Attribution & Admin Override Control Panel</p>
+                        </div>
+                        <button onclick="runAiAutoMatch()" class="px-3.5 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl shadow transition flex items-center space-x-1.5">
+                            <i class="fa-solid fa-wand-magic-sparkles text-brand-blue"></i>
+                            <span>Re-run AI Smart Match</span>
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="advisory-cards-container">
+                        <!-- Dynamic AI Smart Matched Cards -->
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- MODAL: Detailed Assessment Report View -->
+    <div id="report-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-100 p-6 space-y-6">
+            <div class="flex justify-between items-start border-b border-slate-100 pb-4">
+                <div>
+                    <span class="text-xs font-bold text-brand-blue uppercase tracking-wider">Assessment Report</span>
+                    <h3 class="text-xl font-black text-slate-800" id="modal-company-name">Alex's Bakery</h3>
+                    <p class="text-slate-500 text-xs" id="modal-company-sector">Food & Beverage • Kuala Lumpur</p>
+                </div>
+                <button onclick="closeModal('report-modal')" class="text-slate-400 hover:text-slate-600 text-lg font-bold">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Score breakdown grid -->
+            <div class="grid grid-cols-4 gap-2 text-center">
+                <div class="p-2.5 bg-blue-50 rounded-xl">
+                    <span class="text-[9px] uppercase font-bold text-slate-500">Digital</span>
+                    <p class="text-base font-black text-brand-blue" id="modal-score-digital">55/100</p>
+                </div>
+                <div class="p-2.5 bg-emerald-50 rounded-xl">
+                    <span class="text-[9px] uppercase font-bold text-slate-500">Ops</span>
+                    <p class="text-base font-black text-emerald-600" id="modal-score-ops">72/100</p>
+                </div>
+                <div class="p-2.5 bg-purple-50 rounded-xl">
+                    <span class="text-[9px] uppercase font-bold text-slate-500">CX & CRM</span>
+                    <p class="text-base font-black text-purple-600" id="modal-score-cx">68/100</p>
+                </div>
+                <div class="p-2.5 bg-amber-50 rounded-xl">
+                    <span class="text-[9px] uppercase font-bold text-slate-500">Cloud Tech</span>
+                    <p class="text-base font-black text-amber-600" id="modal-score-tech">60/100</p>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <h4 class="font-bold text-slate-800 text-sm">AI Suggested Digitalization Roadmap:</h4>
+                <ul class="space-y-2 text-xs text-slate-600">
+                    <li class="flex items-start space-x-2">
+                        <i class="fa-solid fa-check text-emerald-500 mt-0.5"></i>
+                        <span>Adopt Digital CRM solution (WhatsApp Automated Flow).</span>
+                    </li>
+                    <li class="flex items-start space-x-2">
+                        <i class="fa-solid fa-check text-emerald-500 mt-0.5"></i>
+                        <span>Integrate E-Commerce Store with local Payment Gateway (Billplz / FPX).</span>
+                    </li>
+                    <li class="flex items-start space-x-2">
+                        <i class="fa-solid fa-check text-emerald-500 mt-0.5"></i>
+                        <span>Implement Inventory cloud sync to eliminate manual stock tracking.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="flex justify-end space-x-3 pt-4 border-t border-slate-100">
+                <button onclick="closeModal('report-modal')" class="px-4 py-2 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-50">Close</button>
+                <button onclick="showToast('Exporting PDF report...'); closeModal('report-modal')" class="px-4 py-2 bg-brand-blue text-white rounded-xl text-xs font-semibold hover:bg-brand-darkBlue">Download PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Assign Advisor / Sales Rep Modal -->
+    <div id="assign-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-100 p-6 space-y-5">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <div>
+                    <h3 class="font-bold text-slate-800 text-base">Override AI / Reassign Advisor</h3>
+                    <p class="text-[11px] text-slate-400">Admin manual override</p>
+                </div>
+                <button onclick="closeModal('assign-modal')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <p class="text-xs text-slate-500">Select new advisor or sales handler for <strong id="assign-sme-name" class="text-slate-800">Alex's Bakery</strong>:</p>
+
+            <div class="space-y-3">
+                <label class="block text-xs font-medium text-slate-700">Choose Advisor / Sales Member</label>
+                <select id="advisor-select" class="w-full text-xs border border-slate-200 rounded-xl p-2.5 focus:ring-2 focus:ring-brand-blue/30 focus:outline-none">
+                    <option value="Sarah Jenkins">Sarah Jenkins (Senior Growth Manager - Retail/F&B Specialist)</option>
+                    <option value="Marcus Tan">Marcus Tan (Enterprise Account Exec - ICT & Tech Specialist)</option>
+                    <option value="Priya Ramesh">Priya Ramesh (Digital Solutions Specialist - E-Commerce)</option>
+                    <option value="Ahmad Razak">Ahmad Razak (SME Onboarding Advisor - Logistics)</option>
+                </select>
+            </div>
+
+            <div class="flex justify-end space-x-2 pt-2">
+                <button onclick="closeModal('assign-modal')" class="px-3.5 py-2 border border-slate-200 rounded-xl text-xs text-slate-600 hover:bg-slate-50">Cancel</button>
+                <button onclick="confirmAssignAdvisor()" class="px-4 py-2 bg-brand-blue text-white text-xs font-bold rounded-xl hover:bg-brand-darkBlue">Confirm Override</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Register SME Modal -->
+    <div id="add-sme-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl border border-slate-100 p-6 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <h3 class="font-bold text-slate-800 text-base">Register New SME Client</h3>
+                <button onclick="closeModal('add-sme-modal')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <form onsubmit="handleCreateSME(event)" class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-medium text-slate-700 mb-1">Business Name</label>
+                    <input type="text" id="new-sme-name" required placeholder="e.g. Malaya Coffee Roasters" class="w-full p-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-blue/30 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block font-medium text-slate-700 mb-1">Sector</label>
+                    <input type="text" id="new-sme-sector" required placeholder="e.g. Retail / F&B" class="w-full p-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-blue/30 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block font-medium text-slate-700 mb-1">Assign Sales Rep</label>
+                    <select id="new-sme-salesrep" class="w-full p-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-blue/30 focus:outline-none">
+                        <option value="Sarah Jenkins">Sarah Jenkins</option>
+                        <option value="Marcus Tan">Marcus Tan</option>
+                        <option value="Priya Ramesh">Priya Ramesh</option>
+                        <option value="Ahmad Razak">Ahmad Razak</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-medium text-slate-700 mb-1">Affiliated Govt Agency</label>
+                    <select id="new-sme-agency" class="w-full p-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-blue/30 focus:outline-none">
+                        <option value="MDEC">MDEC</option>
+                        <option value="SME Corp">SME Corp</option>
+                        <option value="Cradle">Cradle</option>
+                        <option value="MY Digital">MY Digital</option>
+                    </select>
+                </div>
+                <div class="flex justify-end space-x-2 pt-3">
+                    <button type="button" onclick="closeModal('add-sme-modal')" class="px-3.5 py-2 border border-slate-200 rounded-xl text-slate-600">Cancel</button>
+                    <button type="submit" class="px-4 py-2 bg-brand-blue text-white font-bold rounded-xl hover:bg-brand-darkBlue">Add SME</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification Banner -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl z-50 hidden flex items-center space-x-3 transition-all transform translate-y-2">
+        <i class="fa-solid fa-circle-check text-emerald-400"></i>
+        <span id="toast-msg" class="text-xs font-medium">Action completed successfully</span>
+    </div>
+
+    <script>
+        // Page-Specific KPI Metrics Data Structure
+        const kpiDataMap = {
+            'overview': [
+                { label: "Total SMEs Assessed", value: "1,248", change: "+12.4% this month", trend: "up", icon: "fa-building", bg: "bg-blue-50", color: "text-brand-blue" },
+                { label: "Avg Digital Readiness", value: "68 / 100", change: "+3.8 pts nationwide", trend: "up", icon: "fa-chart-line", bg: "bg-emerald-50", color: "text-emerald-600" },
+                { label: "Active Consultations", value: "142 Active", change: "118 AI matched", trend: "neutral", icon: "fa-headset", bg: "bg-purple-50", color: "text-purple-600" },
+                { label: "Conversion Rate", value: "24.8%", change: "+2.1% vs Q2", trend: "up", icon: "fa-bullseye", bg: "bg-amber-50", color: "text-amber-600" }
+            ],
+            'sales': [
+                { label: "Total Sales Team", value: "8 Reps", change: "100% capacity", trend: "neutral", icon: "fa-users-gear", bg: "bg-purple-50", color: "text-purple-600" },
+                { label: "Active Deals Handled", value: "84 Deals", change: "+14 deals this week", trend: "up", icon: "fa-briefcase", bg: "bg-blue-50", color: "text-brand-blue" },
+                { label: "Total Pipeline Value", value: "RM 1.82M", change: "Weighted target", trend: "up", icon: "fa-wallet", bg: "bg-emerald-50", color: "text-emerald-600" },
+                { label: "Win Rate", value: "68.4%", change: "+4.2% quarter-on-quarter", trend: "up", icon: "fa-trophy", bg: "bg-amber-50", color: "text-amber-600" }
+            ],
+            'users': [
+                { label: "Registered SMEs", value: "1,248", change: "Active database", trend: "neutral", icon: "fa-address-card", bg: "bg-blue-50", color: "text-brand-blue" },
+                { label: "Pending Assessments", value: "38 SMEs", change: "Requires review", trend: "warn", icon: "fa-hourglass-half", bg: "bg-amber-50", color: "text-amber-600" },
+                { label: "High-Growth SMEs", value: "312 SMEs", change: "Score > 75", trend: "up", icon: "fa-rocket", bg: "bg-emerald-50", color: "text-emerald-600" },
+                { label: "Unassigned Clients", value: "15 Clients", change: "Needs advisor fit", trend: "warn", icon: "fa-user-slash", bg: "bg-purple-50", color: "text-purple-600" }
+            ],
+            'ai-config': [
+                { label: "Active AI Engine", value: "v3.2 Neural", change: "ExaPulse Core v3.2", trend: "neutral", icon: "fa-brain", bg: "bg-blue-50", color: "text-brand-blue" },
+                { label: "Base Weight Sum", value: "100%", change: "Strict balanced model", trend: "neutral", icon: "fa-scale-balanced", bg: "bg-emerald-50", color: "text-emerald-600" },
+                { label: "Triggered AI Rules", value: "24 Rules", change: "Active automation", trend: "neutral", icon: "fa-bolt", bg: "bg-purple-50", color: "text-purple-600" },
+                { label: "Deviation Index", value: "±2.1", change: "High model confidence", trend: "up", icon: "fa-chart-simple", bg: "bg-amber-50", color: "text-amber-600" }
+            ],
+            'advisory': [
+                { label: "AI Auto-Assigned", value: "118 Sessions", change: "96.4% match confidence", trend: "up", icon: "fa-robot", bg: "bg-blue-50", color: "text-brand-blue" },
+                { label: "Pending Admin Confirmation", value: "12 Sessions", change: "Requires confirmation", trend: "warn", icon: "fa-clock", bg: "bg-amber-50", color: "text-amber-600" },
+                { label: "Total Scheduled", value: "142 Bookings", change: "This month", trend: "neutral", icon: "fa-calendar-check", bg: "bg-purple-50", color: "text-purple-600" },
+                { label: "Advisor Utilization", value: "87%", change: "Optimal balance", trend: "up", icon: "fa-chart-pie", bg: "bg-emerald-50", color: "text-emerald-600" }
+            ]
+        };
+
+        // Sales Team Reps Dataset
+        let salesTeam = [
+            { id: 1, name: "Sarah Jenkins", role: "Senior Growth Manager", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80", clientsCount: 14, closedDeals: 32, conversionRate: "76%", pipelineValue: "RM 142,000" },
+            { id: 2, name: "Marcus Tan", role: "Enterprise Account Exec", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80", clientsCount: 18, closedDeals: 45, conversionRate: "82%", pipelineValue: "RM 210,000" },
+            { id: 3, name: "Priya Ramesh", role: "Digital Solutions Specialist", avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80", clientsCount: 11, closedDeals: 28, conversionRate: "69%", pipelineValue: "RM 98,500" },
+            { id: 4, name: "Ahmad Razak", role: "SME Onboarding Advisor", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80", clientsCount: 15, closedDeals: 30, conversionRate: "71%", pipelineValue: "RM 125,000" }
+        ];
+
+        // SME Clients Datasets
+        let smeList = [
+            { id: 1, name: "Alex's Bakery", sector: "Food & Beverage", agency: "MDEC", score: 68, status: "Good Progress", advisor: "Sarah Jenkins", stage: "Assessment Complete", dealValue: "RM 15,000", lastContact: "Today, 09:30 AM", digital: 55, ops: 72, cx: 68, tech: 60 },
+            { id: 2, name: "TechFlow Enterprise", sector: "ICT Services", agency: "MY Digital", score: 84, status: "Advanced Leader", advisor: "Marcus Tan", stage: "Closed Won", dealValue: "RM 45,000", lastContact: "Yesterday", digital: 90, ops: 80, cx: 82, tech: 85 },
+            { id: 3, name: "Global Trade Corp", sector: "Logistics", agency: "SME Corp", score: 48, status: "Needs Support", advisor: "Ahmad Razak", stage: "Follow-up Needed", dealValue: "RM 28,000", lastContact: "3 days ago", digital: 40, ops: 50, cx: 55, tech: 45 },
+            { id: 4, name: "Penang Crafts & Batik", sector: "Retail / Crafts", agency: "Cradle", score: 52, status: "Good Progress", advisor: "Priya Ramesh", stage: "Solution Selected", dealValue: "RM 18,500", lastContact: "1 day ago", digital: 45, ops: 55, cx: 56, tech: 50 },
+            { id: 5, name: "Borneo Eco Tours", sector: "Tourism", agency: "MDEC", score: 78, status: "Advanced Leader", advisor: "Marcus Tan", stage: "Closed Won", dealValue: "RM 35,000", lastContact: "4 days ago", digital: 80, ops: 70, cx: 78, tech: 82 },
+            { id: 6, name: "Selangor Precision Engineering", sector: "Manufacturing", agency: "SME Corp", score: 61, status: "Good Progress", advisor: "Sarah Jenkins", stage: "Onboarding", dealValue: "RM 22,000", lastContact: "2 hours ago", digital: 58, ops: 64, cx: 60, tech: 62 }
+        ];
+
+        // AI Smart Matched Advisory Consultation Sessions
+        let advisoryRequests = [
+            { id: 101, client: "Alex's Bakery", date: "Tomorrow, 10:00 AM", advisor: "Sarah Jenkins", matchFit: "98%", source: "AI Auto-Assigned", aiReason: "Matched based on F&B low digital score (55) + Sarah Jenkins' Retail/POS expertise.", status: "Confirmed" },
+            { id: 102, client: "Global Trade Corp", date: "Friday, 2:30 PM", advisor: "Ahmad Razak", matchFit: "94%", source: "AI Auto-Assigned", aiReason: "Matched based on Ops gap (50/100) + Ahmad Razak's Logistics ERP specialization.", status: "Confirmed" },
+            { id: 103, client: "Kuala Lumpur Tech Solutions", date: "Monday, 11:00 AM", advisor: "Marcus Tan", matchFit: "99%", source: "AI Auto-Assigned", aiReason: "Matched high score (84) with Marcus Tan's Cloud & Enterprise scaling team.", status: "Pending Confirmation" },
+            { id: 104, client: "Penang Crafts & Batik", date: "Next Tuesday, 3:00 PM", advisor: "Priya Ramesh", matchFit: "91%", source: "AI Auto-Assigned", aiReason: "Matched e-Commerce gap + Priya Ramesh's expertise in online payment gateways.", status: "Confirmed" }
+        ];
+
+        // AI Weights State
+        let weights = { dp: 30, op: 30, cx: 20, tech: 20 };
+        let selectedSmeIdForAssignment = null;
+
+        window.onload = function () {
+            renderDynamicKPIs('overview');
+            renderSalesRepsCards();
+            renderSalesTable(smeList);
+            renderSmeTable(smeList);
+            renderAdvisoryCards();
+            initCharts();
+            recalculatePreviewScore();
+        };
+
+        // Render Page-Specific KPIs Dynamic Component
+        function renderDynamicKPIs(tabKey) {
+            const container = document.getElementById('dynamic-kpi-container');
+            if(!container) return;
+            container.innerHTML = '';
+
+            const items = kpiDataMap[tabKey] || kpiDataMap['overview'];
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-5 rounded-2xl border border-slate-100 shadow-soft flex items-center justify-between transition-all duration-300 transform hover:-translate-y-0.5";
+                card.innerHTML = `
+                    <div>
+                        <span class="text-xs font-semibold uppercase text-slate-400 tracking-wider">${item.label}</span>
+                        <h3 class="text-2xl font-black text-slate-800 mt-1">${item.value}</h3>
+                        <p class="text-xs font-medium ${item.trend === 'up' ? 'text-emerald-600' : (item.trend === 'warn' ? 'text-amber-600' : 'text-slate-500')} mt-1 flex items-center">
+                            ${item.trend === 'up' ? '<i class="fa-solid fa-arrow-trend-up mr-1"></i>' : ''}
+                            ${item.trend === 'warn' ? '<i class="fa-solid fa-circle-exclamation mr-1"></i>' : ''}
+                            ${item.change}
+                        </p>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl ${item.bg} ${item.color} flex items-center justify-center text-xl shadow-sm">
+                        <i class="fa-solid ${item.icon}"></i>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Navigation Switching
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+
+            document.querySelectorAll('.side-nav-item').forEach(btn => {
+                btn.classList.remove('bg-brand-blue', 'text-white', 'shadow-lg', 'shadow-blue-600/30');
+                btn.classList.add('text-slate-400');
+            });
+
+            const activeNav = document.getElementById(`side-nav-${tabId}`);
+            if (activeNav) {
+                activeNav.classList.add('bg-brand-blue', 'text-white', 'shadow-lg', 'shadow-blue-600/30');
+                activeNav.classList.remove('text-slate-400');
+            }
+
+            // Update Dynamic KPIs Header automatically
+            renderDynamicKPIs(tabId);
+        }
+
+        function renderAdvisoryCards() {
+            const container = document.getElementById('advisory-cards-container');
+            if(!container) return;
+            container.innerHTML = '';
+
+            advisoryRequests.forEach(req => {
+                const isPending = req.status.includes('Pending');
+                const card = document.createElement('div');
+                card.className = "p-5 border border-slate-200 rounded-2xl space-y-4 relative hover:border-brand-blue/50 transition bg-white shadow-sm flex flex-col justify-between";
+                
+                card.innerHTML = `
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="px-2 py-0.5 text-[10px] font-extrabold rounded-full bg-blue-50 text-brand-blue border border-blue-200 inline-flex items-center space-x-1">
+                                    <i class="fa-solid fa-robot mr-1"></i> ${req.source} (${req.matchFit})
+                                </span>
+                                <h4 class="font-bold text-slate-800 text-base mt-1.5">${req.client}</h4>
+                                <p class="text-slate-400 text-xs"><i class="fa-regular fa-clock mr-1"></i> ${req.date}</p>
+                            </div>
+                            <span class="px-2.5 py-1 text-[10px] font-bold rounded-full ${isPending ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700'}">
+                                ${req.status}
+                            </span>
+                        </div>
+
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-100 text-[11px] text-slate-600 space-y-1">
+                            <span class="font-bold text-slate-800 block text-[10px] uppercase tracking-wider text-brand-blue">
+                                <i class="fa-solid fa-microchip mr-1"></i> AI Attribution Reason:
+                            </span>
+                            <p class="leading-relaxed text-slate-600">${req.aiReason}</p>
+                        </div>
+
+                        <div class="flex items-center justify-between text-xs pt-1">
+                            <span class="text-slate-400 font-medium">Assigned Advisor:</span>
+                            <span class="font-extrabold text-slate-800 flex items-center">
+                                <i class="fa-solid fa-user-check text-emerald-500 mr-1.5"></i> ${req.advisor}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                        <button onclick="openAssignModalForAdvisory('${req.client}')" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition flex items-center justify-center space-x-1">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            <span>Override AI / Reassign</span>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function runAiAutoMatch() {
+            showToast("AI Algorithm re-evaluating SME score profiles & advisor schedules...");
+            setTimeout(() => {
+                showToast("AI Smart Match updated 4 consultation assignments!");
+                renderAdvisoryCards();
+            }, 1200);
+        }
+
+        function openAssignModalForAdvisory(clientName) {
+            const sme = smeList.find(s => s.name === clientName) || { id: 1, name: clientName };
+            selectedSmeIdForAssignment = sme.id;
+            document.getElementById('assign-sme-name').innerText = clientName;
+            document.getElementById('assign-modal').classList.remove('hidden');
+        }
+
+        // Render Sales Rep Overview Cards
+        function renderSalesRepsCards() {
+            const container = document.getElementById('sales-reps-container');
+            if(!container) return;
+            container.innerHTML = '';
+
+            salesTeam.forEach(rep => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-5 rounded-2xl border border-slate-100 shadow-soft space-y-4 hover:border-brand-blue/50 transition cursor-pointer";
+                card.onclick = () => {
+                    document.getElementById('sales-rep-filter').value = rep.name;
+                    filterSalesTable();
+                };
+
+                card.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <img src="${rep.avatar}" class="w-12 h-12 rounded-xl object-cover ring-2 ring-brand-blue/20">
+                        <div class="overflow-hidden">
+                            <h4 class="font-bold text-slate-800 text-sm truncate">${rep.name}</h4>
+                            <p class="text-[11px] text-slate-400 truncate">${rep.role}</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 text-xs">
+                        <div>
+                            <span class="text-[10px] uppercase font-bold text-slate-400">Handling</span>
+                            <p class="font-black text-slate-800">${rep.clientsCount} Clients</p>
+                        </div>
+                        <div>
+                            <span class="text-[10px] uppercase font-bold text-slate-400">Closed Deals</span>
+                            <p class="font-black text-emerald-600">${rep.closedDeals} Deals</p>
+                        </div>
+                    </div>
+                    <div class="p-2.5 bg-slate-50 rounded-xl flex justify-between items-center text-xs font-semibold">
+                        <span class="text-slate-500">Pipeline Value:</span>
+                        <span class="text-brand-blue font-extrabold">${rep.pipelineValue}</span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Render Sales Client Assignments Table
+        function renderSalesTable(data) {
+            const tbody = document.getElementById('sales-table-body');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+
+            data.forEach(sme => {
+                let stageBadge = '';
+                switch(sme.stage) {
+                    case 'Closed Won':
+                        stageBadge = `<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200"><i class="fa-solid fa-circle-check mr-1"></i> Closed Won</span>`;
+                        break;
+                    case 'Solution Selected':
+                        stageBadge = `<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200"><i class="fa-solid fa-list-check mr-1"></i> Solution Selected</span>`;
+                        break;
+                    case 'Assessment Complete':
+                        stageBadge = `<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-purple-50 text-purple-700 border border-purple-200"><i class="fa-solid fa-file-signature mr-1"></i> Assessment Done</span>`;
+                        break;
+                    case 'Follow-up Needed':
+                        stageBadge = `<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Follow-up Needed</span>`;
+                        break;
+                    default:
+                        stageBadge = `<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-100 text-slate-700"><i class="fa-solid fa-spinner mr-1"></i> Onboarding</span>`;
+                }
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50/80 transition";
+                tr.innerHTML = `
+                    <td class="py-3.5 px-6 font-bold text-slate-800">${sme.name}</td>
+                    <td class="py-3.5 px-4 text-slate-500">${sme.sector} <span class="text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded ml-1 font-semibold">${sme.agency}</span></td>
+                    <td class="py-3.5 px-4 font-bold text-brand-blue flex items-center space-x-2">
+                        <i class="fa-solid fa-user-tie text-slate-400"></i>
+                        <span>${sme.advisor}</span>
+                    </td>
+                    <td class="py-3.5 px-4">${stageBadge}</td>
+                    <td class="py-3.5 px-4 font-extrabold text-slate-700">${sme.dealValue || 'RM 12,000'}</td>
+                    <td class="py-3.5 px-4 text-slate-400 text-[11px]">${sme.lastContact || '2 hours ago'}</td>
+                    <td class="py-3.5 px-6 text-right space-x-2">
+                        <button onclick="openAssignModal(${sme.id})" class="px-2.5 py-1 bg-brand-blue text-white hover:bg-brand-darkBlue rounded-lg font-bold text-[11px] transition shadow-sm">
+                            Reassign Rep
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Filter Sales Table Function
+        function filterSalesTable() {
+            const query = document.getElementById('sales-client-search').value.toLowerCase();
+            const repFilter = document.getElementById('sales-rep-filter').value;
+            const stageFilter = document.getElementById('stage-filter').value;
+
+            const filtered = smeList.filter(sme => {
+                const matchesQuery = sme.name.toLowerCase().includes(query) || sme.sector.toLowerCase().includes(query) || sme.advisor.toLowerCase().includes(query);
+                const matchesRep = repFilter === 'ALL' || sme.advisor === repFilter;
+                const matchesStage = stageFilter === 'ALL' || sme.stage === stageFilter;
+                return matchesQuery && matchesRep && matchesStage;
+            });
+
+            renderSalesTable(filtered);
+        }
+
+        // Render SME Table
+        function renderSmeTable(data) {
+            const tbody = document.getElementById('sme-table-body');
+            tbody.innerHTML = '';
+
+            data.forEach(sme => {
+                let statusBadge = '';
+                if(sme.score > 75) {
+                    statusBadge = `<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">Advanced Leader</span>`;
+                } else if(sme.score >= 50) {
+                    statusBadge = `<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200">Good Progress</span>`;
+                } else {
+                    statusBadge = `<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">Needs Support</span>`;
+                }
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50/80 transition";
+                tr.innerHTML = `
+                    <td class="py-3.5 px-6 font-bold text-slate-800">${sme.name}</td>
+                    <td class="py-3.5 px-4 text-slate-500">${sme.sector} <span class="text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded ml-1 font-semibold">${sme.agency}</span></td>
+                    <td class="py-3.5 px-4 font-extrabold text-brand-blue">${sme.score}/100</td>
+                    <td class="py-3.5 px-4">${statusBadge}</td>
+                    <td class="py-3.5 px-4 font-medium text-slate-700">${sme.advisor}</td>
+                    <td class="py-3.5 px-6 text-right space-x-2">
+                        <button onclick="openReportModal(${sme.id})" class="px-2.5 py-1 bg-blue-50 text-brand-blue hover:bg-blue-100 rounded-lg font-bold text-[11px] transition">
+                            Report
+                        </button>
+                        <button onclick="openAssignModal(${sme.id})" class="px-2.5 py-1 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-lg font-bold text-[11px] transition">
+                            Assign
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Table Filtering
+        function filterSmeTable() {
+            const query = document.getElementById('user-search').value.toLowerCase();
+            const statusFilter = document.getElementById('status-filter').value;
+
+            const filtered = smeList.filter(sme => {
+                const matchesQuery = sme.name.toLowerCase().includes(query) || sme.sector.toLowerCase().includes(query) || sme.advisor.toLowerCase().includes(query);
+                const matchesStatus = statusFilter === 'ALL' || sme.status === statusFilter;
+                return matchesQuery && matchesStatus;
+            });
+
+            renderSmeTable(filtered);
+        }
+
+        // AI Scoring Auto-balancing Logic
+        function adjustWeights(changedKey) {
+            let val = parseInt(document.getElementById(`slider-${changedKey}`).value);
+            weights[changedKey] = val;
+
+            let keys = Object.keys(weights).filter(k => k !== changedKey);
+            let remainingSum = 100 - val;
+            let currentOtherSum = keys.reduce((acc, k) => acc + weights[k], 0);
+
+            keys.forEach(k => {
+                if (currentOtherSum > 0) {
+                    weights[k] = Math.round((weights[k] / currentOtherSum) * remainingSum);
+                } else {
+                    weights[k] = Math.round(remainingSum / keys.length);
+                }
+                document.getElementById(`slider-${k}`).value = weights[k];
+                document.getElementById(`val-${k}`).innerText = `${weights[k]}%`;
+            });
+
+            document.getElementById(`val-${changedKey}`).innerText = `${val}%`;
+
+            // Update Formula Bar text
+            document.getElementById('formula-w-dp').innerText = (weights.dp / 100).toFixed(2);
+            document.getElementById('formula-w-op').innerText = (weights.op / 100).toFixed(2);
+            document.getElementById('formula-w-cx').innerText = (weights.cx / 100).toFixed(2);
+            document.getElementById('formula-w-tech').innerText = (weights.tech / 100).toFixed(2);
+
+            recalculatePreviewScore();
+        }
+
+        function resetWeightsToDefault() {
+            weights = { dp: 30, op: 30, cx: 20, tech: 20 };
+            Object.keys(weights).forEach(k => {
+                document.getElementById(`slider-${k}`).value = weights[k];
+                document.getElementById(`val-${k}`).innerText = `${weights[k]}%`;
+            });
+            document.getElementById('formula-w-dp').innerText = '0.30';
+            document.getElementById('formula-w-op').innerText = '0.30';
+            document.getElementById('formula-w-cx').innerText = '0.20';
+            document.getElementById('formula-w-tech').innerText = '0.20';
+            recalculatePreviewScore();
+            showToast('Reset AI weights to system defaults');
+        }
+
+        // Real-time Preview Score Simulator Recalculator
+        function recalculatePreviewScore() {
+            let rawDp = parseFloat(document.getElementById('test-raw-dp').value) || 0;
+            let rawOp = parseFloat(document.getElementById('test-raw-op').value) || 0;
+            let rawCx = parseFloat(document.getElementById('test-raw-cx').value) || 0;
+            let rawTech = parseFloat(document.getElementById('test-raw-tech').value) || 0;
+
+            let finalScore = (rawDp * (weights.dp / 100)) + 
+                             (rawOp * (weights.op / 100)) + 
+                             (rawCx * (weights.cx / 100)) + 
+                             (rawTech * (weights.tech / 100));
+
+            finalScore = Math.min(100, Math.max(0, finalScore)).toFixed(1);
+
+            document.getElementById('preview-final-score').innerText = `${finalScore} / 100`;
+
+            const badge = document.getElementById('preview-badge');
+            const rec = document.getElementById('preview-recommendation');
+
+            if (finalScore > 75) {
+                badge.className = "px-2.5 py-1 text-xs font-bold rounded-full bg-emerald-100 text-emerald-800";
+                badge.innerText = "Advanced Leader";
+                rec.innerText = ' "Fast-track for Scaling Grants & National Digital Mentorship."';
+            } else if (finalScore >= 50) {
+                badge.className = "px-2.5 py-1 text-xs font-bold rounded-full bg-blue-100 text-blue-800";
+                badge.innerText = "Good Progress";
+                rec.innerText = ' "Assign Digital CRM Solution and e-Commerce integration roadmap."';
+            } else {
+                badge.className = "px-2.5 py-1 text-xs font-bold rounded-full bg-amber-100 text-amber-800";
+                badge.innerText = "Needs Support";
+                rec.innerText = ' "Requires immediate 1-on-1 advisor assignment & foundational training."';
+            }
+        }
+
+        // Modal Helpers
+        function openReportModal(smeId) {
+            const sme = smeList.find(s => s.id === smeId);
+            if (!sme) return;
+
+            document.getElementById('modal-company-name').innerText = sme.name;
+            document.getElementById('modal-company-sector').innerText = `${sme.sector} • Affiliation: ${sme.agency}`;
+            document.getElementById('modal-score-digital').innerText = `${sme.digital}/100`;
+            document.getElementById('modal-score-ops').innerText = `${sme.ops}/100`;
+            document.getElementById('modal-score-cx').innerText = `${sme.cx}/100`;
+            document.getElementById('modal-score-tech').innerText = `${sme.tech}/100`;
+
+            document.getElementById('report-modal').classList.remove('hidden');
+        }
+
+        function openAssignModal(smeId) {
+            selectedSmeIdForAssignment = smeId;
+            const sme = smeList.find(s => s.id === smeId);
+            if (sme) document.getElementById('assign-sme-name').innerText = sme.name;
+            document.getElementById('assign-modal').classList.remove('hidden');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        function confirmAssignAdvisor() {
+            const advisor = document.getElementById('advisor-select').value;
+            const sme = smeList.find(s => s.id === selectedSmeIdForAssignment);
+            
+            if (sme) {
+                sme.advisor = advisor;
+                
+                // Update advisory list if client exists
+                const advReq = advisoryRequests.find(r => r.client === sme.name);
+                if(advReq) {
+                    advReq.advisor = advisor;
+                    advReq.source = "Admin Override";
+                    advReq.aiReason = `Admin manual override assigned to ${advisor}.`;
+                }
+
+                renderSmeTable(smeList);
+                renderSalesTable(smeList);
+                renderAdvisoryCards();
+                showToast(`Reassigned ${sme.name} to ${advisor}`);
+            }
+            closeModal('assign-modal');
+        }
+
+        function openAddSmeModal() {
+            document.getElementById('add-sme-modal').classList.remove('hidden');
+        }
+
+        function handleCreateSME(e) {
+            e.preventDefault();
+            const name = document.getElementById('new-sme-name').value;
+            const sector = document.getElementById('new-sme-sector').value;
+            const agency = document.getElementById('new-sme-agency').value;
+            const salesrep = document.getElementById('new-sme-salesrep').value;
+
+            const newSme = {
+                id: smeList.length + 1,
+                name: name,
+                sector: sector,
+                agency: agency,
+                score: 64,
+                status: "Good Progress",
+                advisor: salesrep,
+                stage: "Onboarding",
+                dealValue: "RM 16,000",
+                lastContact: "Just now",
+                digital: 60, ops: 65, cx: 60, tech: 60
+            };
+
+            smeList.unshift(newSme);
+            renderSmeTable(smeList);
+            renderSalesTable(smeList);
+            closeModal('add-sme-modal');
+            showToast(`Registered ${name} under ${salesrep}!`);
+        }
+
+        function toggleNotifications() {
+            document.getElementById('notif-dropdown').classList.toggle('hidden');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = message;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Initialize Chart.js Graphs
+        function initCharts() {
+            const ctx1 = document.getElementById('growthChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [
+                        {
+                            label: 'SMEs Onboarded',
+                            data: [420, 610, 830, 1050, 1280, 1420],
+                            borderColor: '#2563EB',
+                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Avg Readiness Score (/100)',
+                            data: [52, 55, 58, 60, 62, 64],
+                            borderColor: '#10B981',
+                            borderDash: [5, 5],
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } },
+                    scales: {
+                        y: { grid: { color: '#F1F5F9' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            const ctx2 = document.getElementById('agencyChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['MDEC', 'SME Corp', 'Cradle', 'MY Digital'],
+                    datasets: [{
+                        data: [42, 28, 18, 12],
+                        backgroundColor: ['#2563EB', '#10B981', '#F59E0B', '#8B5CF6']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    cutout: '70%'
+                }
+            });
+        }
+    </script>
+</body>
+</html>
