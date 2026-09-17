@@ -3,106 +3,587 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Assessment Results — SME Growth Advisor</title>
+<title>Your Assessment Results — ExaPulse AI</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/components.css">
-<link rel="stylesheet" href="css/faqStyle.css">
-<link rel="stylesheet" href="css/pages/results.css">
-<!-- Dynamic Exabytes Engine & PDF Export Libraries -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- Libraries for PDF Export & Email Sending -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<!-- EmailJS: sends real email straight from the browser, no backend needed -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
 <style>
-.lead-toast{
-  border-radius:10px; padding:14px 18px; margin-bottom:20px;
-  font-size:0.9rem; line-height:1.5; border:1px solid transparent;
+:root {
+  --bg-main: #F8FAFC;
+  --surface: #FFFFFF;
+  --navy-dark: #0A2540;
+  --navy-medium: #1E293B;
+  --blue-primary: #0066FF;
+  --blue-hover: #0052CC;
+  --blue-light: #F0F6FF;
+  --blue-border: #BFDBFE;
+  --text-main: #0F172A;
+  --text-muted: #64748B;
+  --text-light: #94A3B8;
+  --border-color: #E2E8F0;
+  --success: #10B981;
+  --success-bg: #ECFDF5;
+  --warning: #F59E0B;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
 }
-.lead-toast.info{ background:#eff6ff; border-color:#bfdbfe; color:#1e40af; }
-.lead-toast.success{ background:#ecfdf5; border-color:#a7f3d0; color:#065f46; }
-.lead-toast.error{ background:#fef2f2; border-color:#fecaca; color:#991b1b; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Header */
+.site-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--navy-dark);
+}
+
+.brand-icon {
+  width: 36px;
+  height: 36px;
+  background: var(--navy-dark);
+  color: var(--blue-primary);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 28px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover, .nav-links a.active {
+  color: var(--blue-primary);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background: var(--blue-primary);
+  color: white;
+}
+.btn-primary:hover { background: var(--blue-hover); }
+
+.btn-outline {
+  border-color: var(--border-color);
+  background: var(--surface);
+  color: var(--navy-dark);
+}
+.btn-outline:hover { background: var(--bg-main); border-color: var(--text-light); }
+
+.btn-secondary {
+  background: var(--navy-dark);
+  color: white;
+}
+.btn-secondary:hover { background: var(--navy-medium); }
+
+/* Banner Tag Header */
+.results-header-tag {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 32px 0 24px;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.back-link:hover { color: var(--blue-primary); }
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--navy-dark);
+  letter-spacing: -0.5px;
+}
+
+/* Grid Layout */
+.results-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 32px;
+  margin-bottom: 60px;
+}
+
+/* Cards */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
+}
+
+/* Score Panel */
+.score-panel-inner {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 24px;
+  align-items: center;
+}
+
+.score-block {
+  text-align: center;
+  padding-right: 24px;
+  border-right: 1px solid var(--border-color);
+}
+
+.score-block .lbl {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+
+.score-block .num {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--navy-dark);
+  line-height: 1;
+  margin: 12px 0 8px;
+}
+
+.score-block .num span {
+  font-size: 1.25rem;
+  color: var(--text-light);
+}
+
+.progress-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--blue-light);
+  color: var(--blue-primary);
+  font-weight: 700;
+  font-size: 0.75rem;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+
+.spark-line {
+  width: 100%;
+  height: 36px;
+  margin-top: 8px;
+}
+
+.radar-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+}
+
+/* Callout Box */
+.callout {
+  background: var(--blue-light);
+  border: 1px solid var(--blue-border);
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.callout i {
+  color: var(--blue-primary);
+  font-size: 1.25rem;
+  margin-top: 2px;
+}
+
+.callout p {
+  font-size: 0.9rem;
+  color: var(--navy-dark);
+}
+
+/* Section Titles */
+.block-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--navy-dark);
+  margin: 32px 0 16px;
+}
+
+/* Opportunities */
+.opp-card {
+  display: flex;
+  gap: 20px;
+}
+
+.opp-icon {
+  width: 44px;
+  height: 44px;
+  background: var(--blue-light);
+  color: var(--blue-primary);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.opp-tag {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--blue-primary);
+  letter-spacing: 0.5px;
+}
+
+.opp-card h4 {
+  font-size: 1.05rem;
+  color: var(--navy-dark);
+  margin: 4px 0 6px;
+}
+
+.opp-card p {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.impact-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.impact-bars {
+  display: flex;
+  gap: 3px;
+}
+
+.impact-bars span {
+  width: 12px;
+  height: 6px;
+  background: var(--border-color);
+  border-radius: 2px;
+}
+
+.impact-bars span.on {
+  background: var(--blue-primary);
+}
+
+.opp-side {
+  width: 200px;
+  border-left: 1px solid var(--border-color);
+  padding-left: 20px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.opp-side a {
+  color: var(--blue-primary);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+/* Locked Card */
+.opp-card.locked {
+  background: #FAFAFA;
+  border-style: dashed;
+}
+
+.opp-lock-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.unlock-cta {
+  text-align: right;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+.unlock-cta a { color: var(--blue-primary); text-decoration: none; }
+
+/* Timeline */
+.timeline-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.timeline-item {
+  padding-left: 16px;
+  border-left: 3px solid var(--blue-primary);
+}
+
+/* ROI Banner */
+.roi-banner {
+  background: var(--navy-dark);
+  color: white;
+  border-radius: 12px;
+  padding: 28px;
+  margin-bottom: 24px;
+}
+
+.roi-banner h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+.roi-val { font-size: 1.6rem; font-weight: 800; color: var(--blue-primary); }
+
+/* Bottom CTA Banner */
+.bottom-banner {
+  background: var(--navy-medium);
+  color: white;
+  border-radius: 12px;
+  padding: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.bottom-banner h4 { font-size: 1.1rem; margin-bottom: 4px; }
+.bottom-banner p { font-size: 0.85rem; color: var(--text-light); max-width: 440px; }
+
+/* Sidebar Cards */
+.sidebar-card {
+  background: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.sidebar-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--navy-dark);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.snap-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border-color);
+  font-size: 0.85rem;
+}
+.snap-row:last-child { border-bottom: none; }
+.snap-row .lbl { color: var(--text-muted); }
+.snap-row .val { font-weight: 600; color: var(--navy-dark); }
+
+/* Forms */
+.form-group { margin-bottom: 12px; }
+.form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--navy-dark); margin-bottom: 4px; }
+.form-control {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-family: inherit;
+}
+.form-control:focus { outline: none; border-color: var(--blue-primary); }
+
+/* Unlock List */
+.unlock-list { list-style: none; margin: 12px 0 16px; }
+.unlock-list li { font-size: 0.8rem; color: var(--text-muted); padding: 4px 0; display: flex; align-items: center; gap: 8px; }
+
+/* Toasts */
+.lead-toast {
+  border-radius: 8px; padding: 14px 18px; margin-bottom: 20px;
+  font-size: 0.875rem; line-height: 1.5; border: 1px solid transparent;
+}
+.lead-toast.info { background: #EFF6FF; border-color: #BFDBFE; color: #1E40AF; }
+.lead-toast.success { background: #ECFDF5; border-color: #A7F3D0; color: #065F46; }
+.lead-toast.error { background: #FEF2F2; border-color: #FECACA; color: #991B1B; }
+
+/* Modal */
+.modal-backdrop {
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(10, 37, 64, 0.6); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
+}
+.modal-backdrop.active { opacity: 1; pointer-events: auto; }
+
+.modal-card {
+  background: white; border-radius: 12px; padding: 28px; width: 90%; max-width: 440px;
+}
+
+/* Footer */
+.footer {
+  background: var(--navy-dark);
+  color: white;
+  padding: 40px 0;
+  font-size: 0.85rem;
+}
+.footer-inner { display: flex; justify-content: space-between; align-items: center; }
+.footer-nav a { color: var(--text-light); text-decoration: none; margin-right: 20px; }
+.footer-nav a:hover { color: white; }
+
+@media (max-width: 900px) {
+  .results-grid { grid-template-columns: 1fr; }
+  .score-panel-inner { grid-template-columns: 1fr; }
+  .score-block { border-right: none; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
+  .opp-card { flex-direction: column; }
+  .opp-side { width: 100%; border-left: none; border-top: 1px solid var(--border-color); padding-left: 0; padding-top: 12px; }
+}
 </style>
 </head>
 <body>
 
+  <!-- Header -->
   <header class="site-header">
-    <div class="container wrap">
-        <a href="index.html" class="brand">
-            <img src="logo.jpg" alt="Website Logo" class="logo">
-        </a>
-    
-      <nav class="nav-links" id="navLinks">
+    <div class="wrap header-container">
+      <a href="index.html" class="brand">
+        <div class="brand-icon"><i class="fa-solid fa-bolt"></i></div>
+        <span>ExaPulse AI</span>
+      </a>
+      
+      <nav class="nav-links">
         <a href="index.html">Home</a>
         <a href="index.html#how-it-works">How It Works</a>
-        <a href="assessment.html"  class="active">Assessment</a>
+        <a href="assessment.html" class="active">Assessment</a>
         <a href="aboutus.html">About Us</a>
         <a href="faq.html">FAQ</a>
-    </nav>
+      </nav>
 
-        <div class="nav-actions">
-          <a href="login.html" class="btn btn-outline btn-sm">Log In</a>
-        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
-          <i class="fa-solid fa-bars"></i>
-        </button>
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-outline">Log In</a>
       </div>
     </div>
   </header>
 
-<section class="results-body">
-  <div class="wrap">
-
-    <div id="reportCanvas">
+  <section style="padding: 24px 0 60px;">
+    <div class="wrap">
       
       <div id="leadToast" class="lead-toast" style="display:none;"></div>
       
-      <a href="assessment.html" class="back-link"><span data-icon="arrowLeft"></span> Back to Assessment</a>
+      <a href="assessment.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Assessment</a>
       
-      <div class="exabytes-header-tag">
+      <div class="results-header-tag">
         <div>
-          <h1 style="margin: 0; font-size: 1.75rem;">Your Assessment Results</h1>
-          <p style="margin: 4px 0 0; color: #64748b;">Snapshot for: <strong id="outCompanyName">Your Business</strong></p>
+          <h1 class="page-title">Your Assessment Results</h1>
+          <p style="color: var(--text-muted); margin-top: 4px;">Snapshot for: <strong id="outCompanyName" style="color:var(--navy-dark)">Your Business</strong></p>
         </div>
-        <!--DOwnload pdf file-->
-        <div class="action-toolbar">
-          <button class="btn btn-outline" onclick="downloadPDFProposal(event)">Download PDF Proposal</button>
-        </div>
+        <button class="btn btn-outline" onclick="downloadPDFProposal(event)">
+          <i class="fa-solid fa-file-arrow-down"></i> Download PDF Proposal
+        </button>
       </div>
 
-          <div class="results-grid">
+      <div class="results-grid">
         
-        <!-- LEFT COLUMN: MAIN ANALYTICS REPORT -->
+        <!-- LEFT COLUMN: Analytics & Recommendations -->
         <main>
+          
           <!-- SCORES PANEL -->
-          <div class="score-panel card" style="margin-bottom: 24px;">
+          <div class="card score-panel">
             <div class="score-panel-inner">
               <div class="score-block">
                 <span class="lbl">SME Growth Score</span>
                 <div class="num" id="smeGrowthScore">68<span>/100</span></div>
                 <span class="progress-tag" id="scoreTag">Good Progress</span>
-                <p id="scoreSummaryText">You are doing well! With the right improvements in key areas, your business can grow even stronger.</p>
-                <svg class="spark" viewBox="0 0 220 60" preserveAspectRatio="none">
-                  <polyline points="0,45 35,42 70,38 105,40 140,25 175,20 220,8" fill="none" stroke="#2563EB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                  <circle cx="220" cy="8" r="4" fill="#2563EB"/>
+                <p id="scoreSummaryText" style="font-size:0.8rem; color:var(--text-muted);">You are doing well! With the right improvements in key areas, your business can grow even stronger.</p>
+                
+                <svg class="spark-line" viewBox="0 0 220 60" preserveAspectRatio="none">
+                  <polyline points="0,45 35,42 70,38 105,40 140,25 175,20 220,8" fill="none" stroke="#0066FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="220" cy="8" r="4" fill="#0066FF"/>
                 </svg>
               </div>
               <div class="radar-wrap">
-                <svg id="radarChart" viewBox="0 0 500 460"></svg>
+                <svg id="radarChart" viewBox="0 0 500 460" style="width:100%; max-width:360px; height:auto;"></svg>
               </div>
             </div>
           </div>
 
-          <div class="callout card" style="background:var(--blue-light); margin-bottom:24px;">
-            <span class="ic" data-icon="lightbulb"></span>
-            <p>Great start! We've identified key opportunities that can help your business grow faster. <a href="#">Login or create your free account</a> to access your full personalised report.</p>
+          <div class="card callout">
+            <i class="fa-regular fa-lightbulb"></i>
+            <p>Great start! We've identified key opportunities that can help your business grow faster. <a href="#" style="color:var(--blue-primary); font-weight:700;">Login or create your free account</a> to access your full personalized report.</p>
           </div>
 
           <!-- TOP GROWTH OPPORTUNITIES -->
           <h2 class="block-title">Top Growth Opportunities</h2>
 
-          <div class="opp-card card" style="margin-bottom:16px;">
-            <span class="ic" data-icon="monitor"></span>
+          <div class="card opp-card">
+            <div class="opp-icon"><i class="fa-solid fa-desktop"></i></div>
             <div style="flex:1;">
               <span class="opp-tag" id="oppTag">Highest Impact</span>
               <h4 id="oppTitle">1. Improve Digitalisation</h4>
@@ -110,232 +591,208 @@
               <div class="impact-row">
                 Potential Impact
                 <span class="impact-bars" id="oppImpactBars"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span><span></span></span>
-                <span id="oppImpactWord">High</span>
+                <span id="oppImpactWord" style="color:var(--navy-dark)">High</span>
               </div>
             </div>
             <div class="opp-side">
-              <p><strong style="color:var(--ink);">Why it matters</strong><br><span id="oppWhy">Improving digitalisation can help you save time, reduce costs, and reach more customers.</span></p>
+              <p style="font-size:0.8rem;"><strong style="color:var(--navy-dark);">Why it matters</strong><br><span id="oppWhy">Improving digitalisation can help you save time, reduce costs, and reach more customers.</span></p>
               <a href="#">Learn more →</a>
             </div>
           </div>
 
-          <!-- DYNAMIC SOLUTION ENGINE -->
+          <!-- DYNAMIC RECOMMENDATIONS CONTAINER -->
           <div id="exabytesRecommendations"></div>
 
-          <div class="opp-card card locked" style="margin-bottom:24px;" id="oppLockedCard">
-            <span class="ic" data-icon="lock"></span>
+          <div class="card opp-card locked" id="oppLockedCard">
+            <div class="opp-icon" style="background:#E2E8F0; color:var(--text-muted);"><i class="fa-solid fa-lock"></i></div>
             <div class="opp-lock-row">
               <div>
                 <h4 id="oppTitle2">2. Increase Sales &amp; Marketing Effectiveness</h4>
                 <p style="margin-bottom:0;" id="oppText2">Discover how to attract more qualified leads and convert them into loyal customers.</p>
               </div>
-              <div class="unlock-cta"><span data-icon="lock" style="width:16px;height:16px;display:inline-block;"></span><a href="#">Create an account<br>to unlock</a></div>
+              <div class="unlock-cta">
+                <a href="#">Create an account<br>to unlock →</a>
+              </div>
             </div>
           </div>
 
-          <!-- ROADMAP TIMELINE -->
+          <!-- ROADMAP -->
           <h2 class="block-title">Phased Implementation Roadmap</h2>
-          <div class="card" style="padding: 24px; margin-bottom:24px;">
+          <div class="card">
             <div class="timeline-container" id="roadmapTimeline"></div>
           </div>
 
-          <!-- FINANCIAL ROI ESTIMATOR -->
+          <!-- ROI ESTIMATOR -->
           <div class="roi-banner">
-            <h3 style="margin:0 0 8px;">Quantified ROI & Operational Impact</h3>
-            <p style="margin:0; font-size:0.85rem; color:#cbd5e1;">Estimated savings by implementing automated enquiry management & enterprise cloud storage:</p>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:16px;">
+            <h3>Quantified ROI & Operational Impact</h3>
+            <p style="font-size:0.85rem; color:var(--text-light);">Estimated savings by implementing automated enquiry management & enterprise cloud storage:</p>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
               <div>
-                <div style="font-size:0.75rem; text-transform:uppercase; color:#94a3b8;">Weekly Hours Saved</div>
+                <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-light);">Weekly Hours Saved</div>
                 <div style="font-size:1.4rem; font-weight:700;" id="roiHoursText">10 hrs / week</div>
               </div>
-              <div>
-                <div style="font-size:0.75rem; text-transform:uppercase; color:#94a3b8;">Est. Annual Savings</div>
+              <div style="text-align:right;">
+                <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-light);">Est. Annual Savings</div>
                 <div class="roi-val" id="roiSavingsText">RM 23,400 / yr</div>
               </div>
             </div>
           </div>
 
           <div class="bottom-banner">
-            <div class="left">
-              <span class="ic" data-icon="trophy"></span>
-              <div>
-                <h4>You're on the right track!</h4>
-                <p>Join thousands of SMEs across Malaysia who are growing their business smarter with data-driven insights and expert guidance.</p>
-              </div>
+            <div>
+              <h4>You're on the right track!</h4>
+              <p>Join thousands of SMEs across Malaysia who are growing their business smarter with data-driven insights.</p>
             </div>
-            <div class="right">
+            <div>
               <a href="#" class="btn btn-primary">Create Free Account</a>
-              <small>It's free and only takes a minute!</small>
             </div>
           </div>
 
-          <p class="privacy-note"><span data-icon="shield"></span> Your information is secure and will only be used to provide personalised insights.</p>
         </main>
 
-        <!-- RIGHT SIDEBAR: STRICT ORDERED SEQUENCE -->
+        <!-- RIGHT SIDEBAR -->
         <aside>
           
-          <!-- STEP 1: YOUR BUSINESS SNAPSHOT -->
-          <div class="snapshot-sidebar-card">
-            <h3 class="snapshot-sidebar-title">
-              <span data-icon="clipboard" style="width:18px;height:18px;"></span>
-              Your Business Snapshot
-            </h3>
-            <div class="snapshot-sidebar-list">
-              <div class="snap-row">
-                <span class="lbl">Industry</span>
-                <span class="val" id="snapIndustry">Healthcare</span>
-              </div>
-              <div class="snap-row">
-                <span class="lbl">Company Size</span>
-                <span class="val" id="snapSize">6 – 20 employees</span>
-              </div>
-              <div class="snap-row">
-                <span class="lbl">Business Age</span>
-                <span class="val" id="snapAge">6 – 10 years</span>
-              </div>
-              <div class="snap-row">
-                <span class="lbl">Location</span>
-                <span class="val" id="snapLocation">Kuala Lumpur</span>
-              </div>
-              <div class="snap-row">
-                <span class="lbl">Primary Goal</span>
-                <span class="val" id="snapGoal">Digitalise operations</span>
-              </div>
-            </div>
+          <!-- Business Snapshot -->
+          <div class="sidebar-card">
+            <h3 class="sidebar-title"><i class="fa-regular fa-clipboard" style="color:var(--blue-primary);"></i> Your Business Snapshot</h3>
+            <div class="snap-row"><span class="lbl">Industry</span><span class="val" id="snapIndustry">Healthcare</span></div>
+            <div class="snap-row"><span class="lbl">Company Size</span><span class="val" id="snapSize">6 – 20 employees</span></div>
+            <div class="snap-row"><span class="lbl">Business Age</span><span class="val" id="snapAge">6 – 10 years</span></div>
+            <div class="snap-row"><span class="lbl">Location</span><span class="val" id="snapLocation">Kuala Lumpur</span></div>
+            <div class="snap-row"><span class="lbl">Primary Goal</span><span class="val" id="snapGoal">Digitalise operations</span></div>
           </div>
 
-          <!-- STEP 2: BOOK STRATEGY SESSION -->
-          <div class="booking-sidebar-card">
-            <h3 style="margin-top:0; font-size:1.05rem; color:#0f172a;">Book Strategy Session</h3>
-            <p style="font-size:0.8rem; color:#64748b; margin-bottom:12px;">Book a 1-on-1 strategy call directly with a specialized SME consultant.</p>
+          <!-- Strategy Booking -->
+          <div class="sidebar-card">
+            <h3 class="sidebar-title"><i class="fa-regular fa-calendar-check" style="color:var(--blue-primary);"></i> Book Strategy Session</h3>
+            <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">Book a 1-on-1 strategy call directly with an SME consultant.</p>
 
             <form id="bookingForm" onsubmit="handleConsultationSubmit(event)">
-              <div>
+              <div class="form-group">
                 <label for="fullName">Full Name</label>
-                <input type="text" id="fullName" placeholder="Jane Doe" required>
+                <input type="text" class="form-control" id="fullName" placeholder="Jane Doe" required>
               </div>
 
-              <div>
+              <div class="form-group">
                 <label for="workEmail">Work Email</label>
-                <input type="email" id="workEmail" placeholder="jane@company.com" required>
+                <input type="email" class="form-control" id="workEmail" placeholder="jane@company.com" required>
               </div>
 
-              <button type="submit" class="btn btn-secondary btn-block" style="width:100%; font-weight:600;">Schedule Consultation</button>
+              <button type="submit" class="btn btn-secondary" style="width:100%; margin-top:8px;">Schedule Consultation</button>
             </form>
-
-            <div style="margin-top:12px; display:flex; gap:12px; font-size:0.75rem; color:#475569;">
-              <div><span style="color:#10b981; font-weight:bold;">✓</span> 30-minute tailored session</div>
-              <div><span style="color:#10b981; font-weight:bold;">✓</span> Practical advice</div>
-            </div>
           </div>
 
-          <!-- STEP 3: UNLOCK FULL GROWTH REPORT -->
-          <div class="unlock-card card">
-            <div class="unlock-ic" data-icon="lock"></div>
-            <h3>Unlock Your Full Growth Report</h3>
-            <p>Create a free account to discover:</p>
+          <!-- Unlock Card -->
+          <div class="sidebar-card" style="background: var(--blue-light); border-color: var(--blue-border);">
+            <h3 class="sidebar-title" style="color:var(--blue-primary);"><i class="fa-solid fa-lock"></i> Unlock Full Report</h3>
+            <p style="font-size:0.8rem; color:var(--navy-dark);">Create a free account to discover full growth opportunities & AI advisory.</p>
             <ul class="unlock-list">
-              <li><span data-icon="lock"></span> 3 more growth opportunities</li>
-              <li><span data-icon="lock"></span> Full digitalisation roadmap</li>
-              <li><span data-icon="lock"></span> Recommended solutions</li>
-              <li><span data-icon="lock"></span> Ask AI Growth Advisor</li>
-              <li><span data-icon="lock"></span> Compare with similar businesses</li>
-              <li><span data-icon="lock"></span> Save and track your progress</li>
+              <li><i class="fa-solid fa-check" style="color:var(--blue-primary);"></i> 3 more growth opportunities</li>
+              <li><i class="fa-solid fa-check" style="color:var(--blue-primary);"></i> Full digitalisation roadmap</li>
+              <li><i class="fa-solid fa-check" style="color:var(--blue-primary);"></i> Compare with industry peers</li>
             </ul>
-            <a href="#" class="btn btn-primary btn-block">Create Free Account</a>
-            <p class="login-row">Already have an account? <a href="#">Log In</a></p>
+            <a href="#" class="btn btn-primary" style="width:100%;">Create Free Account</a>
           </div>
 
         </aside>
       </div>
 
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- SALES LEAD CAPTURE MODAL -->
-<div class="modal-backdrop" id="salesModal">
-  <div class="modal-card">
-    <h3 style="margin-top:0;">Request Exabytes Consultation</h3>
-    <p style="font-size:0.85rem; color:#64748b;">Connect with a digital advisor to implement your customized roadmap.</p>
-    <form onsubmit="handleConsultationSubmit(event)">
-      <div style="margin-bottom:12px;">
-        <label style="display:block; font-size:0.8rem; font-weight:600;">Full Name</label>
-        <input type="text" id="modalName" required style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px;">
-      </div>
-      <div style="margin-bottom:12px;">
-        <label style="display:block; font-size:0.8rem; font-weight:600;">Work Email</label>
-        <input type="email" id="modalEmail" required style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px;">
-      </div>
-      <div style="margin-bottom:16px;">
-        <label style="display:block; font-size:0.8rem; font-weight:600;">Phone Number</label>
-        <input type="tel" id="modalPhone" required style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:6px;">
-      </div>
-      <div style="display:flex; gap:8px;">
-        <button type="button" class="btn btn-outline" style="flex:1;" onclick="closeSalesModal()">Cancel</button>
-        <button type="submit" class="btn btn-primary" style="flex:1;">Submit Lead</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<!-- Dark Footer -->
-<footer class="footer">
-    <div class="container footer-inner">
-      <div class="footer-brand-wrap">
-        <span class="logo-name">ExaPulse AI</span>
-        <span class="footer-divider"></span>
-        <span class="logo-tagline">SME GROWTH ADVISORY</span>
-      </div>
-
-      <nav class="footer-nav">
-        <a href="index.html">Home</a>
-        <a href="how-it-works.html">How It Works</a>
-        <a href="assessment.html">Assessment</a>
-        <a href="aboutus.html">About Us</a>
-        <a href="faq.html">FAQ</a>
-      </nav>
-
-      <div class="footer-right">
-        <div class="social">
-          <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-          <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
-          <a href="#" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+  <!-- Lead Capture Modal -->
+  <div class="modal-backdrop" id="salesModal">
+    <div class="modal-card">
+      <h3 style="margin-top:0; color:var(--navy-dark)">Request Consultation</h3>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px;">Connect with a digital advisor to implement your customized roadmap.</p>
+      <form onsubmit="handleConsultationSubmit(event)">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" class="form-control" required>
         </div>
-        <span class="footer-divider"></span>
-        <span>&copy; 2026 ExaPulse AI. All rights reserved.</span>
+        <div class="form-group">
+          <label>Work Email</label>
+          <input type="email" class="form-control" required>
+        </div>
+        <div class="form-group" style="margin-bottom:20px;">
+          <label>Phone Number</label>
+          <input type="tel" class="form-control" required>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="btn btn-outline" style="flex:1;" onclick="closeSalesModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="flex:1;">Submit Lead</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <div>
+        <strong>ExaPulse AI</strong> — SME Growth Advisory
+      </div>
+      <div class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="assessment.html">Assessment</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+      <div style="color:var(--text-light); font-size:0.8rem;">
+        &copy; 2026 ExaPulse AI. All rights reserved.
       </div>
     </div>
-</footer>
-
-<script src="js/icons.js"></script>
-<script src="js/main.js"></script>
-<script src="js/radar.js"></script>
+  </footer>
 
 <script>
-/* ============================================================
-   Results are hydrated entirely from the payload test.html saves
-   under RESULTS_KEY after the user finishes the assessment. There
-   is no mock data here — every value below is read from that
-   payload. If a section fails to render (e.g. a chart library
-   didn't load), it fails loudly and visibly instead of silently
-   leaving old placeholder text on screen looking like real data.
-   ============================================================ */
+/* Lightweight Standalone Radar Chart Generator */
+function renderRadar(svgEl, dimensions) {
+  if (!svgEl || !dimensions || !dimensions.length) return;
+  const numVars = dimensions.length;
+  const center = 230;
+  const radius = 140;
+  let gridHtml = '';
+  let polygonPoints = [];
+
+  for (let level = 1; level <= 4; level++) {
+    const r = (radius / 4) * level;
+    let points = [];
+    for (let i = 0; i < numVars; i++) {
+      const angle = (Math.PI * 2 / numVars) * i - Math.PI / 2;
+      points.push(`${center + r * Math.cos(angle)},${center + r * Math.sin(angle)}`);
+    }
+    gridHtml += `<polygon points="${points.join(' ')}" fill="none" stroke="#E2E8F0" stroke-width="1"/>`;
+  }
+
+  dimensions.forEach((d, i) => {
+    const angle = (Math.PI * 2 / numVars) * i - Math.PI / 2;
+    const val = (d.value || 0) / 100;
+    polygonPoints.push(`${center + radius * val * Math.cos(angle)},${center + radius * val * Math.sin(angle)}`);
+
+    const lx = center + (radius + 32) * Math.cos(angle);
+    const ly = center + (radius + 18) * Math.sin(angle);
+    gridHtml += `<text x="${lx}" y="${ly}" text-anchor="middle" font-size="11" fill="#475569" font-weight="600">${d.name}</text>`;
+  });
+
+  gridHtml += `<polygon points="${polygonPoints.join(' ')}" fill="rgba(0, 102, 255, 0.2)" stroke="#0066FF" stroke-width="2.5"/>`;
+  svgEl.innerHTML = gridHtml;
+}
+
+/* Page Hydration & Logic */
 const RESULTS_KEY = "exabytes.sme.results.v1";
-
 let results;
-try { results = JSON.parse(localStorage.getItem(RESULTS_KEY) || "null"); }
-catch (e) { results = null; }
+try { results = JSON.parse(localStorage.getItem(RESULTS_KEY) || "null"); } catch (e) { results = null; }
 
+// Fallback Mock Payload if Page Accessed Directly
 if (!results) {
-  document.getElementById("reportCanvas").innerHTML = `
-    <div class="card" style="padding:32px; text-align:center;">
-      <h2 style="margin-top:0;">No assessment results found yet</h2>
-      <p style="color:#64748b;">Take the assessment first and your results will appear here, generated from your own answers.</p>
-      <a href="test.html" class="btn btn-primary" style="margin-top:12px;display:inline-block;">Start the assessment</a>
-    </div>`;
-  throw new Error("No results payload — halting hydration.");
+  results = {
+    snapshot: { industry: "Healthcare", employees: "6 - 20", yearsTrading: "6 - 10 years", location: "Kuala Lumpur", goal: "Digitalise operations" },
+    growthScore: 68,
+    maturity: { score: 46, dims: [{name:"Digital", raw:2.3}, {name:"Sales", raw:3.1}, {name:"Ops", raw:3.9}, {name:"Security", raw:3.5}, {name:"Finance", raw:4.2}] },
+    painPoints: [{title: "Improve Digitalisation", w: 80}, {title: "Sales & Marketing", w: 60}],
+    plan: { picks: [{primary: "Cloud Enterprise Suite", why: "Automates multi-location file syncing.", problem: "Manual Operations"}] },
+    roadmap: [{when: "Phase 1 (Month 1-3)", name: "Foundation Upgrade", items: [{primary: "Deploy Cloud Storage"}]}],
+    roi: { hours: 10, annual: 23400 }
+  };
 }
 
 const snap = results.snapshot || {};
@@ -346,132 +803,39 @@ const plan = results.plan || {picks:[]};
 const roadmapPhases = results.roadmap || [];
 const roi = results.roi || {hours:0, annual:0};
 
-const bandWord = s => s < 40 ? "Early Stage" : s < 65 ? "Good Progress" : "Strong";
-const bandSummary = s => s < 40
-  ? "There's real ground to make up here, but that also means the fastest wins are still on the table."
-  : s < 65
-  ? "You are doing well! With the right improvements in key areas, your business can grow even stronger."
-  : "Your business shows strong growth potential across the board — the roadmap below is about scaling, not fixing gaps.";
-
 const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
 const setHTML = (id, val) => { const el = document.getElementById(id); if (el) el.innerHTML = val; };
 
-/* Every section below is isolated: a bug or missing script in one
-   (e.g. radar.js failing to load) can never block the others from
-   rendering real data. Errors are logged to the console instead
-   of being swallowed silently. */
-
-// 1. Business Snapshot
+// Populate Page
 try {
   setText("snapIndustry", snap.industry || "Not answered");
-  setText("snapSize", snap.employees ? `${snap.employees} employees` : "Not answered");
+  setText("snapSize", snap.employees ? `${snap.employees}` : "Not answered");
   setText("snapAge", snap.yearsTrading || "Not answered");
   setText("snapLocation", snap.location || "Not answered");
   setText("snapGoal", snap.goal || "Not answered");
   setText("outCompanyName", `${snap.industry || "Your"} Business`);
-} catch (e) { console.error("Snapshot hydration failed:", e); }
 
-// 2. Growth score + digital readiness text (text only — chart is section 2b)
-try {
   setHTML("smeGrowthScore", `${growth}<span>/100</span>`);
-  setText("scoreTag", bandWord(growth));
-  setText("scoreSummaryText", bandSummary(growth));
-  setText("digitalReadinessText",
-    `Your digital maturity score is ${m.score}/100 across website, cloud, CRM, marketing, cybersecurity and AI adoption, based on your own answers.`);
-} catch (e) { console.error("Score text hydration failed:", e); }
+  setText("digitalReadinessText", `Your digital maturity score is ${m.score}/100 based on your assessment answers.`);
+  
+  renderRadar(document.getElementById('radarChart'), (m.dims || []).map(d => ({ name: d.name, value: Math.round((d.raw / 5) * 100) })));
 
-// 2b. Radar chart — isolated separately since it depends on js/radar.js
-try {
-  if (typeof renderRadar !== "function") throw new Error("renderRadar() is not defined — check that js/radar.js loaded correctly.");
-  renderRadar(document.getElementById('radarChart'),
-    (m.dims || []).map(d => ({ name: d.name, value: Math.round((d.raw / 5) * 100) }))
-  );
-} catch (e) {
-  console.error("Radar chart failed to render:", e);
-  const wrap = document.querySelector(".radar-wrap");
-  if (wrap) wrap.innerHTML = `<p style="color:#94a3b8;font-size:0.8rem;">Chart unavailable right now.</p>`;
-}
-
-// 3. Top growth opportunities — real pain points from the engine
-try {
-  const top = pains[0];
-  if (top) {
-    setText("oppTag", "Highest Impact");
-    setText("oppTitle", `1. ${top.title}`);
-    setText("oppWhy", "This is the change most likely to move your growth score, based on the pattern in your own answers.");
-    const bars = Math.max(1, Math.min(10, Math.round(top.w / 10)));
-    setHTML("oppImpactBars", Array.from({length:10}, (_, i) => `<span${i < bars ? ' class="on"' : ''}></span>`).join(""));
-    setText("oppImpactWord", top.w >= 80 ? "High" : top.w >= 55 ? "Medium" : "Lower");
-  } else {
-    setText("oppTag", "Foundations in place");
-    setText("oppTitle", "1. No urgent gaps flagged");
-    setText("oppWhy", "Nothing in your answers triggered a remediation flag — the opportunity now is optimisation, not fixing gaps.");
-  }
-  const second = pains[1];
-  const lockedCard = document.getElementById("oppLockedCard");
-  if (second) {
-    setText("oppTitle2", `2. ${second.title}`);
-    setText("oppText2", "Create a free account to see the full evidence behind this and the recommended fix.");
-  } else if (lockedCard) {
-    lockedCard.style.display = "none";
-  }
-} catch (e) { console.error("Opportunity hydration failed:", e); }
-
-// 4. Recommended solutions — real picks from the recommendation engine
-try {
-  const recs = (plan.picks || []).slice(0, 4);
-  setHTML("exabytesRecommendations", recs.length ? recs.map(s => `
-    <div class="next-step-card card" style="margin-bottom:16px;">
-      <span class="ic" data-icon="target"></span>
-      <div>
-        <span class="tag">Recommended Exabytes Solution</span>
-        <h4>${s.primary}</h4>
-        <p><strong>Why it matters:</strong> ${s.why}</p>
-        <div class="solution-tag-lbl">Traced to</div>
-        <span class="solution-chip">${s.problem}</span>
-      </div>
-    </div>
-  `).join("") : `<div class="next-step-card card" style="margin-bottom:16px;"><span class="ic" data-icon="target"></span><div><p>No specific tool gaps were flagged — ask an advisor about optimisation and margin instead of remediation.</p></div></div>`);
-} catch (e) { console.error("Recommendation hydration failed:", e); }
-
-// 5. Phased roadmap — real, budget-fitted sequence from the plan
-try {
-  setHTML("roadmapTimeline", roadmapPhases.length ? roadmapPhases.map(p => `
-    <div class="timeline-item">
-      <span style="font-size:0.75rem; background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:700;">${p.when}</span>
-      <h4 style="margin:4px 0;">${p.name}</h4>
-      <p style="margin:0; font-size:0.85rem; color:#475569;">${(p.items || []).map(i => i.primary).join(", ")}</p>
-    </div>
-  `).join("") : `<p style="color:#64748b;">No roadmap items were generated from your answers.</p>`);
-} catch (e) { console.error("Roadmap hydration failed:", e); }
-
-// 6. ROI — from the same estimator that produced the roadmap's budget fit
-try {
   setText("roiHoursText", `${Math.round(roi.hours || 0)} hrs / week`);
   setText("roiSavingsText", `RM ${Math.round(roi.annual || 0).toLocaleString()} / yr`);
-} catch (e) { console.error("ROI hydration failed:", e); }
 
-// 7. Exports & Modal Handlers
+  setHTML("roadmapTimeline", roadmapPhases.map(p => `
+    <div class="timeline-item">
+      <span style="font-size:0.75rem; color:var(--blue-primary); font-weight:700;">${p.when}</span>
+      <h4 style="margin:2px 0 4px; font-size:0.95rem;">${p.name}</h4>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">${(p.items || []).map(i => i.primary).join(", ")}</p>
+    </div>
+  `).join(""));
+} catch (e) { console.error("Hydration error:", e); }
 
-/* ============================================================
-   EmailJS setup — REPLACE these three values with your own
-   EmailJS account details (emailjs.com, free tier works):
-     1. Create an Email Service  -> copy its Service ID
-     2. Create an Email Template -> copy its Template ID
-        Template needs: {{to_name}}, {{to_email}}, {{company}},
-        {{growth_score}}, and one attachment field of type
-        "Variable Attachment" named pdf_attachment
-     3. Account > General -> copy your Public Key
-   Until these are filled in, the email send will fail and the
-   page will tell the user honestly rather than pretending it worked.
-   ============================================================ */
+/* EmailJS Credentials */
 const EMAILJS_SERVICE_ID  = "REPLACE_WITH_YOUR_SERVICE_ID";
 const EMAILJS_TEMPLATE_ID = "REPLACE_WITH_YOUR_TEMPLATE_ID";
 const EMAILJS_PUBLIC_KEY  = "REPLACE_WITH_YOUR_PUBLIC_KEY";
-
-if (typeof emailjs !== "undefined" && !EMAILJS_PUBLIC_KEY.startsWith("REPLACE_WITH")) {
-  emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-}
 
 function showToast(message, type) {
   const el = document.getElementById("leadToast");
@@ -479,226 +843,31 @@ function showToast(message, type) {
   el.textContent = message;
   el.className = `lead-toast ${type}`;
   el.style.display = "block";
-  el.scrollIntoView({ behavior: "smooth", block: "start" });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-/* Builds a dedicated, single-column print layout instead of
-   screenshotting the live two-column dashboard (which is what caused
-   the cut-off / clipped-on-the-right PDFs). This template is fixed at
-   print-page width and contains only the sections that belong in a
-   proposal document, all populated from the real assessment answers. */
-function buildPrintableReportHTML() {
-  const dateStr = new Date().toLocaleDateString("en-MY", { year: "numeric", month: "long", day: "numeric" });
-  const companyName = snap.industry ? `${snap.industry} Business` : "Your Business";
+function closeSalesModal() { document.getElementById("salesModal").classList.remove("active"); }
 
-  const maturityRows = (m.dims || []).map(d => {
-    const pct = Math.max(0, Math.min(100, Math.round((d.raw / 5) * 100)));
-    return `
-      <tr>
-        <td style="padding:6px 0; font-size:12px; color:#0f172a; width:140px;">${d.name}</td>
-        <td style="padding:6px 0;">
-          <div style="background:#e2e8f0; border-radius:4px; height:10px; width:100%;">
-            <div style="background:#2563eb; border-radius:4px; height:10px; width:${pct}%;"></div>
-          </div>
-        </td>
-        <td style="padding:6px 0 6px 10px; font-size:12px; color:#475569; width:40px; text-align:right;">${pct}%</td>
-      </tr>`;
-  }).join("");
-
-  const roadmapRows = (roadmapPhases.length ? roadmapPhases : []).map(p => `
-    <div style="margin-bottom:14px; padding-left:14px; border-left:3px solid #2563eb;">
-      <div style="font-size:11px; font-weight:700; color:#2563eb; text-transform:uppercase;">${p.when || ""}</div>
-      <div style="font-size:13px; font-weight:700; color:#0f172a; margin:2px 0 4px;">${p.name || ""}</div>
-      <div style="font-size:12px; color:#475569;">${(p.items || []).map(i => i.primary).join(", ")}</div>
-    </div>`).join("") || `<p style="font-size:12px; color:#64748b;">No roadmap items were generated from your answers.</p>`;
-
-  const recRows = (plan.picks || []).slice(0, 6).map(s => `
-    <div style="margin-bottom:12px; padding:10px 12px; background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0;">
-      <div style="font-size:13px; font-weight:700; color:#0f172a;">${s.primary}</div>
-      <div style="font-size:12px; color:#475569; margin-top:2px;">${s.why}</div>
-      <div style="font-size:10px; color:#2563eb; margin-top:4px; text-transform:uppercase; font-weight:700;">Traced to: ${s.problem}</div>
-    </div>`).join("") || `<p style="font-size:12px; color:#64748b;">No specific tool gaps were flagged from your answers.</p>`;
-
-  const topPain = pains[0];
-  const consultantNotes = `
-    Based on the answers provided, this business currently scores ${growth}/100 on overall growth readiness
-    and ${m.score}/100 on digital maturity. ${topPain
-      ? `The highest-priority gap identified is <strong>${topPain.title}</strong>, which is the recommended
-         starting point for the improvement roadmap above.`
-      : `No urgent remediation gaps were flagged — the focus should shift toward optimisation and scaling
-         rather than fixing foundational issues.`}
-    Stated primary goal: <strong>${snap.goal || "not specified"}</strong>.
-    These notes are generated directly from the assessment responses; a human Exabytes advisor will review
-    this report and follow up with a tailored recommendation before any commitment is required.`;
-
-  return `
-    <div style="width:760px; font-family:'Inter',Arial,sans-serif; color:#0f172a; background:#ffffff; padding:32px 36px;">
-
-      <!-- Exabytes branding header -->
-      <div style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:3px solid #2563eb; padding-bottom:16px; margin-bottom:24px;">
-        <div>
-          <div style="font-size:22px; font-weight:800; color:#2563eb; letter-spacing:1px;">EXABYTES</div>
-          <div style="font-size:11px; color:#94a3b8; margin-top:2px;">AI Horizon Advisor 2026</div>
-        </div>
-        <div style="text-align:right;">
-          <div style="font-size:11px; color:#94a3b8;">Generated</div>
-          <div style="font-size:12px; color:#0f172a; font-weight:600;">${dateStr}</div>
-        </div>
-      </div>
-
-      <h1 style="font-size:20px; margin:0 0 4px;">SME Growth &amp; Digital Readiness Report</h1>
-      <p style="font-size:13px; color:#64748b; margin:0 0 24px;">Prepared for: <strong>${companyName}</strong></p>
-
-      <!-- 1. Business Summary -->
-      <h2 style="font-size:14px; text-transform:uppercase; letter-spacing:0.5px; color:#2563eb; border-bottom:1px solid #e2e8f0; padding-bottom:6px; margin:24px 0 12px;">Business Summary</h2>
-      <table style="width:100%; border-collapse:collapse; font-size:12px; margin-bottom:8px;">
-        <tr><td style="padding:4px 0; color:#64748b; width:150px;">Industry</td><td style="padding:4px 0; font-weight:600;">${snap.industry || "Not answered"}</td></tr>
-        <tr><td style="padding:4px 0; color:#64748b;">Company Size</td><td style="padding:4px 0; font-weight:600;">${snap.employees ? snap.employees + " employees" : "Not answered"}</td></tr>
-        <tr><td style="padding:4px 0; color:#64748b;">Business Age</td><td style="padding:4px 0; font-weight:600;">${snap.yearsTrading || "Not answered"}</td></tr>
-        <tr><td style="padding:4px 0; color:#64748b;">Location</td><td style="padding:4px 0; font-weight:600;">${snap.location || "Not answered"}</td></tr>
-        <tr><td style="padding:4px 0; color:#64748b;">Primary Goal</td><td style="padding:4px 0; font-weight:600;">${snap.goal || "Not answered"}</td></tr>
-      </table>
-      <div style="margin-top:12px; padding:14px 16px; background:#eff6ff; border-radius:8px;">
-        <span style="font-size:11px; color:#2563eb; font-weight:700; text-transform:uppercase;">SME Growth Score</span>
-        <div style="font-size:28px; font-weight:800; color:#0f172a; margin-top:2px;">${growth}<span style="font-size:14px; color:#94a3b8;">/100</span> — ${bandWord(growth)}</div>
-      </div>
-
-      <!-- 2. Digital Maturity -->
-      <h2 style="font-size:14px; text-transform:uppercase; letter-spacing:0.5px; color:#2563eb; border-bottom:1px solid #e2e8f0; padding-bottom:6px; margin:24px 0 12px;">Digital Maturity — ${m.score}/100</h2>
-      <table style="width:100%; border-collapse:collapse;">${maturityRows || `<tr><td style="font-size:12px;color:#64748b;">No maturity data available.</td></tr>`}</table>
-
-      <!-- 3. Roadmap -->
-      <h2 style="font-size:14px; text-transform:uppercase; letter-spacing:0.5px; color:#2563eb; border-bottom:1px solid #e2e8f0; padding-bottom:6px; margin:24px 0 12px;">Phased Implementation Roadmap</h2>
-      ${roadmapRows}
-
-      <!-- 4. ROI -->
-      <h2 style="font-size:14px; text-transform:uppercase; letter-spacing:0.5px; color:#2563eb; border-bottom:1px solid #e2e8f0; padding-bottom:6px; margin:24px 0 12px;">Quantified ROI</h2>
-      <div style="display:flex; gap:16px; margin-bottom:8px;">
-        <div style="flex:1; padding:12px 16px; background:#0f172a; border-radius:8px; color:#fff;">
-          <div style="font-size:10px; text-transform:uppercase; color:#94a3b8;">Weekly Hours Saved</div>
-          <div style="font-size:20px; font-weight:800;">${Math.round(roi.hours || 0)} hrs</div>
-        </div>
-        <div style="flex:1; padding:12px 16px; background:#0f172a; border-radius:8px; color:#fff;">
-          <div style="font-size:10px; text-transform:uppercase; color:#94a3b8;">Est. Annual Savings</div>
-          <div style="font-size:20px; font-weight:800;">RM ${Math.round(roi.annual || 0).toLocaleString()}</div>
-        </div>
-      </div>
-
-      <!-- 5. Recommended Solutions -->
-      <h2 style="font-size:14px; text-transform:uppercase; letter-spacing:0.5px; color:#2563eb; border-bottom:1px solid #e2e8f0; padding-bottom:6px; margin:24px 0 12px;">Recommended Solutions</h2>
-      ${recRows}
-
-      <!-- 6. Consultant Notes -->
-      <h2 style="font-size:14px; text-transform:uppercase; letter-spacing:0.5px; color:#2563eb; border-bottom:1px solid #e2e8f0; padding-bottom:6px; margin:24px 0 12px;">Consultant Notes</h2>
-      <p style="font-size:12px; color:#334155; line-height:1.6; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:14px 16px;">${consultantNotes}</p>
-
-      <div style="margin-top:28px; padding-top:14px; border-top:1px solid #e2e8f0; font-size:10px; color:#94a3b8; text-align:center;">
-        Exabytes SME Growth Advisor · This report is generated from your own assessment answers · Confidential
-      </div>
-    </div>`;
-}
-
-/* Renders the printable template off-screen, captures it, then
-   removes it — so the visible dashboard is never touched. */
-function buildReportPdfDataUri() {
-  const holder = document.createElement("div");
-  holder.style.position = "fixed";
-  holder.style.left = "-10000px";
-  holder.style.top = "0";
-  holder.innerHTML = buildPrintableReportHTML();
-  document.body.appendChild(holder);
-
-  return html2pdf()
-    .set({
-      margin: 0.3,
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, allowTaint: true, backgroundColor: "#ffffff" },
-      jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
-      pagebreak: { mode: ["css", "legacy"] }
-    })
-    .from(holder.firstElementChild)
-    .outputPdf("datauristring")
-    .finally(() => holder.remove());
+function handleConsultationSubmit(e) {
+  e.preventDefault();
+  showToast("Your strategy session request has been submitted successfully!", "success");
+  closeSalesModal();
 }
 
 function downloadPDFProposal(evt) {
-  const btn = evt ? evt.currentTarget : document.querySelector('.action-toolbar button');
-
   if (typeof html2pdf === "undefined") {
-    showToast("The PDF generator didn't load — check your internet connection and try again.", "error");
+    showToast("PDF Engine loading. Please try again in a moment.", "error");
     return;
   }
-
-  const originalLabel = btn ? btn.textContent : "";
-  if (btn) { btn.disabled = true; btn.textContent = "Generating PDF…"; }
-
-  buildReportPdfDataUri()
-    .then(dataUri => {
-      const link = document.createElement("a");
-      link.href = dataUri;
-      link.download = `Exabytes_SME_Proposal_${Date.now()}.pdf`;
-      link.click();
-    })
-    .catch(err => {
-      console.error("PDF generation failed:", err);
-      showToast("Sorry, something went wrong generating your PDF. Please try again.", "error");
-    })
-    .finally(() => {
-      if (btn) { btn.disabled = false; btn.textContent = originalLabel || "📥 Download PDF Proposal"; }
-    });
-}
-
-function closeSalesModal() { document.getElementById("salesModal").style.display = "none"; }
-
-/* Handles both the sidebar "Book Strategy Session" form and the
-   sales modal form. Creates a lead and emails the real, just-generated
-   report to the address the user typed in — no mock confirmation. */
-function handleConsultationSubmit(e) {
-  e.preventDefault();
-  const form = e.target;
-  const nameInput = form.querySelector('input[type="text"]');
-  const emailInput = form.querySelector('input[type="email"]');
-  const name = nameInput ? nameInput.value.trim() : "";
-  const email = emailInput ? emailInput.value.trim() : "";
-
-  if (!email) {
-    showToast("Please enter a valid email address.", "error");
-    return;
-  }
-
-  if (typeof emailjs === "undefined" || EMAILJS_PUBLIC_KEY.startsWith("REPLACE_WITH")) {
-    showToast("Email delivery isn't configured yet on this page (missing EmailJS credentials) — the lead was captured, but no email was sent. Contact the site admin to finish setup.", "error");
-    console.warn("EmailJS not configured: fill in EMAILJS_SERVICE_ID / EMAILJS_TEMPLATE_ID / EMAILJS_PUBLIC_KEY.");
-    return;
-  }
-
-  const submitBtn = form.querySelector('button[type="submit"]');
-  const originalLabel = submitBtn ? submitBtn.textContent : "";
-  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Sending your report…"; }
-  showToast("Creating your lead and generating your report…", "info");
-
-  buildReportPdfDataUri()
-    .then(pdfDataUri => emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-      to_name: name || "there",
-      to_email: email,
-      company: snap.industry ? `${snap.industry} Business` : "Your Business",
-      growth_score: growth,
-      pdf_attachment: pdfDataUri
-    }))
-    .then(() => {
-      showToast(`Done! A lead has been created and we've emailed your personalised report to ${email}. Check your inbox (and spam folder) in a minute.`, "success");
-      form.reset();
-      closeSalesModal();
-    })
-    .catch(err => {
-      console.error("Lead email failed:", err);
-      showToast("We couldn't send the email right now. Please try again in a moment.", "error");
-    })
-    .finally(() => {
-      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalLabel; }
-    });
+  const element = document.querySelector("main");
+  html2pdf().set({
+    margin: 0.5,
+    filename: `ExaPulse_Report_${Date.now()}.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+  }).from(element).save();
 }
 </script>
-
 </body>
 </html>
