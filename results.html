@@ -1,873 +1,993 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Assessment Results — ExaPulse AI</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-<!-- Libraries for PDF Export & Email Sending -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-
-<style>
-:root {
-  --bg-main: #F8FAFC;
-  --surface: #FFFFFF;
-  --navy-dark: #0A2540;
-  --navy-medium: #1E293B;
-  --blue-primary: #0066FF;
-  --blue-hover: #0052CC;
-  --blue-light: #F0F6FF;
-  --blue-border: #BFDBFE;
-  --text-main: #0F172A;
-  --text-muted: #64748B;
-  --text-light: #94A3B8;
-  --border-color: #E2E8F0;
-  --success: #10B981;
-  --success-bg: #ECFDF5;
-  --warning: #F59E0B;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
-  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: var(--bg-main);
-  color: var(--text-main);
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* Header */
-.site-header {
-  background: var(--surface);
-  border-bottom: 1px solid var(--border-color);
-  position: sticky;
-  top: 0;
-  z-index: 50;
-}
-
-.wrap {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
-}
-
-.header-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 72px;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  font-weight: 800;
-  font-size: 1.25rem;
-  color: var(--navy-dark);
-}
-
-.brand-icon {
-  width: 36px;
-  height: 36px;
-  background: var(--navy-dark);
-  color: var(--blue-primary);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
-}
-
-.nav-links {
-  display: flex;
-  gap: 28px;
-}
-
-.nav-links a {
-  text-decoration: none;
-  color: var(--text-muted);
-  font-weight: 600;
-  font-size: 0.9rem;
-  transition: color 0.2s;
-}
-
-.nav-links a:hover, .nav-links a.active {
-  color: var(--blue-primary);
-}
-
-.nav-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-/* Buttons */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.875rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-decoration: none;
-  border: 1px solid transparent;
-}
-
-.btn-primary {
-  background: var(--blue-primary);
-  color: white;
-}
-.btn-primary:hover { background: var(--blue-hover); }
-
-.btn-outline {
-  border-color: var(--border-color);
-  background: var(--surface);
-  color: var(--navy-dark);
-}
-.btn-outline:hover { background: var(--bg-main); border-color: var(--text-light); }
-
-.btn-secondary {
-  background: var(--navy-dark);
-  color: white;
-}
-.btn-secondary:hover { background: var(--navy-medium); }
-
-/* Banner Tag Header */
-.results-header-tag {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  padding: 32px 0 24px;
-}
-
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--text-muted);
-  text-decoration: none;
-  font-size: 0.85rem;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-.back-link:hover { color: var(--blue-primary); }
-
-.page-title {
-  font-size: 2rem;
-  font-weight: 800;
-  color: var(--navy-dark);
-  letter-spacing: -0.5px;
-}
-
-/* Grid Layout */
-.results-grid {
-  display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: 32px;
-  margin-bottom: 60px;
-}
-
-/* Cards */
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: var(--shadow-sm);
-  margin-bottom: 24px;
-}
-
-/* Score Panel */
-.score-panel-inner {
-  display: grid;
-  grid-template-columns: 240px 1fr;
-  gap: 24px;
-  align-items: center;
-}
-
-.score-block {
-  text-align: center;
-  padding-right: 24px;
-  border-right: 1px solid var(--border-color);
-}
-
-.score-block .lbl {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  font-weight: 700;
-  color: var(--text-muted);
-  letter-spacing: 0.5px;
-}
-
-.score-block .num {
-  font-size: 3.5rem;
-  font-weight: 800;
-  color: var(--navy-dark);
-  line-height: 1;
-  margin: 12px 0 8px;
-}
-
-.score-block .num span {
-  font-size: 1.25rem;
-  color: var(--text-light);
-}
-
-.progress-tag {
-  display: inline-block;
-  padding: 4px 12px;
-  background: var(--blue-light);
-  color: var(--blue-primary);
-  font-weight: 700;
-  font-size: 0.75rem;
-  border-radius: 20px;
-  margin-bottom: 12px;
-}
-
-.spark-line {
-  width: 100%;
-  height: 36px;
-  margin-top: 8px;
-}
-
-.radar-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 220px;
-}
-
-/* Callout Box */
-.callout {
-  background: var(--blue-light);
-  border: 1px solid var(--blue-border);
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-}
-
-.callout i {
-  color: var(--blue-primary);
-  font-size: 1.25rem;
-  margin-top: 2px;
-}
-
-.callout p {
-  font-size: 0.9rem;
-  color: var(--navy-dark);
-}
-
-/* Section Titles */
-.block-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--navy-dark);
-  margin: 32px 0 16px;
-}
-
-/* Opportunities */
-.opp-card {
-  display: flex;
-  gap: 20px;
-}
-
-.opp-icon {
-  width: 44px;
-  height: 44px;
-  background: var(--blue-light);
-  color: var(--blue-primary);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  flex-shrink: 0;
-}
-
-.opp-tag {
-  font-size: 0.7rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  color: var(--blue-primary);
-  letter-spacing: 0.5px;
-}
-
-.opp-card h4 {
-  font-size: 1.05rem;
-  color: var(--navy-dark);
-  margin: 4px 0 6px;
-}
-
-.opp-card p {
-  font-size: 0.875rem;
-  color: var(--text-muted);
-}
-
-.impact-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 12px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text-muted);
-}
-
-.impact-bars {
-  display: flex;
-  gap: 3px;
-}
-
-.impact-bars span {
-  width: 12px;
-  height: 6px;
-  background: var(--border-color);
-  border-radius: 2px;
-}
-
-.impact-bars span.on {
-  background: var(--blue-primary);
-}
-
-.opp-side {
-  width: 200px;
-  border-left: 1px solid var(--border-color);
-  padding-left: 20px;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.opp-side a {
-  color: var(--blue-primary);
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 0.85rem;
-}
-
-/* Locked Card */
-.opp-card.locked {
-  background: #FAFAFA;
-  border-style: dashed;
-}
-
-.opp-lock-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-
-.unlock-cta {
-  text-align: right;
-  font-size: 0.8rem;
-  font-weight: 700;
-}
-.unlock-cta a { color: var(--blue-primary); text-decoration: none; }
-
-/* Timeline */
-.timeline-container {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.timeline-item {
-  padding-left: 16px;
-  border-left: 3px solid var(--blue-primary);
-}
-
-/* ROI Banner */
-.roi-banner {
-  background: var(--navy-dark);
-  color: white;
-  border-radius: 12px;
-  padding: 28px;
-  margin-bottom: 24px;
-}
-
-.roi-banner h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
-.roi-val { font-size: 1.6rem; font-weight: 800; color: var(--blue-primary); }
-
-/* Bottom CTA Banner */
-.bottom-banner {
-  background: var(--navy-medium);
-  color: white;
-  border-radius: 12px;
-  padding: 28px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-}
-
-.bottom-banner h4 { font-size: 1.1rem; margin-bottom: 4px; }
-.bottom-banner p { font-size: 0.85rem; color: var(--text-light); max-width: 440px; }
-
-/* Sidebar Cards */
-.sidebar-card {
-  background: var(--surface);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 24px;
-  box-shadow: var(--shadow-sm);
-}
-
-.sidebar-title {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--navy-dark);
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.snap-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 0;
-  border-bottom: 1px dashed var(--border-color);
-  font-size: 0.85rem;
-}
-.snap-row:last-child { border-bottom: none; }
-.snap-row .lbl { color: var(--text-muted); }
-.snap-row .val { font-weight: 600; color: var(--navy-dark); }
-
-/* Forms */
-.form-group { margin-bottom: 12px; }
-.form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--navy-dark); margin-bottom: 4px; }
-.form-control {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  font-size: 0.875rem;
-  font-family: inherit;
-}
-.form-control:focus { outline: none; border-color: var(--blue-primary); }
-
-/* Unlock List */
-.unlock-list { list-style: none; margin: 12px 0 16px; }
-.unlock-list li { font-size: 0.8rem; color: var(--text-muted); padding: 4px 0; display: flex; align-items: center; gap: 8px; }
-
-/* Toasts */
-.lead-toast {
-  border-radius: 8px; padding: 14px 18px; margin-bottom: 20px;
-  font-size: 0.875rem; line-height: 1.5; border: 1px solid transparent;
-}
-.lead-toast.info { background: #EFF6FF; border-color: #BFDBFE; color: #1E40AF; }
-.lead-toast.success { background: #ECFDF5; border-color: #A7F3D0; color: #065F46; }
-.lead-toast.error { background: #FEF2F2; border-color: #FECACA; color: #991B1B; }
-
-/* Modal */
-.modal-backdrop {
-  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-  background: rgba(10, 37, 64, 0.6); backdrop-filter: blur(4px);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
-}
-.modal-backdrop.active { opacity: 1; pointer-events: auto; }
-
-.modal-card {
-  background: white; border-radius: 12px; padding: 28px; width: 90%; max-width: 440px;
-}
-
-/* Footer */
-.footer {
-  background: var(--navy-dark);
-  color: white;
-  padding: 40px 0;
-  font-size: 0.85rem;
-}
-.footer-inner { display: flex; justify-content: space-between; align-items: center; }
-.footer-nav a { color: var(--text-light); text-decoration: none; margin-right: 20px; }
-.footer-nav a:hover { color: white; }
-
-@media (max-width: 900px) {
-  .results-grid { grid-template-columns: 1fr; }
-  .score-panel-inner { grid-template-columns: 1fr; }
-  .score-block { border-right: none; border-bottom: 1px solid var(--border-color); padding-bottom: 20px; }
-  .opp-card { flex-direction: column; }
-  .opp-side { width: 100%; border-left: none; border-top: 1px solid var(--border-color); padding-left: 0; padding-top: 12px; }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SME Growth Assessment Results | Apex Logistics</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!--css local library-->
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/base.css">
+    <!-- Chart.js & Export / Email Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: {
+                            DEFAULT: '#0A2540',
+                            50: '#F0F4F8',
+                            100: '#D9E2EC',
+                            800: '#102A43',
+                            900: '#0A2540',
+                        },
+                        electric: {
+                            DEFAULT: '#0066FF',
+                            hover: '#0052CC',
+                            light: '#E6F0FF',
+                        },
+                        cardbg: '#F4F8FA',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom scrollbar & smooth transitions */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F4F8FA;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
+        .gradient-radial {
+            background: radial-gradient(circle at top right, #E6F0FF 0%, transparent 60%);
+        }
+        .progress-ring-circle {
+            transition: stroke-dashoffset 1s ease-in-out;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; }
+            .print-full { width: 100% !important; max-width: 100% !important; }
+        }
+    </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-electric selection:text-white">
 
-  <!-- Header -->
-  <header class="site-header">
-    <div class="wrap header-container">
-      <a href="index.html" class="brand">
-        <div class="brand-icon"><i class="fa-solid fa-bolt"></i></div>
-        <span>ExaPulse AI</span>
-      </a>
-      
-      <nav class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="index.html#how-it-works">How It Works</a>
-        <a href="assessment.html" class="active">Assessment</a>
-        <a href="aboutus.html">About Us</a>
-        <a href="faq.html">FAQ</a>
-      </nav>
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-      <div class="nav-actions">
-        <a href="login.html" class="btn btn-outline">Log In</a>
-      </div>
-    </div>
-  </header>
-
-  <section style="padding: 24px 0 60px;">
-    <div class="wrap">
-      
-      <div id="leadToast" class="lead-toast" style="display:none;"></div>
-      
-      <a href="assessment.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Assessment</a>
-      
-      <div class="results-header-tag">
-        <div>
-          <h1 class="page-title">Your Assessment Results</h1>
-          <p style="color: var(--text-muted); margin-top: 4px;">Snapshot for: <strong id="outCompanyName" style="color:var(--navy-dark)">Your Business</strong></p>
-        </div>
-        <button class="btn btn-outline" onclick="downloadPDFProposal(event)">
-          <i class="fa-solid fa-file-arrow-down"></i> Download PDF Proposal
-        </button>
-      </div>
-
-      <div class="results-grid">
+    <!-- Header Navigation -->
+      <header class="site-header">
+        <div class="container wrap">
+            <a href="index.html" class="brand">
+                <img src="logo.jpg" alt="Website Logo" class="logo">
+            </a>
         
-        <!-- LEFT COLUMN: Analytics & Recommendations -->
-        <main>
-          
-          <!-- SCORES PANEL -->
-          <div class="card score-panel">
-            <div class="score-panel-inner">
-              <div class="score-block">
-                <span class="lbl">SME Growth Score</span>
-                <div class="num" id="smeGrowthScore">68<span>/100</span></div>
-                <span class="progress-tag" id="scoreTag">Good Progress</span>
-                <p id="scoreSummaryText" style="font-size:0.8rem; color:var(--text-muted);">You are doing well! With the right improvements in key areas, your business can grow even stronger.</p>
+          <nav class="nav-links" id="navLinks">
+            <a href="index.html" >Home</a>
+            <a href="index.html#how-it-works">How It Works</a>
+            <a href="assessment.html" class="active">Assessment</a>
+            <a href="aboutus.html">About Us</a>
+            <a href="faq.html">FAQ</a>
+        </nav>
+
+            <div class="nav-actions">
+              <a href="login.html" class="btn btn-outline btn-sm">Log In</a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+              <i class="fa-solid fa-bars"></i>
+            </button>
+          </div>
+        </div>
+      </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      
+      <!-- Action Controls -->
+            <div class="flex justify-end gap-3 no-print">
+                <!-- Added mr-auto (margin-right: auto) here to make it on left side-->
+                <a href="test.html" class="back-link mr-auto flex items-center gap-2 text-sm"><i data-lucide="arrow-left" class="w-4 h-4"></i>  Back to Assessment</a> 
+
+                <!-- right side-->
+                <span class="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-600 border border-slate-200">
+                    <i data-lucide="clock" class="w-3.5 h-3.5"></i> Generated: Sep 17, 2026
+                </span>
+                <button id="download-pdf-btn" onclick="handlePdfDownload()" class="flex items-center gap-2 bg-white border border-slate-300 hover:border-navy text-navy hover:bg-slate-50 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 shadow-sm">
+                    <i data-lucide="download" class="w-4 h-4 text-electric"></i>
+                    <span>Download PDF</span>
+                </button>
+                <button onclick="scrollToBooking()" class="hidden sm:flex items-center gap-2 bg-electric hover:bg-electric-hover text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 shadow-sm">
+                    <i data-lucide="calendar" class="w-4 h-4"></i>
+                    <span>Book Session</span>
+                </button>
+            </div>
+
+        <!-- Hero Section: Snapshot & SME Growth Score -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- Company Snapshot Card (7 Cols) -->
+            <div class="lg:col-span-7 bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-sm gradient-radial flex flex-col justify-between relative overflow-hidden">
+                <div class="space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-4">
+                        <div>
+                            <span class="text-xs font-semibold text-electric uppercase tracking-wider">Target Organization</span>
+                            <h2 class="text-2xl font-extrabold text-navy">Apex Logistics & Distribution</h2>
+                        </div>
+                        <span class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Complete Assessment
+                        </span>
+                    </div>
+
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Based on your operational response parameters, market alignment metrics, and digital footprint, your organization demonstrates a robust baseline infrastructure with high elasticity for scalable market expansion.
+                    </p>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-2">
+                        <div class="bg-cardbg p-3.5 rounded-xl border border-slate-100">
+                            <span class="text-xs text-slate-500 font-medium block">Industry Sector</span>
+                            <span class="text-sm font-semibold text-navy">B2B Logistics</span>
+                        </div>
+                        <div class="bg-cardbg p-3.5 rounded-xl border border-slate-100">
+                            <span class="text-xs text-slate-500 font-medium block">Company Headcount</span>
+                            <span class="text-sm font-semibold text-navy">25 - 50 FTEs</span>
+                        </div>
+                        <div class="bg-cardbg p-3.5 rounded-xl border border-slate-100 col-span-2 sm:col-span-1">
+                            <span class="text-xs text-slate-500 font-medium block">Assessment ID</span>
+                            <span class="text-sm font-mono font-semibold text-navy">#APX-9824-2026</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                    <span class="flex items-center gap-1.5"><i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i> ISO 27001 Verified Assessment</span>
+                    <a href="#recommendations" class="text-electric hover:underline font-semibold flex items-center gap-1">View Recommendations <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></a>
+                </div>
+            </div>
+
+            <!-- SME Growth Scorecard (5 Cols) -->
+            <div class="lg:col-span-5 bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-sm flex flex-col items-center justify-center text-center relative">
+                <div class="absolute top-4 right-4">
+                    <button onclick="showScoreInfoModal()" class="text-slate-400 hover:text-navy transition-colors">
+                        <i data-lucide="info" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <h3 class="text-sm uppercase tracking-wider text-slate-500 font-bold mb-4">SME Growth Index Score</h3>
+
+                <!-- Radial Gauge SVG -->
+                <div class="relative w-44 h-44 flex items-center justify-center">
+                    <svg class="w-full h-full" viewBox="0 0 120 120">
+                        <circle cx="60" cy="60" r="50" fill="none" stroke="#E2E8F0" stroke-width="10" />
+                        <circle id="score-circle" class="progress-ring-circle" cx="60" cy="60" r="50" fill="none" stroke="#0066FF" stroke-width="10" stroke-dasharray="314.15" stroke-dashoffset="314.15" stroke-linecap="round" />
+                    </svg>
+                    <div class="absolute flex flex-col items-center justify-center">
+                        <span class="text-4xl font-black text-navy tracking-tight" id="score-value">0</span>
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-widest">out of 100</span>
+                    </div>
+                </div>
+
+                <div class="mt-4 space-y-1">
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-electric-light text-electric font-bold text-xs uppercase tracking-wide">
+                        <i data-lucide="zap" class="w-3.5 h-3.5 fill-electric"></i> High Growth Potential
+                    </div>
+                    <p class="text-xs text-slate-500 max-w-xs mt-2">
+                        Your score places you in the top <strong>18th percentile</strong> among peer businesses in your category.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Radar Chart Section -->
+        <section class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-sm space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                <div>
+                    <span class="text-xs font-bold text-electric uppercase tracking-wider">Performance Breakdown</span>
+                    <h3 class="text-xl font-bold text-navy">Operational Readiness Radar</h3>
+                </div>
+                <span class="text-xs font-semibold text-slate-400">5 Metric Dimensions</span>
+            </div>
+
+            <!-- Chart Canvas Container -->
+            <div class="relative w-full max-w-md mx-auto h-72 sm:h-80">
+                <canvas id="radarChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Core Insights Grid (Top Growth Opportunities & Quantified ROI) -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <!-- Top Growth Opportunities Card -->
+            <div class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-sm flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-2.5">
+                            <div class="p-2 bg-electric-light rounded-lg text-electric">
+                                <i data-lucide="target" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-navy">Top Growth Opportunities</h3>
+                                <p class="text-xs text-slate-500">Prioritized leverage points for maximum expansion</p>
+                            </div>
+                        </div>
+                        <span class="text-xs font-semibold text-slate-400">3 Identified</span>
+                    </div>
+
+                    <!-- Accordion Items -->
+                    <div class="space-y-3" id="opportunities-container">
+                        
+                        <!-- Opportunity Item 1 -->
+                        <div class="border border-slate-200 rounded-xl overflow-hidden transition-all duration-200 hover:border-electric/50">
+                            <button onclick="toggleAccordion('opp-1')" class="w-full text-left p-4 bg-cardbg flex items-center justify-between gap-3">
+                                <div class="flex items-center gap-3">
+                                    <span class="w-6 h-6 rounded-full bg-electric text-white text-xs font-bold flex items-center justify-center flex-shrink-0">1</span>
+                                    <span class="font-semibold text-sm text-navy">Automated Lead Nurturing Pipeline</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="hidden sm:inline-block px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-amber-100 text-amber-800 border border-amber-200">High Impact</span>
+                                    <i data-lucide="chevron-down" id="opp-1-icon" class="w-4 h-4 text-slate-400 transition-transform duration-200"></i>
+                                </div>
+                            </button>
+                            <div id="opp-1" class="hidden p-4 bg-white border-t border-slate-100 text-xs text-slate-600 space-y-2">
+                                <p>Transition from manual outreach to CRM-driven drip sequences. Increases prospect conversion speeds by an estimated 34%.</p>
+                                <div class="flex items-center justify-between pt-2 border-t border-slate-100 font-medium">
+                                    <span class="text-slate-500">Estimated Effort: <strong class="text-navy">Low (2 weeks)</strong></span>
+                                    <span class="text-emerald-600 font-semibold">+12% Revenue Impact</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Opportunity Item 2 -->
+                        <div class="border border-slate-200 rounded-xl overflow-hidden transition-all duration-200 hover:border-electric/50">
+                            <button onclick="toggleAccordion('opp-2')" class="w-full text-left p-4 bg-cardbg flex items-center justify-between gap-3">
+                                <div class="flex items-center gap-3">
+                                    <span class="w-6 h-6 rounded-full bg-electric text-white text-xs font-bold flex items-center justify-center flex-shrink-0">2</span>
+                                    <span class="font-semibold text-sm text-navy">Supply Chain API Tech Integration</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="hidden sm:inline-block px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-blue-100 text-blue-800 border border-blue-200">Quick Win</span>
+                                    <i data-lucide="chevron-down" id="opp-2-icon" class="w-4 h-4 text-slate-400 transition-transform duration-200"></i>
+                                </div>
+                            </button>
+                            <div id="opp-2" class="hidden p-4 bg-white border-t border-slate-100 text-xs text-slate-600 space-y-2">
+                                <p>Connect warehouse tracking directly to client portals. Eliminates manual status check queries and reduces support ticket traffic.</p>
+                                <div class="flex items-center justify-between pt-2 border-t border-slate-100 font-medium">
+                                    <span class="text-slate-500">Estimated Effort: <strong class="text-navy">Medium (4 weeks)</strong></span>
+                                    <span class="text-emerald-600 font-semibold">14 hrs/wk Saved</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Opportunity Item 3 -->
+                        <div class="border border-slate-200 rounded-xl overflow-hidden transition-all duration-200 hover:border-electric/50">
+                            <button onclick="toggleAccordion('opp-3')" class="w-full text-left p-4 bg-cardbg flex items-center justify-between gap-3">
+                                <div class="flex items-center gap-3">
+                                    <span class="w-6 h-6 rounded-full bg-electric text-white text-xs font-bold flex items-center justify-center flex-shrink-0">3</span>
+                                    <span class="font-semibold text-sm text-navy">Value-Based Tiered Pricing Restructure</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="hidden sm:inline-block px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-purple-100 text-purple-800 border border-purple-200">High Margin</span>
+                                    <i data-lucide="chevron-down" id="opp-3-icon" class="w-4 h-4 text-slate-400 transition-transform duration-200"></i>
+                                </div>
+                            </button>
+                            <div id="opp-3" class="hidden p-4 bg-white border-t border-slate-100 text-xs text-slate-600 space-y-2">
+                                <p>Re-evaluate service contracts into performance tiers. Capture latent margin from high-demand enterprise level clients.</p>
+                                <div class="flex items-center justify-between pt-2 border-t border-slate-100 font-medium">
+                                    <span class="text-slate-500">Estimated Effort: <strong class="text-navy">Low (1 week)</strong></span>
+                                    <span class="text-emerald-600 font-semibold">+8% Gross Margin</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-100 text-xs text-slate-500 flex justify-between items-center">
+                    <span>Ranked by estimated implementation velocity</span>
+                    <button onclick="expandAllAccordions()" class="text-electric hover:underline font-semibold">Expand All</button>
+                </div>
+            </div>
+
+            <!-- Quantified ROI & Operational Impact Card -->
+            <div class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-sm flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-2.5">
+                            <div class="p-2 bg-emerald-50 rounded-lg text-emerald-600">
+                                <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-navy">Quantified ROI & Impact</h3>
+                                <p class="text-xs text-slate-500">Simulated 6-month projected return on growth plan</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Metrics Grid -->
+                    <div class="grid grid-cols-3 gap-3 mb-6">
+                        <div class="bg-cardbg p-3.5 rounded-xl border border-slate-100 text-center">
+                            <span class="text-xs text-slate-500 font-medium block">Est. Revenue Lift</span>
+                            <span class="text-xl font-black text-emerald-600 mt-1 block" id="rev-lift-text">+22%</span>
+                        </div>
+                        <div class="bg-cardbg p-3.5 rounded-xl border border-slate-100 text-center">
+                            <span class="text-xs text-slate-500 font-medium block">Time Saved</span>
+                            <span class="text-xl font-black text-navy mt-1 block" id="time-saved-text">14 hrs/wk</span>
+                        </div>
+                        <div class="bg-cardbg p-3.5 rounded-xl border border-slate-100 text-center">
+                            <span class="text-xs text-slate-500 font-medium block">Payback ROI</span>
+                            <span class="text-xl font-black text-electric mt-1 block" id="roi-text">3.2x</span>
+                        </div>
+                    </div>
+
+                    <!-- Interactive ROI Simulator Slider -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/80 space-y-3">
+                        <div class="flex justify-between items-center text-xs">
+                            <label for="investment-slider" class="font-bold text-navy flex items-center gap-1.5">
+                                <i data-lucide="sliders" class="w-3.5 h-3.5 text-electric"></i> Implementation Intensity:
+                            </label>
+                            <span class="font-semibold text-electric" id="intensity-label">Moderate Scale</span>
+                        </div>
+                        <input type="range" id="investment-slider" min="1" max="3" value="2" step="1" oninput="updateRoiSimulation(this.value)" class="w-full accent-electric cursor-pointer">
+                        <div class="flex justify-between text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
+                            <span>Lean (Essential)</span>
+                            <span>Moderate</span>
+                            <span>Aggressive</span>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Visual Bar Chart Comparison -->
+                    <div class="mt-6 space-y-3">
+                        <span class="text-xs font-semibold text-slate-500 block">Baseline vs. Optimization Projection ($ Value)</span>
+                        <div class="space-y-2">
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="text-slate-600 font-medium">Current Trajectory</span>
+                                    <span class="font-bold text-slate-700">$120,000 / mo</span>
+                                </div>
+                                <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                                    <div class="bg-slate-400 h-full rounded-full" style="width: 60%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="text-navy font-bold">Optimized Growth Goal</span>
+                                    <span class="font-bold text-emerald-600" id="goal-rev-text">$146,400 / mo</span>
+                                </div>
+                                <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                                    <div id="goal-bar" class="bg-emerald-500 h-full rounded-full transition-all duration-500" style="width: 78%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-100 text-xs text-slate-400">
+                    *Projections are calculated based on peer benchmarking and operational audit models.
+                </div>
+            </div>
+        </section>
+
+        <!-- Phased Implementation Roadmap Section -->
+        <section class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-sm space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+                <div>
+                    <span class="text-xs font-bold text-electric uppercase tracking-wider">Execution Strategy</span>
+                    <h3 class="text-xl font-bold text-navy">Phased Implementation Roadmap</h3>
+                </div>
+
+                <!-- Phase Navigation Tabs -->
+                <div class="flex bg-cardbg p-1 rounded-xl border border-slate-200 text-xs font-semibold">
+                    <button onclick="switchPhase(1)" id="tab-phase-1" class="px-4 py-2 rounded-lg transition-all text-white bg-navy shadow-sm">Phase 1: Quick Wins</button>
+                    <button onclick="switchPhase(2)" id="tab-phase-2" class="px-4 py-2 rounded-lg transition-all text-slate-600 hover:text-navy">Phase 2: Scale</button>
+                    <button onclick="switchPhase(3)" id="tab-phase-3" class="px-4 py-2 rounded-lg transition-all text-slate-600 hover:text-navy">Phase 3: Expand</button>
+                </div>
+            </div>
+
+            <!-- Active Phase Container -->
+            <div id="phase-content-area">
+                <!-- Content will be rendered dynamically by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Recommended Solutions Section -->
+        <section id="recommendations" class="space-y-6">
+            <div class="text-center max-w-xl mx-auto space-y-2">
+                <span class="text-xs font-bold text-electric uppercase tracking-wider">Tailored Enablement</span>
+                <h3 class="text-2xl font-bold text-navy">Recommended Solutions & Modules</h3>
+                <p class="text-xs text-slate-500">Specific service frameworks aligned with your assessment bottlenecks.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 
-                <svg class="spark-line" viewBox="0 0 220 60" preserveAspectRatio="none">
-                  <polyline points="0,45 35,42 70,38 105,40 140,25 175,20 220,8" fill="none" stroke="#0066FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                  <circle cx="220" cy="8" r="4" fill="#0066FF"/>
-                </svg>
-              </div>
-              <div class="radar-wrap">
-                <svg id="radarChart" viewBox="0 0 500 460" style="width:100%; max-width:360px; height:auto;"></svg>
-              </div>
+                <!-- Solution Card 1 -->
+                <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="p-2.5 bg-electric-light text-electric rounded-xl group-hover:bg-electric group-hover:text-white transition-colors">
+                                <i data-lucide="rocket" class="w-6 h-6"></i>
+                            </span>
+                            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Core Engine</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-navy text-base">Growth Engine Suite</h4>
+                            <p class="text-xs text-slate-500 mt-1">Full stack lead generation and CRM workflow automation setup.</p>
+                        </div>
+                        <ul class="space-y-2 text-xs text-slate-600">
+                            <li class="flex items-center gap-2"><i data-lucide="check-circle2" class="w-4 h-4 text-emerald-500"></i> Automated funnel architecture</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check-circle2" class="w-4 h-4 text-emerald-500"></i> Lead scoring & assignment rules</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check-circle2" class="w-4 h-4 text-emerald-500"></i> Email & SMS drip sequences</li>
+                        </ul>
+                    </div>
+                    <div class="pt-6 mt-6 border-t border-slate-100">
+                        <button onclick="openSolutionModal('Growth Engine Suite', 'Designed to accelerate sales pipelines and automate inbound inquiry management within 30 days.')" class="w-full py-2.5 rounded-lg bg-cardbg hover:bg-electric text-navy hover:text-white text-xs font-bold transition-colors text-center block">
+                            Explore Solution Details
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Solution Card 2 (Featured) -->
+                <div class="bg-white rounded-2xl p-6 border-2 border-electric shadow-md hover:shadow-lg transition-all flex flex-col justify-between relative group">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-electric text-white text-[10px] font-extrabold uppercase px-3 py-0.5 rounded-full tracking-wider shadow-sm">
+                        Recommended Priority
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="p-2.5 bg-electric text-white rounded-xl">
+                                <i data-lucide="cpu" class="w-6 h-6"></i>
+                            </span>
+                            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-electric-light text-electric">Operations</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-navy text-base">Operations Automation Kit</h4>
+                            <p class="text-xs text-slate-500 mt-1">Streamline inventory, ERP APIs, and client-facing tracking systems.</p>
+                        </div>
+                        <ul class="space-y-2 text-xs text-slate-600">
+                            <li class="flex items-center gap-2"><i data-lucide="check-circle2" class="w-4 h-4 text-emerald-500"></i> Custom API webhook integrations</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check-circle2" class="w-4 h-4 text-emerald-500"></i> Client status portal configuration</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check-circle2" class="w-4 h-4 text-emerald-500"></i> Automated ticket dispatching</li>
+                        </ul>
+                    </div>
+                    <div class="pt-6 mt-6 border-t border-slate-100">
+                        <button onclick="openSolutionModal('Operations Automation Kit', 'Integrates fragmented supply chain software to save up to 15 operational hours per FTE each month.')" class="w-full py-2.5 rounded-lg bg-electric hover:bg-electric-hover text-white text-xs font-bold transition-colors text-center block shadow-sm">
+                            Explore Solution Details
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Solution Card 3 -->
+                <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="p-2.5 bg-electric-light text-electric rounded-xl group-hover:bg-electric group-hover:text-white transition-colors">
+                                <i data-lucide="compass" class="w-6 h-6"></i>
+                            </span>
+                            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Strategic</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-navy text-base">Strategic Enterprise Advisory</h4>
+                            <p class="text-xs text-slate-500 mt-1">Dedicated 1-on-1 advisor backing for pricing restructure and expansion.</p>
+                        </div>
+                        <ul class="space-y-2 text-xs text-slate-600">
+                            <li class="flex items-center gap-2"><i data-lucide="check-circle2" class="w-4 h-4 text-emerald-500"></i> Monthly executive strategy sessions</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check-circle2" class="w-4 h-4 text-emerald-500"></i> Value-based pricing model overhaul</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check-circle2" class="w-4 h-4 text-emerald-500"></i> Quarterly KPI benchmark audits</li>
+                        </ul>
+                    </div>
+                    <div class="pt-6 mt-6 border-t border-slate-100">
+                        <button onclick="openSolutionModal('Strategic Enterprise Advisory', 'High-touch consulting framework offering monthly C-level growth advisory and market positioning review.')" class="w-full py-2.5 rounded-lg bg-cardbg hover:bg-electric text-navy hover:text-white text-xs font-bold transition-colors text-center block">
+                            Explore Solution Details
+                        </button>
+                    </div>
+                </div>
+
             </div>
-          </div>
+        </section>
 
-          <div class="card callout">
-            <i class="fa-regular fa-lightbulb"></i>
-            <p>Great start! We've identified key opportunities that can help your business grow faster. <a href="#" style="color:var(--blue-primary); font-weight:700;">Login or create your free account</a> to access your full personalized report.</p>
-          </div>
+        <!-- Booking & Account Creation Section -->
+        <section id="booking-section" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Book Strategy Session Form (7 Cols) -->
+            <div class="lg:col-span-7 bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-sm space-y-6">
+                <div>
+                    <span class="text-xs font-bold text-electric uppercase tracking-wider">Next Action Step</span>
+                    <h3 class="text-xl font-bold text-navy">Book Strategy Session</h3>
+                    <p class="text-xs text-slate-500 mt-1">Review your growth report with an SME Growth Architect in a 30-minute 1-on-1 session.</p>
+                </div>
 
-          <!-- TOP GROWTH OPPORTUNITIES -->
-          <h2 class="block-title">Top Growth Opportunities</h2>
+                <form id="strategy-booking-form" onsubmit="handleBookingSubmit(event)" class="space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Full Name *</label>
+                            <input type="text" required placeholder="Alex Mercer" class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-electric focus:border-electric outline-none transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Work Email *</label>
+                            <input type="email" required placeholder="alex@apexlogistics.com" class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-electric focus:border-electric outline-none transition-all">
+                        </div>
+                    </div>
 
-          <div class="card opp-card">
-            <div class="opp-icon"><i class="fa-solid fa-desktop"></i></div>
-            <div style="flex:1;">
-              <span class="opp-tag" id="oppTag">Highest Impact</span>
-              <h4 id="oppTitle">1. Improve Digitalisation</h4>
-              <p id="digitalReadinessText">Your digital readiness score is 46/100, which is below the average for businesses in your industry.</p>
-              <div class="impact-row">
-                Potential Impact
-                <span class="impact-bars" id="oppImpactBars"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span><span></span></span>
-                <span id="oppImpactWord" style="color:var(--navy-dark)">High</span>
-              </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Preferred Date *</label>
+                            <input type="date" required id="booking-date" class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-electric focus:border-electric outline-none transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Preferred Time Slot *</label>
+                            <select required class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-electric focus:border-electric outline-none transition-all bg-white">
+                                <option value="">Select a time slot...</option>
+                                <option value="09:00">09:00 AM EST</option>
+                                <option value="11:30">11:30 AM EST</option>
+                                <option value="14:00">02:00 PM EST</option>
+                                <option value="16:00">04:00 PM EST</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Primary Focus Area</label>
+                        <textarea rows="2" placeholder="e.g. Automated lead nurturing pipeline priority setup..." class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-electric focus:border-electric outline-none transition-all"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full py-3 bg-electric hover:bg-electric-hover text-white rounded-lg font-bold text-xs uppercase tracking-wider transition-all duration-200 shadow-md flex items-center justify-center gap-2">
+                        <i data-lucide="check-circle" class="w-4 h-4"></i> Schedule Strategy Session
+                    </button>
+                </form>
+
+                <!-- Success Confirmation Box (Hidden by default) -->
+                <div id="booking-success-msg" class="hidden bg-emerald-50 border border-emerald-200 p-4 rounded-xl text-center space-y-2">
+                    <div class="inline-flex p-2 bg-emerald-100 rounded-full text-emerald-600 mb-1">
+                        <i data-lucide="calendar-check" class="w-6 h-6"></i>
+                    </div>
+                    <h4 class="font-bold text-emerald-800 text-sm">Strategy Session Confirmed!</h4>
+                    <p class="text-xs text-emerald-700">A calendar invite and Zoom details have been dispatched to your email address.</p>
+                </div>
             </div>
-            <div class="opp-side">
-              <p style="font-size:0.8rem;"><strong style="color:var(--navy-dark);">Why it matters</strong><br><span id="oppWhy">Improving digitalisation can help you save time, reduce costs, and reach more customers.</span></p>
-              <a href="#">Learn more →</a>
+
+            <!-- Create Account Banner/CTA (5 Cols) -->
+            <div class="lg:col-span-5 bg-navy text-white rounded-2xl p-6 sm:p-8 shadow-xl flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-electric opacity-20 rounded-full blur-2xl"></div>
+                
+                <div class="space-y-4 relative z-10">
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-electric-light text-[11px] font-semibold border border-white/10">
+                        <i data-lucide="lock" class="w-3 h-3"></i> Save Report State
+                    </div>
+
+                    <h3 class="text-2xl font-extrabold leading-tight">Track Implementation Progress Live</h3>
+
+                    <p class="text-slate-300 text-xs leading-relaxed">
+                        Create a free workspace account to preserve this assessment snapshot, track step-by-step roadmap completion, and benchmark your progress against peer companies.
+                    </p>
+
+                    <ul class="space-y-2 text-xs text-slate-200 pt-2">
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-electric"></i> Interactive task management board</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-electric"></i> Exportable executive presentation slides</li>
+                        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-electric"></i> Quarterly dynamic re-assessment access</li>
+                    </ul>
+                </div>
+
+                <div class="pt-8 space-y-3 relative z-10">
+                    <button onclick="openAccountModal()" class="w-full py-3 rounded-lg bg-electric hover:bg-electric-hover text-white text-xs font-bold uppercase tracking-wider transition-all duration-200 shadow-lg text-center block">
+                        Create Free Account
+                    </button>
+                    <p class="text-[10px] text-center text-slate-400">No credit card required. Free forever for up to 3 team seats.</p>
+                </div>
             </div>
-          </div>
 
-          <!-- DYNAMIC RECOMMENDATIONS CONTAINER -->
-          <div id="exabytesRecommendations"></div>
+        </section>
 
-          <div class="card opp-card locked" id="oppLockedCard">
-            <div class="opp-icon" style="background:#E2E8F0; color:var(--text-muted);"><i class="fa-solid fa-lock"></i></div>
-            <div class="opp-lock-row">
-              <div>
-                <h4 id="oppTitle2">2. Increase Sales &amp; Marketing Effectiveness</h4>
-                <p style="margin-bottom:0;" id="oppText2">Discover how to attract more qualified leads and convert them into loyal customers.</p>
-              </div>
-              <div class="unlock-cta">
-                <a href="#">Create an account<br>to unlock →</a>
-              </div>
+    </main>
+
+    <!-- Solution Detail Modal -->
+    <div id="solution-modal" class="fixed inset-0 bg-navy/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 relative">
+            <button onclick="closeSolutionModal()" class="absolute top-4 right-4 text-slate-400 hover:text-navy">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <div class="flex items-center gap-2 text-electric">
+                <i data-lucide="layers" class="w-5 h-5"></i>
+                <span class="text-xs font-bold uppercase tracking-wider">Solution Blueprint</span>
             </div>
-          </div>
-
-          <!-- ROADMAP -->
-          <h2 class="block-title">Phased Implementation Roadmap</h2>
-          <div class="card">
-            <div class="timeline-container" id="roadmapTimeline"></div>
-          </div>
-
-          <!-- ROI ESTIMATOR -->
-          <div class="roi-banner">
-            <h3>Quantified ROI & Operational Impact</h3>
-            <p style="font-size:0.85rem; color:var(--text-light);">Estimated savings by implementing automated enquiry management & enterprise cloud storage:</p>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
-              <div>
-                <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-light);">Weekly Hours Saved</div>
-                <div style="font-size:1.4rem; font-weight:700;" id="roiHoursText">10 hrs / week</div>
-              </div>
-              <div style="text-align:right;">
-                <div style="font-size:0.75rem; text-transform:uppercase; color:var(--text-light);">Est. Annual Savings</div>
-                <div class="roi-val" id="roiSavingsText">RM 23,400 / yr</div>
-              </div>
+            <h3 id="modal-solution-title" class="text-xl font-bold text-navy">Solution Title</h3>
+            <p id="modal-solution-desc" class="text-xs text-slate-600 leading-relaxed">Solution description details...</p>
+            
+            <div class="bg-cardbg p-4 rounded-xl border border-slate-100 space-y-2">
+                <span class="text-xs font-bold text-navy block">Key Deliverables:</span>
+                <ul class="text-xs text-slate-600 space-y-1 list-disc list-inside">
+                    <li>Dedicated onboarding specialist setup</li>
+                    <li>Full system integration audit & test validation</li>
+                    <li>Bi-weekly milestone check-ins</li>
+                </ul>
             </div>
-          </div>
 
-          <div class="bottom-banner">
-            <div>
-              <h4>You're on the right track!</h4>
-              <p>Join thousands of SMEs across Malaysia who are growing their business smarter with data-driven insights.</p>
+            <div class="pt-2 flex justify-end gap-3">
+                <button onclick="closeSolutionModal()" class="px-4 py-2 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold hover:bg-slate-200">Close</button>
+                <button onclick="closeSolutionModal(); scrollToBooking()" class="px-4 py-2 rounded-lg bg-electric text-white text-xs font-semibold hover:bg-electric-hover">Discuss in Strategy Session</button>
             </div>
-            <div>
-              <a href="#" class="btn btn-primary">Create Free Account</a>
+        </div>
+    </div>
+
+    <!-- Create Account Modal -->
+    <div id="account-modal" class="fixed inset-0 bg-navy/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 relative">
+            <button onclick="closeAccountModal()" class="absolute top-4 right-4 text-slate-400 hover:text-navy">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <div class="text-center space-y-1">
+                <h3 class="text-xl font-bold text-navy">Create Free Workspace Account</h3>
+                <p class="text-xs text-slate-500">Save #APX-9824-2026 assessment data permanently</p>
             </div>
-          </div>
 
-        </main>
-
-        <!-- RIGHT SIDEBAR -->
-        <aside>
-          
-          <!-- Business Snapshot -->
-          <div class="sidebar-card">
-            <h3 class="sidebar-title"><i class="fa-regular fa-clipboard" style="color:var(--blue-primary);"></i> Your Business Snapshot</h3>
-            <div class="snap-row"><span class="lbl">Industry</span><span class="val" id="snapIndustry">Healthcare</span></div>
-            <div class="snap-row"><span class="lbl">Company Size</span><span class="val" id="snapSize">6 – 20 employees</span></div>
-            <div class="snap-row"><span class="lbl">Business Age</span><span class="val" id="snapAge">6 – 10 years</span></div>
-            <div class="snap-row"><span class="lbl">Location</span><span class="val" id="snapLocation">Kuala Lumpur</span></div>
-            <div class="snap-row"><span class="lbl">Primary Goal</span><span class="val" id="snapGoal">Digitalise operations</span></div>
-          </div>
-
-          <!-- Strategy Booking -->
-          <div class="sidebar-card">
-            <h3 class="sidebar-title"><i class="fa-regular fa-calendar-check" style="color:var(--blue-primary);"></i> Book Strategy Session</h3>
-            <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">Book a 1-on-1 strategy call directly with an SME consultant.</p>
-
-            <form id="bookingForm" onsubmit="handleConsultationSubmit(event)">
-              <div class="form-group">
-                <label for="fullName">Full Name</label>
-                <input type="text" class="form-control" id="fullName" placeholder="Jane Doe" required>
-              </div>
-
-              <div class="form-group">
-                <label for="workEmail">Work Email</label>
-                <input type="email" class="form-control" id="workEmail" placeholder="jane@company.com" required>
-              </div>
-
-              <button type="submit" class="btn btn-secondary" style="width:100%; margin-top:8px;">Schedule Consultation</button>
+            <form onsubmit="handleAccountSubmit(event)" class="space-y-3 pt-2">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Company Name</label>
+                    <input type="text" value="Apex Logistics" readonly class="w-full px-3 py-2 bg-slate-100 rounded-lg border border-slate-200 text-xs text-slate-600 font-medium">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Work Email</label>
+                    <input type="email" required placeholder="alex@apexlogistics.com" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-electric outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Set Password</label>
+                    <input type="password" required placeholder="••••••••••••" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-electric outline-none">
+                </div>
+                <button type="submit" class="w-full py-2.5 bg-electric hover:bg-electric-hover text-white rounded-lg font-bold text-xs uppercase tracking-wider transition-all mt-2">
+                    Create & Sync Results
+                </button>
             </form>
+        </div>
+    </div>
+
+        <!-- Page Footer -->
+    <footer class="footer">
+        <div class="container footer-inner">
+          <div class="footer-brand-wrap">
+            <span class="logo-name">ExaPulse AI</span>
+            <span class="footer-divider"></span>
+            <span class="logo-tagline">SME GROWTH ADVISORY</span>
           </div>
 
-          <!-- Unlock Card -->
-          <div class="sidebar-card" style="background: var(--blue-light); border-color: var(--blue-border);">
-            <h3 class="sidebar-title" style="color:var(--blue-primary);"><i class="fa-solid fa-lock"></i> Unlock Full Report</h3>
-            <p style="font-size:0.8rem; color:var(--navy-dark);">Create a free account to discover full growth opportunities & AI advisory.</p>
-            <ul class="unlock-list">
-              <li><i class="fa-solid fa-check" style="color:var(--blue-primary);"></i> 3 more growth opportunities</li>
-              <li><i class="fa-solid fa-check" style="color:var(--blue-primary);"></i> Full digitalisation roadmap</li>
-              <li><i class="fa-solid fa-check" style="color:var(--blue-primary);"></i> Compare with industry peers</li>
-            </ul>
-            <a href="#" class="btn btn-primary" style="width:100%;">Create Free Account</a>
+          <nav class="footer-nav">
+            <a href="index.html">Home</a>
+            <a href="how-it-works.html">How It Works</a>
+            <a href="assessment.html">Assessment</a>
+            <a href="aboutus.html">About Us</a>
+            <a href="faq.html">FAQ</a>
+          </nav>
+
+          <div class="footer-right">
+            <div class="social">
+              <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+              <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+              <a href="#" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+            </div>
+            <span class="footer-divider"></span>
+            <span>&copy; 2026 ExaPulse AI. All rights reserved.</span>
           </div>
-
-        </aside>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- Lead Capture Modal -->
-  <div class="modal-backdrop" id="salesModal">
-    <div class="modal-card">
-      <h3 style="margin-top:0; color:var(--navy-dark)">Request Consultation</h3>
-      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px;">Connect with a digital advisor to implement your customized roadmap.</p>
-      <form onsubmit="handleConsultationSubmit(event)">
-        <div class="form-group">
-          <label>Full Name</label>
-          <input type="text" class="form-control" required>
         </div>
-        <div class="form-group">
-          <label>Work Email</label>
-          <input type="email" class="form-control" required>
-        </div>
-        <div class="form-group" style="margin-bottom:20px;">
-          <label>Phone Number</label>
-          <input type="tel" class="form-control" required>
-        </div>
-        <div style="display:flex; gap:8px;">
-          <button type="button" class="btn btn-outline" style="flex:1;" onclick="closeSalesModal()">Cancel</button>
-          <button type="submit" class="btn btn-primary" style="flex:1;">Submit Lead</button>
-        </div>
-      </form>
-    </div>
-  </div>
+    </footer>
 
-  <footer class="footer">
-    <div class="wrap footer-inner">
-      <div>
-        <strong>ExaPulse AI</strong> — SME Growth Advisory
-      </div>
-      <div class="footer-nav">
-        <a href="index.html">Home</a>
-        <a href="assessment.html">Assessment</a>
-        <a href="faq.html">FAQ</a>
-      </div>
-      <div style="color:var(--text-light); font-size:0.8rem;">
-        &copy; 2026 ExaPulse AI. All rights reserved.
-      </div>
-    </div>
-  </footer>
+    <script>
+        // Data Store for Phase Roadmap
+        const phaseData = {
+            1: {
+                title: "Phase 1: Quick Wins (Months 1 - 2)",
+                tagline: "Focus on low-hanging revenue opportunities and quick lead response optimization.",
+                tasks: [
+                    { name: "Deploy automated CRM lead response drip campaign", priority: "Urgent", status: true },
+                    { name: "Conduct pricing audit for enterprise-tier service packages", priority: "High", status: true },
+                    { name: "Configure client status tracking API integration", priority: "Medium", status: false },
+                    { name: "Conduct internal sales pipeline team orientation", priority: "Medium", status: false }
+                ]
+            },
+            2: {
+                title: "Phase 2: Process Scaling (Months 3 - 6)",
+                tagline: "Systematize operations and implement core automation tools.",
+                tasks: [
+                    { name: "Integrate ERP tracking webhooks with customer portal", priority: "High", status: false },
+                    { name: "Transition pricing model to performance-based contracts", priority: "High", status: false },
+                    { name: "Implement automated dispatching for support tickets", priority: "Medium", status: false }
+                ]
+            },
+            3: {
+                title: "Phase 3: Market Expansion (Months 7 - 12)",
+                tagline: "Leverage operational efficiency to capture adjacent market sectors.",
+                tasks: [
+                    { name: "Launch targeted outbound campaign into adjacent regions", priority: "Strategic", status: false },
+                    { name: "Establish quarterly executive benchmark review cycle", priority: "Medium", status: false },
+                    { name: "Evaluate regional distribution hub partnership opportunities", priority: "High", status: false }
+                ]
+            }
+        };
 
-<script>
-/* Lightweight Standalone Radar Chart Generator */
-function renderRadar(svgEl, dimensions) {
-  if (!svgEl || !dimensions || !dimensions.length) return;
-  const numVars = dimensions.length;
-  const center = 230;
-  const radius = 140;
-  let gridHtml = '';
-  let polygonPoints = [];
+        // Initialize Lucide Icons
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            animateScoreGauge(78);
+            renderPhaseContent(1);
+            setDefaultDate();
+            initRadarChart();
+        });
 
-  for (let level = 1; level <= 4; level++) {
-    const r = (radius / 4) * level;
-    let points = [];
-    for (let i = 0; i < numVars; i++) {
-      const angle = (Math.PI * 2 / numVars) * i - Math.PI / 2;
-      points.push(`${center + r * Math.cos(angle)},${center + r * Math.sin(angle)}`);
-    }
-    gridHtml += `<polygon points="${points.join(' ')}" fill="none" stroke="#E2E8F0" stroke-width="1"/>`;
-  }
+        // Score Gauge Animation
+        function animateScoreGauge(targetScore) {
+            const circle = document.getElementById('score-circle');
+            const scoreVal = document.getElementById('score-value');
+            const circumference = 2 * Math.PI * 50; // r=50 -> 314.15
+            
+            let currentScore = 0;
+            const duration = 1200; // ms
+            const intervalTime = 20;
+            const steps = duration / intervalTime;
+            const increment = targetScore / steps;
 
-  dimensions.forEach((d, i) => {
-    const angle = (Math.PI * 2 / numVars) * i - Math.PI / 2;
-    const val = (d.value || 0) / 100;
-    polygonPoints.push(`${center + radius * val * Math.cos(angle)},${center + radius * val * Math.sin(angle)}`);
+            const timer = setInterval(() => {
+                currentScore += increment;
+                if (currentScore >= targetScore) {
+                    currentScore = targetScore;
+                    clearInterval(timer);
+                }
+                scoreVal.textContent = Math.round(currentScore);
+                
+                // Calculate offset
+                const offset = circumference - (currentScore / 100) * circumference;
+                circle.style.strokeDashoffset = offset;
+            }, intervalTime);
+        }
 
-    const lx = center + (radius + 32) * Math.cos(angle);
-    const ly = center + (radius + 18) * Math.sin(angle);
-    gridHtml += `<text x="${lx}" y="${ly}" text-anchor="middle" font-size="11" fill="#475569" font-weight="600">${d.name}</text>`;
-  });
+        //radar Chart 
+        function initRadarChart() {
+          const ctx = document.getElementById('radarChart').getContext('2d');
+          
+          new Chart(ctx, {
+              type: 'radar',
+              data: {
+                  labels: [
+                      'Lead Nurturing',
+                      'Tech Integration',
+                      'Pricing Strategy',
+                      'Operational Speed',
+                      'Market Expansion'
+                  ],
+                  datasets: [{
+                      label: 'Score Profile',
+                      data: [70, 85, 60, 90, 75],
+                      backgroundColor: 'rgba(0, 102, 255, 0.15)', // Electric blue tint
+                      borderColor: '#0066FF',                      // Electric blue border
+                      pointBackgroundColor: '#0A2540',            // Navy points
+                      pointBorderColor: '#fff',
+                      pointHoverBackgroundColor: '#fff',
+                      pointHoverBorderColor: '#0066FF',
+                      borderWidth: 2,
+                      pointRadius: 4
+                  }]
+              },
+              options: {
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  scales: {
+                      r: {
+                          angleLines: { color: '#E2E8F0' },
+                          grid: { color: '#F1F5F9' },
+                          pointLabels: {
+                              font: { family: 'Inter', size: 11, weight: '600' },
+                              color: '#0A2540'
+                          },
+                          ticks: { display: false, stepSize: 20 },
+                          suggestedMin: 0,
+                          suggestedMax: 100
+                      }
+                  },
+                  plugins: {
+                      legend: { display: false }
+                  }
+              }
+          });
+      }
 
-  gridHtml += `<polygon points="${polygonPoints.join(' ')}" fill="rgba(0, 102, 255, 0.2)" stroke="#0066FF" stroke-width="2.5"/>`;
-  svgEl.innerHTML = gridHtml;
-}
+        // Switch Phase Handler
+        function switchPhase(phaseNum) {
+            [1, 2, 3].forEach(p => {
+                const btn = document.getElementById(`tab-phase-${p}`);
+                if (p === phaseNum) {
+                    btn.className = "px-4 py-2 rounded-lg transition-all text-white bg-navy shadow-sm font-bold";
+                } else {
+                    btn.className = "px-4 py-2 rounded-lg transition-all text-slate-600 hover:text-navy font-semibold";
+                }
+            });
+            renderPhaseContent(phaseNum);
+        }
 
-/* Page Hydration & Logic */
-const RESULTS_KEY = "exabytes.sme.results.v1";
-let results;
-try { results = JSON.parse(localStorage.getItem(RESULTS_KEY) || "null"); } catch (e) { results = null; }
+        // Render Phase Content UI
+        function renderPhaseContent(phaseNum) {
+            const data = phaseData[phaseNum];
+            const area = document.getElementById('phase-content-area');
 
-// Fallback Mock Payload if Page Accessed Directly
-if (!results) {
-  results = {
-    snapshot: { industry: "Healthcare", employees: "6 - 20", yearsTrading: "6 - 10 years", location: "Kuala Lumpur", goal: "Digitalise operations" },
-    growthScore: 68,
-    maturity: { score: 46, dims: [{name:"Digital", raw:2.3}, {name:"Sales", raw:3.1}, {name:"Ops", raw:3.9}, {name:"Security", raw:3.5}, {name:"Finance", raw:4.2}] },
-    painPoints: [{title: "Improve Digitalisation", w: 80}, {title: "Sales & Marketing", w: 60}],
-    plan: { picks: [{primary: "Cloud Enterprise Suite", why: "Automates multi-location file syncing.", problem: "Manual Operations"}] },
-    roadmap: [{when: "Phase 1 (Month 1-3)", name: "Foundation Upgrade", items: [{primary: "Deploy Cloud Storage"}]}],
-    roi: { hours: 10, annual: 23400 }
-  };
-}
+            let tasksHtml = data.tasks.map((task, idx) => `
+                <div class="flex items-center justify-between p-3.5 bg-cardbg rounded-xl border border-slate-100 hover:bg-slate-100/60 transition-colors">
+                    <label class="flex items-center gap-3 cursor-pointer">
+                        <input type="checkbox" ${task.status ? 'checked' : ''} onchange="toggleTaskStatus(${phaseNum}, ${idx})" class="w-4 h-4 text-electric rounded border-slate-300 focus:ring-electric">
+                        <span class="text-xs font-semibold ${task.status ? 'line-through text-slate-400' : 'text-navy'}">${task.name}</span>
+                    </label>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                        task.priority === 'Urgent' ? 'bg-red-100 text-red-700' :
+                        task.priority === 'High' ? 'bg-amber-100 text-amber-700' : 'bg-slate-200 text-slate-700'
+                    }">${task.priority}</span>
+                </div>
+            `).join('');
 
-const snap = results.snapshot || {};
-const m = results.maturity || {dims:[], score:0};
-const growth = results.growthScore || 0;
-const pains = results.painPoints || [];
-const plan = results.plan || {picks:[]};
-const roadmapPhases = results.roadmap || [];
-const roi = results.roi || {hours:0, annual:0};
+            area.innerHTML = `
+                <div class="space-y-4">
+                    <div>
+                        <h4 class="text-base font-bold text-navy">${data.title}</h4>
+                        <p class="text-xs text-slate-500">${data.tagline}</p>
+                    </div>
+                    <div class="space-y-2">
+                        ${tasksHtml}
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+        }
 
-const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-const setHTML = (id, val) => { const el = document.getElementById(id); if (el) el.innerHTML = val; };
+        function toggleTaskStatus(phaseNum, index) {
+            phaseData[phaseNum].tasks[index].status = !phaseData[phaseNum].tasks[index].status;
+            renderPhaseContent(phaseNum);
+            showToast('Roadmap item updated successfully');
+        }
 
-// Populate Page
-try {
-  setText("snapIndustry", snap.industry || "Not answered");
-  setText("snapSize", snap.employees ? `${snap.employees}` : "Not answered");
-  setText("snapAge", snap.yearsTrading || "Not answered");
-  setText("snapLocation", snap.location || "Not answered");
-  setText("snapGoal", snap.goal || "Not answered");
-  setText("outCompanyName", `${snap.industry || "Your"} Business`);
+        // Accordion Toggle
+        function toggleAccordion(id) {
+            const content = document.getElementById(id);
+            const icon = document.getElementById(`${id}-icon`);
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
 
-  setHTML("smeGrowthScore", `${growth}<span>/100</span>`);
-  setText("digitalReadinessText", `Your digital maturity score is ${m.score}/100 based on your assessment answers.`);
-  
-  renderRadar(document.getElementById('radarChart'), (m.dims || []).map(d => ({ name: d.name, value: Math.round((d.raw / 5) * 100) })));
+        function expandAllAccordions() {
+            ['opp-1', 'opp-2', 'opp-3'].forEach(id => {
+                const content = document.getElementById(id);
+                const icon = document.getElementById(`${id}-icon`);
+                content.classList.remove('hidden');
+                if (icon) icon.style.transform = 'rotate(180deg)';
+            });
+        }
 
-  setText("roiHoursText", `${Math.round(roi.hours || 0)} hrs / week`);
-  setText("roiSavingsText", `RM ${Math.round(roi.annual || 0).toLocaleString()} / yr`);
+        // ROI Simulation Slider Handler
+        function updateRoiSimulation(val) {
+            const revText = document.getElementById('rev-lift-text');
+            const timeText = document.getElementById('time-saved-text');
+            const roiText = document.getElementById('roi-text');
+            const intensityLabel = document.getElementById('intensity-label');
+            const goalRevText = document.getElementById('goal-rev-text');
+            const goalBar = document.getElementById('goal-bar');
 
-  setHTML("roadmapTimeline", roadmapPhases.map(p => `
-    <div class="timeline-item">
-      <span style="font-size:0.75rem; color:var(--blue-primary); font-weight:700;">${p.when}</span>
-      <h4 style="margin:2px 0 4px; font-size:0.95rem;">${p.name}</h4>
-      <p style="font-size:0.85rem; color:var(--text-muted); margin:0;">${(p.items || []).map(i => i.primary).join(", ")}</p>
-    </div>
-  `).join(""));
-} catch (e) { console.error("Hydration error:", e); }
+            if (val == 1) { // Lean
+                intensityLabel.textContent = "Lean Scale";
+                revText.textContent = "+12%";
+                timeText.textContent = "8 hrs/wk";
+                roiText.textContent = "2.1x";
+                goalRevText.textContent = "$134,400 / mo";
+                goalBar.style.width = "68%";
+            } else if (val == 2) { // Moderate
+                intensityLabel.textContent = "Moderate Scale";
+                revText.textContent = "+22%";
+                timeText.textContent = "14 hrs/wk";
+                roiText.textContent = "3.2x";
+                goalRevText.textContent = "$146,400 / mo";
+                goalBar.style.width = "78%";
+            } else { // Aggressive
+                intensityLabel.textContent = "Aggressive Scale";
+                revText.textContent = "+35%";
+                timeText.textContent = "22 hrs/wk";
+                roiText.textContent = "4.8x";
+                goalRevText.textContent = "$162,000 / mo";
+                goalBar.style.width = "90%";
+            }
+        }
 
-/* EmailJS Credentials */
-const EMAILJS_SERVICE_ID  = "REPLACE_WITH_YOUR_SERVICE_ID";
-const EMAILJS_TEMPLATE_ID = "REPLACE_WITH_YOUR_TEMPLATE_ID";
-const EMAILJS_PUBLIC_KEY  = "REPLACE_WITH_YOUR_PUBLIC_KEY";
+        // Download PDF Handler
+        function handlePdfDownload() {
+            showToast('Preparing PDF download document...');
+            setTimeout(() => {
+                window.print();
+            }, 800);
+        }
 
-function showToast(message, type) {
-  const el = document.getElementById("leadToast");
-  if (!el) return;
-  el.textContent = message;
-  el.className = `lead-toast ${type}`;
-  el.style.display = "block";
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+        // Toast Notification System
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'bg-navy text-white text-xs px-4 py-3 rounded-xl shadow-xl flex items-center gap-2 transition-all duration-300 opacity-0 transform translate-y-2 pointer-events-auto';
+            toast.innerHTML = `<i data-lucide="info" class="w-4 h-4 text-electric"></i> <span>${message}</span>`;
+            
+            container.appendChild(toast);
+            lucide.createIcons();
 
-function closeSalesModal() { document.getElementById("salesModal").classList.remove("active"); }
+            setTimeout(() => {
+                toast.classList.remove('opacity-0', 'translate-y-2');
+            }, 50);
 
-function handleConsultationSubmit(e) {
-  e.preventDefault();
-  showToast("Your strategy session request has been submitted successfully!", "success");
-  closeSalesModal();
-}
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
 
-function downloadPDFProposal(evt) {
-  if (typeof html2pdf === "undefined") {
-    showToast("PDF Engine loading. Please try again in a moment.", "error");
-    return;
-  }
-  const element = document.querySelector("main");
-  html2pdf().set({
-    margin: 0.5,
-    filename: `ExaPulse_Report_${Date.now()}.pdf`,
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2 },
-    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-  }).from(element).save();
-}
-</script>
+        // Modal Controls
+        function openSolutionModal(title, desc) {
+            document.getElementById('modal-solution-title').textContent = title;
+            document.getElementById('modal-solution-desc').textContent = desc;
+            document.getElementById('solution-modal').classList.remove('hidden');
+        }
+
+        function closeSolutionModal() {
+            document.getElementById('solution-modal').classList.add('hidden');
+        }
+
+        function openAccountModal() {
+            document.getElementById('account-modal').classList.remove('hidden');
+        }
+
+        function closeAccountModal() {
+            document.getElementById('account-modal').classList.add('hidden');
+        }
+
+        function scrollToBooking() {
+            document.getElementById('booking-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function setDefaultDate() {
+            const dateInput = document.getElementById('booking-date');
+            if (dateInput) {
+                const today = new Date();
+                today.setDate(today.getDate() + 2); // Default to 2 days ahead
+                dateInput.value = today.toISOString().split('T')[0];
+            }
+        }
+
+        // Form Submit Handlers
+        function handleBookingSubmit(event) {
+            event.preventDefault();
+            document.getElementById('strategy-booking-form').classList.add('hidden');
+            document.getElementById('booking-success-msg').classList.remove('hidden');
+            showToast('Strategy session requested successfully!');
+        }
+
+        function handleAccountSubmit(event) {
+            event.preventDefault();
+            closeAccountModal();
+            showToast('Workspace account created and synchronized!');
+        }
+    </script>
 </body>
 </html>
