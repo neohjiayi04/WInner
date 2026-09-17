@@ -771,12 +771,14 @@ body[data-theme="dark"] .brand .logo-dark {
 input[type=range] {
   -webkit-appearance: none;
   appearance: none;
-  width: 100%;
+  width: calc(100% - 18px); /* Offsets the thumb width so min/max align with scale text */
+  margin: 0 9px;            /* Centers the track relative to the scale below */
   height: 6px;
   border-radius: 99px;
   background: var(--sunk);
   outline: none;
   cursor: pointer;
+  display: block;
 }
 
 .slide.raw input[type=range] {

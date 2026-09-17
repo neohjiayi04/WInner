@@ -6,173 +6,23 @@
 <title>Your Assessment Results — SME Growth Advisor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css">
-
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/faqStyle.css">
+<link rel="stylesheet" href="css/pages/results.css">
 <!-- Dynamic Exabytes Engine & PDF Export Libraries -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<!-- EmailJS: sends real email straight from the browser, no backend needed -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
 <style>
-  /* Header & Branding Tags */
-  .exabytes-header-tag {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid var(--blue-primary, #2563EB);
-    padding-bottom: 12px;
-    margin-bottom: 24px;
-  }
-  .exabytes-logo {
-    font-size: 1.25rem;
-    font-weight: 900;
-    color: #d97706;
-    letter-spacing: -0.03em;
-  }
-  .action-toolbar {
-    display: flex;
-    gap: 12px;
-    justify-content: flex-end;
-    margin-bottom: 20px;
-  }
-
-  /* Structural Grid Layout */
-  .results-grid {
-    display: grid;
-    grid-template-columns: 1fr 340px;
-    gap: 24px;
-    align-items: start;
-  }
-  aside {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  /* 1. Business Snapshot Widget */
-  .snapshot-sidebar-card {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 20px;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  }
-  .snapshot-sidebar-title {
-    margin: 0 0 14px 0;
-    font-size: 1rem;
-    font-weight: 700;
-    color: #0f172a;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-bottom: 1px solid #f1f5f9;
-    padding-bottom: 10px;
-  }
-  .snapshot-sidebar-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .snap-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.85rem;
-  }
-  .snap-row .lbl {
-    color: #64748b;
-    font-weight: 500;
-  }
-  .snap-row .val {
-    color: #0f172a;
-    font-weight: 700;
-    text-align: right;
-  }
-
-  /* 2. Strategy Session Widget */
-  .booking-sidebar-card {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 20px;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  }
-  .booking-sidebar-card input {
-    width: 100%;
-    padding: 9px 12px;
-    margin-top: 4px;
-    margin-bottom: 12px;
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    box-sizing: border-box;
-  }
-  .booking-sidebar-card label {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: #334155;
-  }
-
-  /* 3. Unlock Card Widget */
-  .unlock-card {
-    position: static; /* Removed sticky positioning to fix elements overlapping */
-    margin: 0;
-  }
-
-  /* Content Cards & ROI Styling */
-  .roi-banner {
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-    color: #fff;
-    padding: 24px;
-    border-radius: 12px;
-    margin: 24px 0;
-  }
-  .roi-val {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: #10b981;
-  }
-  .timeline-container {
-    border-left: 3px solid #e2e8f0;
-    padding-left: 20px;
-    margin: 16px 0 24px 8px;
-  }
-  .timeline-item {
-    position: relative;
-    margin-bottom: 20px;
-  }
-  .timeline-item::before {
-    content: '';
-    position: absolute;
-    left: -27px;
-    top: 4px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #2563EB;
-  }
-
-  /* Modal */
-  .modal-backdrop {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(15, 23, 42, 0.6);
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-  .modal-card {
-    background: #fff;
-    border-radius: 12px;
-    width: 100%;
-    max-width: 480px;
-    padding: 28px;
-  }
-
-  @media (max-width: 1024px) {
-    .results-grid {
-      grid-template-columns: 1fr;
-    }
-  }
+.lead-toast{
+  border-radius:10px; padding:14px 18px; margin-bottom:20px;
+  font-size:0.9rem; line-height:1.5; border:1px solid transparent;
+}
+.lead-toast.info{ background:#eff6ff; border-color:#bfdbfe; color:#1e40af; }
+.lead-toast.success{ background:#ecfdf5; border-color:#a7f3d0; color:#065f46; }
+.lead-toast.error{ background:#fef2f2; border-color:#fecaca; color:#991b1b; }
 </style>
 </head>
 <body>
@@ -185,14 +35,14 @@
     </a>
     <nav class="nav-links">
       <a href="index.html">Home</a>
-      <a href="#">Solutions</a>
-      <a href="#">Resources</a>
-      <a href="#">Advisors</a>
-      <a href="#">About Us</a>
+      <a href="solutions.html">Solutions</a>
+      <a href="resources.html">Resources</a>
+      <a href="advisors.html">Advisors</a>
+      <a href="aboutus.html">About Us</a>
     </nav>
     <div class="nav-actions">
-      <a href="#" class="btn btn-outline btn-sm">Log In</a>
-      <a href="#" class="btn btn-primary btn-sm">Get Started</a>
+      <a href="login.html" class="btn btn-outline btn-sm">Log In</a>
+      <a href="signup.html" class="btn btn-primary btn-sm">Get Started</a>
       <button class="nav-toggle" aria-label="Menu" data-icon="menu"></button>
     </div>
   </div>
@@ -201,12 +51,9 @@
 <section class="results-body">
   <div class="wrap">
 
-    <div class="action-toolbar">
-      <button class="btn btn-outline" onclick="downloadPDFProposal()">📥 Download PDF Proposal</button>
-      <button class="btn btn-primary" onclick="openSalesModal()">📞 Request Exabytes Advisor Call</button>
-    </div>
-
     <div id="reportCanvas">
+      
+      <div id="leadToast" class="lead-toast" style="display:none;"></div>
       
       <a href="assessment.html" class="back-link"><span data-icon="arrowLeft"></span> Back to Assessment</a>
       
@@ -220,6 +67,11 @@
           <span style="font-size: 0.75rem; color: #64748b;">AI Horizon Advisor 2026</span>
         </div>
       </div>
+
+      <div class="action-toolbar">
+        <button class="btn btn-outline" onclick="downloadPDFProposal(event)">📥 Download PDF Proposal</button>
+      </div>
+
 
       <div class="results-grid">
         
@@ -255,17 +107,17 @@
           <div class="opp-card card" style="margin-bottom:16px;">
             <span class="ic" data-icon="monitor"></span>
             <div style="flex:1;">
-              <span class="opp-tag">Highest Impact</span>
-              <h4>1. Improve Digitalisation</h4>
+              <span class="opp-tag" id="oppTag">Highest Impact</span>
+              <h4 id="oppTitle">1. Improve Digitalisation</h4>
               <p id="digitalReadinessText">Your digital readiness score is 46/100, which is below the average for businesses in your industry.</p>
               <div class="impact-row">
                 Potential Impact
-                <span class="impact-bars"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span><span></span></span>
-                High
+                <span class="impact-bars" id="oppImpactBars"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span><span></span></span>
+                <span id="oppImpactWord">High</span>
               </div>
             </div>
             <div class="opp-side">
-              <p><strong style="color:var(--ink);">Why it matters</strong><br>Improving digitalisation can help you save time, reduce costs, and reach more customers.</p>
+              <p><strong style="color:var(--ink);">Why it matters</strong><br><span id="oppWhy">Improving digitalisation can help you save time, reduce costs, and reach more customers.</span></p>
               <a href="#">Learn more →</a>
             </div>
           </div>
@@ -273,12 +125,12 @@
           <!-- DYNAMIC SOLUTION ENGINE -->
           <div id="exabytesRecommendations"></div>
 
-          <div class="opp-card card locked" style="margin-bottom:24px;">
+          <div class="opp-card card locked" style="margin-bottom:24px;" id="oppLockedCard">
             <span class="ic" data-icon="lock"></span>
             <div class="opp-lock-row">
               <div>
-                <h4>2. Increase Sales &amp; Marketing Effectiveness</h4>
-                <p style="margin-bottom:0;">Discover how to attract more qualified leads and convert them into loyal customers.</p>
+                <h4 id="oppTitle2">2. Increase Sales &amp; Marketing Effectiveness</h4>
+                <p style="margin-bottom:0;" id="oppText2">Discover how to attract more qualified leads and convert them into loyal customers.</p>
               </div>
               <div class="unlock-cta"><span data-icon="lock" style="width:16px;height:16px;display:inline-block;"></span><a href="#">Create an account<br>to unlock</a></div>
             </div>
@@ -436,107 +288,389 @@
 <script src="js/radar.js"></script>
 
 <script>
-const localData = JSON.parse(localStorage.getItem("smeAssessment") || "{}");
+/* ============================================================
+   Results are hydrated entirely from the payload test.html saves
+   under RESULTS_KEY after the user finishes the assessment. There
+   is no mock data here — every value below is read from that
+   payload. If a section fails to render (e.g. a chart library
+   didn't load), it fails loudly and visibly instead of silently
+   leaving old placeholder text on screen looking like real data.
+   ============================================================ */
+const RESULTS_KEY = "exabytes.sme.results.v1";
 
-// 1. Business Snapshot Hydration
-document.getElementById("snapIndustry").textContent = localData.industry || "Healthcare";
-document.getElementById("snapSize").textContent = localData.employees ? `${localData.employees} employees` : "6 – 20 employees";
-document.getElementById("snapAge").textContent = localData.businessAge || "6 – 10 years";
-document.getElementById("snapLocation").textContent = localData.location || "Kuala Lumpur";
-document.getElementById("snapGoal").textContent = localData.goal || "Digitalise operations";
-document.getElementById("outCompanyName").textContent = `${localData.industry || 'Healthcare'} Business`;
+let results;
+try { results = JSON.parse(localStorage.getItem(RESULTS_KEY) || "null"); }
+catch (e) { results = null; }
 
-// 2. Scores computation
-const digitalScore = Math.min(100, (localData.digitalLevel || 3) * 12 + (localData.digitalTools?.length || 2) * 8);
-const strategyScore = 72;
-const salesScore = 58;
-const opsScore = 71;
-const peopleScore = 64;
-const financeScore = 60;
-
-const overallScore = Math.round((digitalScore + strategyScore + salesScore + opsScore + peopleScore + financeScore) / 6);
-
-document.getElementById("smeGrowthScore").innerHTML = `${overallScore}<span>/100</span>`;
-document.getElementById("digitalReadinessText").textContent = `Your digital readiness score is ${digitalScore}/100 based on your current toolkit evaluation.`;
-
-renderRadar(document.getElementById('radarChart'), [
-  { name: 'Strategy', value: strategyScore },
-  { name: 'Sales & Marketing', value: salesScore },
-  { name: 'Operations', value: opsScore },
-  { name: 'People', value: peopleScore },
-  { name: 'Finance', value: financeScore },
-  { name: 'Digitalisation', value: digitalScore }
-]);
-
-// 3. Dynamic Solution Cards
-const exabyteSolutions = [
-  {
-    category: "Communication & Trust",
-    solution: "Exabytes Business Email Hosting",
-    why: "Secures corporate communication on branded domain names."
-  },
-  {
-    category: "CRM & Sales",
-    solution: "Freshworks CRM Integration",
-    why: "Automates lead capturing, pipeline tracking, and client follow-ups."
-  }
-];
-
-document.getElementById("exabytesRecommendations").innerHTML = exabyteSolutions.map(s => `
-  <div class="next-step-card card" style="margin-bottom:16px;">
-    <span class="ic" data-icon="target"></span>
-    <div>
-      <span class="tag">Recommended Exabytes Solution</span>
-      <h4>${s.solution}</h4>
-      <p><strong>Why it matters:</strong> ${s.why}</p>
-      <div class="solution-tag-lbl">Category</div>
-      <span class="solution-chip">${s.category}</span>
-    </div>
-  </div>
-`).join("");
-
-// 4. Phased Roadmap Engine
-const roadmapData = [
-  { phase: "Phase 1: Quick Wins", time: "Month 1–3", task: "Deploy Business Email Hosting & cloud storage backups." },
-  { phase: "Phase 2: Productivity Boosters", time: "Month 3–6", task: "Integrate CRM with automated client follow-ups." },
-  { phase: "Phase 3: Scale & Automate", time: "Month 6–12", task: "Deploy 24/7 AI Customer Support Chatbots." }
-];
-
-document.getElementById("roadmapTimeline").innerHTML = roadmapData.map(r => `
-  <div class="timeline-item">
-    <span style="font-size:0.75rem; background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:700;">${r.time}</span>
-    <h4 style="margin:4px 0;">${r.phase}</h4>
-    <p style="margin:0; font-size:0.85rem; color:#475569;">${r.task}</p>
-  </div>
-`).join("");
-
-// 5. ROI Estimator
-const staffCount = parseInt(localData.employees) || 12;
-const hoursSaved = Math.min(staffCount * 1, 12);
-const annualSavings = hoursSaved * 45 * 52;
-
-document.getElementById("roiHoursText").textContent = `${hoursSaved} hrs / week`;
-document.getElementById("roiSavingsText").textContent = `RM ${annualSavings.toLocaleString()} / yr`;
-
-// 6. Exports & Modal Handlers
-function downloadPDFProposal() {
-  const element = document.getElementById("reportCanvas");
-  html2pdf().set({
-    margin: 0.2,
-    filename: `Exabytes_SME_Proposal_${Date.now()}.pdf`,
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2 },
-    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-  }).from(element).save();
+if (!results) {
+  document.getElementById("reportCanvas").innerHTML = `
+    <div class="card" style="padding:32px; text-align:center;">
+      <h2 style="margin-top:0;">No assessment results found yet</h2>
+      <p style="color:#64748b;">Take the assessment first and your results will appear here, generated from your own answers.</p>
+      <a href="test.html" class="btn btn-primary" style="margin-top:12px;display:inline-block;">Start the assessment</a>
+    </div>`;
+  throw new Error("No results payload — halting hydration.");
 }
 
-function openSalesModal() { document.getElementById("salesModal").style.display = "flex"; }
+const snap = results.snapshot || {};
+const m = results.maturity || {dims:[], score:0};
+const growth = results.growthScore || 0;
+const pains = results.painPoints || [];
+const plan = results.plan || {picks:[]};
+const roadmapPhases = results.roadmap || [];
+const roi = results.roi || {hours:0, annual:0};
+
+const bandWord = s => s < 40 ? "Early Stage" : s < 65 ? "Good Progress" : "Strong";
+const bandSummary = s => s < 40
+  ? "There's real ground to make up here, but that also means the fastest wins are still on the table."
+  : s < 65
+  ? "You are doing well! With the right improvements in key areas, your business can grow even stronger."
+  : "Your business shows strong growth potential across the board — the roadmap below is about scaling, not fixing gaps.";
+
+const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+const setHTML = (id, val) => { const el = document.getElementById(id); if (el) el.innerHTML = val; };
+
+/* Every section below is isolated: a bug or missing script in one
+   (e.g. radar.js failing to load) can never block the others from
+   rendering real data. Errors are logged to the console instead
+   of being swallowed silently. */
+
+// 1. Business Snapshot
+try {
+  setText("snapIndustry", snap.industry || "Not answered");
+  setText("snapSize", snap.employees ? `${snap.employees} employees` : "Not answered");
+  setText("snapAge", snap.yearsTrading || "Not answered");
+  setText("snapLocation", snap.location || "Not answered");
+  setText("snapGoal", snap.goal || "Not answered");
+  setText("outCompanyName", `${snap.industry || "Your"} Business`);
+} catch (e) { console.error("Snapshot hydration failed:", e); }
+
+// 2. Growth score + digital readiness text (text only — chart is section 2b)
+try {
+  setHTML("smeGrowthScore", `${growth}<span>/100</span>`);
+  setText("scoreTag", bandWord(growth));
+  setText("scoreSummaryText", bandSummary(growth));
+  setText("digitalReadinessText",
+    `Your digital maturity score is ${m.score}/100 across website, cloud, CRM, marketing, cybersecurity and AI adoption, based on your own answers.`);
+} catch (e) { console.error("Score text hydration failed:", e); }
+
+// 2b. Radar chart — isolated separately since it depends on js/radar.js
+try {
+  if (typeof renderRadar !== "function") throw new Error("renderRadar() is not defined — check that js/radar.js loaded correctly.");
+  renderRadar(document.getElementById('radarChart'),
+    (m.dims || []).map(d => ({ name: d.name, value: Math.round((d.raw / 5) * 100) }))
+  );
+} catch (e) {
+  console.error("Radar chart failed to render:", e);
+  const wrap = document.querySelector(".radar-wrap");
+  if (wrap) wrap.innerHTML = `<p style="color:#94a3b8;font-size:0.8rem;">Chart unavailable right now.</p>`;
+}
+
+// 3. Top growth opportunities — real pain points from the engine
+try {
+  const top = pains[0];
+  if (top) {
+    setText("oppTag", "Highest Impact");
+    setText("oppTitle", `1. ${top.title}`);
+    setText("oppWhy", "This is the change most likely to move your growth score, based on the pattern in your own answers.");
+    const bars = Math.max(1, Math.min(10, Math.round(top.w / 10)));
+    setHTML("oppImpactBars", Array.from({length:10}, (_, i) => `<span${i < bars ? ' class="on"' : ''}></span>`).join(""));
+    setText("oppImpactWord", top.w >= 80 ? "High" : top.w >= 55 ? "Medium" : "Lower");
+  } else {
+    setText("oppTag", "Foundations in place");
+    setText("oppTitle", "1. No urgent gaps flagged");
+    setText("oppWhy", "Nothing in your answers triggered a remediation flag — the opportunity now is optimisation, not fixing gaps.");
+  }
+  const second = pains[1];
+  const lockedCard = document.getElementById("oppLockedCard");
+  if (second) {
+    setText("oppTitle2", `2. ${second.title}`);
+    setText("oppText2", "Create a free account to see the full evidence behind this and the recommended fix.");
+  } else if (lockedCard) {
+    lockedCard.style.display = "none";
+  }
+} catch (e) { console.error("Opportunity hydration failed:", e); }
+
+// 4. Recommended solutions — real picks from the recommendation engine
+try {
+  const recs = (plan.picks || []).slice(0, 4);
+  setHTML("exabytesRecommendations", recs.length ? recs.map(s => `
+    <div class="next-step-card card" style="margin-bottom:16px;">
+      <span class="ic" data-icon="target"></span>
+      <div>
+        <span class="tag">Recommended Exabytes Solution</span>
+        <h4>${s.primary}</h4>
+        <p><strong>Why it matters:</strong> ${s.why}</p>
+        <div class="solution-tag-lbl">Traced to</div>
+        <span class="solution-chip">${s.problem}</span>
+      </div>
+    </div>
+  `).join("") : `<div class="next-step-card card" style="margin-bottom:16px;"><span class="ic" data-icon="target"></span><div><p>No specific tool gaps were flagged — ask an advisor about optimisation and margin instead of remediation.</p></div></div>`);
+} catch (e) { console.error("Recommendation hydration failed:", e); }
+
+// 5. Phased roadmap — real, budget-fitted sequence from the plan
+try {
+  setHTML("roadmapTimeline", roadmapPhases.length ? roadmapPhases.map(p => `
+    <div class="timeline-item">
+      <span style="font-size:0.75rem; background:#e0f2fe; color:#0369a1; padding:2px 6px; border-radius:4px; font-weight:700;">${p.when}</span>
+      <h4 style="margin:4px 0;">${p.name}</h4>
+      <p style="margin:0; font-size:0.85rem; color:#475569;">${(p.items || []).map(i => i.primary).join(", ")}</p>
+    </div>
+  `).join("") : `<p style="color:#64748b;">No roadmap items were generated from your answers.</p>`);
+} catch (e) { console.error("Roadmap hydration failed:", e); }
+
+// 6. ROI — from the same estimator that produced the roadmap's budget fit
+try {
+  setText("roiHoursText", `${Math.round(roi.hours || 0)} hrs / week`);
+  setText("roiSavingsText", `RM ${Math.round(roi.annual || 0).toLocaleString()} / yr`);
+} catch (e) { console.error("ROI hydration failed:", e); }
+
+// 7. Exports & Modal Handlers
+
+/* ============================================================
+   EmailJS setup — REPLACE these three values with your own
+   EmailJS account details (emailjs.com, free tier works):
+     1. Create an Email Service  -> copy its Service ID
+     2. Create an Email Template -> copy its Template ID
+        Template needs: {{to_name}}, {{to_email}}, {{company}},
+        {{growth_score}}, and one attachment field of type
+        "Variable Attachment" named pdf_attachment
+     3. Account > General -> copy your Public Key
+   Until these are filled in, the email send will fail and the
+   page will tell the user honestly rather than pretending it worked.
+   ============================================================ */
+const EMAILJS_SERVICE_ID  = "REPLACE_WITH_YOUR_SERVICE_ID";
+const EMAILJS_TEMPLATE_ID = "REPLACE_WITH_YOUR_TEMPLATE_ID";
+const EMAILJS_PUBLIC_KEY  = "REPLACE_WITH_YOUR_PUBLIC_KEY";
+
+if (typeof emailjs !== "undefined" && !EMAILJS_PUBLIC_KEY.startsWith("REPLACE_WITH")) {
+  emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+}
+
+function showToast(message, type) {
+  const el = document.getElementById("leadToast");
+  if (!el) return;
+  el.textContent = message;
+  el.className = `lead-toast ${type}`;
+  el.style.display = "block";
+  el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+/* Builds a dedicated, single-column print layout instead of
+   screenshotting the live two-column dashboard (which is what caused
+   the cut-off / clipped-on-the-right PDFs). This template is fixed at
+   print-page width and contains only the sections that belong in a
+   proposal document, all populated from the real assessment answers. */
+function buildPrintableReportHTML() {
+  const dateStr = new Date().toLocaleDateString("en-MY", { year: "numeric", month: "long", day: "numeric" });
+  const companyName = snap.industry ? `${snap.industry} Business` : "Your Business";
+
+  const maturityRows = (m.dims || []).map(d => {
+    const pct = Math.max(0, Math.min(100, Math.round((d.raw / 5) * 100)));
+    return `
+      <tr>
+        <td style="padding:6px 0; font-size:12px; color:#0f172a; width:140px;">${d.name}</td>
+        <td style="padding:6px 0;">
+          <div style="background:#e2e8f0; border-radius:4px; height:10px; width:100%;">
+            <div style="background:#2563eb; border-radius:4px; height:10px; width:${pct}%;"></div>
+          </div>
+        </td>
+        <td style="padding:6px 0 6px 10px; font-size:12px; color:#475569; width:40px; text-align:right;">${pct}%</td>
+      </tr>`;
+  }).join("");
+
+  const roadmapRows = (roadmapPhases.length ? roadmapPhases : []).map(p => `
+    <div style="margin-bottom:14px; padding-left:14px; border-left:3px solid #2563eb;">
+      <div style="font-size:11px; font-weight:700; color:#2563eb; text-transform:uppercase;">${p.when || ""}</div>
+      <div style="font-size:13px; font-weight:700; color:#0f172a; margin:2px 0 4px;">${p.name || ""}</div>
+      <div style="font-size:12px; color:#475569;">${(p.items || []).map(i => i.primary).join(", ")}</div>
+    </div>`).join("") || `<p style="font-size:12px; color:#64748b;">No roadmap items were generated from your answers.</p>`;
+
+  const recRows = (plan.picks || []).slice(0, 6).map(s => `
+    <div style="margin-bottom:12px; padding:10px 12px; background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0;">
+      <div style="font-size:13px; font-weight:700; color:#0f172a;">${s.primary}</div>
+      <div style="font-size:12px; color:#475569; margin-top:2px;">${s.why}</div>
+      <div style="font-size:10px; color:#2563eb; margin-top:4px; text-transform:uppercase; font-weight:700;">Traced to: ${s.problem}</div>
+    </div>`).join("") || `<p style="font-size:12px; color:#64748b;">No specific tool gaps were flagged from your answers.</p>`;
+
+  const topPain = pains[0];
+  const consultantNotes = `
+    Based on the answers provided, this business currently scores ${growth}/100 on overall growth readiness
+    and ${m.score}/100 on digital maturity. ${topPain
+      ? `The highest-priority gap identified is <strong>${topPain.title}</strong>, which is the recommended
+         starting point for the improvement roadmap above.`
+      : `No urgent remediation gaps were flagged — the focus should shift toward optimisation and scaling
+         rather than fixing foundational issues.`}
+    Stated primary goal: <strong>${snap.goal || "not specified"}</strong>.
+    These notes are generated directly from the assessment responses; a human Exabytes advisor will review
+    this report and follow up with a tailored recommendation before any commitment is required.`;
+
+  return `
+    <div style="width:760px; font-family:'Inter',Arial,sans-serif; color:#0f172a; background:#ffffff; padding:32px 36px;">
+
+      <!-- Exabytes branding header -->
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; border-bottom:3px solid #2563eb; padding-bottom:16px; margin-bottom:24px;">
+        <div>
+          <div style="font-size:22px; font-weight:800; color:#2563eb; letter-spacing:1px;">EXABYTES</div>
+          <div style="font-size:11px; color:#94a3b8; margin-top:2px;">AI Horizon Advisor 2026</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:11px; color:#94a3b8;">Generated</div>
+          <div style="font-size:12px; color:#0f172a; font-weight:600;">${dateStr}</div>
+        </div>
+      </div>
+
+      <h1 style="font-size:20px; margin:0 0 4px;">SME Growth &amp; Digital Readiness Report</h1>
+      <p style="font-size:13px; color:#64748b; margin:0 0 24px;">Prepared for: <strong>${companyName}</strong></p>
+
+      <!-- 1. Business Summary -->
+      <h2 style="font-size:14px; text-transform:uppercase; letter-spacing:0.5px; color:#2563eb; border-bottom:1px solid #e2e8f0; padding-bottom:6px; margin:24px 0 12px;">Business Summary</h2>
+      <table style="width:100%; border-collapse:collapse; font-size:12px; margin-bottom:8px;">
+        <tr><td style="padding:4px 0; color:#64748b; width:150px;">Industry</td><td style="padding:4px 0; font-weight:600;">${snap.industry || "Not answered"}</td></tr>
+        <tr><td style="padding:4px 0; color:#64748b;">Company Size</td><td style="padding:4px 0; font-weight:600;">${snap.employees ? snap.employees + " employees" : "Not answered"}</td></tr>
+        <tr><td style="padding:4px 0; color:#64748b;">Business Age</td><td style="padding:4px 0; font-weight:600;">${snap.yearsTrading || "Not answered"}</td></tr>
+        <tr><td style="padding:4px 0; color:#64748b;">Location</td><td style="padding:4px 0; font-weight:600;">${snap.location || "Not answered"}</td></tr>
+        <tr><td style="padding:4px 0; color:#64748b;">Primary Goal</td><td style="padding:4px 0; font-weight:600;">${snap.goal || "Not answered"}</td></tr>
+      </table>
+      <div style="margin-top:12px; padding:14px 16px; background:#eff6ff; border-radius:8px;">
+        <span style="font-size:11px; color:#2563eb; font-weight:700; text-transform:uppercase;">SME Growth Score</span>
+        <div style="font-size:28px; font-weight:800; color:#0f172a; margin-top:2px;">${growth}<span style="font-size:14px; color:#94a3b8;">/100</span> — ${bandWord(growth)}</div>
+      </div>
+
+      <!-- 2. Digital Maturity -->
+      <h2 style="font-size:14px; text-transform:uppercase; letter-spacing:0.5px; color:#2563eb; border-bottom:1px solid #e2e8f0; padding-bottom:6px; margin:24px 0 12px;">Digital Maturity — ${m.score}/100</h2>
+      <table style="width:100%; border-collapse:collapse;">${maturityRows || `<tr><td style="font-size:12px;color:#64748b;">No maturity data available.</td></tr>`}</table>
+
+      <!-- 3. Roadmap -->
+      <h2 style="font-size:14px; text-transform:uppercase; letter-spacing:0.5px; color:#2563eb; border-bottom:1px solid #e2e8f0; padding-bottom:6px; margin:24px 0 12px;">Phased Implementation Roadmap</h2>
+      ${roadmapRows}
+
+      <!-- 4. ROI -->
+      <h2 style="font-size:14px; text-transform:uppercase; letter-spacing:0.5px; color:#2563eb; border-bottom:1px solid #e2e8f0; padding-bottom:6px; margin:24px 0 12px;">Quantified ROI</h2>
+      <div style="display:flex; gap:16px; margin-bottom:8px;">
+        <div style="flex:1; padding:12px 16px; background:#0f172a; border-radius:8px; color:#fff;">
+          <div style="font-size:10px; text-transform:uppercase; color:#94a3b8;">Weekly Hours Saved</div>
+          <div style="font-size:20px; font-weight:800;">${Math.round(roi.hours || 0)} hrs</div>
+        </div>
+        <div style="flex:1; padding:12px 16px; background:#0f172a; border-radius:8px; color:#fff;">
+          <div style="font-size:10px; text-transform:uppercase; color:#94a3b8;">Est. Annual Savings</div>
+          <div style="font-size:20px; font-weight:800;">RM ${Math.round(roi.annual || 0).toLocaleString()}</div>
+        </div>
+      </div>
+
+      <!-- 5. Recommended Solutions -->
+      <h2 style="font-size:14px; text-transform:uppercase; letter-spacing:0.5px; color:#2563eb; border-bottom:1px solid #e2e8f0; padding-bottom:6px; margin:24px 0 12px;">Recommended Solutions</h2>
+      ${recRows}
+
+      <!-- 6. Consultant Notes -->
+      <h2 style="font-size:14px; text-transform:uppercase; letter-spacing:0.5px; color:#2563eb; border-bottom:1px solid #e2e8f0; padding-bottom:6px; margin:24px 0 12px;">Consultant Notes</h2>
+      <p style="font-size:12px; color:#334155; line-height:1.6; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:14px 16px;">${consultantNotes}</p>
+
+      <div style="margin-top:28px; padding-top:14px; border-top:1px solid #e2e8f0; font-size:10px; color:#94a3b8; text-align:center;">
+        Exabytes SME Growth Advisor · This report is generated from your own assessment answers · Confidential
+      </div>
+    </div>`;
+}
+
+/* Renders the printable template off-screen, captures it, then
+   removes it — so the visible dashboard is never touched. */
+function buildReportPdfDataUri() {
+  const holder = document.createElement("div");
+  holder.style.position = "fixed";
+  holder.style.left = "-10000px";
+  holder.style.top = "0";
+  holder.innerHTML = buildPrintableReportHTML();
+  document.body.appendChild(holder);
+
+  return html2pdf()
+    .set({
+      margin: 0.3,
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, allowTaint: true, backgroundColor: "#ffffff" },
+      jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+      pagebreak: { mode: ["css", "legacy"] }
+    })
+    .from(holder.firstElementChild)
+    .outputPdf("datauristring")
+    .finally(() => holder.remove());
+}
+
+function downloadPDFProposal(evt) {
+  const btn = evt ? evt.currentTarget : document.querySelector('.action-toolbar button');
+
+  if (typeof html2pdf === "undefined") {
+    showToast("The PDF generator didn't load — check your internet connection and try again.", "error");
+    return;
+  }
+
+  const originalLabel = btn ? btn.textContent : "";
+  if (btn) { btn.disabled = true; btn.textContent = "Generating PDF…"; }
+
+  buildReportPdfDataUri()
+    .then(dataUri => {
+      const link = document.createElement("a");
+      link.href = dataUri;
+      link.download = `Exabytes_SME_Proposal_${Date.now()}.pdf`;
+      link.click();
+    })
+    .catch(err => {
+      console.error("PDF generation failed:", err);
+      showToast("Sorry, something went wrong generating your PDF. Please try again.", "error");
+    })
+    .finally(() => {
+      if (btn) { btn.disabled = false; btn.textContent = originalLabel || "📥 Download PDF Proposal"; }
+    });
+}
+
 function closeSalesModal() { document.getElementById("salesModal").style.display = "none"; }
 
+/* Handles both the sidebar "Book Strategy Session" form and the
+   sales modal form. Creates a lead and emails the real, just-generated
+   report to the address the user typed in — no mock confirmation. */
 function handleConsultationSubmit(e) {
   e.preventDefault();
-  alert("Thank you! Your details and assessment report have been transmitted to an Exabytes Sales Advisor.");
-  closeSalesModal();
+  const form = e.target;
+  const nameInput = form.querySelector('input[type="text"]');
+  const emailInput = form.querySelector('input[type="email"]');
+  const name = nameInput ? nameInput.value.trim() : "";
+  const email = emailInput ? emailInput.value.trim() : "";
+
+  if (!email) {
+    showToast("Please enter a valid email address.", "error");
+    return;
+  }
+
+  if (typeof emailjs === "undefined" || EMAILJS_PUBLIC_KEY.startsWith("REPLACE_WITH")) {
+    showToast("Email delivery isn't configured yet on this page (missing EmailJS credentials) — the lead was captured, but no email was sent. Contact the site admin to finish setup.", "error");
+    console.warn("EmailJS not configured: fill in EMAILJS_SERVICE_ID / EMAILJS_TEMPLATE_ID / EMAILJS_PUBLIC_KEY.");
+    return;
+  }
+
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const originalLabel = submitBtn ? submitBtn.textContent : "";
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Sending your report…"; }
+  showToast("Creating your lead and generating your report…", "info");
+
+  buildReportPdfDataUri()
+    .then(pdfDataUri => emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      to_name: name || "there",
+      to_email: email,
+      company: snap.industry ? `${snap.industry} Business` : "Your Business",
+      growth_score: growth,
+      pdf_attachment: pdfDataUri
+    }))
+    .then(() => {
+      showToast(`Done! A lead has been created and we've emailed your personalised report to ${email}. Check your inbox (and spam folder) in a minute.`, "success");
+      form.reset();
+      closeSalesModal();
+    })
+    .catch(err => {
+      console.error("Lead email failed:", err);
+      showToast("We couldn't send the email right now. Please try again in a moment.", "error");
+    })
+    .finally(() => {
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalLabel; }
+    });
 }
 </script>
 
