@@ -107,7 +107,24 @@
 
     <!-- Main Content Container -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      
+
+      <!-- Empty State: shown when no completed assessment is found in localStorage -->
+      <div id="empty-state" class="hidden bg-white rounded-2xl p-10 sm:p-16 border border-slate-200/80 shadow-sm text-center max-w-xl mx-auto space-y-5">
+          <div class="w-16 h-16 rounded-2xl bg-electric-light text-electric flex items-center justify-center mx-auto">
+              <i data-lucide="clipboard-list" class="w-8 h-8"></i>
+          </div>
+          <div class="space-y-2">
+              <h2 class="text-xl font-bold text-navy">No assessment results yet</h2>
+              <p class="text-sm text-slate-500">Complete the SME Growth Assessment first so we can generate your personalized report.</p>
+          </div>
+          <a href="test.html" class="inline-flex items-center gap-2 bg-electric hover:bg-electric-hover text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 shadow-sm">
+              <i data-lucide="arrow-right" class="w-4 h-4"></i> Take the Assessment
+          </a>
+      </div>
+
+      <!-- Results Content: hidden until a completed assessment is loaded -->
+      <div id="results-content" class="hidden space-y-8">
+
       <!-- Action Controls -->
             <div class="flex justify-end gap-3 no-print">
                 <!-- Added mr-auto (margin-right: auto) here to make it on left side-->
@@ -115,11 +132,15 @@
 
                 <!-- right side-->
                 <span class="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-slate-100 text-slate-600 border border-slate-200">
-                    <i data-lucide="clock" class="w-3.5 h-3.5"></i> Generated: Sep 17, 2026
+                    <i data-lucide="clock" class="w-3.5 h-3.5"></i> Generated: <span id="generated-date-text">–</span>
                 </span>
                 <button id="download-pdf-btn" onclick="handlePdfDownload()" class="flex items-center gap-2 bg-white border border-slate-300 hover:border-navy text-navy hover:bg-slate-50 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 shadow-sm">
                     <i data-lucide="download" class="w-4 h-4 text-electric"></i>
                     <span>Download PDF</span>
+                </button>
+                <button id="sync-dashboard-btn" onclick="manualSyncToDashboard()" class="flex items-center gap-2 bg-white border border-slate-300 hover:border-navy text-navy hover:bg-slate-50 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 shadow-sm">
+                    <i data-lucide="refresh-cw" class="w-4 h-4 text-electric"></i>
+                    <span>Sync to Dashboard</span>
                 </button>
                 <button onclick="scrollToBooking()" class="hidden sm:flex items-center gap-2 bg-electric hover:bg-electric-hover text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 shadow-sm">
                     <i data-lucide="calendar" class="w-4 h-4"></i>
@@ -136,29 +157,29 @@
                     <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-4">
                         <div>
                             <span class="text-xs font-semibold text-electric uppercase tracking-wider">Target Organization</span>
-                            <h2 class="text-2xl font-extrabold text-navy">Apex Logistics & Distribution</h2>
+                            <h2 class="text-2xl font-extrabold text-navy" id="snapshot-org-name">Your Business</h2>
                         </div>
                         <span class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1">
                             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Complete Assessment
                         </span>
                     </div>
 
-                    <p class="text-slate-600 text-sm leading-relaxed">
-                        Based on your operational response parameters, market alignment metrics, and digital footprint, your organization demonstrates a robust baseline infrastructure with high elasticity for scalable market expansion.
+                    <p class="text-slate-600 text-sm leading-relaxed" id="snapshot-summary-text">
+                        Based on your operational response parameters, market alignment metrics, and digital footprint, your organization demonstrates a baseline infrastructure with room for scalable market expansion.
                     </p>
 
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-2">
                         <div class="bg-cardbg p-3.5 rounded-xl border border-slate-100">
                             <span class="text-xs text-slate-500 font-medium block">Industry Sector</span>
-                            <span class="text-sm font-semibold text-navy">B2B Logistics</span>
+                            <span class="text-sm font-semibold text-navy" id="snapshot-industry">–</span>
                         </div>
                         <div class="bg-cardbg p-3.5 rounded-xl border border-slate-100">
                             <span class="text-xs text-slate-500 font-medium block">Company Headcount</span>
-                            <span class="text-sm font-semibold text-navy">25 - 50 FTEs</span>
+                            <span class="text-sm font-semibold text-navy" id="snapshot-headcount">–</span>
                         </div>
                         <div class="bg-cardbg p-3.5 rounded-xl border border-slate-100 col-span-2 sm:col-span-1">
                             <span class="text-xs text-slate-500 font-medium block">Assessment ID</span>
-                            <span class="text-sm font-mono font-semibold text-navy">#APX-9824-2026</span>
+                            <span class="text-sm font-mono font-semibold text-navy" id="snapshot-assessment-id">–</span>
                         </div>
                     </div>
                 </div>
@@ -193,10 +214,10 @@
 
                 <div class="mt-4 space-y-1">
                     <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-electric-light text-electric font-bold text-xs uppercase tracking-wide">
-                        <i data-lucide="zap" class="w-3.5 h-3.5 fill-electric"></i> High Growth Potential
+                        <i data-lucide="zap" class="w-3.5 h-3.5 fill-electric"></i> <span id="score-band-label">Growth Score</span>
                     </div>
-                    <p class="text-xs text-slate-500 max-w-xs mt-2">
-                        Your score places you in the top <strong>18th percentile</strong> among peer businesses in your category.
+                    <p class="text-xs text-slate-500 max-w-xs mt-2" id="score-band-desc">
+                        Based on your assessment answers.
                     </p>
                 </div>
             </div>
@@ -209,12 +230,20 @@
                     <span class="text-xs font-bold text-electric uppercase tracking-wider">Performance Breakdown</span>
                     <h3 class="text-xl font-bold text-navy">Operational Readiness Radar</h3>
                 </div>
-                <span class="text-xs font-semibold text-slate-400">5 Metric Dimensions</span>
+                <span class="text-xs font-semibold text-slate-400" id="radar-dim-count">6 Metric Dimensions</span>
             </div>
 
-            <!-- Chart Canvas Container -->
-            <div class="relative w-full max-w-md mx-auto h-72 sm:h-80">
-                <canvas id="radarChart"></canvas>
+            <!-- Chart + Exact Scoring Layout -->
+            <div class="flex flex-col lg:flex-row items-center gap-6">
+                <!-- Chart Canvas Container -->
+                <div class="relative w-full max-w-md mx-auto h-72 sm:h-80 flex-shrink-0">
+                    <canvas id="radarChart"></canvas>
+                </div>
+
+                <!-- Exact Scoring Panel (right side) -->
+                <div class="w-full lg:w-64 flex-shrink-0 space-y-2" id="radar-score-list">
+                    <!-- Populated by JS: one row per dimension with its exact score -->
+                </div>
             </div>
         </section>
 
@@ -237,72 +266,9 @@
                         <span class="text-xs font-semibold text-slate-400">3 Identified</span>
                     </div>
 
-                    <!-- Accordion Items -->
+                    <!-- Accordion Items (rendered from live assessment pain points) -->
                     <div class="space-y-3" id="opportunities-container">
-                        
-                        <!-- Opportunity Item 1 -->
-                        <div class="border border-slate-200 rounded-xl overflow-hidden transition-all duration-200 hover:border-electric/50">
-                            <button onclick="toggleAccordion('opp-1')" class="w-full text-left p-4 bg-cardbg flex items-center justify-between gap-3">
-                                <div class="flex items-center gap-3">
-                                    <span class="w-6 h-6 rounded-full bg-electric text-white text-xs font-bold flex items-center justify-center flex-shrink-0">1</span>
-                                    <span class="font-semibold text-sm text-navy">Automated Lead Nurturing Pipeline</span>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <span class="hidden sm:inline-block px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-amber-100 text-amber-800 border border-amber-200">High Impact</span>
-                                    <i data-lucide="chevron-down" id="opp-1-icon" class="w-4 h-4 text-slate-400 transition-transform duration-200"></i>
-                                </div>
-                            </button>
-                            <div id="opp-1" class="hidden p-4 bg-white border-t border-slate-100 text-xs text-slate-600 space-y-2">
-                                <p>Transition from manual outreach to CRM-driven drip sequences. Increases prospect conversion speeds by an estimated 34%.</p>
-                                <div class="flex items-center justify-between pt-2 border-t border-slate-100 font-medium">
-                                    <span class="text-slate-500">Estimated Effort: <strong class="text-navy">Low (2 weeks)</strong></span>
-                                    <span class="text-emerald-600 font-semibold">+12% Revenue Impact</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Opportunity Item 2 -->
-                        <div class="border border-slate-200 rounded-xl overflow-hidden transition-all duration-200 hover:border-electric/50">
-                            <button onclick="toggleAccordion('opp-2')" class="w-full text-left p-4 bg-cardbg flex items-center justify-between gap-3">
-                                <div class="flex items-center gap-3">
-                                    <span class="w-6 h-6 rounded-full bg-electric text-white text-xs font-bold flex items-center justify-center flex-shrink-0">2</span>
-                                    <span class="font-semibold text-sm text-navy">Supply Chain API Tech Integration</span>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <span class="hidden sm:inline-block px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-blue-100 text-blue-800 border border-blue-200">Quick Win</span>
-                                    <i data-lucide="chevron-down" id="opp-2-icon" class="w-4 h-4 text-slate-400 transition-transform duration-200"></i>
-                                </div>
-                            </button>
-                            <div id="opp-2" class="hidden p-4 bg-white border-t border-slate-100 text-xs text-slate-600 space-y-2">
-                                <p>Connect warehouse tracking directly to client portals. Eliminates manual status check queries and reduces support ticket traffic.</p>
-                                <div class="flex items-center justify-between pt-2 border-t border-slate-100 font-medium">
-                                    <span class="text-slate-500">Estimated Effort: <strong class="text-navy">Medium (4 weeks)</strong></span>
-                                    <span class="text-emerald-600 font-semibold">14 hrs/wk Saved</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Opportunity Item 3 -->
-                        <div class="border border-slate-200 rounded-xl overflow-hidden transition-all duration-200 hover:border-electric/50">
-                            <button onclick="toggleAccordion('opp-3')" class="w-full text-left p-4 bg-cardbg flex items-center justify-between gap-3">
-                                <div class="flex items-center gap-3">
-                                    <span class="w-6 h-6 rounded-full bg-electric text-white text-xs font-bold flex items-center justify-center flex-shrink-0">3</span>
-                                    <span class="font-semibold text-sm text-navy">Value-Based Tiered Pricing Restructure</span>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <span class="hidden sm:inline-block px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-purple-100 text-purple-800 border border-purple-200">High Margin</span>
-                                    <i data-lucide="chevron-down" id="opp-3-icon" class="w-4 h-4 text-slate-400 transition-transform duration-200"></i>
-                                </div>
-                            </button>
-                            <div id="opp-3" class="hidden p-4 bg-white border-t border-slate-100 text-xs text-slate-600 space-y-2">
-                                <p>Re-evaluate service contracts into performance tiers. Capture latent margin from high-demand enterprise level clients.</p>
-                                <div class="flex items-center justify-between pt-2 border-t border-slate-100 font-medium">
-                                    <span class="text-slate-500">Estimated Effort: <strong class="text-navy">Low (1 week)</strong></span>
-                                    <span class="text-emerald-600 font-semibold">+8% Gross Margin</span>
-                                </div>
-                            </div>
-                        </div>
-
+                        <!-- Populated by JS: renderOpportunities() -->
                     </div>
                 </div>
 
@@ -330,16 +296,16 @@
                     <!-- Metrics Grid -->
                     <div class="grid grid-cols-3 gap-3 mb-6">
                         <div class="bg-cardbg p-3.5 rounded-xl border border-slate-100 text-center">
-                            <span class="text-xs text-slate-500 font-medium block">Est. Revenue Lift</span>
-                            <span class="text-xl font-black text-emerald-600 mt-1 block" id="rev-lift-text">+22%</span>
+                            <span class="text-xs text-slate-500 font-medium block" id="rev-lift-label">Annual Value Recovered</span>
+                            <span class="text-xl font-black text-emerald-600 mt-1 block" id="rev-lift-text">–</span>
                         </div>
                         <div class="bg-cardbg p-3.5 rounded-xl border border-slate-100 text-center">
-                            <span class="text-xs text-slate-500 font-medium block">Time Saved</span>
-                            <span class="text-xl font-black text-navy mt-1 block" id="time-saved-text">14 hrs/wk</span>
+                            <span class="text-xs text-slate-500 font-medium block" id="time-saved-label">Time Saved</span>
+                            <span class="text-xl font-black text-navy mt-1 block" id="time-saved-text">–</span>
                         </div>
                         <div class="bg-cardbg p-3.5 rounded-xl border border-slate-100 text-center">
-                            <span class="text-xs text-slate-500 font-medium block">Payback ROI</span>
-                            <span class="text-xl font-black text-electric mt-1 block" id="roi-text">3.2x</span>
+                            <span class="text-xs text-slate-500 font-medium block" id="roi-label">Payback Period</span>
+                            <span class="text-xl font-black text-electric mt-1 block" id="roi-text">–</span>
                         </div>
                     </div>
 
@@ -361,21 +327,21 @@
 
                     <!-- Dynamic Visual Bar Chart Comparison -->
                     <div class="mt-6 space-y-3">
-                        <span class="text-xs font-semibold text-slate-500 block">Baseline vs. Optimization Projection ($ Value)</span>
+                        <span class="text-xs font-semibold text-slate-500 block">Manual Hours Today vs. Value Recovered</span>
                         <div class="space-y-2">
                             <div>
                                 <div class="flex justify-between text-xs mb-1">
-                                    <span class="text-slate-600 font-medium">Current Trajectory</span>
-                                    <span class="font-bold text-slate-700">$120,000 / mo</span>
+                                    <span class="text-slate-600 font-medium">Manual Hours Today</span>
+                                    <span class="font-bold text-slate-700" id="current-hours-text">– hrs/wk</span>
                                 </div>
                                 <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
-                                    <div class="bg-slate-400 h-full rounded-full" style="width: 60%"></div>
+                                    <div class="bg-slate-400 h-full rounded-full" style="width: 100%"></div>
                                 </div>
                             </div>
                             <div>
                                 <div class="flex justify-between text-xs mb-1">
-                                    <span class="text-navy font-bold">Optimized Growth Goal</span>
-                                    <span class="font-bold text-emerald-600" id="goal-rev-text">$146,400 / mo</span>
+                                    <span class="text-navy font-bold">Recovered Annual Value</span>
+                                    <span class="font-bold text-emerald-600" id="goal-rev-text">RM 0 / mo</span>
                                 </div>
                                 <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
                                     <div id="goal-bar" class="bg-emerald-500 h-full rounded-full transition-all duration-500" style="width: 78%"></div>
@@ -600,6 +566,8 @@
 
         </section>
 
+      </div><!-- /#results-content -->
+
     </main>
 
     <!-- Solution Detail Modal -->
@@ -692,53 +660,100 @@
     </footer>
 
     <script>
-        // Data Store for Phase Roadmap
-        const phaseData = {
-            1: {
-                title: "Phase 1: Quick Wins (Months 1 - 2)",
-                tagline: "Focus on low-hanging revenue opportunities and quick lead response optimization.",
-                tasks: [
-                    { name: "Deploy automated CRM lead response drip campaign", priority: "Urgent", status: true },
-                    { name: "Conduct pricing audit for enterprise-tier service packages", priority: "High", status: true },
-                    { name: "Configure client status tracking API integration", priority: "Medium", status: false },
-                    { name: "Conduct internal sales pipeline team orientation", priority: "Medium", status: false }
-                ]
-            },
-            2: {
-                title: "Phase 2: Process Scaling (Months 3 - 6)",
-                tagline: "Systematize operations and implement core automation tools.",
-                tasks: [
-                    { name: "Integrate ERP tracking webhooks with customer portal", priority: "High", status: false },
-                    { name: "Transition pricing model to performance-based contracts", priority: "High", status: false },
-                    { name: "Implement automated dispatching for support tickets", priority: "Medium", status: false }
-                ]
-            },
-            3: {
-                title: "Phase 3: Market Expansion (Months 7 - 12)",
-                tagline: "Leverage operational efficiency to capture adjacent market sectors.",
-                tasks: [
-                    { name: "Launch targeted outbound campaign into adjacent regions", priority: "Strategic", status: false },
-                    { name: "Establish quarterly executive benchmark review cycle", priority: "Medium", status: false },
-                    { name: "Evaluate regional distribution hub partnership opportunities", priority: "High", status: false }
-                ]
-            }
-        };
+        /* =========================================================
+           RESULTS DATA LAYER
+           Reads the payload written by test.html's generate() call
+           (localStorage key "exabytes.sme.results.v1") and drives
+           every dynamic section of this page from it. No mock data
+           is used once a real payload is found.
+           ========================================================= */
+        const RESULTS_KEY = "exabytes.sme.results.v1";
+        const DASHBOARD_KEY = "exapulse-ai-growth-advisor-state-v1";
+        let resultsPayload = null;
+        let roiBase = null; // {annual, hours, monthlyCost, payback} used by the ROI slider
 
-        // Initialize Lucide Icons
+        function loadResultsPayload() {
+            try {
+                const raw = localStorage.getItem(RESULTS_KEY);
+                if (!raw) return null;
+                return JSON.parse(raw);
+            } catch (e) {
+                console.error("Could not read assessment results:", e);
+                return null;
+            }
+        }
+
+        function fmtDate(iso) {
+            try {
+                return new Date(iso).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+            } catch (e) { return '–'; }
+        }
+
+        function assessmentId(iso) {
+            try {
+                const d = new Date(iso);
+                const y = d.getFullYear();
+                const stamp = d.getTime().toString(36).toUpperCase().slice(-6);
+                return `#SME-${stamp}-${y}`;
+            } catch (e) { return '#SME-0000'; }
+        }
+
+        function rm(n) {
+            return 'RM ' + Math.round(n).toLocaleString('en-MY');
+        }
+
+        // Initialize page
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
-            animateScoreGauge(78);
-            renderPhaseContent(1);
             setDefaultDate();
-            initRadarChart();
+
+            resultsPayload = loadResultsPayload();
+
+            if (!resultsPayload) {
+                document.getElementById('empty-state').classList.remove('hidden');
+                document.getElementById('results-content').classList.add('hidden');
+                return;
+            }
+
+            document.getElementById('empty-state').classList.add('hidden');
+            document.getElementById('results-content').classList.remove('hidden');
+
+            renderSnapshot(resultsPayload);
+            animateScoreGauge(resultsPayload.growthScore || 0);
+            renderScoreBand(resultsPayload.growthScore || 0);
+            initRadarChart(resultsPayload);
+            renderOpportunities(resultsPayload);
+            renderRoiMetrics(resultsPayload);
+            buildPhaseDataFromPayload(resultsPayload);
+            renderPhaseContent(1);
+            lucide.createIcons();
+
+            // Auto-sync the freshly loaded assessment into the client dashboard
+            syncToDashboard(false);
         });
 
-        // Score Gauge Animation
+        // ---------- Company Snapshot ----------
+        function renderSnapshot(payload) {
+            const s = payload.snapshot || {};
+            document.getElementById('generated-date-text').textContent = fmtDate(payload.generatedAt);
+            document.getElementById('snapshot-assessment-id').textContent = assessmentId(payload.generatedAt);
+
+            const industry = s.industry || 'Not specified';
+            document.getElementById('snapshot-org-name').textContent = industry !== 'Not specified' ? `${industry} Business` : 'Your Business';
+            document.getElementById('snapshot-industry').textContent = industry;
+            document.getElementById('snapshot-headcount').textContent = s.employees ? `${s.employees}` : 'Not specified';
+
+            const bandWord = payload.growthScore < 40 ? 'early-stage' : payload.growthScore < 65 ? 'developing' : 'strong';
+            document.getElementById('snapshot-summary-text').textContent =
+                `Based on your operational, digital and market-readiness answers, your organization shows a ${bandWord} baseline, with ${((payload.painPoints||[]).length)} priority gaps identified below.`;
+        }
+
+        // ---------- Score Gauge Animation ----------
         function animateScoreGauge(targetScore) {
             const circle = document.getElementById('score-circle');
             const scoreVal = document.getElementById('score-value');
             const circumference = 2 * Math.PI * 50; // r=50 -> 314.15
-            
+
             let currentScore = 0;
             const duration = 1200; // ms
             const intervalTime = 20;
@@ -752,62 +767,173 @@
                     clearInterval(timer);
                 }
                 scoreVal.textContent = Math.round(currentScore);
-                
-                // Calculate offset
+
                 const offset = circumference - (currentScore / 100) * circumference;
                 circle.style.strokeDashoffset = offset;
             }, intervalTime);
         }
 
-        //radar Chart 
-        function initRadarChart() {
-          const ctx = document.getElementById('radarChart').getContext('2d');
-          
-          new Chart(ctx, {
-              type: 'radar',
-              data: {
-                  labels: [
-                      'Lead Nurturing',
-                      'Tech Integration',
-                      'Pricing Strategy',
-                      'Operational Speed',
-                      'Market Expansion'
-                  ],
-                  datasets: [{
-                      label: 'Score Profile',
-                      data: [70, 85, 60, 90, 75],
-                      backgroundColor: 'rgba(0, 102, 255, 0.15)', // Electric blue tint
-                      borderColor: '#0066FF',                      // Electric blue border
-                      pointBackgroundColor: '#0A2540',            // Navy points
-                      pointBorderColor: '#fff',
-                      pointHoverBackgroundColor: '#fff',
-                      pointHoverBorderColor: '#0066FF',
-                      borderWidth: 2,
-                      pointRadius: 4
-                  }]
-              },
-              options: {
-                  responsive: true,
-                  maintainAspectRatio: false,
-                  scales: {
-                      r: {
-                          angleLines: { color: '#E2E8F0' },
-                          grid: { color: '#F1F5F9' },
-                          pointLabels: {
-                              font: { family: 'Inter', size: 11, weight: '600' },
-                              color: '#0A2540'
-                          },
-                          ticks: { display: false, stepSize: 20 },
-                          suggestedMin: 0,
-                          suggestedMax: 100
-                      }
-                  },
-                  plugins: {
-                      legend: { display: false }
-                  }
-              }
-          });
-      }
+        function renderScoreBand(score) {
+            const label = score < 40 ? 'Early Growth Stage' : score < 65 ? 'Building Momentum' : 'High Growth Potential';
+            const desc = score < 40
+                ? 'Your assessment points to foundational gaps to close before scaling further.'
+                : score < 65
+                ? 'The foundations are forming — a few targeted fixes will unlock faster growth.'
+                : 'Your operational and digital foundations are solid and ready to scale.';
+            document.getElementById('score-band-label').textContent = label;
+            document.getElementById('score-band-desc').textContent = desc;
+        }
+
+        // ---------- Radar Chart: 6 real assessment dimensions ----------
+        function initRadarChart(payload) {
+            const dims = (payload.maturity && payload.maturity.dims) || [];
+            const labels = dims.map(d => d.name);
+            const values = dims.map(d => Math.round((d.raw / 5) * 100)); // scale 0-5 star rating to 0-100
+
+            document.getElementById('radar-dim-count').textContent = `${dims.length} Metric Dimensions`;
+
+            const ctx = document.getElementById('radarChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Score Profile',
+                        data: values,
+                        backgroundColor: 'rgba(0, 102, 255, 0.15)',
+                        borderColor: '#0066FF',
+                        pointBackgroundColor: '#0A2540',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#0066FF',
+                        borderWidth: 2,
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#E2E8F0' },
+                            grid: { color: '#F1F5F9' },
+                            pointLabels: {
+                                font: { family: 'Inter', size: 11, weight: '600' },
+                                color: '#0A2540'
+                            },
+                            ticks: { display: false, stepSize: 20 },
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            // Exact scoring panel, right side of the chart
+            const list = document.getElementById('radar-score-list');
+            list.innerHTML = dims.map(d => `
+                <div class="flex items-center justify-between gap-3 px-3.5 py-2.5 bg-cardbg rounded-xl border border-slate-100">
+                    <span class="text-xs font-semibold text-navy">${d.name}</span>
+                    <span class="flex items-baseline gap-1">
+                        <span class="text-sm font-black text-electric">${d.raw}<span class="text-[10px] font-semibold text-slate-400">/5</span></span>
+                        <span class="text-[10px] font-semibold text-slate-400">(${Math.round((d.raw / 5) * 100)}%)</span>
+                    </span>
+                </div>
+            `).join('');
+        }
+
+        // ---------- Top Growth Opportunities (from real pain points / recommendations) ----------
+        function renderOpportunities(payload) {
+            const picks = (payload.plan && payload.plan.picks) ? payload.plan.picks.slice(0, 3) : [];
+            const container = document.getElementById('opportunities-container');
+
+            if (!picks.length) {
+                container.innerHTML = `<p class="text-xs text-slate-500 p-4">No specific gaps were flagged — your assessment suggests an optimisation-focused plan rather than remediation.</p>`;
+                return;
+            }
+
+            const TAGS = [
+                { text: 'High Impact', cls: 'bg-amber-100 text-amber-800 border border-amber-200' },
+                { text: 'Quick Win', cls: 'bg-blue-100 text-blue-800 border border-blue-200' },
+                { text: 'High Value', cls: 'bg-purple-100 text-purple-800 border border-purple-200' }
+            ];
+
+            container.innerHTML = picks.map((p, i) => {
+                const tag = TAGS[i % TAGS.length];
+                const idx = i + 1;
+                return `
+                <div class="border border-slate-200 rounded-xl overflow-hidden transition-all duration-200 hover:border-electric/50">
+                    <button onclick="toggleAccordion('opp-${idx}')" class="w-full text-left p-4 bg-cardbg flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-3">
+                            <span class="w-6 h-6 rounded-full bg-electric text-white text-xs font-bold flex items-center justify-center flex-shrink-0">${idx}</span>
+                            <span class="font-semibold text-sm text-navy">${p.primary || p.problem}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="hidden sm:inline-block px-2.5 py-0.5 rounded-md text-[11px] font-bold ${tag.cls}">${tag.text}</span>
+                            <i data-lucide="chevron-down" id="opp-${idx}-icon" class="w-4 h-4 text-slate-400 transition-transform duration-200"></i>
+                        </div>
+                    </button>
+                    <div id="opp-${idx}" class="hidden p-4 bg-white border-t border-slate-100 text-xs text-slate-600 space-y-2">
+                        <p><strong class="text-navy">${p.problem}.</strong> ${p.why}</p>
+                        <div class="flex items-center justify-between pt-2 border-t border-slate-100 font-medium">
+                            <span class="text-slate-500">Estimated Effort: <strong class="text-navy">${p.effort || 'Varies'}</strong></span>
+                            <span class="text-emerald-600 font-semibold">Est. RM${p.cost ? p.cost[0] : 0}–${p.cost ? p.cost[1] : 0}/mo</span>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+
+            document.getElementById('opportunities-container').previousElementSibling; // no-op, keeps structure stable
+        }
+
+        // ---------- ROI Metrics (real numbers from the ROI estimator) ----------
+        function renderRoiMetrics(payload) {
+            const r = payload.roi || {};
+            roiBase = {
+                annual: r.annual || 0,
+                hours: r.hours || 0,
+                rawHours: (r.enq || 0) + (r.adm || 0),
+                payback: r.payback,
+                monthlyCost: r.monthlyCost || 0
+            };
+
+            const currentHoursEl = document.getElementById('current-hours-text');
+            if (currentHoursEl) currentHoursEl.textContent = (Math.round(roiBase.rawHours * 10) / 10) + ' hrs/wk';
+
+            document.getElementById('rev-lift-label').textContent = 'Annual Value Recovered';
+            document.getElementById('rev-lift-text').textContent = rm(roiBase.annual) + '/yr';
+
+            document.getElementById('time-saved-label').textContent = 'Time Saved';
+            document.getElementById('time-saved-text').textContent = (Math.round(roiBase.hours * 10) / 10) + ' hrs/wk';
+
+            document.getElementById('roi-label').textContent = roiBase.payback ? 'Payback Period' : 'Payback';
+            document.getElementById('roi-text').textContent = roiBase.payback ? (Math.round(roiBase.payback * 10) / 10) + ' mo' : 'N/A';
+
+            // Default the simulator to "Moderate" against the real baseline
+            updateRoiSimulation(2);
+        }
+
+        // ---------- Phased Roadmap (from the real recommendation engine) ----------
+        let phaseData = {};
+        function buildPhaseDataFromPayload(payload) {
+            const roadmap = payload.roadmap || [];
+            phaseData = {};
+            [1, 2, 3].forEach(n => {
+                const phase = roadmap.find(p => p.n === n);
+                phaseData[n] = {
+                    title: phase ? phase.name : `Phase ${n}`,
+                    tagline: phase ? phase.aim : 'No items flagged for this phase.',
+                    tasks: phase ? phase.items.map(item => ({
+                        name: item.primary,
+                        priority: item.adspend ? 'Ongoing Spend' : (item.effort || 'Recommended'),
+                        status: false
+                    })) : []
+                };
+            });
+        }
 
         // Switch Phase Handler
         function switchPhase(phaseNum) {
@@ -882,37 +1008,28 @@
             });
         }
 
-        // ROI Simulation Slider Handler
+        // ROI Simulation Slider Handler — scales the real computed baseline
+        // (roiBase, from the assessment's ROI estimator) rather than fixed mock numbers.
         function updateRoiSimulation(val) {
-            const revText = document.getElementById('rev-lift-text');
+            if (!roiBase) return;
             const timeText = document.getElementById('time-saved-text');
             const roiText = document.getElementById('roi-text');
             const intensityLabel = document.getElementById('intensity-label');
-            const goalRevText = document.getElementById('goal-rev-text');
             const goalBar = document.getElementById('goal-bar');
 
-            if (val == 1) { // Lean
-                intensityLabel.textContent = "Lean Scale";
-                revText.textContent = "+12%";
-                timeText.textContent = "8 hrs/wk";
-                roiText.textContent = "2.1x";
-                goalRevText.textContent = "$134,400 / mo";
-                goalBar.style.width = "68%";
-            } else if (val == 2) { // Moderate
-                intensityLabel.textContent = "Moderate Scale";
-                revText.textContent = "+22%";
-                timeText.textContent = "14 hrs/wk";
-                roiText.textContent = "3.2x";
-                goalRevText.textContent = "$146,400 / mo";
-                goalBar.style.width = "78%";
-            } else { // Aggressive
-                intensityLabel.textContent = "Aggressive Scale";
-                revText.textContent = "+35%";
-                timeText.textContent = "22 hrs/wk";
-                roiText.textContent = "4.8x";
-                goalRevText.textContent = "$162,000 / mo";
-                goalBar.style.width = "90%";
-            }
+            const FACTORS = { 1: 0.7, 2: 1.0, 3: 1.35 }; // Lean / Moderate / Aggressive
+            const labels = { 1: "Lean Scale", 2: "Moderate Scale", 3: "Aggressive Scale" };
+            const widths = { 1: 60, 2: 78, 3: 92 };
+            const f = FACTORS[val] || 1.0;
+
+            intensityLabel.textContent = labels[val] || "Moderate Scale";
+            timeText.textContent = (Math.round(roiBase.hours * f * 10) / 10) + " hrs/wk";
+            roiText.textContent = roiBase.payback ? (Math.round((roiBase.payback / f) * 10) / 10) + " mo" : "N/A";
+            document.getElementById('rev-lift-text').textContent = rm(roiBase.annual * f) + '/yr';
+            if (goalBar) goalBar.style.width = widths[val] + "%";
+
+            const goalRevText = document.getElementById('goal-rev-text');
+            if (goalRevText) goalRevText.textContent = rm(roiBase.annual * f / 12) + ' / mo (recovered)';
         }
 
         // Download PDF Handler
@@ -987,6 +1104,141 @@
             event.preventDefault();
             closeAccountModal();
             showToast('Workspace account created and synchronized!');
+        }
+
+        /* =========================================================
+           SYNC TO CLIENT DASHBOARD
+           Writes a mapped subset of the assessment payload into
+           client-dashboard.html's own localStorage state
+           ("exapulse-ai-growth-advisor-state-v1"). Works whether the
+           dashboard has been opened before (existing profile,
+           appointments, history are preserved) or not (a minimal
+           shell is created). Runs automatically on load, and again
+           on demand via the "Sync to Dashboard" button.
+           ========================================================= */
+        function readDashboardState() {
+            try {
+                const raw = localStorage.getItem(DASHBOARD_KEY);
+                if (raw) return JSON.parse(raw);
+            } catch (e) { /* fall through to defaults */ }
+            return null;
+        }
+
+        function buildDashboardShell(payload) {
+            const s = payload.snapshot || {};
+            return {
+                user: {
+                    name: 'New User',
+                    biz: s.industry ? `${s.industry} Business` : 'Your Business',
+                    email: '', phone: '',
+                    industry: s.industry || '',
+                    size: s.employees || '',
+                    about: ''
+                },
+                scores: { maturity: 0, ai: 0, urgency: 0, deal: '–' },
+                assessDate: '',
+                roadmap: { p1: [], p2: [], p3: [] },
+                progress: [
+                    { t: 'Assessment Completed', done: false },
+                    { t: 'View Recommendations', done: false },
+                    { t: 'Book Consultation', done: false },
+                    { t: 'Meet with Consultant', done: false },
+                    { t: 'Implement & Grow', done: false }
+                ],
+                history: [],
+                appointments: []
+            };
+        }
+
+        function mapPayloadToDashboardState(payload) {
+            const existing = readDashboardState() || buildDashboardShell(payload);
+            const dateStr = fmtDate(payload.generatedAt);
+
+            const topPain = (payload.painPoints && payload.painPoints[0]) ? payload.painPoints[0].w : Math.max(0, 100 - (payload.growthScore || 0));
+            const monthlyCost = (payload.roi && payload.roi.monthlyCost) || 0;
+            const dealLow = Math.round((monthlyCost * 6) / 100) * 100;
+            const dealHigh = Math.round((monthlyCost * 18) / 100) * 100;
+
+            existing.scores = {
+                maturity: payload.maturity ? payload.maturity.score : 0,
+                ai: payload.aiReadiness ? payload.aiReadiness.score : 0,
+                urgency: topPain,
+                deal: monthlyCost > 0 ? `RM ${dealLow.toLocaleString()} – RM ${dealHigh.toLocaleString()}` : (existing.scores ? existing.scores.deal : '–')
+            };
+            existing.assessDate = dateStr;
+
+            // Roadmap: map plan phases into p1/p2/p3, preserving any previously
+            // checked-off items that share the same title.
+            const prevDone = {};
+            ['p1', 'p2', 'p3'].forEach(k => (existing.roadmap[k] || []).forEach(it => { prevDone[it.t] = it.d; }));
+            const newRoadmap = { p1: [], p2: [], p3: [] };
+            const keyOf = n => (n === 1 ? 'p1' : n === 2 ? 'p2' : 'p3');
+            (payload.roadmap || []).forEach(phase => {
+                const key = keyOf(phase.n);
+                (phase.items || []).forEach(item => {
+                    const title = item.primary || item.problem || 'Recommended action';
+                    newRoadmap[key].push({ t: title, d: !!prevDone[title] });
+                });
+            });
+            existing.roadmap = newRoadmap;
+
+            // Progress: mark the assessment + recommendations steps complete
+            existing.progress = (existing.progress || []).map(p => {
+                if (p.t === 'Assessment Completed' || p.t === 'View Recommendations') return { ...p, done: true };
+                return p;
+            });
+
+            // Pain points -> dashboard "findings" cards
+            const ICONS = [
+                { icon: '⚙️', bg: 'var(--blue-100)', color: 'var(--blue-600)' },
+                { icon: '🌐', bg: 'var(--green-100)', color: '#0a8a4f' },
+                { icon: '📊', bg: 'var(--purple-100)', color: 'var(--purple-500)' }
+            ];
+            existing.painPoints = (payload.painPoints || []).slice(0, 3).map((p, i) => ({
+                icon: ICONS[i % ICONS.length].icon,
+                bg: ICONS[i % ICONS.length].bg,
+                color: ICONS[i % ICONS.length].color,
+                title: p.title,
+                desc: (p.ev || '').replace(/&ldquo;|&rdquo;/g, '"')
+            }));
+
+            // Recommendations -> dashboard "next steps"
+            const picks = (payload.plan && payload.plan.picks) ? payload.plan.picks : [];
+            existing.nextSteps = picks.slice(0, 3).map(p => ({ title: p.primary, desc: p.why }));
+
+            // History: upsert today's entry as latest
+            existing.history = existing.history || [];
+            existing.history.forEach(h => { h.latest = false; });
+            const already = existing.history.find(h => h.date === dateStr);
+            if (already) {
+                Object.assign(already, { maturity: existing.scores.maturity, ai: existing.scores.ai, urgency: existing.scores.urgency, latest: true });
+            } else {
+                existing.history.unshift({ date: dateStr, maturity: existing.scores.maturity, ai: existing.scores.ai, urgency: existing.scores.urgency, latest: true });
+            }
+
+            return existing;
+        }
+
+        function syncToDashboard(showFeedback) {
+            if (!resultsPayload) return false;
+            try {
+                const merged = mapPayloadToDashboardState(resultsPayload);
+                localStorage.setItem(DASHBOARD_KEY, JSON.stringify(merged));
+                if (showFeedback) showToast('Synced to your dashboard');
+                return true;
+            } catch (e) {
+                console.error('Dashboard sync failed:', e);
+                if (showFeedback) showToast('Sync failed — please try again');
+                return false;
+            }
+        }
+
+        function manualSyncToDashboard() {
+            if (!resultsPayload) {
+                showToast('No assessment results to sync yet');
+                return;
+            }
+            syncToDashboard(true);
         }
     </script>
 </body>

@@ -111,20 +111,9 @@
             </nav>
         </div>
 
-        <!-- Sidebar Footer Admin User Info -->
+        <!-- Sidebar Footer -->
         <div class="p-4 border-t border-slate-800">
-            <div class="flex items-center justify-between p-2 rounded-xl bg-slate-800/50">
-                <div class="flex items-center space-x-3">
-                    <img class="w-8 h-8 rounded-full ring-2 ring-brand-blue/40 object-cover" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80" alt="Admin Avatar">
-                    <div class="overflow-hidden">
-                        <p class="text-xs font-bold text-white truncate">Sarah Jenkins</p>
-                        <p class="text-[10px] text-slate-400 truncate">Super Admin</p>
-                    </div>
-                </div>
-                <button onclick="showToast('Logged out session')" class="text-slate-400 hover:text-red-400 text-xs p-1.5 transition">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                </button>
-            </div>
+            <p class="text-center text-[10px] text-slate-500 font-medium tracking-wide">Powered by ExaPulse AI</p>
         </div>
     </aside>
 
@@ -167,6 +156,34 @@
                                 <span class="text-[10px] text-slate-400">45 mins ago</span>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- User Profile Dropdown -->
+                <div class="relative pl-4 border-l border-slate-200">
+                    <button onclick="toggleProfileMenu(event)" id="profile-btn" class="flex items-center gap-2.5 hover:bg-slate-50 rounded-xl p-1.5 pr-2.5 transition">
+                        <img class="w-8 h-8 rounded-full ring-2 ring-brand-blue/40 object-cover" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80" alt="Admin Avatar">
+                        <div class="hidden xl:block text-left">
+                            <p class="text-xs font-bold text-slate-800 leading-tight">Sarah Jenkins</p>
+                            <span class="text-[10px] text-slate-400 font-semibold">Super Admin</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+                    </button>
+                    <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-xl border border-slate-100 py-2 z-50">
+                        <div class="px-3.5 py-2 border-b border-slate-100 mb-1">
+                            <p class="text-xs font-bold text-slate-800">Sarah Jenkins</p>
+                            <p class="text-[11px] text-slate-400">sarah.jenkins@exapulse.ai</p>
+                        </div>
+                        <a href="#" onclick="showToast('Opening profile...'); return false;" class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-blue transition">
+                            <i class="fa-regular fa-user w-4 text-center"></i> View Profile
+                        </a>
+                        <a href="#" onclick="showToast('Opening account settings...'); return false;" class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-blue transition">
+                            <i class="fa-solid fa-gear w-4 text-center"></i> Account Settings
+                        </a>
+                        <div class="my-1 border-t border-slate-100"></div>
+                        <a href="#" onclick="showToast('Logged out session'); return false;" class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium text-red-500 hover:bg-red-50 transition">
+                            <i class="fa-solid fa-right-from-bracket w-4 text-center"></i> Log out
+                        </a>
                     </div>
                 </div>
             </div>
@@ -1199,7 +1216,21 @@
 
         function toggleNotifications() {
             document.getElementById('notif-dropdown').classList.toggle('hidden');
+            document.getElementById('profile-dropdown').classList.add('hidden');
         }
+
+        function toggleProfileMenu(e) {
+            e.stopPropagation();
+            document.getElementById('profile-dropdown').classList.toggle('hidden');
+            document.getElementById('notif-dropdown').classList.add('hidden');
+        }
+        document.addEventListener('click', (e) => {
+            const dropdown = document.getElementById('profile-dropdown');
+            const btn = document.getElementById('profile-btn');
+            if (dropdown && !dropdown.classList.contains('hidden') && !btn.contains(e.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
 
         function showToast(message) {
             const toast = document.getElementById('toast');
