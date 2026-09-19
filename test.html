@@ -316,6 +316,7 @@ let sampleFn = null;       // Claude sampling, when the viewer allows it
 let chatTurns = [];
 const LS_KEY = "exabytes.sme.assessment.v2";
 const RESULTS_KEY = "exabytes.sme.results.v1";
+const WEIGHTS_STORAGE_KEY = "exapulse_ai_weights"; // set by the ExaPulse admin panel
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -528,13 +529,36 @@ function validate(){
 const DIMS = ["website","cloud","crm","marketing","cyber","aiAdoption"];
 const DIM_NAME = {website:"Website", cloud:"Cloud & backup", crm:"CRM", marketing:"Marketing", cyber:"Cybersecurity", aiAdoption:"AI adoption"};
 
+// Default weights (percentage points, sum to 100) — equal-ish split, matching
+// the un-weighted average this engine used before per-dimension weighting
+// was introduced. The ExaPulse admin panel can override these live.
+const DEFAULT_DIM_WEIGHTS = {website:17, cloud:17, crm:17, marketing:17, cyber:16, aiAdoption:16};
+
+function loadDimWeights(){
+  try{
+    const raw = localStorage.getItem(WEIGHTS_STORAGE_KEY);
+    if (!raw) return {...DEFAULT_DIM_WEIGHTS};
+    const parsed = JSON.parse(raw);
+    if (parsed && parsed.weights){
+      const merged = {...DEFAULT_DIM_WEIGHTS};
+      DIMS.forEach(k => { if (typeof parsed.weights[k] === "number") merged[k] = parsed.weights[k]; });
+      return merged;
+    }
+  } catch(e){ /* fall through to defaults */ }
+  return {...DEFAULT_DIM_WEIGHTS};
+}
+
 function maturity(){
+  const w = loadDimWeights();
   const dims = DIMS.map(n => {
     const raw = val(n, 0);
-    return {key:n, name:DIM_NAME[n], stars:Math.max(0, Math.min(5, Math.round(raw))), raw, answer:D[n] || "Not answered"};
+    return {key:n, name:DIM_NAME[n], stars:Math.max(0, Math.min(5, Math.round(raw))), raw, answer:D[n] || "Not answered", weight:w[n]};
   });
-  const total = dims.reduce((a, d) => a + d.raw, 0);
-  return {dims, score:Math.round(total / (DIMS.length * 5) * 100)};
+  // Weighted formula: each dimension's raw 0-5 answer, scaled to 0-1, times
+  // its weight (in percentage points). Weights sum to 100, so this lands
+  // directly on a 0-100 score — same formula the ExaPulse admin panel shows.
+  const score = Math.round(dims.reduce((a, d) => a + (d.raw / 5) * d.weight, 0));
+  return {dims, score};
 }
 
 const AI_FACTORS = [

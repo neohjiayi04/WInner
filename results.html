@@ -247,114 +247,42 @@
             </div>
         </section>
 
-        <!-- Core Insights Grid (Top Growth Opportunities & Quantified ROI) -->
-        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            
-            <!-- Top Growth Opportunities Card -->
-            <div class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-sm flex flex-col justify-between">
-                <div>
-                    <div class="flex items-center justify-between mb-6">
-                        <div class="flex items-center gap-2.5">
-                            <div class="p-2 bg-electric-light rounded-lg text-electric">
-                                <i data-lucide="target" class="w-5 h-5"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-bold text-navy">Top Growth Opportunities</h3>
-                                <p class="text-xs text-slate-500">Prioritized leverage points for maximum expansion</p>
-                            </div>
-                        </div>
-                        <span class="text-xs font-semibold text-slate-400">3 Identified</span>
+        <!-- Top Growth Opportunities (diagnostic: what the assessment found) -->
+        <section class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-sm space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+                <div class="flex items-center gap-2.5">
+                    <div class="p-2 bg-electric-light rounded-lg text-electric">
+                        <i data-lucide="target" class="w-5 h-5"></i>
                     </div>
-
-                    <!-- Accordion Items (rendered from live assessment pain points) -->
-                    <div class="space-y-3" id="opportunities-container">
-                        <!-- Populated by JS: renderOpportunities() -->
+                    <div>
+                        <h3 class="text-lg font-bold text-navy">Top Growth Opportunities</h3>
+                        <p class="text-xs text-slate-500">Gaps identified from your assessment answers, ranked by severity</p>
                     </div>
                 </div>
-
-                <div class="mt-6 pt-4 border-t border-slate-100 text-xs text-slate-500 flex justify-between items-center">
-                    <span>Ranked by estimated implementation velocity</span>
-                    <button onclick="expandAllAccordions()" class="text-electric hover:underline font-semibold">Expand All</button>
-                </div>
+                <span class="text-xs font-semibold text-slate-400" id="opportunities-count">– Identified</span>
             </div>
 
-            <!-- Quantified ROI & Operational Impact Card -->
-            <div class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-sm flex flex-col justify-between">
-                <div>
-                    <div class="flex items-center justify-between mb-6">
-                        <div class="flex items-center gap-2.5">
-                            <div class="p-2 bg-emerald-50 rounded-lg text-emerald-600">
-                                <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-bold text-navy">Quantified ROI & Impact</h3>
-                                <p class="text-xs text-slate-500">Simulated 6-month projected return on growth plan</p>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Accordion Items (rendered from live assessment pain points) -->
+            <div class="space-y-3" id="opportunities-container">
+                <!-- Populated by JS: renderOpportunities() -->
+            </div>
 
-                    <!-- Metrics Grid -->
-                    <div class="grid grid-cols-3 gap-3 mb-6">
-                        <div class="bg-cardbg p-3.5 rounded-xl border border-slate-100 text-center">
-                            <span class="text-xs text-slate-500 font-medium block" id="rev-lift-label">Annual Value Recovered</span>
-                            <span class="text-xl font-black text-emerald-600 mt-1 block" id="rev-lift-text">–</span>
-                        </div>
-                        <div class="bg-cardbg p-3.5 rounded-xl border border-slate-100 text-center">
-                            <span class="text-xs text-slate-500 font-medium block" id="time-saved-label">Time Saved</span>
-                            <span class="text-xl font-black text-navy mt-1 block" id="time-saved-text">–</span>
-                        </div>
-                        <div class="bg-cardbg p-3.5 rounded-xl border border-slate-100 text-center">
-                            <span class="text-xs text-slate-500 font-medium block" id="roi-label">Payback Period</span>
-                            <span class="text-xl font-black text-electric mt-1 block" id="roi-text">–</span>
-                        </div>
-                    </div>
+            <div class="pt-4 border-t border-slate-100 text-xs text-slate-500 flex justify-between items-center">
+                <span id="opportunities-footnote">Ranked by priority score, highest severity first</span>
+                <button onclick="expandAllAccordions()" class="text-electric hover:underline font-semibold">Expand All</button>
+            </div>
+        </section>
 
-                    <!-- Interactive ROI Simulator Slider -->
-                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/80 space-y-3">
-                        <div class="flex justify-between items-center text-xs">
-                            <label for="investment-slider" class="font-bold text-navy flex items-center gap-1.5">
-                                <i data-lucide="sliders" class="w-3.5 h-3.5 text-electric"></i> Implementation Intensity:
-                            </label>
-                            <span class="font-semibold text-electric" id="intensity-label">Moderate Scale</span>
-                        </div>
-                        <input type="range" id="investment-slider" min="1" max="3" value="2" step="1" oninput="updateRoiSimulation(this.value)" class="w-full accent-electric cursor-pointer">
-                        <div class="flex justify-between text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
-                            <span>Lean (Essential)</span>
-                            <span>Moderate</span>
-                            <span>Aggressive</span>
-                        </div>
-                    </div>
+        <!-- Recommended Solutions & Modules (prescriptive: what to buy, matched to the opportunities above) -->
+        <section id="recommendations" class="space-y-6">
+            <div class="text-center max-w-xl mx-auto space-y-2">
+                <span class="text-xs font-bold text-electric uppercase tracking-wider">Tailored Enablement</span>
+                <h3 class="text-2xl font-bold text-navy">Recommended Solutions & Modules</h3>
+                <p class="text-xs text-slate-500" id="solutions-subtext">Specific service frameworks matched to your assessment bottlenecks, within your stated budget.</p>
+            </div>
 
-                    <!-- Dynamic Visual Bar Chart Comparison -->
-                    <div class="mt-6 space-y-3">
-                        <span class="text-xs font-semibold text-slate-500 block">Manual Hours Today vs. Value Recovered</span>
-                        <div class="space-y-2">
-                            <div>
-                                <div class="flex justify-between text-xs mb-1">
-                                    <span class="text-slate-600 font-medium">Manual Hours Today</span>
-                                    <span class="font-bold text-slate-700" id="current-hours-text">– hrs/wk</span>
-                                </div>
-                                <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
-                                    <div class="bg-slate-400 h-full rounded-full" style="width: 100%"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <div class="flex justify-between text-xs mb-1">
-                                    <span class="text-navy font-bold">Recovered Annual Value</span>
-                                    <span class="font-bold text-emerald-600" id="goal-rev-text">RM 0 / mo</span>
-                                </div>
-                                <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
-                                    <div id="goal-bar" class="bg-emerald-500 h-full rounded-full transition-all duration-500" style="width: 78%"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="mt-6 pt-4 border-t border-slate-100 text-xs text-slate-400">
-                    *Projections are calculated based on peer benchmarking and operational audit models.
-                </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="solutions-container">
+                <!-- Populated by JS: renderSolutions() -->
             </div>
         </section>
 
@@ -380,99 +308,92 @@
             </div>
         </section>
 
-        <!-- Recommended Solutions Section -->
-        <section id="recommendations" class="space-y-6">
-            <div class="text-center max-w-xl mx-auto space-y-2">
-                <span class="text-xs font-bold text-electric uppercase tracking-wider">Tailored Enablement</span>
-                <h3 class="text-2xl font-bold text-navy">Recommended Solutions & Modules</h3>
-                <p class="text-xs text-slate-500">Specific service frameworks aligned with your assessment bottlenecks.</p>
+        <!-- Quantified ROI & Impact (payoff: now shown after the reader knows what's being recommended) -->
+        <section class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-sm">
+            <div class="flex items-center justify-between mb-6 border-b border-slate-100 pb-4">
+                <div class="flex items-center gap-2.5">
+                    <div class="p-2 bg-emerald-50 rounded-lg text-emerald-600">
+                        <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-navy">Quantified ROI & Impact</h3>
+                        <p class="text-xs text-slate-500">Projected return if the roadmap above is implemented</p>
+                    </div>
+                </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                
-                <!-- Solution Card 1 -->
-                <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
-                    <div class="space-y-4">
-                        <div class="flex items-center justify-between">
-                            <span class="p-2.5 bg-electric-light text-electric rounded-xl group-hover:bg-electric group-hover:text-white transition-colors">
-                                <i data-lucide="rocket" class="w-6 h-6"></i>
-                            </span>
-                            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Core Engine</span>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Left: Metrics + Verdict -->
+                <div class="space-y-5">
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="bg-cardbg p-3.5 rounded-xl border border-slate-100 text-center">
+                            <span class="text-xs text-slate-500 font-medium block" id="rev-lift-label">Annual Value Recovered</span>
+                            <span class="text-xl font-black text-emerald-600 mt-1 block" id="rev-lift-text">–</span>
                         </div>
-                        <div>
-                            <h4 class="font-bold text-navy text-base">Growth Engine Suite</h4>
-                            <p class="text-xs text-slate-500 mt-1">Full stack lead generation and CRM workflow automation setup.</p>
+                        <div class="bg-cardbg p-3.5 rounded-xl border border-slate-100 text-center">
+                            <span class="text-xs text-slate-500 font-medium block" id="time-saved-label">Time Saved</span>
+                            <span class="text-xl font-black text-navy mt-1 block" id="time-saved-text">–</span>
                         </div>
-                        <ul class="space-y-2 text-xs text-slate-600">
-                            <li class="flex items-center gap-2"><i data-lucide="check-circle2" class="w-4 h-4 text-emerald-500"></i> Automated funnel architecture</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check-circle2" class="w-4 h-4 text-emerald-500"></i> Lead scoring & assignment rules</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check-circle2" class="w-4 h-4 text-emerald-500"></i> Email & SMS drip sequences</li>
-                        </ul>
+                        <div class="bg-cardbg p-3.5 rounded-xl border border-slate-100 text-center">
+                            <span class="text-xs text-slate-500 font-medium block" id="roi-label">Payback Period</span>
+                            <span class="text-xl font-black text-electric mt-1 block" id="roi-text">–</span>
+                        </div>
                     </div>
-                    <div class="pt-6 mt-6 border-t border-slate-100">
-                        <button onclick="openSolutionModal('Growth Engine Suite', 'Designed to accelerate sales pipelines and automate inbound inquiry management within 30 days.')" class="w-full py-2.5 rounded-lg bg-cardbg hover:bg-electric text-navy hover:text-white text-xs font-bold transition-colors text-center block">
-                            Explore Solution Details
-                        </button>
+
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/80">
+                        <span class="text-xs font-bold text-navy uppercase tracking-wider block mb-1.5">What this means for you</span>
+                        <p class="text-xs text-slate-600 leading-relaxed" id="roi-verdict-text">–</p>
+                    </div>
+
+                    <div class="text-xs text-slate-400 pt-1">
+                        *Projections are calculated based on peer benchmarking and operational audit models.
                     </div>
                 </div>
 
-                <!-- Solution Card 2 (Featured) -->
-                <div class="bg-white rounded-2xl p-6 border-2 border-electric shadow-md hover:shadow-lg transition-all flex flex-col justify-between relative group">
-                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-electric text-white text-[10px] font-extrabold uppercase px-3 py-0.5 rounded-full tracking-wider shadow-sm">
-                        Recommended Priority
-                    </div>
-                    <div class="space-y-4">
-                        <div class="flex items-center justify-between">
-                            <span class="p-2.5 bg-electric text-white rounded-xl">
-                                <i data-lucide="cpu" class="w-6 h-6"></i>
-                            </span>
-                            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-electric-light text-electric">Operations</span>
+                <!-- Right: Simulator + Bar Comparison -->
+                <div class="space-y-5">
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/80 space-y-3">
+                        <div class="flex justify-between items-center text-xs">
+                            <label for="investment-slider" class="font-bold text-navy flex items-center gap-1.5">
+                                <i data-lucide="sliders" class="w-3.5 h-3.5 text-electric"></i> Implementation Intensity:
+                            </label>
+                            <span class="font-semibold text-electric" id="intensity-label">Moderate Scale</span>
                         </div>
-                        <div>
-                            <h4 class="font-bold text-navy text-base">Operations Automation Kit</h4>
-                            <p class="text-xs text-slate-500 mt-1">Streamline inventory, ERP APIs, and client-facing tracking systems.</p>
+                        <input type="range" id="investment-slider" min="1" max="3" value="2" step="1" oninput="updateRoiSimulation(this.value)" class="w-full accent-electric cursor-pointer">
+                        <div class="flex justify-between text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
+                            <span>Lean (Essential)</span>
+                            <span>Moderate</span>
+                            <span>Aggressive</span>
                         </div>
-                        <ul class="space-y-2 text-xs text-slate-600">
-                            <li class="flex items-center gap-2"><i data-lucide="check-circle2" class="w-4 h-4 text-emerald-500"></i> Custom API webhook integrations</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check-circle2" class="w-4 h-4 text-emerald-500"></i> Client status portal configuration</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check-circle2" class="w-4 h-4 text-emerald-500"></i> Automated ticket dispatching</li>
-                        </ul>
                     </div>
-                    <div class="pt-6 mt-6 border-t border-slate-100">
-                        <button onclick="openSolutionModal('Operations Automation Kit', 'Integrates fragmented supply chain software to save up to 15 operational hours per FTE each month.')" class="w-full py-2.5 rounded-lg bg-electric hover:bg-electric-hover text-white text-xs font-bold transition-colors text-center block shadow-sm">
-                            Explore Solution Details
-                        </button>
+
+                    <div class="space-y-3">
+                        <span class="text-xs font-semibold text-slate-500 block">Manual Hours Today vs. Value Recovered</span>
+                        <div class="space-y-2">
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="text-slate-600 font-medium">Manual Hours Today</span>
+                                    <span class="font-bold text-slate-700" id="current-hours-text">– hrs/wk</span>
+                                </div>
+                                <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                                    <div class="bg-slate-400 h-full rounded-full" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="text-navy font-bold">Recovered Annual Value</span>
+                                    <span class="font-bold text-emerald-600" id="goal-rev-text">RM 0 / mo</span>
+                                </div>
+                                <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                                    <div id="goal-bar" class="bg-emerald-500 h-full rounded-full transition-all duration-500" style="width: 78%"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <!-- Solution Card 3 -->
-                <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group">
-                    <div class="space-y-4">
-                        <div class="flex items-center justify-between">
-                            <span class="p-2.5 bg-electric-light text-electric rounded-xl group-hover:bg-electric group-hover:text-white transition-colors">
-                                <i data-lucide="compass" class="w-6 h-6"></i>
-                            </span>
-                            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Strategic</span>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-navy text-base">Strategic Enterprise Advisory</h4>
-                            <p class="text-xs text-slate-500 mt-1">Dedicated 1-on-1 advisor backing for pricing restructure and expansion.</p>
-                        </div>
-                        <ul class="space-y-2 text-xs text-slate-600">
-                            <li class="flex items-center gap-2"><i data-lucide="check-circle2" class="w-4 h-4 text-emerald-500"></i> Monthly executive strategy sessions</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check-circle2" class="w-4 h-4 text-emerald-500"></i> Value-based pricing model overhaul</li>
-                            <li class="flex items-center gap-2"><i data-lucide="check-circle2" class="w-4 h-4 text-emerald-500"></i> Quarterly KPI benchmark audits</li>
-                        </ul>
-                    </div>
-                    <div class="pt-6 mt-6 border-t border-slate-100">
-                        <button onclick="openSolutionModal('Strategic Enterprise Advisory', 'High-touch consulting framework offering monthly C-level growth advisory and market positioning review.')" class="w-full py-2.5 rounded-lg bg-cardbg hover:bg-electric text-navy hover:text-white text-xs font-bold transition-colors text-center block">
-                            Explore Solution Details
-                        </button>
-                    </div>
-                </div>
-
             </div>
         </section>
+
 
         <!-- Booking & Account Creation Section -->
         <section id="booking-section" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -557,7 +478,7 @@
                 </div>
 
                 <div class="pt-8 space-y-3 relative z-10">
-                    <button onclick="openAccountModal()" class="w-full py-3 rounded-lg bg-electric hover:bg-electric-hover text-white text-xs font-bold uppercase tracking-wider transition-all duration-200 shadow-lg text-center block">
+                    <button onclick="openAccountModal('signup')" class="w-full py-3 rounded-lg bg-electric hover:bg-electric-hover text-white text-xs font-bold uppercase tracking-wider transition-all duration-200 shadow-lg text-center block">
                         Create Free Account
                     </button>
                     <p class="text-[10px] text-center text-slate-400">No credit card required. Free forever for up to 3 team seats.</p>
@@ -584,11 +505,9 @@
             <p id="modal-solution-desc" class="text-xs text-slate-600 leading-relaxed">Solution description details...</p>
             
             <div class="bg-cardbg p-4 rounded-xl border border-slate-100 space-y-2">
-                <span class="text-xs font-bold text-navy block">Key Deliverables:</span>
-                <ul class="text-xs text-slate-600 space-y-1 list-disc list-inside">
-                    <li>Dedicated onboarding specialist setup</li>
-                    <li>Full system integration audit & test validation</li>
-                    <li>Bi-weekly milestone check-ins</li>
+                <span class="text-xs font-bold text-navy block">Details:</span>
+                <ul class="text-xs text-slate-600 space-y-1 list-disc list-inside" id="modal-solution-details">
+                    <!-- Populated by JS: openSolutionModal() -->
                 </ul>
             </div>
 
@@ -599,33 +518,41 @@
         </div>
     </div>
 
-    <!-- Create Account Modal -->
+    <!-- Login / Create Account Modal — gates syncing results to the dashboard -->
     <div id="account-modal" class="fixed inset-0 bg-navy/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 relative">
             <button onclick="closeAccountModal()" class="absolute top-4 right-4 text-slate-400 hover:text-navy">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
+
+            <!-- Log In / Create Account toggle -->
+            <div class="flex gap-1 bg-cardbg p-1 rounded-lg text-xs font-semibold w-fit mx-auto">
+                <button type="button" id="account-tab-login" onclick="setAccountMode('login')" class="px-4 py-1.5 rounded-md transition-all">Log In</button>
+                <button type="button" id="account-tab-signup" onclick="setAccountMode('signup')" class="px-4 py-1.5 rounded-md transition-all">Create Account</button>
+            </div>
+
             <div class="text-center space-y-1">
-                <h3 class="text-xl font-bold text-navy">Create Free Workspace Account</h3>
-                <p class="text-xs text-slate-500">Save #APX-9824-2026 assessment data permanently</p>
+                <h3 class="text-xl font-bold text-navy" id="account-modal-title">Log In to Sync Your Results</h3>
+                <p class="text-xs text-slate-500">Save <span id="account-modal-assessment-id">this assessment</span> to your dashboard permanently</p>
             </div>
 
             <form onsubmit="handleAccountSubmit(event)" class="space-y-3 pt-2">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Company Name</label>
-                    <input type="text" value="Apex Logistics" readonly class="w-full px-3 py-2 bg-slate-100 rounded-lg border border-slate-200 text-xs text-slate-600 font-medium">
+                <div id="account-modal-name-field" class="hidden">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Company / Business Name</label>
+                    <input id="account-modal-company" type="text" class="w-full px-3 py-2 bg-slate-100 rounded-lg border border-slate-200 text-xs text-slate-600 font-medium" readonly>
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-700 mb-1">Work Email</label>
-                    <input type="email" required placeholder="alex@apexlogistics.com" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-electric outline-none">
+                    <input id="account-modal-email" type="email" required placeholder="you@yourbusiness.com" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-electric outline-none">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Set Password</label>
-                    <input type="password" required placeholder="••••••••••••" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-electric outline-none">
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Password</label>
+                    <input id="account-modal-password" type="password" required placeholder="••••••••••••" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-electric outline-none">
                 </div>
-                <button type="submit" class="w-full py-2.5 bg-electric hover:bg-electric-hover text-white rounded-lg font-bold text-xs uppercase tracking-wider transition-all mt-2">
-                    Create & Sync Results
+                <button type="submit" id="account-modal-submit" class="w-full py-2.5 bg-electric hover:bg-electric-hover text-white rounded-lg font-bold text-xs uppercase tracking-wider transition-all mt-2">
+                    Log In & Sync Results
                 </button>
+                <p class="text-[10px] text-center text-slate-400 pt-1">Demo mode — this stores a session on your device only; no account server is connected yet.</p>
             </form>
         </div>
     </div>
@@ -723,13 +650,18 @@
             renderScoreBand(resultsPayload.growthScore || 0);
             initRadarChart(resultsPayload);
             renderOpportunities(resultsPayload);
+            renderSolutions(resultsPayload);
             renderRoiMetrics(resultsPayload);
             buildPhaseDataFromPayload(resultsPayload);
             renderPhaseContent(1);
             lucide.createIcons();
 
-            // Auto-sync the freshly loaded assessment into the client dashboard
-            syncToDashboard(false);
+            // Only auto-sync if the person already has a session on this device;
+            // otherwise wait for them to log in via the Sync to Dashboard button.
+            updateSyncButtonState();
+            if (isLoggedIn()) {
+                syncToDashboard(false);
+            }
         });
 
         // ---------- Company Snapshot ----------
@@ -846,47 +778,124 @@
         }
 
         // ---------- Top Growth Opportunities (from real pain points / recommendations) ----------
+        function severityBadge(w) {
+            if (w >= 85) return { text: 'Critical', cls: 'bg-red-100 text-red-800 border border-red-200' };
+            if (w >= 70) return { text: 'High Priority', cls: 'bg-amber-100 text-amber-800 border border-amber-200' };
+            return { text: 'Moderate', cls: 'bg-blue-100 text-blue-800 border border-blue-200' };
+        }
+
         function renderOpportunities(payload) {
-            const picks = (payload.plan && payload.plan.picks) ? payload.plan.picks.slice(0, 3) : [];
+            const all = payload.painPoints || [];
+            const items = all.slice(0, 5); // top 5 by severity (already sorted by the assessment engine)
             const container = document.getElementById('opportunities-container');
 
-            if (!picks.length) {
+            document.getElementById('opportunities-count').textContent = `${all.length} Identified`;
+            document.getElementById('opportunities-footnote').textContent =
+                all.length > items.length
+                    ? `Showing top ${items.length} of ${all.length}, ranked by priority score`
+                    : `Ranked by priority score, highest severity first`;
+
+            if (!items.length) {
                 container.innerHTML = `<p class="text-xs text-slate-500 p-4">No specific gaps were flagged — your assessment suggests an optimisation-focused plan rather than remediation.</p>`;
                 return;
             }
 
-            const TAGS = [
-                { text: 'High Impact', cls: 'bg-amber-100 text-amber-800 border border-amber-200' },
-                { text: 'Quick Win', cls: 'bg-blue-100 text-blue-800 border border-blue-200' },
-                { text: 'High Value', cls: 'bg-purple-100 text-purple-800 border border-purple-200' }
-            ];
-
-            container.innerHTML = picks.map((p, i) => {
-                const tag = TAGS[i % TAGS.length];
+            container.innerHTML = items.map((p, i) => {
+                const tag = severityBadge(p.w);
                 const idx = i + 1;
                 return `
                 <div class="border border-slate-200 rounded-xl overflow-hidden transition-all duration-200 hover:border-electric/50">
                     <button onclick="toggleAccordion('opp-${idx}')" class="w-full text-left p-4 bg-cardbg flex items-center justify-between gap-3">
                         <div class="flex items-center gap-3">
                             <span class="w-6 h-6 rounded-full bg-electric text-white text-xs font-bold flex items-center justify-center flex-shrink-0">${idx}</span>
-                            <span class="font-semibold text-sm text-navy">${p.primary || p.problem}</span>
+                            <span class="font-semibold text-sm text-navy">${p.title}</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <span class="hidden sm:inline-block px-2.5 py-0.5 rounded-md text-[11px] font-bold ${tag.cls}">${tag.text}</span>
                             <i data-lucide="chevron-down" id="opp-${idx}-icon" class="w-4 h-4 text-slate-400 transition-transform duration-200"></i>
                         </div>
                     </button>
-                    <div id="opp-${idx}" class="hidden p-4 bg-white border-t border-slate-100 text-xs text-slate-600 space-y-2">
-                        <p><strong class="text-navy">${p.problem}.</strong> ${p.why}</p>
-                        <div class="flex items-center justify-between pt-2 border-t border-slate-100 font-medium">
-                            <span class="text-slate-500">Estimated Effort: <strong class="text-navy">${p.effort || 'Varies'}</strong></span>
-                            <span class="text-emerald-600 font-semibold">Est. RM${p.cost ? p.cost[0] : 0}–${p.cost ? p.cost[1] : 0}/mo</span>
+                    <div id="opp-${idx}" class="hidden p-4 bg-white border-t border-slate-100 text-xs text-slate-600 space-y-3">
+                        <p>${p.ev}</p>
+                        <div class="flex items-center gap-2">
+                            <span class="text-slate-500 font-medium flex-shrink-0">Priority Score:</span>
+                            <div class="flex-1 bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                                <div class="bg-electric h-full rounded-full" style="width:${p.w}%"></div>
+                            </div>
+                            <span class="font-bold text-navy flex-shrink-0">${p.w}/100</span>
                         </div>
                     </div>
                 </div>`;
             }).join('');
+        }
 
-            document.getElementById('opportunities-container').previousElementSibling; // no-op, keeps structure stable
+        // ---------- Recommended Solutions & Modules (prescriptive: the budgeted picks) ----------
+        const SOLUTION_ICONS = {
+            website: 'globe', email: 'mail', crm: 'users', enquiry: 'phone-call', admin: 'file-text',
+            cyber: 'shield', cloud: 'cloud', marketing: 'megaphone', data: 'bar-chart-3', ai: 'cpu',
+            process: 'book-open', skills: 'graduation-cap', people: 'users', cash: 'wallet',
+            'opt-ai': 'sparkles', 'opt-review': 'settings'
+        };
+
+        function renderSolutions(payload) {
+            const P = payload.plan || {};
+            const picks = (P.picks || []).slice(0, 6);
+            const container = document.getElementById('solutions-container');
+            const subtext = document.getElementById('solutions-subtext');
+            window.__solutionPicks = picks;
+
+            if (P.optimise) {
+                subtext.textContent = 'No urgent gaps were flagged — these are optimisation moves to compound what\'s already working.';
+            } else {
+                subtext.textContent = `Matched to your assessment bottlenecks, within your stated budget (RM ${Math.round(P.budget || 0).toLocaleString()}/mo).`;
+            }
+
+            if (!picks.length) {
+                container.innerHTML = `<p class="text-xs text-slate-500 p-4 col-span-3">No solutions to display yet — complete the assessment to see matched recommendations.</p>`;
+                return;
+            }
+
+            container.innerHTML = picks.map((p, i) => {
+                const icon = SOLUTION_ICONS[p.key] || 'layers';
+                const featured = i === 0;
+                const costLabel = p.adspend ? `Ad spend: RM ${p.cost[0]}–${p.cost[1]}/mo` : `RM ${p.cost[0]}–${p.cost[1]}/mo`;
+                const altsLine = (p.alts && p.alts.length) ? `Also consider: ${p.alts.slice(0, 2).join(', ')}` : '';
+
+                return `
+                <div class="bg-white rounded-2xl p-6 border ${featured ? 'border-2 border-electric shadow-md' : 'border-slate-200/80 shadow-sm'} hover:shadow-md transition-all flex flex-col justify-between relative group">
+                    ${featured ? `<div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-electric text-white text-[10px] font-extrabold uppercase px-3 py-0.5 rounded-full tracking-wider shadow-sm">Recommended Priority</div>` : ''}
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="p-2.5 ${featured ? 'bg-electric text-white' : 'bg-electric-light text-electric group-hover:bg-electric group-hover:text-white'} rounded-xl transition-colors">
+                                <i data-lucide="${icon}" class="w-6 h-6"></i>
+                            </span>
+                            <span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${featured ? 'bg-electric-light text-electric' : 'bg-slate-100 text-slate-600'}">Phase ${p.phase}</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-navy text-base">${p.primary}</h4>
+                            <p class="text-xs text-slate-500 mt-1">Fixes: ${p.problem}</p>
+                        </div>
+                        <div class="text-xs text-slate-600 space-y-1.5">
+                            <div class="flex items-center justify-between font-medium">
+                                <span class="text-slate-500">Est. Cost</span>
+                                <span class="text-emerald-600 font-bold">${costLabel}</span>
+                            </div>
+                            <div class="flex items-center justify-between font-medium">
+                                <span class="text-slate-500">Effort</span>
+                                <span class="text-navy font-semibold">${p.effort}</span>
+                            </div>
+                            ${altsLine ? `<p class="text-slate-400 text-[11px] pt-1 border-t border-slate-100 mt-1.5">${altsLine}</p>` : ''}
+                        </div>
+                    </div>
+                    <div class="pt-6 mt-6 border-t border-slate-100">
+                        <button onclick="openSolutionModal(${i})" class="w-full py-2.5 rounded-lg ${featured ? 'bg-electric hover:bg-electric-hover text-white shadow-sm' : 'bg-cardbg hover:bg-electric text-navy hover:text-white'} text-xs font-bold transition-colors text-center block">
+                            Explore Solution Details
+                        </button>
+                    </div>
+                </div>`;
+            }).join('');
+
+            lucide.createIcons();
         }
 
         // ---------- ROI Metrics (real numbers from the ROI estimator) ----------
@@ -911,6 +920,9 @@
 
             document.getElementById('roi-label').textContent = roiBase.payback ? 'Payback Period' : 'Payback';
             document.getElementById('roi-text').textContent = roiBase.payback ? (Math.round(roiBase.payback * 10) / 10) + ' mo' : 'N/A';
+
+            const verdictEl = document.getElementById('roi-verdict-text');
+            if (verdictEl) verdictEl.textContent = r.verdict || 'Complete the assessment to see a personalized ROI verdict.';
 
             // Default the simulator to "Moderate" against the real baseline
             updateRoiSimulation(2);
@@ -1060,10 +1072,72 @@
             }, 3000);
         }
 
+        // ---------- Simulated local "session" (no real backend exists in this demo) ----------
+        const SESSION_KEY = "exabytes.sme.session";
+        let accountMode = 'login';
+        let pendingSyncAfterLogin = false;
+
+        function getSession() {
+            try {
+                const raw = localStorage.getItem(SESSION_KEY);
+                return raw ? JSON.parse(raw) : null;
+            } catch (e) { return null; }
+        }
+
+        function isLoggedIn() {
+            return !!getSession();
+        }
+
+        function setSession(email) {
+            localStorage.setItem(SESSION_KEY, JSON.stringify({ email, loggedInAt: new Date().toISOString() }));
+        }
+
+        function updateSyncButtonState() {
+            const btn = document.getElementById('sync-dashboard-btn');
+            if (!btn) return;
+            const label = btn.querySelector('span');
+            const icon = btn.querySelector('i');
+            if (isLoggedIn()) {
+                label.textContent = 'Sync to Dashboard';
+                icon.setAttribute('data-lucide', 'refresh-cw');
+            } else {
+                label.textContent = 'Log In to Sync';
+                icon.setAttribute('data-lucide', 'lock');
+            }
+            lucide.createIcons();
+        }
+
+        function setAccountMode(mode) {
+            accountMode = mode;
+            const isLogin = mode === 'login';
+            document.getElementById('account-modal-title').textContent = isLogin ? 'Log In to Sync Your Results' : 'Create an Account to Sync Your Results';
+            document.getElementById('account-modal-submit').textContent = isLogin ? 'Log In & Sync Results' : 'Create Account & Sync';
+            document.getElementById('account-modal-name-field').classList.toggle('hidden', isLogin);
+            const loginTab = document.getElementById('account-tab-login');
+            const signupTab = document.getElementById('account-tab-signup');
+            loginTab.className = 'px-4 py-1.5 rounded-md transition-all ' + (isLogin ? 'bg-white text-navy shadow-sm' : 'text-slate-500');
+            signupTab.className = 'px-4 py-1.5 rounded-md transition-all ' + (!isLogin ? 'bg-white text-navy shadow-sm' : 'text-slate-500');
+        }
+
         // Modal Controls
-        function openSolutionModal(title, desc) {
-            document.getElementById('modal-solution-title').textContent = title;
-            document.getElementById('modal-solution-desc').textContent = desc;
+        function openSolutionModal(index) {
+            const picks = window.__solutionPicks || [];
+            const p = picks[index];
+            if (!p) return;
+
+            document.getElementById('modal-solution-title').textContent = p.primary;
+            document.getElementById('modal-solution-desc').textContent = p.why;
+
+            const costLabel = p.adspend ? `Ad spend budget: RM ${p.cost[0]}–${p.cost[1]}/mo` : `Estimated cost: RM ${p.cost[0]}–${p.cost[1]}/mo`;
+            const details = [
+                `Addresses: ${p.problem}`,
+                `${costLabel}`,
+                `Estimated effort: ${p.effort}`,
+                `Timeline: ${p.phase === 1 ? 'Phase 1 — Quick wins' : p.phase === 2 ? 'Phase 2 — Productivity' : 'Phase 3 — Growth & automation'}`
+            ];
+            if (p.alts && p.alts.length) details.push(`Also consider: ${p.alts.join(', ')}`);
+
+            document.getElementById('modal-solution-details').innerHTML = details.map(d => `<li>${d}</li>`).join('');
             document.getElementById('solution-modal').classList.remove('hidden');
         }
 
@@ -1071,12 +1145,22 @@
             document.getElementById('solution-modal').classList.add('hidden');
         }
 
-        function openAccountModal() {
+        function openAccountModal(mode) {
+            setAccountMode(mode || 'login');
+            document.getElementById('account-modal-assessment-id').textContent =
+                resultsPayload ? assessmentId(resultsPayload.generatedAt) : 'this assessment';
+            if (resultsPayload) {
+                const industry = (resultsPayload.snapshot && resultsPayload.snapshot.industry) || 'Your Business';
+                document.getElementById('account-modal-company').value = `${industry} Business`;
+            }
+            const existing = getSession();
+            if (existing) document.getElementById('account-modal-email').value = existing.email;
             document.getElementById('account-modal').classList.remove('hidden');
         }
 
         function closeAccountModal() {
             document.getElementById('account-modal').classList.add('hidden');
+            pendingSyncAfterLogin = false;
         }
 
         function scrollToBooking() {
@@ -1102,8 +1186,19 @@
 
         function handleAccountSubmit(event) {
             event.preventDefault();
+            const email = document.getElementById('account-modal-email').value.trim();
+            if (!email) return;
+            setSession(email);
             closeAccountModal();
-            showToast('Workspace account created and synchronized!');
+            updateSyncButtonState();
+
+            if (pendingSyncAfterLogin) {
+                pendingSyncAfterLogin = false;
+                const ok = syncToDashboard(true);
+                if (!ok) showToast('Logged in, but nothing to sync yet — complete an assessment first');
+            } else {
+                showToast(accountMode === 'login' ? 'Logged in successfully!' : 'Workspace account created!');
+            }
         }
 
         /* =========================================================
@@ -1148,6 +1243,31 @@
                 history: [],
                 appointments: []
             };
+        }
+
+        // Category metadata shared with client-dashboard.html's tool cards
+        const KEY_META = {
+            website: { logo: '🌐', tag: 'Website', tagClass: 'web' },
+            email: { logo: '✉️', tag: 'Email', tagClass: 'web' },
+            crm: { logo: '🧡', tag: 'CRM', tagClass: 'crm' },
+            enquiry: { logo: '⚡', tag: 'Automation', tagClass: 'auto' },
+            admin: { logo: '🗂️', tag: 'Automation', tagClass: 'auto' },
+            cyber: { logo: '🛡️', tag: 'Security', tagClass: 'sec' },
+            cloud: { logo: '☁️', tag: 'Cloud', tagClass: 'cloud' },
+            marketing: { logo: '📣', tag: 'Marketing', tagClass: 'mkt' },
+            data: { logo: '📊', tag: 'Analytics', tagClass: 'data' },
+            ai: { logo: '🤖', tag: 'AI', tagClass: 'ai' },
+            process: { logo: '📘', tag: 'Process', tagClass: 'auto' },
+            skills: { logo: '🎓', tag: 'Training', tagClass: 'auto' },
+            people: { logo: '🧑\u200d💼', tag: 'HR', tagClass: 'auto' },
+            cash: { logo: '💰', tag: 'Finance', tagClass: 'auto' },
+            'opt-ai': { logo: '✨', tag: 'AI', tagClass: 'ai' },
+            'opt-review': { logo: '🧭', tag: 'Optimisation', tagClass: 'auto' }
+        };
+
+        function truncate(str, n) {
+            if (!str) return '';
+            return str.length > n ? str.slice(0, n).trim() + '…' : str;
         }
 
         function mapPayloadToDashboardState(payload) {
@@ -1206,6 +1326,22 @@
             const picks = (payload.plan && payload.plan.picks) ? payload.plan.picks : [];
             existing.nextSteps = picks.slice(0, 3).map(p => ({ title: p.primary, desc: p.why }));
 
+            // Recommendations -> dashboard "Recommended Tools" cards
+            existing.solutions = picks.slice(0, 6).map(p => {
+                const meta = KEY_META[p.key] || { logo: '🧩', tag: 'Recommended', tagClass: 'auto' };
+                const costLabel = p.adspend ? `Ad spend: RM ${p.cost[0]}–${p.cost[1]}/mo` : `RM ${p.cost[0]}–${p.cost[1]}/mo`;
+                return {
+                    logo: meta.logo,
+                    name: p.primary,
+                    desc: truncate(p.why, 110),
+                    whyShort: truncate(p.why, 70),
+                    tag: meta.tag,
+                    tagClass: meta.tagClass,
+                    cost: costLabel,
+                    alts: p.alts || []
+                };
+            });
+
             // History: upsert today's entry as latest
             existing.history = existing.history || [];
             existing.history.forEach(h => { h.latest = false; });
@@ -1236,6 +1372,11 @@
         function manualSyncToDashboard() {
             if (!resultsPayload) {
                 showToast('No assessment results to sync yet');
+                return;
+            }
+            if (!isLoggedIn()) {
+                pendingSyncAfterLogin = true;
+                openAccountModal('login');
                 return;
             }
             syncToDashboard(true);

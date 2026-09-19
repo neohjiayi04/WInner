@@ -133,57 +133,60 @@
                     <span class="w-1.5 h-1.5 rounded-full bg-brand-blue mr-1.5 animate-pulse"></span> Admin Role Active
                 </span>
 
-                <!-- Notifications Dropdown -->
-                <div class="relative">
-                    <button onclick="toggleNotifications()" class="p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg relative transition">
-                        <i class="fa-regular fa-bell text-base"></i>
-                        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white"></span>
-                    </button>
-                    <div id="notif-dropdown" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-xl border border-slate-100 py-2 z-50">
-                        <div class="px-4 py-2 border-b border-slate-100 flex justify-between items-center">
-                            <span class="font-bold text-xs text-slate-700">System Notifications</span>
-                            <span class="text-[10px] text-brand-blue font-semibold cursor-pointer">Clear all</span>
-                        </div>
-                        <div class="max-h-60 overflow-y-auto divide-y divide-slate-50 text-xs">
-                            <div class="p-3 hover:bg-slate-50 transition">
-                                <p class="font-semibold text-slate-800">AI Consultation Match Created</p>
-                                <p class="text-slate-500 text-[11px]">Matched Alex's Bakery with Sarah Jenkins (98% fit)</p>
-                                <span class="text-[10px] text-slate-400">5 mins ago</span>
+                <!-- Notifications + User Profile Group -->
+                <div class="flex items-center gap-2 pl-3 border-l border-slate-200">
+                    <!-- Notifications Dropdown -->
+                    <div class="relative">
+                        <button onclick="toggleNotifications()" class="p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-lg relative transition">
+                            <i class="fa-regular fa-bell text-base"></i>
+                            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full ring-2 ring-white"></span>
+                        </button>
+                        <div id="notif-dropdown" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-xl border border-slate-100 py-2 z-50">
+                            <div class="px-4 py-2 border-b border-slate-100 flex justify-between items-center">
+                                <span class="font-bold text-xs text-slate-700">System Notifications</span>
+                                <span class="text-[10px] text-brand-blue font-semibold cursor-pointer">Clear all</span>
                             </div>
-                            <div class="p-3 hover:bg-slate-50 transition">
-                                <p class="font-semibold text-slate-800">Deal Closed</p>
-                                <p class="text-slate-500 text-[11px]">Marcus Tan converted TechFlow Enterprise</p>
-                                <span class="text-[10px] text-slate-400">45 mins ago</span>
+                            <div class="max-h-60 overflow-y-auto divide-y divide-slate-50 text-xs">
+                                <div class="p-3 hover:bg-slate-50 transition">
+                                    <p class="font-semibold text-slate-800">AI Consultation Match Created</p>
+                                    <p class="text-slate-500 text-[11px]">Matched Alex's Bakery with Sarah Jenkins (98% fit)</p>
+                                    <span class="text-[10px] text-slate-400">5 mins ago</span>
+                                </div>
+                                <div class="p-3 hover:bg-slate-50 transition">
+                                    <p class="font-semibold text-slate-800">Deal Closed</p>
+                                    <p class="text-slate-500 text-[11px]">Marcus Tan converted TechFlow Enterprise</p>
+                                    <span class="text-[10px] text-slate-400">45 mins ago</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- User Profile Dropdown -->
-                <div class="relative pl-4 border-l border-slate-200">
-                    <button onclick="toggleProfileMenu(event)" id="profile-btn" class="flex items-center gap-2.5 hover:bg-slate-50 rounded-xl p-1.5 pr-2.5 transition">
-                        <img class="w-8 h-8 rounded-full ring-2 ring-brand-blue/40 object-cover" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80" alt="Admin Avatar">
-                        <div class="hidden xl:block text-left">
-                            <p class="text-xs font-bold text-slate-800 leading-tight">Sarah Jenkins</p>
-                            <span class="text-[10px] text-slate-400 font-semibold">Super Admin</span>
+                    <!-- User Profile Dropdown (beside notification bell) -->
+                    <div class="relative">
+                        <button onclick="toggleProfileMenu(event)" id="profile-btn" class="flex items-center gap-2.5 hover:bg-slate-50 rounded-xl p-1.5 pr-2.5 transition">
+                            <img class="w-8 h-8 rounded-full ring-2 ring-brand-blue/40 object-cover" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80" alt="Admin Avatar">
+                            <div class="hidden xl:block text-left">
+                                <p class="text-xs font-bold text-slate-800 leading-tight">Sarah Jenkins</p>
+                                <span class="text-[10px] text-slate-400 font-semibold">Super Admin</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+                        </button>
+                        <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-xl border border-slate-100 py-2 z-50">
+                            <div class="px-3.5 py-2 border-b border-slate-100 mb-1">
+                                <p class="text-xs font-bold text-slate-800">Sarah Jenkins</p>
+                                <p class="text-[11px] text-slate-400">sarah.jenkins@exapulse.ai</p>
+                            </div>
+                            <a href="#" onclick="showToast('Opening profile...'); return false;" class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-blue transition">
+                                <i class="fa-regular fa-user w-4 text-center"></i> View Profile
+                            </a>
+                            <a href="#" onclick="showToast('Opening account settings...'); return false;" class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-blue transition">
+                                <i class="fa-solid fa-gear w-4 text-center"></i> Account Settings
+                            </a>
+                            <div class="my-1 border-t border-slate-100"></div>
+                            <a href="#" onclick="showToast('Logged out session'); return false;" class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium text-red-500 hover:bg-red-50 transition">
+                                <i class="fa-solid fa-right-from-bracket w-4 text-center"></i> Log out
+                            </a>
                         </div>
-                        <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
-                    </button>
-                    <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-xl border border-slate-100 py-2 z-50">
-                        <div class="px-3.5 py-2 border-b border-slate-100 mb-1">
-                            <p class="text-xs font-bold text-slate-800">Sarah Jenkins</p>
-                            <p class="text-[11px] text-slate-400">sarah.jenkins@exapulse.ai</p>
-                        </div>
-                        <a href="#" onclick="showToast('Opening profile...'); return false;" class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-blue transition">
-                            <i class="fa-regular fa-user w-4 text-center"></i> View Profile
-                        </a>
-                        <a href="#" onclick="showToast('Opening account settings...'); return false;" class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 hover:text-brand-blue transition">
-                            <i class="fa-solid fa-gear w-4 text-center"></i> Account Settings
-                        </a>
-                        <div class="my-1 border-t border-slate-100"></div>
-                        <a href="#" onclick="showToast('Logged out session'); return false;" class="flex items-center gap-2.5 px-3.5 py-2 text-xs font-medium text-red-500 hover:bg-red-50 transition">
-                            <i class="fa-solid fa-right-from-bracket w-4 text-center"></i> Log out
-                        </a>
                     </div>
                 </div>
             </div>
@@ -372,17 +375,25 @@
                             <div class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-brand-blue border border-blue-200 mb-1">
                                 <i class="fa-solid fa-brain mr-1.5"></i> ExaPulse Intelligence Algorithm
                             </div>
-                            <h2 class="text-xl font-extrabold text-slate-800">AI Readiness Scoring Engine Architecture</h2>
+                            <h2 class="text-xl font-extrabold text-slate-800">Digital Maturity Scoring Engine Architecture</h2>
+                            <p class="text-[11px] text-slate-400 mt-1 max-w-2xl">These are the same six dimensions asked in the SME assessment (test.html). Weights set here are read live by the assessment and by the SME's results page, so they always match. This score is one of four inputs into the overall SME Growth Index — AI Readiness, Operational Efficiency, and Strategy Clarity are scored separately.</p>
                         </div>
-                        <span class="text-xs bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1 rounded-full font-bold">
+                        <span class="text-xs bg-emerald-50 text-emerald-700 border border-emerald-200 px-3 py-1 rounded-full font-bold whitespace-nowrap">
                             Total Weight constraint: <span id="total-weight-indicator">100%</span>
                         </span>
                     </div>
 
                     <!-- Mathematical Formula Display -->
-                    <div class="p-4 bg-slate-900 text-white rounded-xl font-mono text-xs overflow-x-auto">
-                        <span class="text-blue-400 font-bold">// ExaPulse Readiness Formula (0 - 100 Score)</span><br>
-                        <span class="text-yellow-300">Total Score</span> = (<span class="text-purple-300">Digital Presence</span> × <span id="formula-w-dp" class="text-emerald-400 font-bold">0.30</span>) + (<span class="text-purple-300">Operational Efficiency</span> × <span id="formula-w-op" class="text-emerald-400 font-bold">0.30</span>) + (<span class="text-purple-300">Customer Experience</span> × <span id="formula-w-cx" class="text-emerald-400 font-bold">0.20</span>) + (<span class="text-purple-300">Tech & Cloud Infra</span> × <span id="formula-w-tech" class="text-emerald-400 font-bold">0.20</span>)
+                    <div class="p-4 bg-slate-900 text-white rounded-xl font-mono text-[11px] overflow-x-auto leading-relaxed">
+                        <span class="text-blue-400 font-bold">// ExaPulse Digital Maturity Formula (0 - 100 Score)</span><br>
+                        <span class="text-yellow-300">Maturity Score</span> =
+                        (<span class="text-purple-300">Website</span> × <span id="formula-w-website" class="text-emerald-400 font-bold">0.17</span>) +
+                        (<span class="text-purple-300">Cloud & Backup</span> × <span id="formula-w-cloud" class="text-emerald-400 font-bold">0.17</span>) +
+                        (<span class="text-purple-300">CRM</span> × <span id="formula-w-crm" class="text-emerald-400 font-bold">0.17</span>) +
+                        (<span class="text-purple-300">Marketing</span> × <span id="formula-w-marketing" class="text-emerald-400 font-bold">0.17</span>) +
+                        (<span class="text-purple-300">Cybersecurity</span> × <span id="formula-w-cyber" class="text-emerald-400 font-bold">0.16</span>) +
+                        (<span class="text-purple-300">AI Adoption</span> × <span id="formula-w-aiAdoption" class="text-emerald-400 font-bold">0.16</span>)
+                        <br><span class="text-slate-400">// where each dimension score is the SME's raw 0–5 answer, scaled to 0–1</span>
                     </div>
                 </div>
 
@@ -397,47 +408,67 @@
                             </button>
                         </div>
 
-                        <!-- Pillar 1 -->
+                        <!-- Dimension 1 -->
                         <div class="p-3.5 bg-slate-50 rounded-xl space-y-2">
                             <div class="flex justify-between items-center text-xs font-bold">
-                                <span class="text-slate-800"><i class="fa-solid fa-globe text-brand-blue mr-2"></i> Digital Presence Weight (W_dp)</span>
-                                <span id="val-dp" class="text-brand-blue font-extrabold text-sm">30%</span>
+                                <span class="text-slate-800"><i class="fa-solid fa-globe text-brand-blue mr-2"></i> Website Weight (W_website)</span>
+                                <span id="val-website" class="text-brand-blue font-extrabold text-sm">17%</span>
                             </div>
-                            <input type="range" min="5" max="60" value="30" id="slider-dp" oninput="adjustWeights('dp')" class="w-full accent-brand-blue cursor-pointer">
-                            <p class="text-[11px] text-slate-500">Measures website maturity, SEO rank, online marketing, and social channels.</p>
+                            <input type="range" min="5" max="60" value="17" id="slider-website" oninput="adjustWeights('website')" class="w-full accent-brand-blue cursor-pointer">
+                            <p class="text-[11px] text-slate-500">From the assessment's "Website" question — no site, brochure site, or SEO/analytics-tracked site.</p>
                         </div>
 
-                        <!-- Pillar 2 -->
+                        <!-- Dimension 2 -->
                         <div class="p-3.5 bg-slate-50 rounded-xl space-y-2">
                             <div class="flex justify-between items-center text-xs font-bold">
-                                <span class="text-slate-800"><i class="fa-solid fa-gears text-emerald-600 mr-2"></i> Operational Efficiency Weight (W_op)</span>
-                                <span id="val-op" class="text-emerald-600 font-extrabold text-sm">30%</span>
+                                <span class="text-slate-800"><i class="fa-solid fa-cloud text-emerald-600 mr-2"></i> Cloud & Backup Weight (W_cloud)</span>
+                                <span id="val-cloud" class="text-emerald-600 font-extrabold text-sm">17%</span>
                             </div>
-                            <input type="range" min="5" max="60" value="30" id="slider-op" oninput="adjustWeights('op')" class="w-full accent-emerald-600 cursor-pointer">
-                            <p class="text-[11px] text-slate-500">Evaluates ERP adoption, workflow automation, inventory digitization, and digital invoicing.</p>
+                            <input type="range" min="5" max="60" value="17" id="slider-cloud" oninput="adjustWeights('cloud')" class="w-full accent-emerald-600 cursor-pointer">
+                            <p class="text-[11px] text-slate-500">From "Files, systems and backup" — local files through to managed, tested cloud backups.</p>
                         </div>
 
-                        <!-- Pillar 3 -->
+                        <!-- Dimension 3 -->
                         <div class="p-3.5 bg-slate-50 rounded-xl space-y-2">
                             <div class="flex justify-between items-center text-xs font-bold">
-                                <span class="text-slate-800"><i class="fa-solid fa-headset text-purple-600 mr-2"></i> Customer Experience Weight (W_cx)</span>
-                                <span id="val-cx" class="text-purple-600 font-extrabold text-sm">20%</span>
+                                <span class="text-slate-800"><i class="fa-solid fa-address-book text-purple-600 mr-2"></i> CRM Weight (W_crm)</span>
+                                <span id="val-crm" class="text-purple-600 font-extrabold text-sm">17%</span>
                             </div>
-                            <input type="range" min="5" max="60" value="20" id="slider-cx" oninput="adjustWeights('cx')" class="w-full accent-purple-600 cursor-pointer">
-                            <p class="text-[11px] text-slate-500">Tracks CRM integration, e-commerce support, and automated customer service response times.</p>
+                            <input type="range" min="5" max="60" value="17" id="slider-crm" oninput="adjustWeights('crm')" class="w-full accent-purple-600 cursor-pointer">
+                            <p class="text-[11px] text-slate-500">From "How you track customers and deals" — spreadsheets/memory through to a CRM with automated follow-ups.</p>
                         </div>
 
-                        <!-- Pillar 4 -->
+                        <!-- Dimension 4 -->
                         <div class="p-3.5 bg-slate-50 rounded-xl space-y-2">
                             <div class="flex justify-between items-center text-xs font-bold">
-                                <span class="text-slate-800"><i class="fa-solid fa-cloud text-amber-600 mr-2"></i> Tech & Cloud Infrastructure Weight (W_tech)</span>
-                                <span id="val-tech" class="text-amber-600 font-extrabold text-sm">20%</span>
+                                <span class="text-slate-800"><i class="fa-solid fa-bullhorn text-amber-600 mr-2"></i> Marketing Weight (W_marketing)</span>
+                                <span id="val-marketing" class="text-amber-600 font-extrabold text-sm">17%</span>
                             </div>
-                            <input type="range" min="5" max="60" value="20" id="slider-tech" oninput="adjustWeights('tech')" class="w-full accent-amber-600 cursor-pointer">
-                            <p class="text-[11px] text-slate-500">Assesses cloud migration security, automated data backup, and SaaS tool usage.</p>
+                            <input type="range" min="5" max="60" value="17" id="slider-marketing" oninput="adjustWeights('marketing')" class="w-full accent-amber-600 cursor-pointer">
+                            <p class="text-[11px] text-slate-500">From the "Marketing" question — how measurable and tracked marketing spend and leads are today.</p>
                         </div>
 
-                        <button onclick="showToast('Algorithm weights updated across system!')" class="w-full py-2.5 bg-brand-navy hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow transition">
+                        <!-- Dimension 5 -->
+                        <div class="p-3.5 bg-slate-50 rounded-xl space-y-2">
+                            <div class="flex justify-between items-center text-xs font-bold">
+                                <span class="text-slate-800"><i class="fa-solid fa-shield-halved text-red-600 mr-2"></i> Cybersecurity Weight (W_cyber)</span>
+                                <span id="val-cyber" class="text-red-600 font-extrabold text-sm">16%</span>
+                            </div>
+                            <input type="range" min="5" max="60" value="16" id="slider-cyber" oninput="adjustWeights('cyber')" class="w-full accent-red-600 cursor-pointer">
+                            <p class="text-[11px] text-slate-500">From "Cybersecurity and recovery" — how prepared the SME is against breaches and data loss.</p>
+                        </div>
+
+                        <!-- Dimension 6 -->
+                        <div class="p-3.5 bg-slate-50 rounded-xl space-y-2">
+                            <div class="flex justify-between items-center text-xs font-bold">
+                                <span class="text-slate-800"><i class="fa-solid fa-robot text-indigo-600 mr-2"></i> AI Adoption Weight (W_aiAdoption)</span>
+                                <span id="val-aiAdoption" class="text-indigo-600 font-extrabold text-sm">16%</span>
+                            </div>
+                            <input type="range" min="5" max="60" value="16" id="slider-aiAdoption" oninput="adjustWeights('aiAdoption')" class="w-full accent-indigo-600 cursor-pointer">
+                            <p class="text-[11px] text-slate-500">From "AI in the business today" — whether and how AI tools are already used day to day.</p>
+                        </div>
+
+                        <button onclick="applyWeightsGlobally()" class="w-full py-2.5 bg-brand-navy hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow transition">
                             Apply New Weightages Globally
                         </button>
                     </div>
@@ -447,12 +478,13 @@
                         
                         <!-- Readiness Tiers Card -->
                         <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-soft space-y-3">
-                            <h3 class="font-bold text-slate-800 text-sm border-b border-slate-100 pb-2">Readiness Score Tiers</h3>
+                            <h3 class="font-bold text-slate-800 text-sm border-b border-slate-100 pb-2">Digital Maturity Tiers</h3>
+                            <p class="text-[10px] text-slate-400 -mt-2">Matches the bands shown on the SME assessment (test.html)</p>
                             
                             <div class="space-y-2 text-xs">
                                 <div class="p-2 bg-emerald-50 border border-emerald-200 rounded-lg flex items-center justify-between">
                                     <div>
-                                        <p class="font-bold text-emerald-800">Advanced Leader (&gt;75 Score)</p>
+                                        <p class="font-bold text-emerald-800">Strong (&ge;65 Score)</p>
                                         <p class="text-[11px] text-emerald-600">Eligible for Scaling Grants & Mentorship</p>
                                     </div>
                                     <i class="fa-solid fa-trophy text-emerald-600 text-lg"></i>
@@ -460,7 +492,7 @@
 
                                 <div class="p-2 bg-blue-50 border border-blue-200 rounded-lg flex items-center justify-between">
                                     <div>
-                                        <p class="font-bold text-blue-800">Good Progress (50 - 75 Score)</p>
+                                        <p class="font-bold text-blue-800">Getting There (40 - 64 Score)</p>
                                         <p class="text-[11px] text-blue-600">Recommended for Digitalization Solutions</p>
                                     </div>
                                     <i class="fa-solid fa-chart-line text-blue-600 text-lg"></i>
@@ -468,7 +500,7 @@
 
                                 <div class="p-2 bg-amber-50 border border-amber-200 rounded-lg flex items-center justify-between">
                                     <div>
-                                        <p class="font-bold text-amber-800">Needs Support (&lt;50 Score)</p>
+                                        <p class="font-bold text-amber-800">Early Stage (&lt;40 Score)</p>
                                         <p class="text-[11px] text-amber-600">Requires Dedicated Advisor Onboarding</p>
                                     </div>
                                     <i class="fa-solid fa-triangle-exclamation text-amber-600 text-lg"></i>
@@ -483,24 +515,32 @@
                                 <span class="text-[10px] text-slate-400 font-mono">Test Sample SME Input</span>
                             </div>
 
-                            <p class="text-xs text-slate-500">Adjust sample raw sub-scores below to see instant calculated result based on active weights:</p>
+                            <p class="text-xs text-slate-500">Adjust sample raw dimension answers (0–5, same scale as the assessment) to see the instant calculated result based on active weights:</p>
 
-                            <div class="grid grid-cols-2 gap-3 text-xs">
+                            <div class="grid grid-cols-3 gap-3 text-xs">
                                 <div>
-                                    <label class="block font-medium text-slate-600 mb-1">Digital Presence Raw</label>
-                                    <input type="number" id="test-raw-dp" value="55" min="0" max="100" oninput="recalculatePreviewScore()" class="w-full p-2 border border-slate-200 rounded-lg font-bold">
+                                    <label class="block font-medium text-slate-600 mb-1">Website</label>
+                                    <input type="number" id="test-raw-website" value="3" min="0" max="5" step="0.5" oninput="recalculatePreviewScore()" class="w-full p-2 border border-slate-200 rounded-lg font-bold">
                                 </div>
                                 <div>
-                                    <label class="block font-medium text-slate-600 mb-1">Ops Efficiency Raw</label>
-                                    <input type="number" id="test-raw-op" value="72" min="0" max="100" oninput="recalculatePreviewScore()" class="w-full p-2 border border-slate-200 rounded-lg font-bold">
+                                    <label class="block font-medium text-slate-600 mb-1">Cloud</label>
+                                    <input type="number" id="test-raw-cloud" value="4" min="0" max="5" step="0.5" oninput="recalculatePreviewScore()" class="w-full p-2 border border-slate-200 rounded-lg font-bold">
                                 </div>
                                 <div>
-                                    <label class="block font-medium text-slate-600 mb-1">CX & CRM Raw</label>
-                                    <input type="number" id="test-raw-cx" value="68" min="0" max="100" oninput="recalculatePreviewScore()" class="w-full p-2 border border-slate-200 rounded-lg font-bold">
+                                    <label class="block font-medium text-slate-600 mb-1">CRM</label>
+                                    <input type="number" id="test-raw-crm" value="3" min="0" max="5" step="0.5" oninput="recalculatePreviewScore()" class="w-full p-2 border border-slate-200 rounded-lg font-bold">
                                 </div>
                                 <div>
-                                    <label class="block font-medium text-slate-600 mb-1">Tech & Cloud Raw</label>
-                                    <input type="number" id="test-raw-tech" value="60" min="0" max="100" oninput="recalculatePreviewScore()" class="w-full p-2 border border-slate-200 rounded-lg font-bold">
+                                    <label class="block font-medium text-slate-600 mb-1">Marketing</label>
+                                    <input type="number" id="test-raw-marketing" value="3" min="0" max="5" step="0.5" oninput="recalculatePreviewScore()" class="w-full p-2 border border-slate-200 rounded-lg font-bold">
+                                </div>
+                                <div>
+                                    <label class="block font-medium text-slate-600 mb-1">Cyber</label>
+                                    <input type="number" id="test-raw-cyber" value="2" min="0" max="5" step="0.5" oninput="recalculatePreviewScore()" class="w-full p-2 border border-slate-200 rounded-lg font-bold">
+                                </div>
+                                <div>
+                                    <label class="block font-medium text-slate-600 mb-1">AI Adoption</label>
+                                    <input type="number" id="test-raw-aiAdoption" value="3" min="0" max="5" step="0.5" oninput="recalculatePreviewScore()" class="w-full p-2 border border-slate-200 rounded-lg font-bold">
                                 </div>
                             </div>
 
@@ -510,7 +550,7 @@
                                     <div class="text-2xl font-black text-brand-blue" id="preview-final-score">63.9 / 100</div>
                                 </div>
                                 <div id="preview-badge" class="px-2.5 py-1 text-xs font-bold rounded-full bg-blue-100 text-blue-800">
-                                    Good Progress
+                                    Getting There
                                 </div>
                             </div>
 
@@ -774,10 +814,62 @@
         ];
 
         // AI Weights State
-        let weights = { dp: 30, op: 30, cx: 20, tech: 20 };
+        // Keys match test.html's DIMS exactly (website, cloud, crm, marketing,
+        // cyber, aiAdoption) so this panel controls the real assessment formula,
+        // not a parallel/mismatched one.
+        const WEIGHTS_STORAGE_KEY = 'exapulse_ai_weights';
+        const DEFAULT_WEIGHTS = { website: 17, cloud: 17, crm: 17, marketing: 17, cyber: 16, aiAdoption: 16 };
+        let weights = { ...DEFAULT_WEIGHTS };
         let selectedSmeIdForAssignment = null;
 
+        // Persist the current weight distribution so other ExaPulse pages
+        // (e.g. the SME-facing results page) can read the live weights
+        // and stay in sync with whatever the admin last applied here.
+        function saveWeightsToStorage() {
+            localStorage.setItem(WEIGHTS_STORAGE_KEY, JSON.stringify({
+                weights: weights,
+                updatedAt: new Date().toISOString()
+            }));
+        }
+
+        // Load any previously-applied weights on page load so the admin
+        // panel reflects the last saved state, not just the hardcoded defaults.
+        function loadWeightsFromStorage() {
+            try {
+                const raw = localStorage.getItem(WEIGHTS_STORAGE_KEY);
+                if (!raw) return;
+                const parsed = JSON.parse(raw);
+                // Merge over defaults and ignore any keys that don't belong to
+                // the current 6-dimension model (guards against stale data
+                // saved by an older version of this panel).
+                if (parsed && parsed.weights) {
+                    const merged = { ...DEFAULT_WEIGHTS };
+                    Object.keys(DEFAULT_WEIGHTS).forEach(k => {
+                        if (typeof parsed.weights[k] === 'number') merged[k] = parsed.weights[k];
+                    });
+                    weights = merged;
+                }
+            } catch (e) {
+                console.warn('Could not load saved AI weights, using defaults.', e);
+            }
+        }
+
+        function applyWeightsGlobally() {
+            saveWeightsToStorage();
+            showToast('Algorithm weights updated across system!');
+        }
+
         window.onload = function () {
+            loadWeightsFromStorage();
+            Object.keys(weights).forEach(k => {
+                const slider = document.getElementById(`slider-${k}`);
+                const val = document.getElementById(`val-${k}`);
+                const formula = document.getElementById(`formula-w-${k}`);
+                if (slider) slider.value = weights[k];
+                if (val) val.innerText = `${weights[k]}%`;
+                if (formula) formula.innerText = (weights[k] / 100).toFixed(2);
+            });
+
             renderDynamicKPIs('overview');
             renderSalesRepsCards();
             renderSalesTable(smeList);
@@ -1072,44 +1164,41 @@
                 }
                 document.getElementById(`slider-${k}`).value = weights[k];
                 document.getElementById(`val-${k}`).innerText = `${weights[k]}%`;
+                document.getElementById(`formula-w-${k}`).innerText = (weights[k] / 100).toFixed(2);
             });
 
             document.getElementById(`val-${changedKey}`).innerText = `${val}%`;
-
-            // Update Formula Bar text
-            document.getElementById('formula-w-dp').innerText = (weights.dp / 100).toFixed(2);
-            document.getElementById('formula-w-op').innerText = (weights.op / 100).toFixed(2);
-            document.getElementById('formula-w-cx').innerText = (weights.cx / 100).toFixed(2);
-            document.getElementById('formula-w-tech').innerText = (weights.tech / 100).toFixed(2);
+            document.getElementById(`formula-w-${changedKey}`).innerText = (weights[changedKey] / 100).toFixed(2);
 
             recalculatePreviewScore();
         }
 
         function resetWeightsToDefault() {
-            weights = { dp: 30, op: 30, cx: 20, tech: 20 };
+            weights = { ...DEFAULT_WEIGHTS };
             Object.keys(weights).forEach(k => {
                 document.getElementById(`slider-${k}`).value = weights[k];
                 document.getElementById(`val-${k}`).innerText = `${weights[k]}%`;
+                document.getElementById(`formula-w-${k}`).innerText = (weights[k] / 100).toFixed(2);
             });
-            document.getElementById('formula-w-dp').innerText = '0.30';
-            document.getElementById('formula-w-op').innerText = '0.30';
-            document.getElementById('formula-w-cx').innerText = '0.20';
-            document.getElementById('formula-w-tech').innerText = '0.20';
             recalculatePreviewScore();
+            saveWeightsToStorage();
             showToast('Reset AI weights to system defaults');
         }
 
         // Real-time Preview Score Simulator Recalculator
+        // Mirrors test.html's maturity() formula exactly: each dimension's
+        // raw 0-5 answer is scaled to a 0-1 fraction, then multiplied by its
+        // weight (in percentage points) and summed to a 0-100 score.
         function recalculatePreviewScore() {
-            let rawDp = parseFloat(document.getElementById('test-raw-dp').value) || 0;
-            let rawOp = parseFloat(document.getElementById('test-raw-op').value) || 0;
-            let rawCx = parseFloat(document.getElementById('test-raw-cx').value) || 0;
-            let rawTech = parseFloat(document.getElementById('test-raw-tech').value) || 0;
+            const raw = {};
+            Object.keys(weights).forEach(k => {
+                const el = document.getElementById(`test-raw-${k}`);
+                raw[k] = el ? (parseFloat(el.value) || 0) : 0;
+            });
 
-            let finalScore = (rawDp * (weights.dp / 100)) + 
-                             (rawOp * (weights.op / 100)) + 
-                             (rawCx * (weights.cx / 100)) + 
-                             (rawTech * (weights.tech / 100));
+            let finalScore = Object.keys(weights).reduce((sum, k) => {
+                return sum + (raw[k] / 5) * weights[k];
+            }, 0);
 
             finalScore = Math.min(100, Math.max(0, finalScore)).toFixed(1);
 
@@ -1118,17 +1207,17 @@
             const badge = document.getElementById('preview-badge');
             const rec = document.getElementById('preview-recommendation');
 
-            if (finalScore > 75) {
+            if (finalScore >= 65) {
                 badge.className = "px-2.5 py-1 text-xs font-bold rounded-full bg-emerald-100 text-emerald-800";
-                badge.innerText = "Advanced Leader";
+                badge.innerText = "Strong";
                 rec.innerText = ' "Fast-track for Scaling Grants & National Digital Mentorship."';
-            } else if (finalScore >= 50) {
+            } else if (finalScore >= 40) {
                 badge.className = "px-2.5 py-1 text-xs font-bold rounded-full bg-blue-100 text-blue-800";
-                badge.innerText = "Good Progress";
+                badge.innerText = "Getting There";
                 rec.innerText = ' "Assign Digital CRM Solution and e-Commerce integration roadmap."';
             } else {
                 badge.className = "px-2.5 py-1 text-xs font-bold rounded-full bg-amber-100 text-amber-800";
-                badge.innerText = "Needs Support";
+                badge.innerText = "Early Stage";
                 rec.innerText = ' "Requires immediate 1-on-1 advisor assignment & foundational training."';
             }
         }
