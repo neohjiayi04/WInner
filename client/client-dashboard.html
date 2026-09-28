@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ExaPulse AI - SME Growth Advisor</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
 /* =====================================================
    ExaPulse AI — Shared Design System
@@ -1688,35 +1689,111 @@ document.getElementById('retakeForm').addEventListener('submit', (e)=>{
 
 function downloadReport(h){
   h = h || {date: state.assessDate, maturity: state.scores.maturity, ai: state.scores.ai, urgency: state.scores.urgency};
-  const text = `EXAPULSE AI - SME GROWTH ADVISOR
-Business: ${state.user.biz}
-Owner: ${state.user.name}
-Assessment Date: ${h.date}
+  if (typeof html2pdf === 'undefined') { showToast('PDF library failed to load. Check your internet.'); return; }
 
-SCORES
-Digital Maturity Score: ${h.maturity}/100
-AI Readiness Score: ${h.ai}/100
-Urgency Score: ${h.urgency}/100
-Estimated Deal Size: ${state.scores.deal}
+  const esc   = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const strip = s => String(s || '').replace(/<[^>]+>/g, '');
 
-KEY PAIN POINTS
-${painPointsData.map(p=>'- '+p.title).join('\n')}
+  const BLUE = '#1656F5', DEEP = '#0B2A6F', SOFT = '#EAF1FF', LINE = '#D6E2FA', INK = '#22324A', MUTE = '#5B6B82';
 
-RECOMMENDED NEXT STEPS
-${nextStepsData.map((s,i)=>(i+1)+'. '+s.title+' - '+s.desc).join('\n')}
+  const pains = (state.painPoints && state.painPoints.length) ? state.painPoints : painPointsData;
+  const steps = (state.nextSteps && state.nextSteps.length) ? state.nextSteps : nextStepsData;
+  const tools = (state.solutions && state.solutions.length) ? state.solutions : toolsData;
+  const u = state.user;
+  const today = new Date().toLocaleDateString('en-GB', {day:'2-digit', month:'long', year:'numeric'});
 
-RECOMMENDED TOOLS
-${toolsData.map(t=>'- '+t.name+': '+t.desc).join('\n')}
+  const th = `background:${BLUE};color:#fff;text-align:left;padding:8px 10px;font-size:9pt;font-weight:700;`;
+  const td = `padding:8px 10px;border-bottom:1px solid ${LINE};font-size:9pt;vertical-align:top;color:${INK};`;
+  const H  = t => `<div style="margin:22px 0 9px;font-size:12pt;font-weight:800;color:${DEEP};border-left:4px solid ${BLUE};padding-left:9px">${t}</div>`;
 
-Powered by ExaPulse AI
-`;
-  const blob = new Blob([text], {type:'text/plain'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = `Digital-Growth-Report-${h.date.replace(/\s+/g,'-')}.txt`;
-  document.body.appendChild(a); a.click(); a.remove();
-  URL.revokeObjectURL(url);
-  showToast('Report downloaded');
+  const scoreCard = (label, val, note) => `
+    <td style="width:33.33%;padding:0 5px;vertical-align:top">
+      <div style="border:1px solid ${LINE};border-radius:10px;padding:12px 13px;background:#fff">
+        <div style="font-size:8pt;font-weight:700;color:${MUTE};text-transform:uppercase;letter-spacing:.04em">${label}</div>
+        <div style="font-size:24pt;font-weight:800;color:${BLUE};line-height:1.15;margin:4px 0 6px">${val}<span style="font-size:10pt;color:${MUTE};font-weight:600"> / 100</span></div>
+        <div style="background:${SOFT};border-radius:6px;height:7px"><div style="background:${BLUE};height:7px;border-radius:6px;width:${Math.max(0, Math.min(100, val))}%"></div></div>
+        <div style="font-size:7.5pt;color:${MUTE};margin-top:6px">${note}</div>
+      </div>
+    </td>`;
+
+  const html = `
+  <div style="font-family:Inter,Arial,sans-serif;color:${INK};width:190mm;background:#fff">
+
+    <div style="background:${BLUE};color:#fff;border-radius:12px;padding:20px 24px">
+      <table style="width:100%;border-collapse:collapse"><tr>
+        <td style="vertical-align:top">
+          <div style="font-size:9pt;font-weight:700;letter-spacing:.12em;opacity:.85">EXAPULSE AI</div>
+          <div style="font-size:20pt;font-weight:800;letter-spacing:-0.02em;margin-top:3px">SME Growth Advisor</div>
+          <div style="font-size:10pt;opacity:.9;margin-top:2px">Digital Growth Report</div>
+        </td>
+        <td style="vertical-align:top;text-align:right;font-size:8.5pt;opacity:.92;line-height:1.6">
+          Assessment date<br><b style="font-size:10pt">${esc(h.date)}</b><br>Generated ${esc(today)}
+        </td>
+      </tr></table>
+    </div>
+
+    <div style="margin-top:16px;border:1px solid ${LINE};border-radius:10px;overflow:hidden">
+      <table style="width:100%;border-collapse:collapse">
+        <tr><td style="${td}width:24%;background:${SOFT};font-weight:700;color:${DEEP}">Business</td><td style="${td}">${esc(u.biz)}</td>
+            <td style="${td}width:20%;background:${SOFT};font-weight:700;color:${DEEP}">Owner</td><td style="${td}">${esc(u.name)}</td></tr>
+        <tr><td style="${td}background:${SOFT};font-weight:700;color:${DEEP};border-bottom:none">Industry</td><td style="${td}border-bottom:none">${esc(u.industry)}</td>
+            <td style="${td}background:${SOFT};font-weight:700;color:${DEEP};border-bottom:none">Company size</td><td style="${td}border-bottom:none">${esc(u.size)}</td></tr>
+      </table>
+    </div>
+
+    ${H('Scores')}
+    <table style="width:100%;border-collapse:collapse;table-layout:fixed"><tr>
+      ${scoreCard('Digital Maturity', h.maturity, h.maturity >= 70 ? 'Well ahead of the curve.' : h.maturity >= 40 ? 'On the right track, a few key upgrades needed.' : 'Early stage, build your foundation first.')}
+      ${scoreCard('AI Readiness', h.ai, h.ai >= 70 ? 'Ready to adopt advanced AI tools.' : 'Early stage, focus on foundation and team readiness.')}
+      ${scoreCard('Urgency', h.urgency, 'Higher means addressing pain points sooner.')}
+    </tr></table>
+    <div style="margin-top:10px;background:${SOFT};border-radius:8px;padding:10px 14px;font-size:9.5pt;color:${DEEP}">
+      <b>Estimated deal size:</b> ${esc(state.scores.deal)} <span style="color:${MUTE};font-size:8pt">(based on recommended tools and business size)</span>
+    </div>
+
+    <div style="page-break-inside:avoid">
+    ${H('Key pain points')}
+    <table style="width:100%;border-collapse:collapse;border:1px solid ${LINE}">
+      <thead><tr><th style="${th}width:6%">#</th><th style="${th}width:38%">Pain point</th><th style="${th}">Details</th></tr></thead>
+      <tbody>${pains.map((p, i) => `<tr><td style="${td}font-weight:800;color:${BLUE}">${i + 1}</td><td style="${td}font-weight:700">${esc(p.title)}</td><td style="${td}color:${MUTE}">${esc(strip(p.desc))}</td></tr>`).join('')}</tbody>
+    </table>
+    </div>
+
+    <div style="page-break-inside:avoid">
+    ${H('Recommended next steps')}
+    <table style="width:100%;border-collapse:collapse;border:1px solid ${LINE}">
+      <thead><tr><th style="${th}width:6%">#</th><th style="${th}width:38%">Step</th><th style="${th}">What it involves</th></tr></thead>
+      <tbody>${steps.map((s, i) => `<tr><td style="${td}font-weight:800;color:${BLUE}">${i + 1}</td><td style="${td}font-weight:700">${esc(s.title)}</td><td style="${td}color:${MUTE}">${esc(s.desc)}</td></tr>`).join('')}</tbody>
+    </table>
+    </div>
+
+    <div style="page-break-inside:avoid">
+    ${H('Recommended tools')}
+    <table style="width:100%;border-collapse:collapse;border:1px solid ${LINE}">
+      <thead><tr><th style="${th}width:24%">Tool</th><th style="${th}width:16%">Category</th><th style="${th}">Description</th></tr></thead>
+      <tbody>${tools.map(t => `<tr><td style="${td}font-weight:700">${esc(t.name)}</td><td style="${td}"><span style="background:${SOFT};color:${BLUE};font-size:7.5pt;font-weight:700;padding:2px 8px;border-radius:10px">${esc(t.tag)}</span></td><td style="${td}color:${MUTE}">${esc(t.desc)}</td></tr>`).join('')}</tbody>
+    </table>
+    </div>
+
+    <div style="margin-top:26px;padding-top:10px;border-top:2px solid ${BLUE};font-size:8pt;color:${MUTE}">
+      Powered by <b style="color:${BLUE}">ExaPulse AI</b> · Scores and costs are indicative and based on your assessment answers.
+    </div>
+  </div>`;
+
+  const holder = document.createElement('div');
+  holder.innerHTML = html;
+  showToast('Building your PDF report…');
+
+  html2pdf().set({
+    margin: [10, 10, 12, 10],
+    filename: `Digital-Growth-Report-${String(h.date).replace(/\s+/g, '-')}.pdf`,
+    image: {type: 'jpeg', quality: 0.96},
+    html2canvas: {scale: 2, useCORS: true, backgroundColor: '#ffffff', logging: false},
+    jsPDF: {unit: 'mm', format: 'a4', orientation: 'portrait'},
+    pagebreak: {mode: ['css', 'legacy'], avoid: ['tr']}
+  }).from(holder.firstElementChild).save()
+    .then(() => showToast('Report downloaded'))
+    .catch(err => { console.error(err); showToast('Could not generate the PDF. Please try again.'); });
 }
 
 ['downloadBtn','downloadBtn2','downloadBtn3','downloadBtn4'].forEach(id=>{
