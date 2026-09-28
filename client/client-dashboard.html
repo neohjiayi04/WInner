@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ExaPulse AI - SME Growth Advisor</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <style>
 /* =====================================================
    ExaPulse AI — Shared Design System
@@ -103,9 +104,7 @@ input, select, textarea { font: inherit; color: inherit; }
   border-radius: 10px;
   object-fit: cover;
 }
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-.nav { padding: 16px; display: flex; flex-direction: column; gap: 5px; flex: 1; overflow-y: auto; }
+.nav { padding: 16px; display: flex; flex-direction: column; gap: 6px; flex: 1; overflow-y: auto; }
 .nav-item {
   width: 100%;
   display: flex;
@@ -1718,111 +1717,176 @@ document.getElementById('retakeForm').addEventListener('submit', (e)=>{
 
 function downloadReport(h){
   h = h || {date: state.assessDate, maturity: state.scores.maturity, ai: state.scores.ai, urgency: state.scores.urgency};
-  if (typeof html2pdf === 'undefined') { showToast('PDF library failed to load. Check your internet.'); return; }
 
-  const esc   = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-  const strip = s => String(s || '').replace(/<[^>]+>/g, '');
+  const JsPDF = window.jspdf && window.jspdf.jsPDF;
+  if (!JsPDF) { showToast('PDF library failed to load. Check your internet.'); return; }
+  const doc = new JsPDF({unit: 'mm', format: 'a4', orientation: 'portrait'});
+  if (typeof doc.autoTable !== 'function') { showToast('PDF table library failed to load. Check your internet.'); return; }
 
-  const BLUE = '#1656F5', DEEP = '#0B2A6F', SOFT = '#EAF1FF', LINE = '#D6E2FA', INK = '#22324A', MUTE = '#5B6B82';
+  const strip = s => String(s == null ? '' : s).replace(/<[^>]+>/g, '');
+
+  // Palette (RGB)
+  const BLUE = [22, 86, 245], DEEP = [11, 42, 111], SOFT = [234, 241, 255],
+        LINE = [214, 226, 250], INK = [34, 50, 74], MUTE = [91, 107, 130], WHITE = [255, 255, 255];
 
   const pains = (state.painPoints && state.painPoints.length) ? state.painPoints : painPointsData;
   const steps = (state.nextSteps && state.nextSteps.length) ? state.nextSteps : nextStepsData;
   const tools = (state.solutions && state.solutions.length) ? state.solutions : toolsData;
   const u = state.user;
-  const today = new Date().toLocaleDateString('en-GB', {day:'2-digit', month:'long', year:'numeric'});
+  const today = new Date().toLocaleDateString('en-GB', {day: '2-digit', month: 'long', year: 'numeric'});
 
-  const th = `background:${BLUE};color:#fff;text-align:left;padding:8px 10px;font-size:9pt;font-weight:700;`;
-  const td = `padding:8px 10px;border-bottom:1px solid ${LINE};font-size:9pt;vertical-align:top;color:${INK};`;
-  const H  = t => `<div style="margin:22px 0 9px;font-size:12pt;font-weight:800;color:${DEEP};border-left:4px solid ${BLUE};padding-left:9px">${t}</div>`;
+  const PAGE_W = 210, PAGE_H = 297, M = 15, CW = PAGE_W - M * 2;
 
-  const scoreCard = (label, val, note) => `
-    <td style="width:33.33%;padding:0 5px;vertical-align:top">
-      <div style="border:1px solid ${LINE};border-radius:10px;padding:12px 13px;background:#fff">
-        <div style="font-size:8pt;font-weight:700;color:${MUTE};text-transform:uppercase;letter-spacing:.04em">${label}</div>
-        <div style="font-size:24pt;font-weight:800;color:${BLUE};line-height:1.15;margin:4px 0 6px">${val}<span style="font-size:10pt;color:${MUTE};font-weight:600"> / 100</span></div>
-        <div style="background:${SOFT};border-radius:6px;height:7px"><div style="background:${BLUE};height:7px;border-radius:6px;width:${Math.max(0, Math.min(100, val))}%"></div></div>
-        <div style="font-size:7.5pt;color:${MUTE};margin-top:6px">${note}</div>
-      </div>
-    </td>`;
+  const ensureSpace = (y, needed) => {
+    if (y + needed > PAGE_H - 20) { doc.addPage(); return 18; }
+    return y;
+  };
 
-  const html = `
-  <div style="font-family:Inter,Arial,sans-serif;color:${INK};width:190mm;background:#fff">
+  const sectionTitle = (text, y) => {
+    doc.setFillColor(...BLUE);
+    doc.rect(M, y - 4.6, 1.3, 6.2, 'F');
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(...DEEP);
+    doc.text(text, M + 4, y);
+    return y + 4;
+  };
 
-    <div style="background:${BLUE};color:#fff;border-radius:12px;padding:20px 24px">
-      <table style="width:100%;border-collapse:collapse"><tr>
-        <td style="vertical-align:top">
-          <div style="font-size:9pt;font-weight:700;letter-spacing:.12em;opacity:.85">EXAPULSE AI</div>
-          <div style="font-size:20pt;font-weight:800;letter-spacing:-0.02em;margin-top:3px">SME Growth Advisor</div>
-          <div style="font-size:10pt;opacity:.9;margin-top:2px">Digital Growth Report</div>
-        </td>
-        <td style="vertical-align:top;text-align:right;font-size:8.5pt;opacity:.92;line-height:1.6">
-          Assessment date<br><b style="font-size:10pt">${esc(h.date)}</b><br>Generated ${esc(today)}
-        </td>
-      </tr></table>
-    </div>
+  const tableStyle = {
+    theme: 'grid',
+    margin: {left: M, right: M},
+    rowPageBreak: 'avoid',
+    styles: {font: 'helvetica', fontSize: 9, cellPadding: 3, lineColor: LINE, lineWidth: 0.2, textColor: INK, valign: 'middle'},
+    headStyles: {fillColor: BLUE, textColor: WHITE, fontStyle: 'bold', lineColor: BLUE}
+  };
 
-    <div style="margin-top:16px;border:1px solid ${LINE};border-radius:10px;overflow:hidden">
-      <table style="width:100%;border-collapse:collapse">
-        <tr><td style="${td}width:24%;background:${SOFT};font-weight:700;color:${DEEP}">Business</td><td style="${td}">${esc(u.biz)}</td>
-            <td style="${td}width:20%;background:${SOFT};font-weight:700;color:${DEEP}">Owner</td><td style="${td}">${esc(u.name)}</td></tr>
-        <tr><td style="${td}background:${SOFT};font-weight:700;color:${DEEP};border-bottom:none">Industry</td><td style="${td}border-bottom:none">${esc(u.industry)}</td>
-            <td style="${td}background:${SOFT};font-weight:700;color:${DEEP};border-bottom:none">Company size</td><td style="${td}border-bottom:none">${esc(u.size)}</td></tr>
-      </table>
-    </div>
+  // ---------- Header band ----------
+  doc.setFillColor(...BLUE);
+  doc.roundedRect(M, 12, CW, 32, 3, 3, 'F');
+  doc.setTextColor(...WHITE);
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(8.5);
+  doc.text('EXAPULSE AI', M + 8, 21);
+  doc.setFontSize(20);
+  doc.text('SME Growth Advisor', M + 8, 30);
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(10);
+  doc.text('Digital Growth Report', M + 8, 37);
+  doc.setFontSize(8.5);
+  doc.text('Assessment date', PAGE_W - M - 8, 20, {align: 'right'});
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
+  doc.text(String(h.date), PAGE_W - M - 8, 27, {align: 'right'});
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5);
+  doc.text('Generated ' + today, PAGE_W - M - 8, 33, {align: 'right'});
 
-    ${H('Scores')}
-    <table style="width:100%;border-collapse:collapse;table-layout:fixed"><tr>
-      ${scoreCard('Digital Maturity', h.maturity, h.maturity >= 70 ? 'Well ahead of the curve.' : h.maturity >= 40 ? 'On the right track, a few key upgrades needed.' : 'Early stage, build your foundation first.')}
-      ${scoreCard('AI Readiness', h.ai, h.ai >= 70 ? 'Ready to adopt advanced AI tools.' : 'Early stage, focus on foundation and team readiness.')}
-      ${scoreCard('Urgency', h.urgency, 'Higher means addressing pain points sooner.')}
-    </tr></table>
-    <div style="margin-top:10px;background:${SOFT};border-radius:8px;padding:10px 14px;font-size:9.5pt;color:${DEEP}">
-      <b>Estimated deal size:</b> ${esc(state.scores.deal)} <span style="color:${MUTE};font-size:8pt">(based on recommended tools and business size)</span>
-    </div>
+  // ---------- Business details ----------
+  const labelCell = t => ({content: t, styles: {fontStyle: 'bold', fillColor: SOFT, textColor: DEEP}});
+  doc.autoTable({
+    ...tableStyle,
+    startY: 51,
+    body: [
+      [labelCell('Business'), u.biz || '', labelCell('Owner'), u.name || ''],
+      [labelCell('Industry'), u.industry || '', labelCell('Company size'), u.size || '']
+    ],
+    columnStyles: {0: {cellWidth: 32}, 1: {cellWidth: 58}, 2: {cellWidth: 32}, 3: {cellWidth: 58}}
+  });
+  let y = doc.lastAutoTable.finalY + 12;
 
-    <div style="page-break-inside:avoid">
-    ${H('Key pain points')}
-    <table style="width:100%;border-collapse:collapse;border:1px solid ${LINE}">
-      <thead><tr><th style="${th}width:6%">#</th><th style="${th}width:38%">Pain point</th><th style="${th}">Details</th></tr></thead>
-      <tbody>${pains.map((p, i) => `<tr><td style="${td}font-weight:800;color:${BLUE}">${i + 1}</td><td style="${td}font-weight:700">${esc(p.title)}</td><td style="${td}color:${MUTE}">${esc(strip(p.desc))}</td></tr>`).join('')}</tbody>
-    </table>
-    </div>
+  // ---------- Scores ----------
+  y = ensureSpace(y, 60);
+  y = sectionTitle('Scores', y) + 3;
+  const cardGap = 5, cardW = (CW - cardGap * 2) / 3, cardH = 36;
+  const cards = [
+    ['DIGITAL MATURITY', h.maturity, h.maturity >= 70 ? 'Well ahead of the curve.' : h.maturity >= 40 ? 'On the right track, a few key upgrades needed.' : 'Early stage, build your foundation first.'],
+    ['AI READINESS', h.ai, h.ai >= 70 ? 'Ready to adopt advanced AI tools.' : 'Early stage, focus on foundation and team readiness.'],
+    ['URGENCY', h.urgency, 'Higher means addressing pain points sooner.']
+  ];
+  cards.forEach((c, i) => {
+    const x = M + i * (cardW + cardGap);
+    doc.setDrawColor(...LINE); doc.setLineWidth(0.3); doc.setFillColor(...WHITE);
+    doc.roundedRect(x, y, cardW, cardH, 2.5, 2.5, 'FD');
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(7.5); doc.setTextColor(...MUTE);
+    doc.text(c[0], x + 5, y + 7);
+    doc.setFontSize(20); doc.setTextColor(...BLUE);
+    doc.text(String(c[1]), x + 5, y + 17);
+    const vw = doc.getTextWidth(String(c[1]));
+    doc.setFontSize(9); doc.setTextColor(...MUTE);
+    doc.text('/ 100', x + 5 + vw + 1.5, y + 17);
+    const barW = cardW - 10, pct = Math.max(0, Math.min(100, +c[1] || 0)) / 100;
+    doc.setFillColor(...SOFT); doc.roundedRect(x + 5, y + 21, barW, 2, 1, 1, 'F');
+    if (pct > 0) { doc.setFillColor(...BLUE); doc.roundedRect(x + 5, y + 21, Math.max(2, barW * pct), 2, 1, 1, 'F'); }
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(...MUTE);
+    doc.text(doc.splitTextToSize(c[2], cardW - 10), x + 5, y + 28);
+  });
+  y += cardH + 6;
 
-    <div style="page-break-inside:avoid">
-    ${H('Recommended next steps')}
-    <table style="width:100%;border-collapse:collapse;border:1px solid ${LINE}">
-      <thead><tr><th style="${th}width:6%">#</th><th style="${th}width:38%">Step</th><th style="${th}">What it involves</th></tr></thead>
-      <tbody>${steps.map((s, i) => `<tr><td style="${td}font-weight:800;color:${BLUE}">${i + 1}</td><td style="${td}font-weight:700">${esc(s.title)}</td><td style="${td}color:${MUTE}">${esc(s.desc)}</td></tr>`).join('')}</tbody>
-    </table>
-    </div>
+  // Deal size box
+  doc.setFillColor(...SOFT);
+  doc.roundedRect(M, y, CW, 11, 2, 2, 'F');
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(9.5); doc.setTextColor(...DEEP);
+  doc.text('Estimated deal size:', M + 5, y + 7);
+  const lw = doc.getTextWidth('Estimated deal size:');
+  doc.setFont('helvetica', 'normal');
+  doc.text(String(state.scores.deal || ''), M + 5 + lw + 2, y + 7);
+  y += 11 + 12;
 
-    <div style="page-break-inside:avoid">
-    ${H('Recommended tools')}
-    <table style="width:100%;border-collapse:collapse;border:1px solid ${LINE}">
-      <thead><tr><th style="${th}width:24%">Tool</th><th style="${th}width:16%">Category</th><th style="${th}">Description</th></tr></thead>
-      <tbody>${tools.map(t => `<tr><td style="${td}font-weight:700">${esc(t.name)}</td><td style="${td}"><span style="background:${SOFT};color:${BLUE};font-size:7.5pt;font-weight:700;padding:2px 8px;border-radius:10px">${esc(t.tag)}</span></td><td style="${td}color:${MUTE}">${esc(t.desc)}</td></tr>`).join('')}</tbody>
-    </table>
-    </div>
+  // ---------- Pain points ----------
+  y = ensureSpace(y, 45);
+  y = sectionTitle('Key pain points', y);
+  doc.autoTable({
+    ...tableStyle,
+    startY: y,
+    head: [['#', 'Pain point', 'Details']],
+    body: pains.map((p, i) => [String(i + 1), strip(p.title), strip(p.desc)]),
+    columnStyles: {
+      0: {cellWidth: 10, fontStyle: 'bold', textColor: BLUE},
+      1: {cellWidth: 58, fontStyle: 'bold'},
+      2: {textColor: MUTE}
+    }
+  });
+  y = doc.lastAutoTable.finalY + 12;
 
-    <div style="margin-top:26px;padding-top:10px;border-top:2px solid ${BLUE};font-size:8pt;color:${MUTE}">
-      Powered by <b style="color:${BLUE}">ExaPulse AI</b> · Scores and costs are indicative and based on your assessment answers.
-    </div>
-  </div>`;
+  // ---------- Next steps ----------
+  y = ensureSpace(y, 45);
+  y = sectionTitle('Recommended next steps', y);
+  doc.autoTable({
+    ...tableStyle,
+    startY: y,
+    head: [['#', 'Step', 'What it involves']],
+    body: steps.map((s, i) => [String(i + 1), strip(s.title), strip(s.desc)]),
+    columnStyles: {
+      0: {cellWidth: 10, fontStyle: 'bold', textColor: BLUE},
+      1: {cellWidth: 58, fontStyle: 'bold'},
+      2: {textColor: MUTE}
+    }
+  });
+  y = doc.lastAutoTable.finalY + 12;
 
-  const holder = document.createElement('div');
-  holder.innerHTML = html;
-  showToast('Building your PDF report…');
+  // ---------- Tools ----------
+  const hasCost = tools.some(t => t.cost);
+  y = ensureSpace(y, 45);
+  y = sectionTitle('Recommended tools', y);
+  doc.autoTable({
+    ...tableStyle,
+    startY: y,
+    head: [hasCost ? ['Tool', 'Category', 'Description', 'Indicative cost'] : ['Tool', 'Category', 'Description']],
+    body: tools.map(t => hasCost
+      ? [strip(t.name), strip(t.tag), strip(t.desc), strip(t.cost || '-')]
+      : [strip(t.name), strip(t.tag), strip(t.desc)]),
+    columnStyles: hasCost
+      ? {0: {cellWidth: 32, fontStyle: 'bold'}, 1: {cellWidth: 28, textColor: BLUE, fontStyle: 'bold'}, 2: {textColor: MUTE}, 3: {cellWidth: 32}}
+      : {0: {cellWidth: 40, fontStyle: 'bold'}, 1: {cellWidth: 32, textColor: BLUE, fontStyle: 'bold'}, 2: {textColor: MUTE}}
+  });
 
-  html2pdf().set({
-    margin: [10, 10, 12, 10],
-    filename: `Digital-Growth-Report-${String(h.date).replace(/\s+/g, '-')}.pdf`,
-    image: {type: 'jpeg', quality: 0.96},
-    html2canvas: {scale: 2, useCORS: true, backgroundColor: '#ffffff', logging: false},
-    jsPDF: {unit: 'mm', format: 'a4', orientation: 'portrait'},
-    pagebreak: {mode: ['css', 'legacy'], avoid: ['tr']}
-  }).from(holder.firstElementChild).save()
-    .then(() => showToast('Report downloaded'))
-    .catch(err => { console.error(err); showToast('Could not generate the PDF. Please try again.'); });
+  // ---------- Footer on every page ----------
+  const pages = doc.getNumberOfPages();
+  for (let i = 1; i <= pages; i++) {
+    doc.setPage(i);
+    doc.setDrawColor(...BLUE); doc.setLineWidth(0.6);
+    doc.line(M, PAGE_H - 14, PAGE_W - M, PAGE_H - 14);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(...MUTE);
+    doc.text('Powered by ExaPulse AI  |  Scores and costs are indicative and based on your assessment answers.', M, PAGE_H - 9);
+    doc.text('Page ' + i + ' of ' + pages, PAGE_W - M, PAGE_H - 9, {align: 'right'});
+  }
+
+  doc.save('Digital-Growth-Report-' + String(h.date).replace(/\s+/g, '-') + '.pdf');
+  showToast('Report downloaded');
 }
 
 ['downloadBtn','downloadBtn2','downloadBtn3','downloadBtn4'].forEach(id=>{
