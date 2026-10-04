@@ -40,7 +40,7 @@
 </header>
 
 <!-- ============ VIEW 1: INTRO ============ -->
-<section id="viewIntro">
+<section id="viewIntro" class="hidden">
   <div class="shell intro">
     <div class="intro-grid">
       <div>
@@ -1505,10 +1505,11 @@ async function claudeUse(name){
   } catch(e){ return null; }
 }
 
-if (load()){
-  $("resumeBtn").classList.remove("hidden");
-  $("resumeBtn").textContent = D.completedAt ? "View my results" : "Resume last assessment";
-}
+/* Skip the intro screen: go straight to the questions */
+load();                          // restore any saved answers
+if (D.completedAt) step = 1;     // finished before? start again from question 1
+renderStep();
+show("viewForm");
 
 /* Light up the Claude-powered extras once (and if) the runtime answers */
 claudeUse("sample").then(fn => {

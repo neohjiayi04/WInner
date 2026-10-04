@@ -65,33 +65,15 @@
                         <span class="brand-sub">GROWTH ADVISOR</span>
                     </div>
                 </a>
-
-                <!-- Account Type Switcher -->
-                <div class="role-tabs">
-                    <button class="role-tab active" type="button" onclick="switchRole('personal', this)">
-                        <span data-icon><i class="fa-regular fa-user"></i></span>
-                        <span>Individual</span>
-                    </button>
-                    <button class="role-tab" type="button" onclick="switchRole('team', this)">
-                        <span data-icon><i class="fa-solid fa-users"></i></span>
-                        <span>Team / Business</span>
-                    </button>
-                </div>
-
+               
                 <!-- Header Title -->
                 <div class="header-group">
                     <h1>Create an account</h1>
                     <p class="sub">Start with a 14-day free trial. No card needed.</p>
                 </div>
-
-                <!-- Context Note -->
-                <div class="role-note" id="role-note">
-                    <span data-icon><i class="fa-solid fa-circle-info"></i></span>
-                    <span id="role-note-text">Individual accounts suit sole traders, freelancers, and single-owner businesses.</span>
-                </div>
-
+               
                 <!-- Registration Form -->
-                <form action="#" method="POST">
+                <form id="signupForm">
                     <div class="input-group">
                         <label for="fullname">Full name</label>
                         <div class="input-field">
@@ -154,18 +136,18 @@
             }
         }
 
-        // Account Type Toggle
-        function switchRole(type, element) {
-            document.querySelectorAll('.role-tab').forEach(tab => tab.classList.remove('active'));
-            element.classList.add('active');
+    document.getElementById('signupForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const email = document.getElementById('email').value.trim().toLowerCase();
 
-            const noteText = document.getElementById('role-note-text');
-            if (type === 'team') {
-                noteText.textContent = "Team accounts let you invite colleagues, set roles, and share one growth dashboard.";
-            } else {
-                noteText.textContent = "Individual accounts suit sole traders, freelancers, and single-owner businesses.";
-            }
-        }
+  if (email.endsWith('@admin.exa') || email.endsWith('@sales.exa')) {
+    alert('This email domain is reserved for staff. Please use a different email.');
+    return;
+  }
+
+  // Normal client: continue to login
+  window.location.href = 'login.html';
+}); 
     </script>
 </body>
 </html>

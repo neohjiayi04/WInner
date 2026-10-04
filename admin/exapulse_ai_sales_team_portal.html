@@ -12,6 +12,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Google Fonts: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 
     <script>
         tailwind.config = {
@@ -72,6 +74,19 @@
             from { opacity: 0; transform: translateY(4px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        @media (min-width: 768px) {
+            #sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                overflow-y: auto;
+        }
+        #mainWrapper {
+            margin-left: 256px;
+            }
+        }       
+        
     </style>
 </head>
 
@@ -144,7 +159,7 @@
         <div id="sidebar-overlay" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-slate-900/40 z-20 hidden md:hidden"></div>
 
         <!-- ================= MAIN CONTENT WRAPPER ================= -->
-        <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+        <div id="mainWrapper" class="flex-1 flex flex-col min-w-0 overflow-y-auto">
 
             <!-- GLOBAL HEADER -->
             <header class="bg-white border-b border-slate-200 px-4 md:px-8 py-3.5 sticky top-0 z-10 flex items-center justify-between gap-4">
@@ -401,10 +416,6 @@
 
                 <!-- ================= PAGE 3: ASSESSMENTS ================= -->
                 <section id="page-assessments" class="page-section space-y-6">
-                    <!-- Live Client Assessment: synced from the client-facing assessment/results app -->
-                    <div id="liveAssessmentCard" class="bg-white rounded-2xl border border-slate-100 shadow-xs p-5">
-                        <!-- Populated by JS: renderLiveAssessment() -->
-                    </div>
 
                     <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-xs space-y-4">
                         <div class="flex items-center justify-between">
@@ -519,7 +530,7 @@
                                     <strong class="text-slate-800">Target Objective:</strong> Secure agreement for ExaPulse AI Growth Module tier.
                                 </div>
                             </div>
-                            <button onclick="triggerToast('Copied Google Meet link to clipboard')" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold text-xs py-2.5 rounded-xl transition-all shadow-xs">
+                            <button onclick="openPrepMeetingLink()" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold text-xs py-2.5 rounded-xl transition-all shadow-xs">
                                 <i class="fa-solid fa-video mr-1"></i> Launch Meeting Link
                             </button>
                         </div>
@@ -725,7 +736,7 @@
                     <div class="flex justify-between"><span class="text-slate-500">Industry:</span> <strong id="drawerIndustry" class="text-slate-800">Manufacturing</strong></div>
                 </div>
 
-                <!-- Consultation Booking Request: Accept / Decline -->
+                  <!-- Consultation Booking Request: Accept / Decline -->
                 <div id="drawerBookingSection" class="hidden">
                     <h4 class="font-bold text-slate-800 mb-2">Consultation Booking Request</h4>
                     <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
@@ -738,7 +749,24 @@
                     </div>
                 </div>
 
+                <!-- Meeting Link for Client: pastes into the shared store the client dashboard reads -->
                 <div>
+                    <h4 class="font-bold text-slate-800 mb-2">Meeting Link for Client</h4>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                        <label class="block text-slate-600 font-semibold mb-1">Which client booking is this?</label>
+                        <select id="drawerApptSelect" class="w-full border border-slate-200 rounded-xl p-2 bg-white text-xs">
+                            <option value="">— Select the matching client booking —</option>
+                        </select>
+                        <label class="block text-slate-600 font-semibold mb-1 mt-2">Meeting link</label>
+                        <div class="flex gap-2">
+                            <input id="drawerMeetLinkInput" type="text" placeholder="Paste Google Meet / Zoom / Jitsi link" class="flex-1 border border-slate-200 rounded-xl p-2 bg-white text-xs">
+                            <button onclick="saveDrawerMeetLink()" class="bg-brand-500 hover:bg-brand-600 text-white font-bold text-xs px-3 rounded-xl">Save</button>
+                        </div>
+                        <p id="drawerMeetLinkStatus" class="text-[11px] text-slate-400"></p>
+                    </div>
+                </div>
+
+                                <div>
                     <h4 class="font-bold text-slate-800 mb-2">Notes</h4>
                     <div id="drawerNotesList" class="space-y-2 max-h-40 overflow-y-auto mb-2"></div>
                     <textarea id="drawerNoteInput" rows="2" placeholder="Write a note about this company — it's saved and shown again next time you open this lead." class="w-full border border-slate-200 rounded-xl p-2.5 bg-slate-50 text-xs"></textarea>
@@ -799,7 +827,7 @@
             try { localStorage.setItem(LEADS_STORAGE_KEY, JSON.stringify(leadsData)); }
             catch (e) { console.error('Could not save leads:', e); }
         }
-        function loadLeadsFromStorage() {
+                function loadLeadsFromStorage() {
             try {
                 const raw = localStorage.getItem(LEADS_STORAGE_KEY);
                 if (!raw) return;
@@ -810,10 +838,34 @@
                         lead.status = s.status;
                         lead.notes = s.notes || [];
                         lead.booking = s.booking || lead.booking;
+                        lead.apptId = s.apptId || null;
                     }
                 });
             } catch (e) { console.error('Could not load saved leads:', e); }
         }
+
+        // Shared across portals via localStorage (same browser = same origin = same storage).
+        // This advisor portal writes {apptId: link} here; the client dashboard reads it.
+        const SHARED_MEET_KEY = 'exapulse-shared-meeting-links-v1';
+        function getMeetLinksMap() {
+            try { return JSON.parse(localStorage.getItem(SHARED_MEET_KEY) || '{}'); }
+            catch (e) { return {}; }
+        }
+        function saveMeetLink(apptId, link) {
+            const map = getMeetLinksMap();
+            if (link) map[apptId] = link; else delete map[apptId];
+            localStorage.setItem(SHARED_MEET_KEY, JSON.stringify(map));
+        }
+        // Mirrors the appointment IDs seeded in the client dashboard, so a link saved
+        // here under the right ID shows up on the matching card on the client's side.
+        const CLIENT_APPOINTMENTS = [
+            { id: 'appt-6', label: 'Aisha Rahman — ABC Manufacturing — Sep 30, 4:00 PM' },
+            { id: 'appt-1', label: 'Sarah Lim — Business Strategy — Sep 9, 10:00 AM' },
+            { id: 'appt-2', label: 'Daniel Wong — Digital Marketing — Sep 16, 2:00 PM' },
+            { id: 'appt-3', label: 'Rachel Tan — Finance — Sep 23, 11:00 AM' },
+            { id: 'appt-4', label: 'Jason Lee — Operations — Aug 12 (Completed)' },
+            { id: 'appt-5', label: 'Aisha Kamal — Digital Transformation — Aug 26 (Completed)' }
+        ];
 
         let selectedLeadId = null;
 
@@ -923,7 +975,7 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-2 pt-2">
-                        <button onclick="triggerToast('Downloading PDF Report for ${a.company}...')" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs py-2 rounded-xl transition-all flex items-center justify-center gap-1.5">
+                        <button onclick="downloadAssessmentReport('${a.id}')" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs py-2 rounded-xl transition-all flex items-center justify-center gap-1.5">
                             <i class="fa-solid fa-file-pdf text-red-500"></i> Download PDF
                         </button>
                         <button onclick="navigateTo('calendar')" class="flex-1 bg-brand-50 hover:bg-brand-500 hover:text-white text-brand-600 font-semibold text-xs py-2 rounded-xl transition-all">
@@ -1003,6 +1055,7 @@
             const score = payload.growthScore || 0;
             const pains = (payload.painPoints || []).slice(0, 3);
             const picks = (payload.plan && payload.plan.picks) ? payload.plan.picks.slice(0, 3) : [];
+            window.__liveAssessmentPayload = payload;
 
             const painsHtml = pains.length
                 ? pains.map(p => `<li class="flex items-start gap-2"><span class="text-red-500">●</span><span>${p.title}</span></li>`).join('')
@@ -1048,7 +1101,7 @@
                 </div>
 
                 <div class="flex items-center gap-2 pt-4 mt-4 border-t border-slate-100">
-                    <button onclick="triggerToast('Downloading synced client report...')" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs py-2 rounded-xl transition-all flex items-center justify-center gap-1.5">
+                    <button onclick="downloadLiveAssessmentReport()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs py-2 rounded-xl transition-all flex items-center justify-center gap-1.5">
                         <i class="fa-solid fa-file-pdf text-red-500"></i> Download PDF
                     </button>
                     <button onclick="navigateTo('calendar')" class="flex-1 bg-brand-50 hover:bg-brand-500 hover:text-white text-brand-600 font-semibold text-xs py-2 rounded-xl transition-all">
@@ -1070,6 +1123,7 @@
             document.getElementById('drawerStatusSelect').value = lead.status;
             renderDrawerBooking(lead);
             renderDrawerNotes(lead);
+            renderDrawerMeetLink(lead);
             document.getElementById('leadDetailDrawer').classList.remove('hidden');
         }
 
@@ -1131,6 +1185,43 @@
             triggerToast(`Booking ${decision === 'accepted' ? 'accepted' : 'declined'} for ${lead.company}`);
         }
 
+        
+        function renderDrawerMeetLink(lead) {
+            const select = document.getElementById('drawerApptSelect');
+            select.innerHTML = '<option value="">— Select the matching client booking —</option>' +
+                CLIENT_APPOINTMENTS.map(a => `<option value="${a.id}">${a.label}</option>`).join('');
+            select.value = lead.apptId || '';
+            const input = document.getElementById('drawerMeetLinkInput');
+            const status = document.getElementById('drawerMeetLinkStatus');
+            const map = getMeetLinksMap();
+            const existing = lead.apptId ? map[lead.apptId] : null;
+            input.value = existing || '';
+            status.textContent = existing
+                ? 'Saved — the client will see this on their Consultation page.'
+                : (lead.apptId ? 'No link saved yet for this booking.' : 'Select the matching client booking first.');
+        }
+
+        function saveDrawerMeetLink() {
+            const lead = leadsData.find(l => l.id === selectedLeadId);
+            if (!lead) return;
+            const apptId = document.getElementById('drawerApptSelect').value;
+            const link = document.getElementById('drawerMeetLinkInput').value.trim();
+            if (!apptId) { triggerToast('Select which client booking this link is for'); return; }
+            lead.apptId = apptId;
+            saveMeetLink(apptId, link);
+            saveLeadsToStorage();
+            renderDrawerMeetLink(lead);
+            triggerToast(link ? 'Meeting link saved — client will now see it' : 'Meeting link cleared');
+        }
+
+        function openPrepMeetingLink() {
+            const lead = leadsData.find(l => l.company === 'ABC Manufacturing');
+            const map = getMeetLinksMap();
+            const link = lead && lead.apptId ? map[lead.apptId] : null;
+            if (link) { window.open(link, '_blank'); }
+            else { triggerToast('No meeting link set yet — open this lead and add one'); }
+        }
+
         // Per-company notes: persisted so they can be referred back to later
         function renderDrawerNotes(lead) {
             const list = document.getElementById('drawerNotesList');
@@ -1183,6 +1274,109 @@
             }, 3000);
         }
 
+        function generateAssessmentPDF(data){
+  const JsPDF = window.jspdf && window.jspdf.jsPDF;
+  if (!JsPDF) { triggerToast('PDF library failed to load. Check your internet.'); return; }
+  const doc = new JsPDF({unit: 'mm', format: 'a4', orientation: 'portrait'});
+  if (typeof doc.autoTable !== 'function') { triggerToast('PDF table library failed to load.'); return; }
+
+  const BLUE = [37, 99, 235], DEEP = [15, 23, 42], SOFT = [239, 246, 255],
+        LINE = [226, 232, 240], INK = [15, 23, 42], MUTE = [100, 116, 139], WHITE = [255, 255, 255];
+  const PAGE_W = 210, PAGE_H = 297, M = 15, CW = PAGE_W - M * 2;
+  const esc = s => String(s == null ? '' : s);
+
+  doc.setFillColor(...BLUE);
+  doc.roundedRect(M, 12, CW, 30, 3, 3, 'F');
+  doc.setTextColor(...WHITE);
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(8.5);
+  doc.text('EXAPULSE AI', M + 8, 21);
+  doc.setFontSize(18);
+  doc.text('Sales Assessment Report', M + 8, 29);
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(9);
+  doc.text(esc(data.date), PAGE_W - M - 8, 24, {align: 'right'});
+
+  const td = {fontStyle: 'bold', fillColor: SOFT};
+  let y = 52;
+  doc.autoTable({
+    startY: y, theme: 'grid', margin: {left: M, right: M},
+    styles: {font: 'helvetica', fontSize: 9, cellPadding: 3, lineColor: LINE, textColor: INK},
+    body: [
+      [{content: 'Company', styles: td}, esc(data.company), {content: 'Contact', styles: td}, esc(data.contact)],
+      [{content: 'Industry', styles: td}, esc(data.industry), {content: 'Score', styles: td}, data.score != null ? data.score + ' / 100' : '']
+    ],
+    columnStyles: {0: {cellWidth: 30}, 1: {cellWidth: 58}, 2: {cellWidth: 30}, 3: {cellWidth: 58}}
+  });
+  y = doc.lastAutoTable.finalY + 10;
+
+  if (data.pains && data.pains.length) {
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(...DEEP);
+    doc.text('Top Gaps Identified', M, y);
+    y += 4;
+    doc.autoTable({
+      startY: y, theme: 'grid', margin: {left: M, right: M},
+      styles: {font: 'helvetica', fontSize: 9, cellPadding: 3, lineColor: LINE, textColor: INK},
+      headStyles: {fillColor: BLUE, textColor: WHITE, fontStyle: 'bold'},
+      head: [['#', 'Pain point']],
+      body: data.pains.map((p, i) => [String(i + 1), esc(p)]),
+      columnStyles: {0: {cellWidth: 10, fontStyle: 'bold', textColor: BLUE}}
+    });
+    y = doc.lastAutoTable.finalY + 10;
+  }
+
+  if (data.solutions && data.solutions.length) {
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(...DEEP);
+    doc.text('Recommended Solutions', M, y);
+    y += 4;
+    doc.autoTable({
+      startY: y, theme: 'grid', margin: {left: M, right: M},
+      styles: {font: 'helvetica', fontSize: 9, cellPadding: 3, lineColor: LINE, textColor: INK},
+      headStyles: {fillColor: BLUE, textColor: WHITE, fontStyle: 'bold'},
+      head: [['Solution', 'Cost / Effort']],
+      body: data.solutions.map(s => [esc(s.name), esc(s.detail)])
+    });
+    y = doc.lastAutoTable.finalY + 10;
+  }
+
+  const pages = doc.getNumberOfPages();
+  for (let i = 1; i <= pages; i++) {
+    doc.setPage(i);
+    doc.setDrawColor(...BLUE); doc.setLineWidth(0.6);
+    doc.line(M, PAGE_H - 14, PAGE_W - M, PAGE_H - 14);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(...MUTE);
+    doc.text('Powered by ExaPulse AI — Internal sales use', M, PAGE_H - 9);
+    doc.text('Page ' + i + ' of ' + pages, PAGE_W - M, PAGE_H - 9, {align: 'right'});
+  }
+
+  doc.save((data.filename || 'Assessment-Report') + '.pdf');
+  triggerToast('Report downloaded');
+}
+
+function downloadAssessmentReport(id){
+  const a = assessmentsData.find(x => x.id === id);
+  if (!a) return;
+  generateAssessmentPDF({
+    company: a.company, contact: a.contact, industry: a.industry,
+    score: a.score, date: a.date,
+    filename: 'Assessment-' + a.company.replace(/\s+/g, '-')
+  });
+}
+
+function downloadLiveAssessmentReport(){
+  const payload = window.__liveAssessmentPayload;
+  if (!payload) { triggerToast('No client assessment synced yet'); return; }
+  const s = payload.snapshot || {};
+  const pains = (payload.painPoints || []).map(p => p.title);
+  const picks = (payload.plan && payload.plan.picks) || [];
+  generateAssessmentPDF({
+    industry: s.industry || 'Unknown industry',
+    date: (() => { try { return new Date(payload.generatedAt).toLocaleDateString('en-GB', {day: '2-digit', month: 'short', year: 'numeric'}); } catch (e) { return ''; } })(),
+    score: payload.growthScore,
+    pains: pains,
+    solutions: picks.map(p => ({name: p.primary, detail: 'RM ' + p.cost[0] + '–' + p.cost[1] + '/mo · ' + p.effort})),
+    filename: 'Live-Client-Report'
+  });
+}
+
         // Header dropdowns (Notifications & Profile)
         function toggleNotifications(e) {
             if (e) e.stopPropagation();
@@ -1216,7 +1410,6 @@
             loadLeadsFromStorage();
             renderLeadsTable(leadsData);
             renderAssessmentsGrid(assessmentsData);
-            renderLiveAssessment();
 
             // Chart 1: Dashboard Weekly Trend
             const ctx1 = document.getElementById('dashboardTrendChart').getContext('2d');

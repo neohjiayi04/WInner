@@ -85,4 +85,33 @@ function updateAdminPassword(currentPassword, newPassword) {
   return { success: true, message: "Password updated." };
 }
 
-window.AdminData = { loadAdminUsers, saveAdminUsers, getAdminUserById, updateAdminUserRole, updateAdminUserStatus, loadAdminAccount, saveAdminAccount, updateAdminAccountProfile, updateAdminPassword };
+/* ---------- STAFF ACCOUNTS (admin + sales) ---------- */
+const STAFF_KEY = "exabytes-staff-accounts";
+
+const SEED_STAFF = [
+  { name: "Mei Lin", email: "mei@sales.exa", password: "sales123", role: "sales" }
+];
+
+function loadStaff() {
+  try {
+    const raw = localStorage.getItem(STAFF_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch (e) {}
+  localStorage.setItem(STAFF_KEY, JSON.stringify(SEED_STAFF));
+  return SEED_STAFF.slice();
+}
+
+function saveStaff(list) {
+  localStorage.setItem(STAFF_KEY, JSON.stringify(list));
+}
+
+function addStaff(staff) {
+  const list = loadStaff();
+  if (list.some(s => s.email.toLowerCase() === staff.email.toLowerCase()))
+    return { success: false, message: "That email already exists." };
+  list.push(staff);
+  saveStaff(list);
+  return { success: true, message: "Staff account created." };
+}
+
+window.AdminData = { loadAdminUsers, saveAdminUsers, getAdminUserById, updateAdminUserRole, updateAdminUserStatus, loadAdminAccount, saveAdminAccount, updateAdminAccountProfile, updateAdminPassword, loadStaff, saveStaff, addStaff };

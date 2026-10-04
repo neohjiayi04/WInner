@@ -62,42 +62,13 @@
         </div>
       </a>
 
-      <!-- Clean Segmented Control Tabs -->
-      <div class="role-tabs" id="roleTabs">
-        <button type="button" class="role-tab active"
-          data-role="sme"
-          data-title="Log in"
-          data-sub="Access your growth dashboard and personalised insights."
-          data-btn="Log In"
-          data-note-icon="sparkles"
-          data-redirect="client/client-dashboard.html"
-          data-signup="Don't have an account? &lt;a href=&quot;signup.html&quot;&gt;Sign up&lt;/a&gt;">
-          <span data-icon="briefcase2"></span> SME User
-        </button>
-
-        <button type="button" class="role-tab"
-          data-role="admin"
-          data-title="Admin login"
-          data-sub="Secure access for SME Growth Advisor platform administrators."
-          data-btn="Log In to Admin Console"
-          data-note="Admin access is restricted to authorised SME Growth Advisor staff. Contact IT if you need access."
-          data-note-icon="shield"
-          data-redirect="admin/admin-dashboard.html"
-          data-signup="">
-          <span data-icon="shield"></span> Admin
-        </button>
-      </div>
 
       <div class="header-group">
         <h1 id="loginTitle">Log in</h1>
         <p class="sub" id="loginSub">Access your growth dashboard and personalised insights.</p>
       </div>
 
-      <div class="role-note" id="roleNote" style="display:none;">
-        <span data-icon="" id="roleNoteIcon"></span>
-        <span id="roleNoteText"></span>
-      </div>
-
+      
       <div class="login-error" id="loginError" style="display:none;"></div>
 
       <form id="loginForm">
@@ -139,104 +110,72 @@
 <script src="js/icons.js"></script>
 <script src="admin/adminMockData.js"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const tabs = document.querySelectorAll('.role-tab');
-    const title = document.getElementById('loginTitle');
-    const sub = document.getElementById('loginSub');
-    const submitBtn = document.getElementById('submitBtn');
-    const roleNote = document.getElementById('roleNote');
-    const roleNoteText = document.getElementById('roleNoteText');
-    const roleNoteIcon = document.getElementById('roleNoteIcon');
-    const signupPrompt = document.getElementById('signupPrompt');
-    const form = document.getElementById('loginForm');
-    const loginError = document.getElementById('loginError');
-    let redirect = 'client/client-dashboard.html';
-    let currentRole = 'sme';
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('loginForm');
+  const loginError = document.getElementById('loginError');
+  const emailInput = document.getElementById('email');
+  const pwInput = document.getElementById('password');
 
-    function applyRole(tab) {
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      title.textContent = tab.dataset.title;
-      sub.textContent = tab.dataset.sub;
-      submitBtn.textContent = tab.dataset.btn;
-      redirect = tab.dataset.redirect;
-      currentRole = tab.dataset.role;
-      loginError.style.display = 'none';
+    function isStaff(email, password, role) {
+    const list = window.AdminData && window.AdminData.loadStaff ? window.AdminData.loadStaff() : [];
+    return list.some(s => s.email.toLowerCase() === email && s.password === password && s.role === role);
+  }
 
-      const note = tab.dataset.note;
-      if (note) {
-        roleNoteText.textContent = note;
-        const iconName = tab.dataset.noteIcon;
-        if (window.ICONS && window.ICONS[iconName]) roleNoteIcon.innerHTML = window.ICONS[iconName];
-        roleNote.style.display = 'flex';
-      } else {
-        roleNote.style.display = 'none';
-      }
+  /* Portal is decided by the email ending */
+  function detectPortal(email) {
+    const e = email.trim().toLowerCase();
+    const adminAcc = window.AdminData ? window.AdminData.loadAdminAccount() : null;
+    if (e.endsWith('@admin.exa') || (adminAcc && e === adminAcc.email.toLowerCase()))
+      return { role: 'admin', redirect: 'admin/admin-dashboard.html' };
+    if (e.endsWith('@sales.exa'))
+      return { role: 'sales', redirect: 'sales/sales-dashboard.html' };
+    return { role: 'sme', redirect: 'client/client-dashboard.html' };
+  }
 
-      const signupHtml = tab.dataset.signup;
-      const isSme = currentRole === 'sme';
-      if (signupHtml) {
-        signupPrompt.innerHTML = signupHtml;
-        signupPrompt.style.display = 'block';
-      } else {
-        signupPrompt.style.display = 'none';
-      }
-      // signupBtn.style.display = isSme ? 'block' : 'none';
-    }
-
-    tabs.forEach(tab => tab.addEventListener('click', () => applyRole(tab)));
-
-    // Password show/hide
-    const pwInput = document.getElementById('password');
-    const toggleBtn = document.getElementById('togglePassword');
-    const eyeIcon = document.getElementById('eyeIcon');
-    toggleBtn.addEventListener('click', () => {
-      const isText = pwInput.type === 'text';
-      pwInput.type = isText ? 'password' : 'text';
-      toggleBtn.setAttribute('aria-label', isText ? 'Show password' : 'Hide password');
-      eyeIcon.innerHTML = window.ICONS[isText ? 'eye' : 'eyeOff'];
-    });
-
-    // signupBtn.addEventListener('click', () => {
-    //   window.location.href = 'signup.html';
-    // });
+  /* Password show/hide */
+  const toggleBtn = document.getElementById('togglePassword');
+  const eyeIcon = document.getElementById('eyeIcon');
+  toggleBtn.addEventListener('click', () => {
+    const isText = pwInput.type === 'text';
+    pwInput.type = isText ? 'password' : 'text';
+    toggleBtn.setAttribute('aria-label', isText ? 'Show password' : 'Hide password');
+    eyeIcon.innerHTML = window.ICONS[isText ? 'eye' : 'eyeOff'];
+  });
 
     form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      loginError.style.display = 'none';
+    e.preventDefault();
+    loginError.style.display = 'none';
 
-      /* ---------- REAL ADMIN CREDENTIAL CHECK ---------- */
-      if (currentRole === 'admin') {
-        const email = document.getElementById('email').value.trim().toLowerCase();
-        const password = document.getElementById('password').value;
-        const account = window.AdminData ? window.AdminData.loadAdminAccount() : null;
+    const email = emailInput.value.trim().toLowerCase();
+    const password = pwInput.value;
+    const portal = detectPortal(email);
+    let ok = true;
 
-        if (!account || email !== account.email.toLowerCase() || password !== account.password) {
-          loginError.textContent = 'Incorrect email or password for the Admin console.';
-          loginError.style.display = 'flex';
-          return;
-        }
+    if (portal.role === 'admin') {
+      const acc = window.AdminData ? window.AdminData.loadAdminAccount() : null;
+      ok = (acc && email === acc.email.toLowerCase() && password === acc.password)
+           || isStaff(email, password, 'admin');
+      if (ok) sessionStorage.setItem('adminLoggedIn', 'true');
+    } else if (portal.role === 'sales') {
+      ok = isStaff(email, password, 'sales');
+      if (ok) sessionStorage.setItem('salesLoggedIn', 'true');
+    }
 
-        sessionStorage.setItem('adminLoggedIn', 'true');
-        window.location.href = redirect;
-        return;
-      }
-
-      /* ---------- SME / other roles: unchanged behavior ---------- */
-      window.location.href = redirect;
-    });
-
-    // Inject all static icons on page load
-    document.querySelectorAll('[data-icon]').forEach(el => {
-      const iconName = el.getAttribute('data-icon');
-      if (window.ICONS && window.ICONS[iconName]) {
-        // Only set it if it's empty to prevent overwriting dynamic ones unnecessarily
-        if (!el.innerHTML.trim()) {
-           el.innerHTML = window.ICONS[iconName];
-        }
-      }
-    });
+    if (!ok) {
+      loginError.textContent = 'Incorrect email or password.';
+      loginError.style.display = 'flex';
+      return;
+    }
+    window.location.href = portal.redirect;
   });
+
+  /* Inject static icons */
+  document.querySelectorAll('[data-icon]').forEach(el => {
+    const name = el.getAttribute('data-icon');
+    if (window.ICONS && window.ICONS[name] && !el.innerHTML.trim())
+      el.innerHTML = window.ICONS[name];
+  });
+});
 </script>
 </body>
 </html>
