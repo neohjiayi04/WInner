@@ -23,7 +23,7 @@
   --gradient-blue: linear-gradient(135deg, #1677ec, #0965db);
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root:not([data-theme="light"]) {
     --paper: #0b1a2b;
     --wash: #060f1a;
@@ -180,19 +180,19 @@ body[data-theme="dark"] .brand .logo-light {
   display: none !important;
 }
 
-:root[data-theme="dark"] .brand .logo-dark,
-body.dark-theme .brand .logo-dark,
-body[data-theme="dark"] .brand .logo-dark {
+:root[data-theme="light"] .brand .logo-dark,
+body.light-theme .brand .logo-dark,
+body[data-theme="light"] .brand .logo-dark {
   display: block !important;
 }
 
 /* 2. OS SYSTEM PREFERENCE (Fallback if no manual theme override class is set) */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .brand .logo-light {
-    display: none !important;
-  }
-  :root:not([data-theme="light"]) .brand .logo-dark {
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .brand .logo-light {
     display: block !important;
+  }
+  :root:not([data-theme="dark"]) .brand .logo-dark {
+    display: none !important;
   }
 }
 
