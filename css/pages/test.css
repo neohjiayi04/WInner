@@ -1498,6 +1498,162 @@ h2.sec {
   color: var(--ink-3);
 }
 
+@media (max-width: 900px) {
+  .site-header .wrap {
+    height: auto;
+    min-height: 72px;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .nav-links {
+    order: 3;
+    flex: 1 0 100%;
+    width: 100%;
+    gap: 18px;
+    overflow-x: auto;
+    padding: 2px 0 4px;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav-links a {
+    flex: 0 0 auto;
+  }
+
+  .nav-links a.active::after {
+    display: none;
+  }
+
+  .intro-grid,
+  .work,
+  .res-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .intro-grid {
+    gap: 28px;
+  }
+
+  .work {
+    gap: 18px;
+  }
+
+  .rail {
+    position: static;
+    transform: none;
+    flex-direction: row;
+    gap: 18px;
+    overflow-x: auto;
+    padding: 6px 2px 12px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .rail-step {
+    flex: 0 0 auto;
+  }
+
+  .rail-step:not(:last-child)::after {
+    display: none;
+  }
+
+  .work > main,
+  .res-grid > main,
+  .side {
+    min-width: 0;
+  }
+
+  .side {
+    position: static;
+  }
+}
+
+@media (max-width: 620px) {
+  .shell {
+    width: min(1120px, calc(100% - 32px));
+  }
+
+  .site-header .wrap {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .brand .logo {
+    max-width: 42vw;
+    height: 44px;
+  }
+
+  .nav-actions {
+    gap: 6px;
+  }
+
+  .ghost,
+  .btn-login {
+    padding: 7px 10px;
+  }
+
+  .intro {
+    padding: 38px 0;
+  }
+
+  .intro h1 {
+    font-size: clamp(26px, 8vw, 36px);
+  }
+
+  .intro .cta-row .btn {
+    width: 100%;
+  }
+
+  .work {
+    padding: 24px 0 48px;
+  }
+
+  .card {
+    padding: 18px;
+  }
+
+  .card.tight {
+    padding: 16px;
+  }
+
+  .stephead {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .navrow .btn {
+    flex: 1;
+  }
+
+  .res-top {
+    align-items: flex-start;
+    padding-top: 24px;
+  }
+
+  .res-top h1 {
+    font-size: 24px;
+  }
+
+  .toolbar {
+    width: 100%;
+  }
+
+  .toolbar .btn {
+    flex: 1;
+    white-space: normal;
+  }
+
+  .scorecell {
+    padding: 18px;
+  }
+
+  .askrow .textin {
+    min-width: 0;
+  }
+}
+
 .snap .row .v {
   font-weight: 600;
   text-align: right;
