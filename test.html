@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1492,9 +1492,7 @@ $("restartBtn").addEventListener("click", () => {
 });
 $("themeBtn").addEventListener("click", () => {
   const cur = document.documentElement.getAttribute("data-theme");
-  const next = cur === "dark" ? "light" : cur === "light" ? "dark"
-    : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark");
-  document.documentElement.setAttribute("data-theme", next);
+  document.documentElement.setAttribute("data-theme", cur === "dark" ? "light" : "dark");
 });
 
 /* capability helper — resolves null wherever the runtime isn't there */
