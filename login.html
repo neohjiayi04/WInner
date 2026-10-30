@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.endsWith('@admin.exa') || (adminAcc && e === adminAcc.email.toLowerCase()))
       return { role: 'admin', redirect: 'admin/admin-dashboard.html' };
     if (e.endsWith('@sales.exa'))
-      return { role: 'sales', redirect: 'sales/sales-dashboard.html' };
+      return { role: 'sales', redirect: 'admin/exapulse_ai_sales_team_portal.html' };
     return { role: 'sme', redirect: 'client/client-dashboard.html' };
   }
 
